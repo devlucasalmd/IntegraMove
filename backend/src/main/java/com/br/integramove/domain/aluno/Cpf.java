@@ -8,4 +8,10 @@ public class Cpf {
         if (!value.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}")) { throw new CpfInvalidoException(); }
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
 }

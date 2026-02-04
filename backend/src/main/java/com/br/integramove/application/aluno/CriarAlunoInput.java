@@ -1,0 +1,17 @@
+package com.br.integramove.application.aluno;
+
+import java.time.LocalDate;
+
+public record CriarAlunoInput(
+    String nome,
+    LocalDate dataNascimento,
+    String cpf,
+    String telefone,
+    String email,
+    String cep,
+    String estado,
+    String cidade,
+    String rua,
+    String numero,
+    String bairro
+) {}

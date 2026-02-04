@@ -10,4 +10,9 @@ public class Email {
         }
         this.email = email;
     }
+
+    public String toString() {
+        return email;
+    }
+
 }

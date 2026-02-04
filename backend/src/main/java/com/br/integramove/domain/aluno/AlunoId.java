@@ -13,9 +13,9 @@ public class AlunoId {
 
     public static AlunoId novo(){ return new AlunoId(UUID.randomUUID()); }
 
-    public static AlunoId from(UUID value){
+    public static AlunoId from(String value){
         if (value == null) { throw new IllegalArgumentException("AlunoId não pode ser nulo"); }
-        return new AlunoId(value);
+        return new AlunoId(UUID.fromString(value));
     }
 
     public UUID getValue() { return value; }
