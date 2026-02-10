@@ -1,5 +1,7 @@
 package com.br.integramove.domain.aluno;
 
+import com.br.integramove.api.exception.aluno.EmailInvalidoException;
+
 public class Email {
 
     private final String email;

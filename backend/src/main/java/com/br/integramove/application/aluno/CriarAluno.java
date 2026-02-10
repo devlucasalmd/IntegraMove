@@ -2,7 +2,10 @@ package com.br.integramove.application.aluno;
 
 import com.br.integramove.api.exception.aluno.CpfJaCadastradoException;
 import com.br.integramove.domain.aluno.*;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+@Component
 public class CriarAluno {
 
     private final AlunoRepository alunoRepository;
@@ -38,7 +41,8 @@ public class CriarAluno {
                 Genero.OUTRO,
                 alunoInput.telefone(),
                 email,
-                endereco
+                endereco,
+                alunoInput.ativo()
         );
 
         alunoRepository.salvar(aluno);

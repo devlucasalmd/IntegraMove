@@ -18,7 +18,7 @@ public class Aluno {
     private Endereco endereco;
     private boolean ativo = true;
 
-    public Aluno(AlunoId id, String nome, LocalDate dataNascimento, Cpf cpf, Genero genero, String telefone, Email email, Endereco endereco) {
+    public Aluno(AlunoId id, String nome, LocalDate dataNascimento, Cpf cpf, Genero genero, String telefone, Email email, Endereco endereco, Boolean ativo) {
 
         if(id == null) throw new IllegalArgumentException("Id obrigatorio");
         if(nome == null || nome.isBlank()) throw new NomeInvalidoException();
@@ -33,7 +33,7 @@ public class Aluno {
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
-
+        this.ativo = ativo;
     }
 
     public void ativar(){

@@ -6,6 +6,7 @@ public record CriarAlunoInput(
     String nome,
     LocalDate dataNascimento,
     String cpf,
+    String genero,
     String telefone,
     String email,
     String cep,
@@ -13,5 +14,6 @@ public record CriarAlunoInput(
     String cidade,
     String rua,
     String numero,
-    String bairro
+    String bairro,
+    Boolean ativo
 ) {}

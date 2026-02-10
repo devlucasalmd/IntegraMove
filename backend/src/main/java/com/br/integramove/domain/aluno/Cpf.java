@@ -1,5 +1,7 @@
 package com.br.integramove.domain.aluno;
 
+import com.br.integramove.api.exception.aluno.CpfInvalidoException;
+
 public class Cpf {
 
     private final String value;

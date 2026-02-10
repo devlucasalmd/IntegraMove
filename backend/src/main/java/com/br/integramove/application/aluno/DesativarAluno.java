@@ -3,7 +3,9 @@ package com.br.integramove.application.aluno;
 import com.br.integramove.api.exception.aluno.AlunoNaoEncontradoException;
 import com.br.integramove.domain.aluno.Aluno;
 import com.br.integramove.domain.aluno.AlunoId;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DesativarAluno {
 
     private final AlunoRepository alunoRepository;

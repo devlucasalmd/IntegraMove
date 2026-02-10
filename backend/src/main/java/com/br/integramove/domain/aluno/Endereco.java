@@ -1,5 +1,9 @@
 package com.br.integramove.domain.aluno;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
 public class Endereco {
 
     private final String cep;

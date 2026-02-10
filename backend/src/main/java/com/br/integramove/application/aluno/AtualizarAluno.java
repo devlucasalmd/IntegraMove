@@ -5,7 +5,9 @@ import com.br.integramove.domain.aluno.Aluno;
 import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.aluno.Email;
 import com.br.integramove.domain.aluno.Endereco;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AtualizarAluno {
 
     private final AlunoRepository alunoRepository;

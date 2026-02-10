@@ -2,6 +2,7 @@ package com.br.integramove.application.aluno;
 
 import com.br.integramove.domain.aluno.Aluno;
 import com.br.integramove.domain.aluno.AlunoId;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
