@@ -5,6 +5,7 @@ import com.br.integramove.domain.aluno.Aluno;
 import com.br.integramove.domain.aluno.AlunoId;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -26,6 +27,14 @@ public class AlunoRepositoryImpl implements AlunoRepository {
     public Optional<Aluno> buscarPorId(AlunoId id){
         return jpa.findById(id.getValue())
                 .map(AlunoEntityMapper::toDomain);
+    }
+
+    @Override
+    public List<Aluno> buscarTodosAlunos() {
+        return jpa.findAll()
+                .stream()
+                .map(AlunoEntityMapper::toDomain)
+                .toList();
     }
 
     @Override

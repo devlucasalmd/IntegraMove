@@ -1,10 +1,7 @@
 package com.br.integramove.application.aluno;
 
 import com.br.integramove.api.exception.aluno.AlunoNaoEncontradoException;
-import com.br.integramove.domain.aluno.Aluno;
-import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.aluno.Email;
-import com.br.integramove.domain.aluno.Endereco;
+import com.br.integramove.domain.aluno.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,10 +34,11 @@ public class AtualizarAluno {
         aluno.atualizarDados(
                 input.nome(),
                 input.dataNascimento(),
-                input.genero(),
+                Genero.valueOf(input.genero()),
                 input.telefone(),
                 email,
-                endereco
+                endereco,
+                input.ativo()
         );
 
         alunoRepository.salvar(aluno);

@@ -44,7 +44,7 @@ public class Aluno {
         this.ativo = false;
     }
 
-    public void atualizarDados( String nome, LocalDate dataNascimento, Genero genero, String telefone, Email email, Endereco endereco) {
+    public void atualizarDados( String nome, LocalDate dataNascimento, Genero genero, String telefone, Email email, Endereco endereco, Boolean ativo) {
 
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -52,7 +52,7 @@ public class Aluno {
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
-
+        this.ativo = ativo;
     }
 
     public boolean estaAtivo(){
