@@ -13,7 +13,14 @@ public class Endereco {
     private final String numero;
     private final String bairro;
 
-    public Endereco(String cep, String estado, String cidade, String rua, String numero, String bairro) {
+    public Endereco(
+            String cep,
+            String estado,
+            String cidade,
+            String rua,
+            String numero,
+            String bairro
+    ) {
         this.cep = cep;
         this.estado = estado;
         this.cidade = cidade;
