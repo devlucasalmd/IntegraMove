@@ -1,6 +1,7 @@
 package com.br.integramove.application.avaliacao;
 
 import com.br.integramove.domain.avaliacao.Avaliacao;
+import com.br.integramove.domain.avaliacao.AvalicaoId;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,8 +14,11 @@ public class CriarAvaliacao {
     }
 
     public CriarAvaliacaoOutput criar( CriarAvaliacaoInput avaliacaoInput ){
+
+        AvalicaoId id = AvalicaoId.novo();
+
         Avaliacao avaliacao = new Avaliacao(
-                avaliacaoInput.id(),
+                id,
                 avaliacaoInput.dataAvaliacao(),
                 avaliacaoInput.peso(),
                 avaliacaoInput.altura(),
@@ -25,6 +29,6 @@ public class CriarAvaliacao {
 
         avaliacaoRepository.salvar(avaliacao);
 
-        return new CriarAvaliacaoOutput(avaliacaoInput.id().toString());
+        return new CriarAvaliacaoOutput(id.getValue().toString());
     }
 }

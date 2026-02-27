@@ -10,7 +10,7 @@ public class Avaliacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
+    private final AvalicaoId id;
     private LocalDate dataAvaliacao;
     private Double peso;
     private Double altura;
@@ -19,7 +19,7 @@ public class Avaliacao {
     private Double circuferencia;
 
     public Avaliacao(
-            Long id,
+            AvalicaoId id,
             LocalDate dataAvaliacao,
             Double peso,
             Double altura,
@@ -39,7 +39,7 @@ public class Avaliacao {
         this.circuferencia = circuferencia;
     }
 
-    public Long getId() {
+    public AvalicaoId getId() {
         return id;
     }
 

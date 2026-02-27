@@ -1,8 +1,8 @@
-package com.br.integramove.application.avaliacao;
+package com.br.integramove.api.dto.response;
 
 import java.time.LocalDate;
 
-public record BuscarAvaliacaoOutput(
+public record AvaliacaoResponseDTO(
         String id,
         LocalDate dataAvaliacao,
         Double peso,

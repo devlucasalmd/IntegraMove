@@ -20,7 +20,7 @@ public class DesativarAluno {
 
         Aluno aluno = alunoRepository.buscarPorId(id).orElseThrow(() -> new AlunoNaoEncontradoException(id));
 
-        aluno.desativar();
+        aluno.setAtivo(false);
 
         alunoRepository.salvar(aluno);
     }
