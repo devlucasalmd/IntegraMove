@@ -4,28 +4,29 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Avaliacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final AvalicaoId id;
+    private final AvaliacaoId id;
     private LocalDate dataAvaliacao;
-    private Double peso;
-    private Double altura;
-    private Double imc;
-    private Double percentualGordura;
-    private Double circuferencia;
+    private BigDecimal peso;
+    private BigDecimal altura;
+    private BigDecimal imc;
+    private BigDecimal percentualGordura;
+    private BigDecimal circuferencia;
 
     public Avaliacao(
-            AvalicaoId id,
+            AvaliacaoId id,
             LocalDate dataAvaliacao,
-            Double peso,
-            Double altura,
-            Double imc,
-            Double percentualGordura,
-            Double circuferencia
+            BigDecimal peso,
+            BigDecimal altura,
+            BigDecimal imc,
+            BigDecimal percentualGordura,
+            BigDecimal circuferencia
     ) {
 
         if(id == null) throw new IllegalArgumentException("Id obrigatorio");
@@ -39,7 +40,7 @@ public class Avaliacao {
         this.circuferencia = circuferencia;
     }
 
-    public AvalicaoId getId() {
+    public AvaliacaoId getId() {
         return id;
     }
 
@@ -47,25 +48,29 @@ public class Avaliacao {
         return dataAvaliacao;
     }
 
-    public Double getPeso() {
+    public BigDecimal getPeso() {
         return peso;
     }
 
-    public Double getAltura() {
+    public BigDecimal getAltura() {
         return altura;
     }
 
-    public Double getImc() {
+    public BigDecimal getImc() {
         return imc;
     }
 
-    public Double getPercentualGordura() {
+    public BigDecimal getPercentualGordura() {
         return percentualGordura;
     }
 
-    public Double getCircuferencia() {
+    public BigDecimal getCircuferencia() {
         return circuferencia;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
 

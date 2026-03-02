@@ -2,7 +2,6 @@ package com.br.integramove.application.aluno;
 
 import com.br.integramove.api.exception.aluno.CpfJaCadastradoException;
 import com.br.integramove.domain.aluno.*;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -2,10 +2,13 @@ package com.br.integramove.infrastructure.persistence.avaliacao;
 
 import com.br.integramove.application.avaliacao.AvaliacaoRepository;
 import com.br.integramove.domain.avaliacao.Avaliacao;
+import com.br.integramove.domain.avaliacao.AvaliacaoId;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class AvaliacaoRepositoryImpl implements AvaliacaoRepository {
 
     private final AvaliacaoJpaRepository jpa;
@@ -21,8 +24,8 @@ public class AvaliacaoRepositoryImpl implements AvaliacaoRepository {
     }
 
     @Override
-    public Optional<Avaliacao> buscarPorId(Avaliacao id){
-        return jpa.findById(id.getId())
+    public Optional<Avaliacao> buscarPorId(AvaliacaoId id){
+        return jpa.findById(id.getValue())
                 .map(AvaliacaoEntityMapper::toDomain);
     }
 

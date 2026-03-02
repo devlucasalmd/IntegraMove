@@ -2,6 +2,7 @@ package com.br.integramove.application.avaliacao;
 
 import com.br.integramove.api.exception.avaliacao.AvaliacaoNaoEncontradaException;
 import com.br.integramove.domain.avaliacao.Avaliacao;
+import com.br.integramove.domain.avaliacao.AvaliacaoId;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,11 +14,14 @@ public class BuscarAvaliacao {
         this.avaliacaoRepository = avaliacaoRepository;
     }
 
-    public BuscarAvaliacaoOutput buscar(String id){
+    public BuscarAvaliacaoOutput buscar(String avaliacaoId){
 
-        Avaliacao avaliacao = avaliacaoRepository.buscarPorId(id).orElseThrow(() -> new AvaliacaoNaoEncontradaException(id));
+        AvaliacaoId id = AvaliacaoId.from(avaliacaoId);
+
+        Avaliacao avaliacao = avaliacaoRepository.buscarPorId(id).orElseThrow(() -> new AvaliacaoNaoEncontradaException(id.getValue().toString()));
 
         return new BuscarAvaliacaoOutput(
+                avaliacao.getId().toString(),
                 avaliacao.getDataAvaliacao(),
                 avaliacao.getPeso(),
                 avaliacao.getAltura(),

@@ -1,13 +1,14 @@
 package com.br.integramove.infrastructure.persistence.avaliacao;
 
 import com.br.integramove.domain.avaliacao.Avaliacao;
+import com.br.integramove.domain.avaliacao.AvaliacaoId;
 
 public class AvaliacaoEntityMapper {
 
     public static AvaliacaoEntity toEntity(Avaliacao avaliacao){
         AvaliacaoEntity avaliacaoEntity = new AvaliacaoEntity();
 
-        avaliacaoEntity.setId(avaliacao.getId());
+        avaliacaoEntity.setId(avaliacao.getId().getValue());
         avaliacaoEntity.setDataAvaliacao(avaliacao.getDataAvaliacao());
         avaliacaoEntity.setCircuferencia((avaliacaoEntity.getCircuferencia()));
         avaliacaoEntity.setAltura(avaliacaoEntity.getAltura());
@@ -20,7 +21,7 @@ public class AvaliacaoEntityMapper {
 
     public static Avaliacao toDomain(AvaliacaoEntity avaliacaoEntity){
         return new Avaliacao(
-                avaliacaoEntity.getId(),
+                AvaliacaoId.from(String.valueOf(avaliacaoEntity.getId())),
                 avaliacaoEntity.getDataAvaliacao(),
                 avaliacaoEntity.getCircuferencia(),
                 avaliacaoEntity.getAltura(),

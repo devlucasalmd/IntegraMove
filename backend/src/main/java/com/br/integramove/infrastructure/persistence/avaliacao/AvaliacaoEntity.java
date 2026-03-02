@@ -8,23 +8,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "avaliacoes")
+@Table(name = "avaliacao")
 public class AvaliacaoEntity {
 
     @Id
-    private Long id;
+    private UUID id;
     private LocalDate dataAvaliacao;
-    private Double peso;
-    private Double altura;
-    private Double imc;
-    private Double percentualGordura;
-    private Double circuferencia;
+    private BigDecimal peso;
+    private BigDecimal altura;
+    private BigDecimal imc;
+    private BigDecimal percentualGordura;
+    private BigDecimal circuferencia;
 
 }
