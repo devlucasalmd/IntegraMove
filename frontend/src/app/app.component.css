@@ -1,0 +1,96 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+  padding: 16px;
+}
+
+.menu-title {
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-items button {
+  width: 100%;
+  text-align: left;
+  border-radius: 8px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: rgb(55, 86, 241)
+}
+
+.search-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 16px;
+  min-width: 0;
+}
+
+:host ::ng-deep .custom-search .mat-mdc-form-field-flex {
+  border-radius: 30px !important;
+  background-color: #f5f7fa;
+}
+
+:host ::ng-deep .custom-search .mdc-text-field {
+  border-radius: 30px !important;
+}
+
+:host ::ng-deep .custom-search input {
+  color: #1e293b !important;   /* cor do texto */
+}
+
+:host ::ng-deep .custom-search .mdc-floating-label {
+  color: #64748b !important;   /* cor do placeholder */
+}
+
+:host ::ng-deep .custom-search .mat-mdc-form-field-flex {
+  border-radius: 30px !important;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: none !important;
+}
+
+:host ::ng-deep .custom-search .mdc-notched-outline {
+  display: none;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.company-name {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.content {
+  padding: 24px;
+}
