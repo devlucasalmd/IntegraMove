@@ -35,7 +35,7 @@ export class AlunoFormComponent {
 
   alunoForm: FormGroup;
 
-  generos = ['MASCULNINO', 'FEMININO', 'OUTROS'];
+  generos = ['MASCULINO', 'FEMININO', 'OUTROS'];
 
   constructor(
     private fb: FormBuilder,
@@ -71,7 +71,7 @@ export class AlunoFormComponent {
 
     const aluno: AlunoRequestDTO = {
       ...formValue,
-      dataNascimento: this.formatarData(formValue.dataNAscimento)
+      dataNascimento: this.formatarData(formValue.dataNascimento)
     };
 
     this.alunoService.cadastrarAluno(aluno).subscribe({
