@@ -6,10 +6,10 @@ export interface AlunoRequestDTO {
   telefone?: string;
   email: string;
   ativo: boolean;
-  endereco?: Endereco | null;
+  enderecoDTO?: EnderecoDTO | null;
 }
 
-export interface Endereco{
+export interface EnderecoDTO{
   cep: string;
   estado: string;
   cidade: string;
