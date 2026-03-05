@@ -23,11 +23,16 @@ public class BuscarAvaliacao {
         return new BuscarAvaliacaoOutput(
                 avaliacao.getId().toString(),
                 avaliacao.getDataAvaliacao(),
-                avaliacao.getPeso(),
-                avaliacao.getAltura(),
-                avaliacao.getImc(),
-                avaliacao.getPercentualGordura(),
-                avaliacao.getCircuferencia()
+                avaliacao.getRemadaBracoD(),
+                avaliacao.getRemadaBracoE(),
+                avaliacao.getElevacaoLatD(),
+                avaliacao.getElevacaoLatE(),
+                avaliacao.getExtensaoJoelhoD(),
+                avaliacao.getExtensaoJoelhoE(),
+                avaliacao.getFlexaoJoelhoD(),
+                avaliacao.getFlexaoJoelhoE(),
+                avaliacao.getExtensaoQuadrilD(),
+                avaliacao.getExtensaoQuadrilE()
         );
     }
 }

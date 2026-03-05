@@ -5,10 +5,15 @@ import java.time.LocalDate;
 
 public record AvaliacaoRequestDTO(
         LocalDate dataAvaliacao,
-        BigDecimal peso,
-        BigDecimal altura,
-        BigDecimal imc,
-        BigDecimal percentualGordura,
-        BigDecimal circuferencia
+        BigDecimal remadaBracoD,
+        BigDecimal remadaBracoE,
+        BigDecimal elevacaoLatD,
+        BigDecimal elevacaoLatE,
+        BigDecimal extensaoJoelhoD,
+        BigDecimal extensaoJoelhoE,
+        BigDecimal flexaoJoelhoD,
+        BigDecimal flexaoJoelhoE,
+        BigDecimal extensaoQuadrilD,
+        BigDecimal extensaoQuadrilE
 ) {
 }

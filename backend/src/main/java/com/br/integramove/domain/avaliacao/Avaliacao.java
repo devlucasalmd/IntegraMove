@@ -7,37 +7,53 @@ import jakarta.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
 public class Avaliacao {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final AvaliacaoId id;
     private LocalDate dataAvaliacao;
-    private BigDecimal peso;
-    private BigDecimal altura;
-    private BigDecimal imc;
-    private BigDecimal percentualGordura;
-    private BigDecimal circuferencia;
+    private BigDecimal remadaBracoD;
+    private BigDecimal remadaBracoE;
+    private BigDecimal elevacaoLatD;
+    private BigDecimal elevacaoLatE;
+    private BigDecimal extensaoJoelhoD;
+    private BigDecimal extensaoJoelhoE;
+    private BigDecimal flexaoJoelhoD;
+    private BigDecimal flexaoJoelhoE;
+    private BigDecimal extensaoQuadrilD;
+    private BigDecimal extensaoQuadrilE;
+
+
 
     public Avaliacao(
             AvaliacaoId id,
             LocalDate dataAvaliacao,
-            BigDecimal peso,
-            BigDecimal altura,
-            BigDecimal imc,
-            BigDecimal percentualGordura,
-            BigDecimal circuferencia
-    ) {
+            BigDecimal remadaBracoD,
+            BigDecimal remadaBracoE,
+            BigDecimal elevacaoLatD,
+            BigDecimal elevacaoLatE,
+            BigDecimal extensaoJoelhoD,
+            BigDecimal extensaoJoelhoE,
+            BigDecimal flexaoJoelhoD,
+            BigDecimal flexaoJoelhoE,
+            BigDecimal extensaoQuadrilD,
+            BigDecimal extensaoQuadrilE
+            ) {
 
         if(id == null) throw new IllegalArgumentException("Id obrigatorio");
 
         this.id = id;
         this.dataAvaliacao = dataAvaliacao;
-        this.peso = peso;
-        this.altura = altura;
-        this.imc = imc;
-        this.percentualGordura = percentualGordura;
-        this.circuferencia = circuferencia;
+        this.remadaBracoD = remadaBracoD;
+        this.remadaBracoE = remadaBracoE;
+        this.elevacaoLatD = elevacaoLatD;
+        this.elevacaoLatE = elevacaoLatE;
+        this.extensaoJoelhoD = extensaoJoelhoD;
+        this.extensaoJoelhoE = extensaoJoelhoE;
+        this.flexaoJoelhoD = flexaoJoelhoD;
+        this.flexaoJoelhoE = flexaoJoelhoE;
+        this.extensaoQuadrilD = extensaoQuadrilD;
+        this.extensaoQuadrilE = extensaoQuadrilE;
     }
 
     public AvaliacaoId getId() {
@@ -48,24 +64,44 @@ public class Avaliacao {
         return dataAvaliacao;
     }
 
-    public BigDecimal getPeso() {
-        return peso;
+    public BigDecimal getRemadaBracoD() {
+        return remadaBracoD;
     }
 
-    public BigDecimal getAltura() {
-        return altura;
+    public BigDecimal getRemadaBracoE() {
+        return remadaBracoE;
     }
 
-    public BigDecimal getImc() {
-        return imc;
+    public BigDecimal getElevacaoLatD() {
+        return elevacaoLatD;
     }
 
-    public BigDecimal getPercentualGordura() {
-        return percentualGordura;
+    public BigDecimal getElevacaoLatE() {
+        return elevacaoLatE;
     }
 
-    public BigDecimal getCircuferencia() {
-        return circuferencia;
+    public BigDecimal getExtensaoJoelhoD() {
+        return extensaoJoelhoD;
+    }
+
+    public BigDecimal getExtensaoJoelhoE() {
+        return extensaoJoelhoE;
+    }
+
+    public BigDecimal getFlexaoJoelhoD() {
+        return flexaoJoelhoD;
+    }
+
+    public BigDecimal getFlexaoJoelhoE() {
+        return flexaoJoelhoE;
+    }
+
+    public BigDecimal getExtensaoQuadrilD() {
+        return extensaoQuadrilD;
+    }
+
+    public BigDecimal getExtensaoQuadrilE() {
+        return extensaoQuadrilE;
     }
 
     @Override

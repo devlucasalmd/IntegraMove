@@ -4,6 +4,8 @@ import com.br.integramove.domain.avaliacao.*;
 import com.br.integramove.application.avaliacao.AvaliacaoRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class CriarAvaliacao {
 
@@ -20,11 +22,16 @@ public class CriarAvaliacao {
         Avaliacao avaliacao = new Avaliacao(
                 id,
                 avaliacaoInput.dataAvaliacao(),
-                avaliacaoInput.peso(),
-                avaliacaoInput.altura(),
-                avaliacaoInput.imc(),
-                avaliacaoInput.percentualGordura(),
-                avaliacaoInput.circuferencia()
+                avaliacaoInput.remadaBracoD(),
+                avaliacaoInput.remadaBracoE(),
+                avaliacaoInput.elevacaoLatD(),
+                avaliacaoInput.elevacaoLatE(),
+                avaliacaoInput.extensaoJoelhoD(),
+                avaliacaoInput.extensaoJoelhoE(),
+                avaliacaoInput.flexaoJoelhoD(),
+                avaliacaoInput.flexaoJoelhoE(),
+                avaliacaoInput.extensaoQuadrilD(),
+                avaliacaoInput.extensaoQuadrilE()
         );
 
         avaliacaoRepository.salvar(avaliacao);

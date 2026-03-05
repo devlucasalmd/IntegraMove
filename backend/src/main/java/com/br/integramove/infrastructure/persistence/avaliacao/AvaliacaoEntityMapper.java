@@ -10,24 +10,35 @@ public class AvaliacaoEntityMapper {
 
         avaliacaoEntity.setId(avaliacao.getId().getValue());
         avaliacaoEntity.setDataAvaliacao(avaliacao.getDataAvaliacao());
-        avaliacaoEntity.setCircuferencia((avaliacaoEntity.getCircuferencia()));
-        avaliacaoEntity.setAltura(avaliacaoEntity.getAltura());
-        avaliacaoEntity.setImc(avaliacaoEntity.getImc());
-        avaliacaoEntity.setPeso(avaliacaoEntity.getPeso());
-        avaliacaoEntity.setPercentualGordura(avaliacaoEntity.getPercentualGordura());
+        avaliacaoEntity.setRemadaBracoD((avaliacao.getRemadaBracoD()));
+        avaliacaoEntity.setRemadaBracoE(avaliacao.getRemadaBracoE());
+        avaliacaoEntity.setElevacaoLatD(avaliacao.getElevacaoLatD());
+        avaliacaoEntity.setElevacaoLatE(avaliacao.getElevacaoLatE());
+        avaliacaoEntity.setExtensaoJoelhoD(avaliacao.getExtensaoJoelhoD());
+        avaliacaoEntity.setExtensaoJoelhoE(avaliacao.getExtensaoJoelhoE());
+        avaliacaoEntity.setFlexaoJoelhoD(avaliacao.getFlexaoJoelhoD());
+        avaliacaoEntity.setFlexaoJoelhoE(avaliacao.getFlexaoJoelhoE());
+        avaliacaoEntity.setExtensaoQuadrilD(avaliacao.getExtensaoQuadrilD());
+        avaliacaoEntity.setExtensaoQuadrilE(avaliacao.getExtensaoQuadrilE());
 
         return avaliacaoEntity;
     }
 
     public static Avaliacao toDomain(AvaliacaoEntity avaliacaoEntity){
-        return new Avaliacao(
+        return new Avaliacao
+                (
                 AvaliacaoId.from(String.valueOf(avaliacaoEntity.getId())),
                 avaliacaoEntity.getDataAvaliacao(),
-                avaliacaoEntity.getCircuferencia(),
-                avaliacaoEntity.getAltura(),
-                avaliacaoEntity.getImc(),
-                avaliacaoEntity.getPeso(),
-                avaliacaoEntity.getPercentualGordura()
+                avaliacaoEntity.getRemadaBracoD(),
+                avaliacaoEntity.getRemadaBracoE(),
+                avaliacaoEntity.getElevacaoLatD(),
+                avaliacaoEntity.getElevacaoLatE(),
+                avaliacaoEntity.getExtensaoJoelhoD(),
+                avaliacaoEntity.getExtensaoJoelhoE(),
+                avaliacaoEntity.getFlexaoJoelhoD(),
+                avaliacaoEntity.getFlexaoJoelhoE(),
+                avaliacaoEntity.getExtensaoQuadrilD(),
+                avaliacaoEntity.getExtensaoQuadrilE()
         );
     }
 }

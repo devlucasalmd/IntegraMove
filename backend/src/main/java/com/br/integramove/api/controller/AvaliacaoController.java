@@ -26,6 +26,7 @@ public class AvaliacaoController {
    public ResponseEntity<?> criar(@RequestBody AvaliacaoRequestDTO dto){
        CriarAvaliacaoInput input = AvaliacaoMapper.toInput(dto);
        CriarAvaliacaoOutput output = criarAvaliacao.criar(input);
+       System.out.println(input);
        return ResponseEntity.status(201).body(output);
    }
 
