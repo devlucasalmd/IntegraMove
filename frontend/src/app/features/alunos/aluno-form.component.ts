@@ -15,7 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
-import { AlunoService } from '../../../core/services/aluno.service';
+import { AlunoService } from '../../core/services/aluno.service';
 import { AlunoRequestDTO } from '../model/aluno.model';
 @Component({
   selector: 'app-aluno-form',

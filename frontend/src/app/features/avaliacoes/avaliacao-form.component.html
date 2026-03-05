@@ -1,0 +1,96 @@
+<div class="avaliacao-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Avaliação Física</mat-card-title>
+      <mat-card-subtitle>Registro de desempenho muscular</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="avaliacaoForm" (ngSubmit)="salvar()">
+        
+        <h3 class="section-title">Dados da Avaliação</h3>
+
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Data da Avaliação</mat-label>
+            <input matInput type="date" formControlName="dataAvaliacao" />
+          </mat-form-field>
+        </div>
+
+        <h3 class="section-title">Membros Superiores</h3>
+
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Remada Braço Direito</mat-label>
+            <input matInput type="number" formControlName="remadaBracoD" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Remada Braço Esquerdo</mat-label>
+            <input matInput type="number" formControlName="remadaBracoE" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Elevação Lateral Direita</mat-label>
+            <input matInput type="number" formControlName="elevacaoLatD" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Elevação Lateral Esquerda</mat-label>
+            <input matInput type="number" formControlName="elevacaoLatE" />
+          </mat-form-field>
+        </div>
+
+        <h3 class="section-title">Membros Inferiores</h3>
+
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Extensão Joelho Direito</mat-label>
+            <input matInput type="number" formControlName="extensaoJoelhoD" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Extensão Joelho Esquerdo</mat-label>
+            <input matInput type="number" formControlName="extensaoJoelhoE" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Flexão Joelho Direito</mat-label>
+            <input matInput type="number" formControlName="flexaoJoelhoD" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Flexão Joelho Esquerdo</mat-label>
+            <input matInput type="number" formControlName="flexaoJoelhoE" />
+          </mat-form-field>
+        </div>
+
+        <!-- QUADRIL -->
+
+        <h3 class="section-title">Quadril</h3>
+
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Extensão Quadril Direito</mat-label>
+            <input matInput type="number" formControlName="extensaoQuadrilD" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Extensão Quadril Esquerdo</mat-label>
+            <input matInput type="number" formControlName="extensaoQuadrilE" />
+          </mat-form-field>
+        </div>
+
+        <!-- BOTÕES -->
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit">
+            Salvar Avaliação
+          </button>
+
+          <button mat-stroked-button type="button">Cancelar</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

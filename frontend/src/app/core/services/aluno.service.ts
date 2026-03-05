@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AlunoRequestDTO } from '../../features/alunos/model/aluno.model';
+import { AlunoRequestDTO } from '../../features/model/aluno.model';
 
 
 @Injectable({
