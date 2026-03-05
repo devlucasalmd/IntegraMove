@@ -1,5 +1,6 @@
 package com.br.integramove.application.aluno;
 
+import com.br.integramove.api.dto.request.EnderecoDTO;
 import com.br.integramove.api.exception.aluno.AlunoNaoEncontradoException;
 import com.br.integramove.domain.aluno.*;
 import org.springframework.stereotype.Service;
@@ -22,13 +23,15 @@ public class AtualizarAluno {
 
         Email email = new Email(input.email());
 
+        EnderecoDTO enderecoDTO = input.enderecoDTO();
+
         Endereco endereco = new Endereco(
-                input.cep(),
-                input.estado(),
-                input.cidade(),
-                input.rua(),
-                input.numero(),
-                input.bairro()
+                enderecoDTO.cep(),
+                enderecoDTO.estado(),
+                enderecoDTO.cidade(),
+                enderecoDTO.rua(),
+                enderecoDTO.numero(),
+                enderecoDTO.bairro()
         );
 
         aluno.atualizarDados(
