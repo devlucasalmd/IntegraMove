@@ -1,9 +1,8 @@
 package com.br.integramove.infrastructure.persistence.avaliacao;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.br.integramove.domain.aluno.Aluno;
+import com.br.integramove.infrastructure.persistence.aluno.AlunoEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +22,9 @@ public class AvaliacaoEntity {
 
     @Id
     private UUID id;
+    @ManyToOne
+    @JoinColumn(name = "aluno_id", nullable = false)
+    private AlunoEntity aluno;
     private LocalDate dataAvaliacao;
     @Column(name = "remada_braco_d")
     private BigDecimal remadaBracoD;

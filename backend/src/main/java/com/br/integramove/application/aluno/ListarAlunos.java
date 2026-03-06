@@ -19,7 +19,7 @@ public class ListarAlunos {
 
         return alunos.stream()
                 .map(aluno -> new ListarAlunosOutput(
-                        aluno.getId().toString(),
+                        aluno.getId().getValue().toString(),
                         aluno.getNome(),
                         aluno.getCpf().toString(),
                         aluno.getEmail().toString(),

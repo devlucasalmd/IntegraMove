@@ -1,5 +1,6 @@
 package com.br.integramove.application.avaliacao;
 
+import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.avaliacao.*;
 import com.br.integramove.application.avaliacao.AvaliacaoRepository;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,11 @@ public class CriarAvaliacao {
     public CriarAvaliacaoOutput criar( CriarAvaliacaoInput avaliacaoInput ){
 
         AvaliacaoId id = AvaliacaoId.novo();
+        AlunoId alunoId = AlunoId.from(avaliacaoInput.alunoId());
 
         Avaliacao avaliacao = new Avaliacao(
                 id,
+                alunoId,
                 avaliacaoInput.dataAvaliacao(),
                 avaliacaoInput.remadaBracoD(),
                 avaliacaoInput.remadaBracoE(),

@@ -9,6 +9,7 @@ public class AvaliacaoMapper {
 
     public static CriarAvaliacaoInput toInput(AvaliacaoRequestDTO dto) {
         return new CriarAvaliacaoInput(
+                dto.alunoId(),
                 dto.dataAvaliacao(),
                 dto.remadaBracoD(),
                 dto.remadaBracoE(),

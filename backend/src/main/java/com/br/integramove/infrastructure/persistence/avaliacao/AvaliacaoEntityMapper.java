@@ -1,7 +1,9 @@
 package com.br.integramove.infrastructure.persistence.avaliacao;
 
+import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.avaliacao.Avaliacao;
 import com.br.integramove.domain.avaliacao.AvaliacaoId;
+import com.br.integramove.infrastructure.persistence.aluno.AlunoEntity;
 
 public class AvaliacaoEntityMapper {
 
@@ -21,13 +23,17 @@ public class AvaliacaoEntityMapper {
         avaliacaoEntity.setExtensaoQuadrilD(avaliacao.getExtensaoQuadrilD());
         avaliacaoEntity.setExtensaoQuadrilE(avaliacao.getExtensaoQuadrilE());
 
+        AlunoEntity alunoEntity = new AlunoEntity();
+        alunoEntity.setId(avaliacao.getAlunoId().getValue());
+        avaliacaoEntity.setAluno(alunoEntity);
         return avaliacaoEntity;
     }
 
     public static Avaliacao toDomain(AvaliacaoEntity avaliacaoEntity){
         return new Avaliacao
                 (
-                AvaliacaoId.from(String.valueOf(avaliacaoEntity.getId())),
+                AvaliacaoId.from(avaliacaoEntity.getId().toString()),
+                AlunoId.from(avaliacaoEntity.getAluno().getId().toString()),
                 avaliacaoEntity.getDataAvaliacao(),
                 avaliacaoEntity.getRemadaBracoD(),
                 avaliacaoEntity.getRemadaBracoE(),
@@ -39,6 +45,6 @@ public class AvaliacaoEntityMapper {
                 avaliacaoEntity.getFlexaoJoelhoE(),
                 avaliacaoEntity.getExtensaoQuadrilD(),
                 avaliacaoEntity.getExtensaoQuadrilE()
-        );
+                );
     }
 }

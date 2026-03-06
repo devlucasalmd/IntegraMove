@@ -1,5 +1,6 @@
 package com.br.integramove.domain.avaliacao;
 
+import com.br.integramove.domain.aluno.AlunoId;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 public class Avaliacao {
 
     private final AvaliacaoId id;
+    private AlunoId alunoId;
     private LocalDate dataAvaliacao;
     private BigDecimal remadaBracoD;
     private BigDecimal remadaBracoE;
@@ -27,6 +29,7 @@ public class Avaliacao {
 
     public Avaliacao(
             AvaliacaoId id,
+            AlunoId alunoId,
             LocalDate dataAvaliacao,
             BigDecimal remadaBracoD,
             BigDecimal remadaBracoE,
@@ -43,6 +46,7 @@ public class Avaliacao {
         if(id == null) throw new IllegalArgumentException("Id obrigatorio");
 
         this.id = id;
+        this.alunoId = alunoId;
         this.dataAvaliacao = dataAvaliacao;
         this.remadaBracoD = remadaBracoD;
         this.remadaBracoE = remadaBracoE;
@@ -59,6 +63,8 @@ public class Avaliacao {
     public AvaliacaoId getId() {
         return id;
     }
+
+    public AlunoId getAlunoId() { return alunoId; }
 
     public LocalDate getDataAvaliacao() {
         return dataAvaliacao;
