@@ -1,0 +1,23 @@
+<h2>Alunos</h2>
+
+<button mat-raised-button color="primary" [routerLink]="['/alunos/novo']">
+  Novo Aluno
+</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>CPF</th>
+      <th>Ativo</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let aluno of alunos">
+      <td>{{ aluno.nome }}</td>
+      <td>{{ aluno.cpf }}</td>
+      <td>{{ aluno.ativo ? 'Sim' : 'Não' }}</td>
+    </tr>
+  </tbody>
+</table>

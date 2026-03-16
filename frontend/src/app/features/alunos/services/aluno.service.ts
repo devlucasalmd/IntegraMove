@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AlunoRequestDTO } from '../../features/model/aluno.model';
+import { AlunoRequestDTO } from '../models/aluno.model';
 
 
 @Injectable({
@@ -17,4 +17,7 @@ export class AlunoService {
     return this.http.post<AlunoRequestDTO>(this.apiUrl, aluno);
   }
 
+  listarAlunos() {
+    return this.http.get<any[]>(this.apiUrl);
+  }
 }

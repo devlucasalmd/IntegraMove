@@ -5,8 +5,7 @@ import {
   Validators,
   FormGroup,
 } from '@angular/forms';
-import { AvaliacaoRequestDTO } from '../model/avaliacao.model';
-import { AvaliacaoService } from '../../core/services/avaliacao.service';
+import { AvaliacaoService } from '../services/avaliacao.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
+import { AvaliacaoRequestDTO } from '../models/avaliacao.model';
 
 @Component({
   selector: 'app-avaliacao-form',
