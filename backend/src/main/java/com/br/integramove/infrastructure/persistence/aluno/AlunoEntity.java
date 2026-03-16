@@ -1,15 +1,15 @@
 package com.br.integramove.infrastructure.persistence.aluno;
 
-import com.br.integramove.domain.aluno.Endereco;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.br.integramove.domain.avaliacao.Avaliacao;
+import com.br.integramove.infrastructure.persistence.avaliacao.AvaliacaoEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -34,4 +34,6 @@ public class AlunoEntity {
     private String rua;
     private String numero;
     private String bairro;
+    @OneToMany(mappedBy = "aluno")
+    private List<AvaliacaoEntity> avaliacoes;
 }

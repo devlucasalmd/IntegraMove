@@ -19,8 +19,11 @@ public class BuscarAluno {
 
         Aluno aluno = alunoRepository.buscarPorId(id).orElseThrow(() -> new AlunoNaoEncontradoException(id));
 
+        System.out.println("ID DOMAIN: " + aluno.getId());
+        System.out.println("ID VALUE: " + aluno.getId().getValue());
+
         return new BuscarAlunoOutput(
-                aluno.getId().toString(),
+                aluno.getId().getValue().toString(),
                 aluno.getNome(),
                 aluno.getDataNascimento(),
                 aluno.getCpf().toString(),

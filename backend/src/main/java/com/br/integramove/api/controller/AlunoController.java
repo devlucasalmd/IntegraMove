@@ -51,10 +51,7 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(
-            @PathVariable String id,
-            @RequestBody AlunoRequestDTO dto
-    ) {
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody AlunoRequestDTO dto) {
         AtualizarAlunoInput input = AlunoMapper.toAtualizar(id, dto);
         AtualizarAlunoOutput output = atualizarAluno.atualizar(input);
         return ResponseEntity.ok(output);

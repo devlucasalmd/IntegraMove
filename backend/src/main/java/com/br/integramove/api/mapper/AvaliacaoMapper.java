@@ -9,12 +9,18 @@ public class AvaliacaoMapper {
 
     public static CriarAvaliacaoInput toInput(AvaliacaoRequestDTO dto) {
         return new CriarAvaliacaoInput(
+                dto.alunoId(),
                 dto.dataAvaliacao(),
-                dto.peso(),
-                dto.altura(),
-                dto.imc(),
-                dto.percentualGordura(),
-                dto.circuferencia()
+                dto.remadaBracoD(),
+                dto.remadaBracoE(),
+                dto.elevacaoLatD(),
+                dto.elevacaoLatE(),
+                dto.extensaoJoelhoD(),
+                dto.extensaoJoelhoE(),
+                dto.flexaoJoelhoD(),
+                dto.flexaoJoelhoE(),
+                dto.extensaoQuadrilD(),
+                dto.extensaoQuadrilE()
         );
     }
 
@@ -22,11 +28,16 @@ public class AvaliacaoMapper {
         return new AvaliacaoResponseDTO(
                 output.id(),
                 output.dataAvaliacao(),
-                output.peso(),
-                output.altura(),
-                output.imc(),
-                output.percentualGordura(),
-                output.circuferencia()
+                output.remadaBracoD(),
+                output.remadaBracoE(),
+                output.elevacaoLatD(),
+                output.elevacaoLatE(),
+                output.extensaoJoelhoD(),
+                output.extensaoJoelhoE(),
+                output.flexaoJoelhoD(),
+                output.flexaoJoelhoE(),
+                output.extensaoQuadrilD(),
+                output.extensaoQuadrilE()
         );
     }
 

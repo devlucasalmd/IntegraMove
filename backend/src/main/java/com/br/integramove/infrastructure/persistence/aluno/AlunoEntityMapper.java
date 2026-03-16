@@ -38,7 +38,7 @@ public class AlunoEntityMapper {
         );
 
         return new Aluno(
-                AlunoId.from(String.valueOf(entity.getId())),
+                AlunoId.from(entity.getId().toString()),
                 entity.getNome(),
                 entity.getDataNascimento(),
                 new Cpf(entity.getCpf()),
