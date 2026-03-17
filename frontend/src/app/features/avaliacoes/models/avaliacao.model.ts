@@ -1,4 +1,5 @@
 export interface AvaliacaoRequestDTO {
+  alunoId: string;
   dataAvaliacao: string;
 
   remadaBracoD: number;

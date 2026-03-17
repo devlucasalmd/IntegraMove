@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AlunoRequestDTO } from '../models/aluno.model';
-
+import { AlunoRequestDTO } from '../models/aluno-request.model';
+import { AlunoResponseDTO } from '../models/aluno-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,10 @@ export class AlunoService {
   }
 
   listarAlunos() {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<AlunoResponseDTO[]>(this.apiUrl);
+  }
+
+  buscarAlunoPorId(id: string) {
+    return this.http.get<AlunoResponseDTO>(`${this.apiUrl}/${id}`);
   }
 }

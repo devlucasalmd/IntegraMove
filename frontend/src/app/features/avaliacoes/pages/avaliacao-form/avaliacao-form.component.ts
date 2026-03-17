@@ -5,7 +5,7 @@ import {
   Validators,
   FormGroup,
 } from '@angular/forms';
-import { AvaliacaoService } from '../services/avaliacao.service';
+import { AvaliacaoService } from '../../services/avaliacao.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,7 +15,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
-import { AvaliacaoRequestDTO } from '../models/avaliacao.model';
+import { AvaliacaoRequestDTO } from '../../models/avaliacao.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-avaliacao-form',
@@ -37,10 +38,12 @@ import { AvaliacaoRequestDTO } from '../models/avaliacao.model';
 })
 export class AvaliacaoFormComponent {
   avaliacaoForm: FormGroup;
+  alunoId!: string;
 
   constructor(
     private fb: FormBuilder,
     private avaliacaoService: AvaliacaoService,
+    private route: ActivatedRoute
   ) {
     this.avaliacaoForm = this.fb.group({
       dataAvaliacao: ['', Validators.required],
@@ -61,6 +64,12 @@ export class AvaliacaoFormComponent {
     });
   }
 
+  ngOnInit() {
+  this.route.parent?.params.subscribe(params => {
+    this.alunoId = params['id'];
+  });
+}
+
   private formatarData(data: any): string {
     if(!data) return '';
     const date = new Date(data);
@@ -75,6 +84,7 @@ export class AvaliacaoFormComponent {
     const formValue = this.avaliacaoForm.value;
 
     const avaliacao: AvaliacaoRequestDTO = {
+      alunoId: this.alunoId,
       dataAvaliacao: this.formatarData(formValue.dataAvaliacao),
       remadaBracoD: formValue.remadaBracoD,
       remadaBracoE: formValue.remadaBracoE,
