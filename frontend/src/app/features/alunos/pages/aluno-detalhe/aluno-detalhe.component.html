@@ -1,0 +1,39 @@
+<div class="container" *ngIf="aluno">
+
+  <!-- HEADER -->
+  <div class="header">
+
+    <div class="avatar"></div>
+
+    <div class="info">
+      <h1>
+        {{ aluno.nome }}
+        <span class="status" [ngClass]="aluno.ativo ? 'ativo' : 'inativo'">
+          {{ aluno.ativo ? 'Ativo' : 'Inativo' }}
+        </span>
+      </h1>
+
+      <p>CPF: {{ aluno.cpf }}</p>
+    </div>
+
+    <div class="actions">
+      <button mat-raised-button color="primary">Cadastro</button>
+      <button mat-stroked-button>WhatsApp</button>
+      <button mat-stroked-button>Mais ações</button>
+    </div>
+
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <span class="tab" routerLink="resumo" routerLinkActive="active">Resumo</span>
+    <span class="tab" routerLink="avaliacoes" routerLinkActive="active">Avaliações</span>
+    <span class="tab" routerLink="treinos" routerLinkActive="active">Treinos</span>
+  </div>
+
+  <!-- 🔥 CONTEÚDO DINÂMICO -->
+  <mat-card class="content-card">
+    <router-outlet></router-outlet>
+  </mat-card>
+
+</div>

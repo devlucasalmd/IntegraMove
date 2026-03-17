@@ -13,13 +13,7 @@ export const routes: Routes = [
         path: 'alunos',
         loadChildren: () => import('./features/alunos/aluno.routes')
         .then(m => m.alunosRoutes)
-      },
-       {
-      path: 'avaliacao',
-      loadChildren: () =>
-        import('./features/avaliacoes/avaliacao.routes')
-        .then(m => m.avaliacoesRoutes)
-    }
+      }
     ]
   }
 ];

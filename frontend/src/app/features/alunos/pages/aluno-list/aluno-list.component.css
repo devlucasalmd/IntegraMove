@@ -1,0 +1,46 @@
+.page-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.table-card {
+  padding: 10px;
+}
+
+.alunos-table {
+  width: 100%;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status.ativo {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status.inativo {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+mat-icon {
+  font-size: 20px;
+}
