@@ -14,7 +14,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { TablerIconComponent, provideTablerIcons } from 'angular-tabler-icons';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { AlunoService } from '../../services/aluno.service';
 import { AlunoRequestDTO } from '../../models/aluno-request.model';
 
@@ -33,9 +36,16 @@ import { AlunoRequestDTO } from '../../models/aluno-request.model';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    TablerIconComponent,
   ],
   templateUrl: './aluno-form.component.html',
   styleUrls: ['./aluno-form.component.css'],
+  providers: [provideNativeDateAdapter(), provideTablerIcons({})],
 })
 export class AlunoFormComponent {
   alunoForm: FormGroup;
@@ -70,18 +80,14 @@ export class AlunoFormComponent {
   }
 
   private formatarCpf(cpf: string): string {
+    const numeros = cpf.replace(/\D/g, '');
 
-  const numeros = cpf.replace(/\D/g, '');
+    if (numeros.length !== 11) {
+      return cpf;
+    }
 
-  if (numeros.length !== 11) {
-    return cpf;
+    return numeros.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   }
-
-  return numeros.replace(
-    /(\d{3})(\d{3})(\d{3})(\d{2})/,
-    '$1.$2.$3-$4'
-  );
-}
 
   salvar() {
     if (this.alunoForm.invalid) return;

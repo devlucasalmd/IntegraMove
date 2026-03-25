@@ -5,9 +5,15 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDividerModule } from '@angular/material/divider';
+import { AlunoResponseDTO } from '../../models/aluno-response.model';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-aluno-list',
+  standalone: true,
   templateUrl: './aluno-list.component.html',
   imports: [
     CommonModule,
@@ -15,14 +21,21 @@ import {MatTableModule} from '@angular/material/table';
     MatButtonModule,
     MatTableModule,
     MatCardModule,
-    MatIconModule
-  ]
+    MatIconModule,
+    MatMenuModule,
+    MatDividerModule,
+    FormsModule,
+    MatFormFieldModule
+  ],
 })
 export class AlunoListComponent implements OnInit {
+  alunos: AlunoResponseDTO[] = [];
 
-  alunos: any[] = [];
+  alunosFiltrados: AlunoResponseDTO[] = [];
 
-  colunas: string[] = ['nome', 'cpf', 'ativo', 'acoes'];
+  filtro: string = '';
+
+  colunas: string[] = ['nome', 'plano', 'pagamento', 'status', 'acoes'];
 
   constructor(private alunoService: AlunoService) {}
 
@@ -31,11 +44,18 @@ export class AlunoListComponent implements OnInit {
   }
 
   carregarAlunos() {
-    this.alunoService.listarAlunos()
-      .subscribe({
-        next: (data) => this.alunos = data,
-        error: (err) => console.error(err)
-      });
+    this.alunoService.listarAlunos().subscribe({
+      next: (data) => (this.alunos = data),
+      error: (err) => console.error(err),
+    });
+  }
+
+    filtrarAlunos() {
+    const termo = this.filtro.toLowerCase();
+
+    this.alunosFiltrados = this.alunos.filter((aluno) =>
+      aluno.nome.toLowerCase().includes(termo)
+    );
   }
 
 }

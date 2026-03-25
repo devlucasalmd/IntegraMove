@@ -1,115 +1,138 @@
-<div class="page-container">
+<form [formGroup]="alunoForm" class="page-container compact">
 
-  <mat-card class="form-card">
-
-    <mat-card-header>
-      <mat-card-title>Cadastro de Aluno</mat-card-title>
-      <mat-card-subtitle>Preencha as informações abaixo</mat-card-subtitle>
-    </mat-card-header>
-
-    <mat-card-content>
-
-      <form [formGroup]="alunoForm" (ngSubmit)="salvar()">
-
-        <h3 class="section-title">Dados Pessoais</h3>
-
-        <div class="form-grid">
-
-          <mat-form-field appearance="outline">
-            <mat-label>Nome</mat-label>
-            <input matInput formControlName="nome">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Data de Nascimento</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="dataNascimento">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>CPF</mat-label>
-            <input matInput formControlName="cpf">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Gênero</mat-label>
-            <mat-select formControlName="genero">
-              <mat-option *ngFor="let g of generos" [value]="g">
-                {{ g }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-        </div>
-
-        <h3 class="section-title">Contato</h3>
-
-        <div class="form-grid">
-
-          <mat-form-field appearance="outline">
-            <mat-label>Telefone</mat-label>
-            <input matInput formControlName="telefone">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email">
-          </mat-form-field>
-
-        </div>
-
-        <h3 class="section-title">Endereço</h3>
-
-        <div formGroupName="endereco" class="form-grid">
-
-          <mat-form-field appearance="outline">
-            <mat-label>Rua</mat-label>
-            <input matInput formControlName="rua">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Número</mat-label>
-            <input matInput formControlName="numero">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Bairro</mat-label>
-            <input matInput formControlName="bairro">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Cidade</mat-label>
-            <input matInput formControlName="cidade">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Estado</mat-label>
-            <input matInput formControlName="estado">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>CEP</mat-label>
-            <input matInput formControlName="cep">
-          </mat-form-field>
-
-        </div>
-
-        <div class="checkbox-container">
-          <mat-checkbox formControlName="ativo">Ativo</mat-checkbox>
-        </div>
-
-        <div class="actions">
-          <button mat-stroked-button type="button">Cancelar</button>
-          <button mat-raised-button color="primary" type="submit">
-            Salvar
-          </button>
-        </div>
-
-      </form>
-
-    </mat-card-content>
-
-  </mat-card>
-
+  <!-- HEADER -->
+<div class="section-header mini">
+  <i-tabler name="info-circle"></i-tabler>
+  <span>Informações do Aluno</span>
 </div>
+
+  <div class="form-grid compact-grid">
+
+    <!-- NOME -->
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" />
+      </mat-form-field>
+    </div>
+
+    <!-- CPF -->
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>CPF</mat-label>
+        <input matInput formControlName="cpf" />
+      </mat-form-field>
+    </div>
+
+    <!-- GENERO -->
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Gênero</mat-label>
+        <mat-select formControlName="genero">
+          <mat-option *ngFor="let g of generos" [value]="g">
+            {{ g }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- DATA NASCIMENTO -->
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Data de Nascimento</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dataNascimento" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" />
+      </mat-form-field>
+    </div>
+
+    <!-- TELEFONE -->
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="telefone" />
+      </mat-form-field>
+    </div>
+
+    <!-- STATUS -->
+    <div class="col-12">
+      <mat-radio-group formControlName="ativo">
+        <mat-radio-button [value]="true">Ativo</mat-radio-button>
+        <mat-radio-button [value]="false">Inativo</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+  </div>
+
+  <!-- ENDEREÇO -->
+  <div class="section-header mini">
+    <i-tabler name="info-circle"></i-tabler>
+    <span>Endereço</span>
+  </div>
+
+  <div formGroupName="enderecoDTO" class="form-grid compact-grid">
+
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Rua</mat-label>
+        <input matInput formControlName="rua" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Nº</mat-label>
+        <input matInput formControlName="numero" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-3">
+      <mat-form-field appearance="outline">
+        <mat-label>CEP</mat-label>
+        <input matInput formControlName="cep" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Bairro</mat-label>
+        <input matInput formControlName="bairro" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Cidade</mat-label>
+        <input matInput formControlName="cidade" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-3">
+      <mat-form-field appearance="outline">
+        <mat-label>UF</mat-label>
+        <input matInput formControlName="estado" />
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <!-- BOTÕES -->
+  <div class="actions compact-actions">
+    <button mat-flat-button type="button" class="btn-cancel" (click)="fechar()">
+      Cancelar
+    </button>
+
+    <button mat-flat-button type="button" class="btn-submit" (click)="salvar()">
+      Salvar
+    </button>
+  </div>
+
+</form>

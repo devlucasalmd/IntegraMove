@@ -1,4 +1,229 @@
-.full-width {
+/* ===================== CONTAINER ===================== */
+.page-container {
   width: 100%;
-  margin-bottom: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* ===================== HEADER ===================== */
+.section-header.mini {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 10px;
+  margin: 8px 0;
+
+  background: #eef2ff;
+  border-radius: 6px;
+  border-left: 3px solid #3f51b5;
+
+  font-size: 12px;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.section-header.mini i-tabler {
+  width: 26px;
+  height: 26px;
+}
+.section-header h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3f51b5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===================== GRID ===================== */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* colunas */
+.col-12 {
+  grid-column: span 4;
+}
+
+mat-radio-group {
+  margin-top: 0 !important;
+}
+.col-6 {
+  grid-column: span 6;
+}
+
+/* ===================== LABEL ===================== */
+mat-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* ===================== INPUTS ===================== */
+mat-form-field {
+  width: 100%;
+}
+
+input[matInput] {
+  font-size: 14px;
+}
+
+/* foco mais visível */
+.mat-mdc-form-field.mat-focused .mdc-notched-outline {
+  border-color: #3f51b5 !important;
+}
+
+/* ===================== RADIO ===================== */
+mat-radio-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+/* ===================== SEÇÃO ENDEREÇO ===================== */
+.section-spacing {
+  margin-top: 24px;
+}
+
+/* ===================== BOTÕES ===================== */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+/* base botão */
+button[mat-flat-button] {
+  min-width: 120px;
+  height: 42px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* cancelar */
+.btn-cancel {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #dc2626;
+}
+
+/* submit */
+.btn-submit {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.btn-submit:hover {
+  background-color: #303f9f;
+}
+
+/* ===================== RESPONSIVIDADE ===================== */
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .page-container {
+    padding: 20px;
+  }
+
+  .col-6 {
+    grid-column: span 12;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 16px;
+  }
+
+  .section-header {
+    padding: 12px;
+  }
+
+  .section-header h5 {
+    font-size: 13px;
+  }
+
+  mat-radio-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  button[mat-flat-button] {
+    width: 100%;
+  }
+}
+
+/* MOBILE PEQUENO */
+@media (max-width: 480px) {
+  .page-container {
+    padding: 12px;
+  }
+
+  .section-header {
+    padding: 10px;
+  }
+
+  .section-header h5 {
+    font-size: 12px;
+  }
+}
+
+/* ===================== MODO COMPACTO ===================== */
+
+.compact {
+  padding: 16px;
+}
+
+.compact-header {
+  padding: 10px 14px;
+  margin-bottom: 8px;
+}
+
+.compact-header h5 {
+  font-size: 13px;
+}
+
+.compact-grid {
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* reduz altura dos campos */
+.mat-mdc-form-field {
+  font-size: 13px;
+}
+
+/* radio mais compacto */
+mat-radio-group {
+  margin-top: 4px;
+  gap: 12px;
+}
+
+/* botões menores */
+.compact-actions {
+  margin-top: 16px;
+}
+
+/* colunas menores */
+.col-3 {
+  grid-column: span 3;
 }
