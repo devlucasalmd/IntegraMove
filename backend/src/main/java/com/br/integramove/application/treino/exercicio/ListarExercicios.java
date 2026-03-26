@@ -1,0 +1,30 @@
+package com.br.integramove.application.treino.exercicio;
+
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ListarExercicios {
+
+    private final ExercicioRepository repository;
+
+    public ListarExercicios(ExercicioRepository repository) {
+        this.repository = repository;
+    }
+
+    public List<ListarExercicioOutput> listar(){
+
+        return repository.listarTodos()
+                .stream()
+                .map( exercicio -> new ListarExercicioOutput(
+                        exercicio.getId().getValue().toString(),
+                        exercicio.getNome(),
+                        exercicio.getGrupoMuscular(),
+                        exercicio.getDescricao(),
+                        exercicio.getIntensidade(),
+                        exercicio.getAtivo()
+                ))
+                .toList();
+    }
+}
