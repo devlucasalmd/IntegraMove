@@ -9,7 +9,7 @@ export interface AlunoRequestDTO {
   enderecoDTO?: EnderecoDTO | null;
 }
 
-export interface EnderecoDTO{
+export interface EnderecoDTO {
   cep: string;
   estado: string;
   cidade: string;
