@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { AlunoResponseDTO } from '../../../alunos/models/aluno-response.model';
+import { AvaliacaoService } from '../../services/avaliacao.service';
 
 @Component({
   selector: 'app-avaliacao-list',
@@ -25,10 +26,24 @@ export class AvaliacaoListComponent implements OnInit {
 
   avaliacoes: any[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private avaliacaoService: AvaliacaoService) {}
 
   ngOnInit(): void {
-    this.alunoId = this.route.snapshot.paramMap.get('id')!;
+    this.route.paramMap.subscribe(params => {
+      this.alunoId = params.get('id')!;
+      this.carregarAvaliacoes();
+    });
   }
 
+  carregarAvaliacoes() {
+    this.avaliacaoService.listarAvaliacoes(this.alunoId)
+      .subscribe({
+        next: (data) => {
+          this.avaliacoes = data;
+        },
+        error: (err) => {
+          console.error('Erro ao carregar avaliações', err);
+        }
+      });
+  }
 }

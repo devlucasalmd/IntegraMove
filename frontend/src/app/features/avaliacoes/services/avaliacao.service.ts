@@ -8,12 +8,16 @@ import { AvaliacaoRequestDTO } from '../models/avaliacao.model';
 })
 export class AvaliacaoService {
 
-  private apiUrl = 'http://localhost:8080/avaliacao';
+  private apiUrl = 'http://localhost:8080/alunos';
 
   constructor(private http: HttpClient) {}
 
-  cadastrarAvaliacao(avaliacao: AvaliacaoRequestDTO): Observable<any> {
-    return this.http.post(this.apiUrl, avaliacao);
+  cadastrarAvaliacao(alunoId: string, avaliacao: AvaliacaoRequestDTO): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${alunoId}/avaliacoes`, avaliacao);
+  }
+
+  listarAvaliacoes(alunoId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${alunoId}/avaliacoes`);
   }
 
 }

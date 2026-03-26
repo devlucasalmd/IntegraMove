@@ -13,6 +13,11 @@ export const routes: Routes = [
         path: 'alunos',
         loadChildren: () => import('./features/alunos/aluno.routes')
         .then(m => m.alunosRoutes)
+      },
+      {
+        path: 'treino',
+        loadChildren: () => import('./features/treinos/treinos.routes')
+        .then(m => m.treinoRoutes)
       }
     ]
   }

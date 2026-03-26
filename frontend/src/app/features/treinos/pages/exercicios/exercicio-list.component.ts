@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AlunoService } from '../../services/aluno.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,12 +8,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
-import { AlunoResponseDTO } from '../../models/aluno-response.model';
 import { FormsModule } from '@angular/forms';
+
 @Component({
-  selector: 'app-aluno-list',
+  selector: 'app-exercicio-list',
   standalone: true,
-  templateUrl: './aluno-list.component.html',
+  templateUrl: './exercicio-list.component.html',
   imports: [
     CommonModule,
     RouterModule,
@@ -28,34 +27,32 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule
   ],
 })
-export class AlunoListComponent implements OnInit {
-  alunos: AlunoResponseDTO[] = [];
+export class ExercicioListComponent {
 
-  alunosFiltrados: AlunoResponseDTO[] = [];
 
   filtro: string = '';
 
-  colunas: string[] = ['nome', 'plano', 'pagamento', 'status', 'acoes'];
+  colunas: string[] = ['descricao', 'grupo', 'intensidade'];
 
-  constructor(private alunoService: AlunoService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.carregarAlunos();
-  }
+  // ngOnInit(): void {
+  //   this.carregarAlunos();
+  // }
 
-  carregarAlunos() {
-    this.alunoService.listarAlunos().subscribe({
-      next: (data) => (this.alunos = data),
-      error: (err) => console.error(err),
-    });
-  }
+  // carregarAlunos() {
+  //   this.alunoService.listarAlunos().subscribe({
+  //     next: (data) => (this.alunos = data),
+  //     error: (err) => console.error(err),
+  //   });
+  // }
 
-  filtrarAlunos() {
-    const termo = this.filtro.toLowerCase();
+  //   filtrarAlunos() {
+  //   const termo = this.filtro.toLowerCase();
 
-    this.alunosFiltrados = this.alunos.filter((aluno) =>
-      aluno.nome.toLowerCase().includes(termo)
-    );
-  }
+  //   this.alunosFiltrados = this.alunos.filter((aluno) =>
+  //     aluno.nome.toLowerCase().includes(termo)
+  //   );
+  // }
 
 }
