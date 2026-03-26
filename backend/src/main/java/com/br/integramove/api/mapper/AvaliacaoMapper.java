@@ -4,7 +4,9 @@ import com.br.integramove.api.dto.request.AvaliacaoRequestDTO;
 import com.br.integramove.api.dto.response.AvaliacaoResponseDTO;
 import com.br.integramove.application.avaliacao.BuscarAvaliacaoOutput;
 import com.br.integramove.application.avaliacao.CriarAvaliacaoInput;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AvaliacaoMapper {
 
     public static CriarAvaliacaoInput toInput(AvaliacaoRequestDTO dto) {

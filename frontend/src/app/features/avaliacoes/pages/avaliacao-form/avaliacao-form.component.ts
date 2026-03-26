@@ -101,7 +101,7 @@ export class AvaliacaoFormComponent {
 
     console.log('Dados enviados:', avaliacao);
 
-    this.avaliacaoService.cadastrarAvaliacao(avaliacao)
+    this.avaliacaoService.cadastrarAvaliacao(this.alunoId, avaliacao)
       .subscribe({
         next: (response) => {
           console.log("Avaliação salva com sucesso", response);
