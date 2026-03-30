@@ -1,7 +1,6 @@
 package com.br.integramove.domain.treino;
 
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.treino.ficha.Ficha;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,5 +14,5 @@ public class Treino {
     private LocalDate dataInicio;
     private boolean ativo;
 
-    private List<Ficha> exercicios = new ArrayList<>();
+    private List<TreinoItem> itens = new ArrayList<>();
 }

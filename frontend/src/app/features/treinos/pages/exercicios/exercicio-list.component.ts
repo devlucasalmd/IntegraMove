@@ -9,6 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule } from '@angular/forms';
+import { ExercicioResponseDTO } from '../../models/exercicio-response';
+import { ExercicioService } from '../../services/exercicios.service';
 
 @Component({
   selector: 'app-exercicio-list',
@@ -27,25 +29,26 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule
   ],
 })
-export class ExercicioListComponent {
+export class ExercicioListComponent implements OnInit {
 
+  exercicios: ExercicioResponseDTO[] = [];
 
   filtro: string = '';
 
-  colunas: string[] = ['descricao', 'grupo', 'intensidade'];
+  colunas: string[] = ['nome', 'grupoMuscular', 'intensidade'];
 
-  constructor() {}
+  constructor(private exercicioService: ExercicioService) {}
 
-  // ngOnInit(): void {
-  //   this.carregarAlunos();
-  // }
+  ngOnInit(): void {
+    this.carregarExercicios();
+  }
 
-  // carregarAlunos() {
-  //   this.alunoService.listarAlunos().subscribe({
-  //     next: (data) => (this.alunos = data),
-  //     error: (err) => console.error(err),
-  //   });
-  // }
+  carregarExercicios() {
+    this.exercicioService.listarExercicios().subscribe({
+      next: (data) => (this.exercicios = data),
+      error: (err) => console.error(err),
+    });
+  }
 
   //   filtrarAlunos() {
   //   const termo = this.filtro.toLowerCase();

@@ -13,7 +13,7 @@ public class ExercicioRepositoryImpl implements ExercicioRepository {
 
     private final ExercicioJpaRepository jpa;
 
-    public ExercicioRepositoryImpl(ExercicioJpaRepository jpa){
+    public ExercicioRepositoryImpl(ExercicioJpaRepository jpa) {
         this.jpa = jpa;
     }
 

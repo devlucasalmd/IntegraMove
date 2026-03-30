@@ -24,6 +24,7 @@ public class ExercicioEntityMapper {
     }
 
     public static Exercicio toDomain(ExercicioEntity entity) {
+
         if (entity == null) return null;
 
         return new Exercicio(

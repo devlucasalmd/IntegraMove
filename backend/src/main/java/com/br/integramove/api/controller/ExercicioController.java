@@ -39,9 +39,8 @@ public class ExercicioController {
     }
 
     @PostMapping
-    public ResponseEntity<ExercicioResponseDTO> criar(
-            @RequestBody ExercicioRequestDTO request
-    ) {
+    public ResponseEntity<ExercicioResponseDTO> criar(@RequestBody ExercicioRequestDTO request) {
+
         CriarExercicioInput input = ExercicioMapper.toInput(request);
 
         CriarExercicioOutput output = criarExercicio.criar(input);

@@ -18,6 +18,10 @@ public class ExercicioId {
         return new ExercicioId(UUID.fromString(value));
     }
 
+    public static ExercicioId of(UUID value) {
+        return new ExercicioId(value);
+    }
+
     public UUID getValue() { return value; }
 
     @Override

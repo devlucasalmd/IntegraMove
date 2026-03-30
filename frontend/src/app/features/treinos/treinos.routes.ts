@@ -6,7 +6,7 @@ export const treinoRoutes: Routes = [
   {
     path: '',
       children: [
-        { path: 'exercicio', component: ExercicioListComponent },
+        { path: 'exercicios', component: ExercicioListComponent },
         // { path: 'novo', component: ExercicioFormComponent },
       ]
   }
