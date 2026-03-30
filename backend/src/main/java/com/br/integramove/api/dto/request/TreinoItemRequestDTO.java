@@ -1,0 +1,12 @@
+package com.br.integramove.api.dto.request;
+
+import java.math.BigDecimal;
+
+public record TreinoItemRequestDTO(
+        String exercicioId,
+        Integer series,
+        Integer repeticoes,
+        BigDecimal carga,
+        Integer descanso,
+        Integer ordem
+) {}

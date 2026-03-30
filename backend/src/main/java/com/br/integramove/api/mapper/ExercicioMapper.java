@@ -10,17 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExercicioMapper {
 
-    public static CriarExercicioInput toInput(ExercicioRequestDTO dto) {
-
-        return new CriarExercicioInput(
-                dto.nome(),
-                dto.grupoMuscular(),
-                dto.descricao(),
-                dto.intensidade(),
-                dto.ativo()
-        );
-    }
-
     private static ExercicioResponseDTO build(
             String id,
             String nome,
@@ -31,6 +20,17 @@ public class ExercicioMapper {
     ) {
         return new ExercicioResponseDTO(
                 id, nome, grupoMuscular, descricao, intensidade, ativo
+        );
+    }
+
+    public static CriarExercicioInput toInput(ExercicioRequestDTO dto) {
+
+        return new CriarExercicioInput(
+                dto.nome(),
+                dto.grupoMuscular(),
+                dto.descricao(),
+                dto.intensidade(),
+                dto.ativo()
         );
     }
 
@@ -45,6 +45,7 @@ public class ExercicioMapper {
                 dto.ativo()
         );
     }
+
     public static ExercicioResponseDTO toResponse(CriarExercicioOutput output) {
         return build(
                 output.id(),

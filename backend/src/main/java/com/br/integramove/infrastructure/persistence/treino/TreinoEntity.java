@@ -1,6 +1,6 @@
 package com.br.integramove.infrastructure.persistence.treino;
 
-import com.br.integramove.domain.treino.ficha.Ficha;
+import com.br.integramove.infrastructure.persistence.treino.item.TreinoItemEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -26,5 +26,5 @@ public class TreinoEntity {
     private boolean ativo;
 
     @OneToMany(mappedBy = "treino", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FichaEntity> exercicios = new ArrayList<>();
+    private List<TreinoItemEntity> exercicios = new ArrayList<>();
 }

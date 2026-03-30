@@ -1,7 +1,5 @@
 package com.br.integramove.domain.treino;
 
-import com.br.integramove.domain.treino.exercicio.ExercicioId;
-
 import java.util.Objects;
 import java.util.UUID;
 
