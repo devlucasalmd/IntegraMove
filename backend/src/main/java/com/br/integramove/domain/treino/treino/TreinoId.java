@@ -1,4 +1,6 @@
-package com.br.integramove.domain.treino;
+package com.br.integramove.domain.treino.treino;
+
+import com.br.integramove.domain.treino.exercicio.ExercicioId;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -16,6 +18,10 @@ public class TreinoId {
     public static TreinoId from(String value){
         if (value == null) { throw new IllegalArgumentException("TreinoId não pode ser nulo"); }
         return new TreinoId(UUID.fromString(value));
+    }
+
+    public static TreinoId of(UUID value) {
+        return new TreinoId(value);
     }
 
     public UUID getValue() { return value; }

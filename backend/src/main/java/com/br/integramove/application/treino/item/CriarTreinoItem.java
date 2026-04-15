@@ -1,7 +1,7 @@
 package com.br.integramove.application.treino.item;
 
-import com.br.integramove.domain.treino.TreinoItem;
-import com.br.integramove.domain.treino.TreinoItemId;
+import com.br.integramove.domain.treino.item.TreinoItem;
+import com.br.integramove.domain.treino.item.TreinoItemId;
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
 import org.springframework.stereotype.Service;
 

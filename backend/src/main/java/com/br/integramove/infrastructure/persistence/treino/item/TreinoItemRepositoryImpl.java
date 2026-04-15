@@ -1,13 +1,12 @@
 package com.br.integramove.infrastructure.persistence.treino.item;
 
 import com.br.integramove.application.treino.item.TreinoItemRepository;
-import com.br.integramove.domain.treino.TreinoItem;
-import com.br.integramove.domain.treino.TreinoItemId;
+import com.br.integramove.domain.treino.item.TreinoItem;
+import com.br.integramove.domain.treino.item.TreinoItemId;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public class TreinoItemRepositoryImpl implements TreinoItemRepository {

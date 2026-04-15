@@ -1,7 +1,7 @@
 package com.br.integramove.infrastructure.persistence.treino.item;
 
-import com.br.integramove.domain.treino.TreinoItem;
-import com.br.integramove.domain.treino.TreinoItemId;
+import com.br.integramove.domain.treino.item.TreinoItem;
+import com.br.integramove.domain.treino.item.TreinoItemId;
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
 
 public class TreinoItemEntityMapper {

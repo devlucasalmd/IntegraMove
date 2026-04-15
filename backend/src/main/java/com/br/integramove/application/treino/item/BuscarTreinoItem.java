@@ -1,11 +1,9 @@
 package com.br.integramove.application.treino.item;
 
 import com.br.integramove.api.exception.treino.exercicio.TreinoItemNaoEncontradoExcpetion;
-import com.br.integramove.domain.treino.TreinoItem;
-import com.br.integramove.domain.treino.TreinoItemId;
+import com.br.integramove.domain.treino.item.TreinoItem;
+import com.br.integramove.domain.treino.item.TreinoItemId;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 @Service
 public class BuscarTreinoItem {

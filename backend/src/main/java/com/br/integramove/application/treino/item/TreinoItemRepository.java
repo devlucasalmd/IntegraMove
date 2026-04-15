@@ -1,11 +1,10 @@
 package com.br.integramove.application.treino.item;
 
-import com.br.integramove.domain.treino.TreinoItem;
-import com.br.integramove.domain.treino.TreinoItemId;
+import com.br.integramove.domain.treino.item.TreinoItem;
+import com.br.integramove.domain.treino.item.TreinoItemId;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface TreinoItemRepository {
 

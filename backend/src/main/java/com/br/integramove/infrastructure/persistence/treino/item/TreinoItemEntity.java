@@ -1,6 +1,6 @@
 package com.br.integramove.infrastructure.persistence.treino.item;
 
-import com.br.integramove.infrastructure.persistence.treino.TreinoEntity;
+import com.br.integramove.infrastructure.persistence.treino.treino.TreinoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,5 +1,7 @@
 package com.br.integramove.domain.aluno;
 
+import com.br.integramove.domain.treino.exercicio.ExercicioId;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -17,6 +19,11 @@ public class AlunoId {
         if (value == null) { throw new IllegalArgumentException("AlunoId não pode ser nulo"); }
         return new AlunoId(UUID.fromString(value));
     }
+
+    public static AlunoId of(UUID value) {
+        return new AlunoId(value);
+    }
+
 
     public UUID getValue() { return value; }
 

@@ -1,29 +1,34 @@
-package com.br.integramove.infrastructure.persistence.treino;
+package com.br.integramove.infrastructure.persistence.treino.treino;
 
 import com.br.integramove.infrastructure.persistence.treino.item.TreinoItemEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "treinos")
+
 public class TreinoEntity {
 
     @Id
     private UUID id;
 
-    @Column(name = "aluno_id", nullable = false)
-    private UUID alunoId;
-
-    @Column(name = "professor_id", nullable = false)
-    private UUID professorId;
-
     private String nome;
-    private LocalDate dataInicio;
-    private boolean ativo;
+    private String responsavel;
+    private String funcionalidade;
+    private String nivel;
+    private String repeticoes;
+    private String observacoes;
 
     @OneToMany(mappedBy = "treino", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TreinoItemEntity> exercicios = new ArrayList<>();

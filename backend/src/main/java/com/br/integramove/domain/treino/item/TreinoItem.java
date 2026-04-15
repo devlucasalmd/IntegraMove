@@ -1,4 +1,4 @@
-package com.br.integramove.domain.treino;
+package com.br.integramove.domain.treino.item;
 
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
 
