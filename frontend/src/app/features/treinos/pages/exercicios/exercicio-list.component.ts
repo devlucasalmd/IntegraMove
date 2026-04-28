@@ -16,6 +16,7 @@ import { ExercicioService } from '../../services/exercicios.service';
   selector: 'app-exercicio-list',
   standalone: true,
   templateUrl: './exercicio-list.component.html',
+  styleUrl: './exercicio-list.component.css',
   imports: [
     CommonModule,
     RouterModule,
@@ -50,6 +51,17 @@ export class ExercicioListComponent implements OnInit {
     });
   }
 
+  // editar(exercicio: ExercicioResponseDTO) {
+  //   this.router.navigate(['/exercicios/editar', exercicio.id]);
+  // }
+
+  // deletar(id: string) {
+  //   // implementar quando tiver DELETE
+  //   this.snackBar.open('Excluir ainda não implementado', 'OK', {
+  //     duration: 2000
+  //   });
+}
+
   //   filtrarAlunos() {
   //   const termo = this.filtro.toLowerCase();
 
@@ -57,5 +69,3 @@ export class ExercicioListComponent implements OnInit {
   //     aluno.nome.toLowerCase().includes(termo)
   //   );
   // }
-
-}

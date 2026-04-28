@@ -1,0 +1,34 @@
+.page-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.table-card {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.status.ativo {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.ex-card {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .ex-card {
+    grid-template-columns: 1fr;
+  }
+}

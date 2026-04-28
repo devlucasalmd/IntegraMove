@@ -4,6 +4,7 @@ import { AlunoListComponent } from './pages/aluno-list/aluno-list.component';
 import { AlunoDetalheComponent } from './pages/aluno-detalhe/aluno-detalhe.component';
 import { AvaliacaoListComponent } from '../avaliacoes/pages/avaliacao-list/avaliacao-list.component';
 import { AvaliacaoFormComponent } from '../avaliacoes/pages/avaliacao-form/avaliacao-form.component';
+import { TreinoListComponent } from '../treinos/pages/treinos/list/treino-list.component';
 
 export const alunosRoutes: Routes = [
   {
@@ -17,9 +18,12 @@ export const alunosRoutes: Routes = [
         component: AlunoDetalheComponent,
         children: [
           { path: '', redirectTo: 'resumo', pathMatch: 'full' },
-          // { path: 'resumo', component: AlunoResumoComponent },
+          // { path: 'resumo', component:  },
+          // { path: 'contrato', component:  },
+          // { path: 'financeiro', component:  },
           { path: 'avaliacoes', component: AvaliacaoListComponent },
-          { path: 'avaliacoes/nova', component: AvaliacaoFormComponent }
+          { path: 'avaliacoes/nova', component: AvaliacaoFormComponent },
+          { path: 'treino', component: TreinoListComponent}
         ]
       }
     ]

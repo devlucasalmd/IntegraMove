@@ -1,93 +1,71 @@
 <div class="page-container">
   <div class="page-header">
-    <h1>Exercicios</h1>
+    <h1>Exercícios</h1>
 
-    <button mat-raised-button color="primary" [routerLink]="['/exercicio/novo']">
-      Novo Exercicio
+    <button mat-raised-button color="primary" routerLink="/exercicios/novo">
+      Novo Exercício
     </button>
   </div>
 
- <mat-card class="table-card">
-  <table mat-table [dataSource]="exercicios" class="exercicio">
+  <mat-card class="table-card">
+    <table mat-table [dataSource]="exercicios">
 
-    <!-- DESCRIÇÃO -->
-    <ng-container matColumnDef="nome">
-      <th mat-header-cell *matHeaderCellDef>Nome</th>
-      <td mat-cell *matCellDef="let exercicio">
-        {{ exercicio.nome }}
-      </td>
-    </ng-container>
+      <!-- Nome -->
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let e">{{ e.nome }}</td>
+      </ng-container>
 
-    <!-- GRUPO MUSCULAR -->
-    <ng-container matColumnDef="grupoMuscular">
-      <th mat-header-cell *matHeaderCellDef>Grupo Muscular</th>
-      <td mat-cell *matCellDef="let exercicio">
-        {{ exercicio.grupoMuscular }}
-      </td>
-    </ng-container>
+      <!-- Grupo -->
+      <ng-container matColumnDef="grupo">
+        <th mat-header-cell *matHeaderCellDef>Grupo</th>
+        <td mat-cell *matCellDef="let e">{{ e.grupoMuscular }}</td>
+      </ng-container>
 
-    <!-- INTENSIDADE -->
-    <ng-container matColumnDef="intensidade">
-      <th mat-header-cell *matHeaderCellDef>Intensidade</th>
-      <td mat-cell *matCellDef="let exercicio">
-        {{ exercicio.intensidade }}
-      </td>
-    </ng-container>
+      <!-- Intensidade -->
+      <ng-container matColumnDef="intensidade">
+        <th mat-header-cell *matHeaderCellDef>Intensidade</th>
+        <td mat-cell *matCellDef="let e">{{e.intensidade}}</td>
+      </ng-container>
 
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let e">
+          <span class="status" [class.ativo]="e.ativo">
+            {{ e.ativo ? 'Ativo' : 'Inativo' }}
+          </span>
+        </td>
+      </ng-container>
 
-    <!-- AÇÕES -->
-    <ng-container matColumnDef="acoes">
-      <th mat-header-cell *matHeaderCellDef>Ações</th>
-
-      <td mat-cell *matCellDef="let exercicio">
-        <!-- VISUALIZAR -->
-        <button
-          mat-icon-button
-          color="primary"
-          (click)="$event.stopPropagation()"
-        >
-          <mat-icon>visibility</mat-icon>
-        </button>
-
-        <!-- MENU -->
-        <button
-          mat-icon-button
-          [matMenuTriggerFor]="menu"
-          (click)="$event.stopPropagation()"
-        >
-          <mat-icon>more_vert</mat-icon>
-        </button>
-
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>edit</mat-icon>
-            <span>Editar</span>
+      <!-- Ações -->
+      <ng-container matColumnDef="acoes">
+        <td mat-cell *matCellDef="let e">
+          <button mat-icon-button [routerLink]="['/exercicios', e.id]">
+            <mat-icon>visibility</mat-icon>
           </button>
 
-          <button mat-menu-item>
-            <mat-icon color="warn">block</mat-icon>
-            <span>Desativar</span>
-          </button>
+          <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button> -->
 
-          <mat-divider></mat-divider>
+          <!-- <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editar(e)">
+              <mat-icon>edit</mat-icon>
+              Editar
+            </button>
 
-          <button mat-menu-item>
-            <mat-icon color="warn">delete</mat-icon>
-            <span>Excluir</span>
-          </button>
-        </mat-menu>
-      </td>
-    </ng-container>
+            <button mat-menu-item (click)="deletar(e.id)">
+              <mat-icon color="warn">delete</mat-icon>
+              Excluir
+            </button>
+          </mat-menu> -->
+        </td>
+      </ng-container>
 
-    <!-- HEADER -->
-    <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas"></tr>
 
-    <!-- ROW -->
-    <tr
-      mat-row
-      *matRowDef="let row; columns: colunas"
-      class="row-click"
-    ></tr>
-  </table>
-</mat-card>
+    </table>
+  </mat-card>
 </div>
