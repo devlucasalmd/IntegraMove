@@ -8,18 +8,22 @@ import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
-@RequestMapping("/avaliacao")
+@RequestMapping("/alunos/{alunoId}/avaliacoes")
 public class AvaliacaoController {
 
     private final CriarAvaliacao criarAvaliacao;
     private final BuscarAvaliacao buscarAvaliacao;
+    private final ListarAvaliacao listarAvaliacao;
 
 
-    public AvaliacaoController(CriarAvaliacao criarAvaliacao, BuscarAvaliacao buscarAvaliacao) {
+    public AvaliacaoController(CriarAvaliacao criarAvaliacao, BuscarAvaliacao buscarAvaliacao, ListarAvaliacao listarAvaliacao) {
         this.criarAvaliacao = criarAvaliacao;
         this.buscarAvaliacao = buscarAvaliacao;
+        this.listarAvaliacao = listarAvaliacao;
    }
 
    @PostMapping
@@ -35,4 +39,9 @@ public class AvaliacaoController {
         BuscarAvaliacaoOutput output = buscarAvaliacao.buscar(id);
         return ResponseEntity.ok(AvaliacaoMapper.toResponse(output));
    }
+
+    @GetMapping
+    public ResponseEntity<List<ListarAvaliacaoOutput>> listar(@PathVariable String alunoId){
+        return ResponseEntity.ok(listarAvaliacao.listar(alunoId));
+    }
 }

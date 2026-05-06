@@ -52,7 +52,10 @@ public class AlunoMapper {
         return new AlunoResponseDTO(
                 output.id(),
                 output.nome(),
+                output.dataNascimento(),
                 output.cpf(),
+                output.genero(),
+                output.telefone(),
                 output.email(),
                 output.ativo()
         );

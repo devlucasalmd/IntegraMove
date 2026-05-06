@@ -1,47 +1,47 @@
-package com.br.integramove.api.mapper;
+    package com.br.integramove.api.mapper;
 
-import com.br.integramove.api.dto.request.AvaliacaoRequestDTO;
-import com.br.integramove.api.dto.response.AvaliacaoResponseDTO;
-import com.br.integramove.application.avaliacao.BuscarAvaliacaoOutput;
-import com.br.integramove.application.avaliacao.CriarAvaliacaoInput;
-import org.springframework.stereotype.Component;
+    import com.br.integramove.api.dto.request.AvaliacaoRequestDTO;
+    import com.br.integramove.api.dto.response.AvaliacaoResponseDTO;
+    import com.br.integramove.application.avaliacao.BuscarAvaliacaoOutput;
+    import com.br.integramove.application.avaliacao.CriarAvaliacaoInput;
+    import org.springframework.stereotype.Component;
 
-@Component
-public class AvaliacaoMapper {
+    @Component
+    public class AvaliacaoMapper {
 
-    public static CriarAvaliacaoInput toInput(AvaliacaoRequestDTO dto) {
-        return new CriarAvaliacaoInput(
-                dto.alunoId(),
-                dto.dataAvaliacao(),
-                dto.remadaBracoD(),
-                dto.remadaBracoE(),
-                dto.elevacaoLatD(),
-                dto.elevacaoLatE(),
-                dto.extensaoJoelhoD(),
-                dto.extensaoJoelhoE(),
-                dto.flexaoJoelhoD(),
-                dto.flexaoJoelhoE(),
-                dto.extensaoQuadrilD(),
-                dto.extensaoQuadrilE()
-        );
+        public static CriarAvaliacaoInput toInput(AvaliacaoRequestDTO dto) {
+            return new CriarAvaliacaoInput(
+                    dto.alunoId(),
+                    dto.dataAvaliacao(),
+                    dto.remadaBracoD(),
+                    dto.remadaBracoE(),
+                    dto.elevacaoLatD(),
+                    dto.elevacaoLatE(),
+                    dto.extensaoJoelhoD(),
+                    dto.extensaoJoelhoE(),
+                    dto.flexaoJoelhoD(),
+                    dto.flexaoJoelhoE(),
+                    dto.extensaoQuadrilD(),
+                    dto.extensaoQuadrilE()
+            );
+        }
+
+        public static AvaliacaoResponseDTO toResponse(BuscarAvaliacaoOutput output){
+            return new AvaliacaoResponseDTO(
+                    output.id().toString(),
+                    output.dataAvaliacao(),
+                    output.remadaBracoD(),
+                    output.remadaBracoE(),
+                    output.elevacaoLatD(),
+                    output.elevacaoLatE(),
+                    output.extensaoJoelhoD(),
+                    output.extensaoJoelhoE(),
+                    output.flexaoJoelhoD(),
+                    output.flexaoJoelhoE(),
+                    output.extensaoQuadrilD(),
+                    output.extensaoQuadrilE()
+            );
+        }
+
     }
-
-    public static AvaliacaoResponseDTO toResponse(BuscarAvaliacaoOutput output){
-        return new AvaliacaoResponseDTO(
-                output.id(),
-                output.dataAvaliacao(),
-                output.remadaBracoD(),
-                output.remadaBracoE(),
-                output.elevacaoLatD(),
-                output.elevacaoLatE(),
-                output.extensaoJoelhoD(),
-                output.extensaoJoelhoE(),
-                output.flexaoJoelhoD(),
-                output.flexaoJoelhoE(),
-                output.extensaoQuadrilD(),
-                output.extensaoQuadrilE()
-        );
-    }
-
-}
 

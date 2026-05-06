@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class AvaliacaoRepositoryImpl implements AvaliacaoRepository {
@@ -29,9 +30,20 @@ public class AvaliacaoRepositoryImpl implements AvaliacaoRepository {
                 .map(AvaliacaoEntityMapper::toDomain);
     }
 
+    @Override
+    public List<Avaliacao> listarPorAlunoId(String alunoId) {
+        return jpa.buscarPorAlunoId(UUID.fromString(alunoId))
+                .stream()
+                .map(AvaliacaoEntityMapper::toDomain)
+                .toList();
+    }
+//
 //    @Override
 //    public List<Avaliacao> listarAvaliacoes(){
-//
+//        return jpa.findAll()
+//                .stream()
+//                .map(AvaliacaoEntityMapper::toDomain)
+//                .toList();
 //    }
 
 }

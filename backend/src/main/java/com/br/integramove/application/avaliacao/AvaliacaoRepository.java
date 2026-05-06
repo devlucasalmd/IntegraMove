@@ -12,7 +12,8 @@ public interface AvaliacaoRepository {
 
     Optional<Avaliacao> buscarPorId(AvaliacaoId id);
 
-//    List<Avaliacao> buscarPorAlunoId(String alunoId);
+    List<Avaliacao> listarPorAlunoId(String alunoId);
+
 
 //    List<Avaliacao> listarAvaliacoes();
 }
