@@ -14,7 +14,7 @@ public class TreinoItemMapper {
             String id,
             String exercicioId,
             Integer series,
-            Integer repeticoes,
+            String repeticoes,
             BigDecimal carga,
             Integer descanso,
             Integer ordem
@@ -24,9 +24,10 @@ public class TreinoItemMapper {
         );
     }
 
-    public static CriarTreinoItemInput toInput(TreinoItemRequestDTO dto){
+    public static CriarTreinoItemInput toInput(String treinoId, TreinoItemRequestDTO dto){
 
         return new CriarTreinoItemInput(
+                treinoId,
                 dto.exercicioId(),
                 dto.series(),
                 dto.repeticoes(),

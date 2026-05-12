@@ -13,6 +13,7 @@ public class Treino {
     private String funcionalidade;
     private String nivel;
     private String repeticoes;
+    private String observacao;
     private List<TreinoItem> exercicios = new ArrayList<>();
 
 
@@ -21,7 +22,9 @@ public class Treino {
             String nome,
             String responsavel,
             String funcionalidade,
-            String nivel, String repeticoes
+            String nivel,
+            String repeticoes,
+            String observacao
     ) {
         this.id = id;
         this.nome = nome;
@@ -29,6 +32,7 @@ public class Treino {
         this.funcionalidade = funcionalidade;
         this.nivel = nivel;
         this.repeticoes = repeticoes;
+        this.observacao = observacao;
         this.exercicios = new ArrayList<>();
     }
 
@@ -83,6 +87,11 @@ public class Treino {
     public void setRepeticoes(String repeticoes) {
         this.repeticoes = repeticoes;
     }
+
+    public String getObservacao() { return observacao; }
+
+    public void setObservacao(String observacao) { this.observacao = observacao; }
+
 
     public List<TreinoItem> getExercicios() {
         return exercicios;

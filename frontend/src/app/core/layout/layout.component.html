@@ -1,69 +1,205 @@
 <mat-sidenav-container class="sidenav-container">
-
+  <!-- SIDEBAR -->
   <mat-sidenav #drawer mode="side" class="sidenav" [opened]="false">
-
     <div class="menu-header">
       <h3>Menu</h3>
     </div>
 
     <mat-nav-list>
-      <a mat-list-item [routerLink]="['/']">Início</a>
-      <a mat-list-item [routerLink]="['/alunos']">Alunos</a>
-      <a mat-list-item routerLink="/planos">Planos</a>
-      <a mat-list-item routerLink="/financeiro">Financeiro</a>
-      <a mat-list-item routerLink="/agenda">Agenda</a>
-      <a mat-list-item routerLink="/estoque">Estoque</a>
-      <a mat-list-item [routerLink]="['treino/exercicios']">Treinos</a>
-      <a mat-list-item routerLink="/relatorios">Relatorios</a>
-    </mat-nav-list>
+      <!-- INÍCIO -->
+      <mat-expansion-panel class="menu-expansion no-expand ">
+        <mat-expansion-panel-header
+          [routerLink]="['/']"
+          routerLinkActive="active"
+        >
+          <mat-panel-title>
+            <mat-icon>home</mat-icon>
+            <span>Início</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
 
+      <!-- ALUNOS -->
+      <mat-expansion-panel class="menu-expansion no-expand">
+        <mat-expansion-panel-header
+          routerLink="/alunos"
+          routerLinkActive="active"
+        >
+          <mat-panel-title>
+            <mat-icon>group</mat-icon>
+            <span>Alunos</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <!-- PLANOS -->
+      <mat-expansion-panel class="menu-expansion no-expand">
+        <mat-expansion-panel-header
+          routerLink="/planos"
+          routerLinkActive="active"
+        >
+          <mat-panel-title>
+            <mat-icon>card_membership</mat-icon>
+            <span>Planos</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <!-- FINANCEIRO -->
+      <mat-expansion-panel class="menu-expansion no-expand">
+        <mat-expansion-panel-header
+          routerLink="/financeiro"
+          routerLinkActive="active"
+        >
+          <mat-panel-title>
+            <mat-icon>attach_money</mat-icon>
+            <span>Financeiro</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <!-- TREINO (COM SUBMENU) -->
+      <mat-expansion-panel class="menu-expansion" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>fitness_center</mat-icon>
+            <span>Treino</span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon>expand_more</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <a
+          mat-list-item
+          routerLink="/treino/exercicios"
+          routerLinkActive="active"
+          class="submenu"
+        >
+          <mat-icon>sports_gymnastics</mat-icon>
+          <span>Exercícios</span>
+        </a>
+
+        <a
+          mat-list-item
+          routerLink="/treino/treinos"
+          routerLinkActive="active"
+          class="submenu"
+        >
+          <mat-icon>list_alt</mat-icon>
+          <span>Treinos</span>
+        </a>
+      </mat-expansion-panel>
+
+      <!-- RELATÓRIOS -->
+      <mat-expansion-panel class="menu-expansion no-expand">
+        <mat-expansion-panel-header
+          routerLink="/relatorios"
+          routerLinkActive="active"
+        >
+          <mat-panel-title>
+            <mat-icon>bar_chart</mat-icon>
+            <span>Relatórios</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <!-- AGENDA -->
+      <mat-expansion-panel class="menu-expansion no-expand">
+        <mat-expansion-panel-header
+          routerLink="/agenda"
+          routerLinkActive="active"
+        >
+          <mat-panel-title>
+            <mat-icon>event</mat-icon>
+            <span>Agenda</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <!-- ESTOQUE -->
+      <mat-expansion-panel class="menu-expansion no-expand">
+        <mat-expansion-panel-header
+          routerLink="/estoque"
+          routerLinkActive="active"
+        >
+          <mat-panel-title>
+            <mat-icon>inventory_2</mat-icon>
+            <span>Estoque</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-nav-list>
   </mat-sidenav>
 
+  <!-- CONTEÚDO -->
   <mat-sidenav-content>
+    <!-- TOOLBAR -->
     <mat-toolbar color="primary" class="toolbar">
-
+      <!-- MENU BTN -->
       <button mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
 
+      <!-- SEARCH -->
       <div class="search-container">
         <mat-form-field appearance="outline" class="search-field">
           <mat-icon matPrefix>search</mat-icon>
-          <input matInput placeholder="Pesquisar...">
+          <input matInput placeholder="Pesquisar..." />
         </mat-form-field>
       </div>
 
+      <!-- USER -->
       <div class="user-area" [matMenuTriggerFor]="userMenu">
-
-        <mat-icon class="user-icon">account_circle</mat-icon>
+        <div class="avatar">
+          <span>L</span>
+        </div>
 
         <div class="user-info">
           <span class="user-name">Lucas Amaral</span>
           <span class="company-name">Integra Move</span>
         </div>
 
-        <mat-icon>expand_more</mat-icon>
-
+        <mat-icon class="expand-icon">expand_more</mat-icon>
       </div>
 
-      <mat-menu #userMenu="matMenu">
+      <!-- MENU USER -->
+      <mat-menu #userMenu="matMenu" class="user-menu">
+        <div class="user-menu-header">
+          <div class="avatar large">
+            <span>L</span>
+          </div>
+
+          <div>
+            <div class="user-name">Lucas Amaral</div>
+            <div class="company-name">Integra Move</div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
         <button mat-menu-item routerLink="/perfil">
           <mat-icon>person</mat-icon>
           <span>Meu Perfil</span>
         </button>
+
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Configurações</span>
+        </button>
+
+        <mat-divider></mat-divider>
 
         <button mat-menu-item (click)="logout()">
           <mat-icon>logout</mat-icon>
           <span>Sair</span>
         </button>
       </mat-menu>
-
     </mat-toolbar>
 
+    <!-- CONTEÚDO PRINCIPAL -->
     <main class="content">
       <router-outlet></router-outlet>
     </main>
-
   </mat-sidenav-content>
-
 </mat-sidenav-container>

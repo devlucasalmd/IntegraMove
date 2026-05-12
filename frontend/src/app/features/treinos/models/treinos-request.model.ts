@@ -1,4 +1,4 @@
-import { TreinoItem } from "./treino-item-response";
+import { TreinoItemResponseDTO } from "./treino-item-response";
 
 export interface TreinoRequestDTO {
   id?: string;
@@ -8,5 +8,5 @@ export interface TreinoRequestDTO {
   nivel: string;
   repeticoes?: string;
   observacoes?: string;
-  exercicios: TreinoItem[];
+  exercicios: TreinoItemResponseDTO[];
 }

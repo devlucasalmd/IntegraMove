@@ -42,7 +42,7 @@ public class TreinoAluno {
         return treinoId;
     }
 
-    public void setTreinoId(TreinoId treinoId) {
+    public void setTreinoId(TreinoId treino) {
         this.treinoId = treinoId;
     }
 

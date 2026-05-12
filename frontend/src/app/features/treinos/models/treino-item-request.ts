@@ -1,8 +1,9 @@
-export interface TreinoItem {
+export interface TreinoItemRequestDTO {
   exercicioId: string;
   series: number;
-  repeticoes: number;
+  repeticoes: string;
   carga: number;
   descanso: number;
+  observacao?: string;
   ordem: number;
 }

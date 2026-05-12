@@ -1,10 +1,12 @@
 package com.br.integramove.api.controller;
 
 import com.br.integramove.api.dto.request.AvaliacaoRequestDTO;
+import com.br.integramove.api.dto.response.AvaliacaoResponseDTO;
 import com.br.integramove.api.mapper.AvaliacaoMapper;
 import com.br.integramove.application.avaliacao.*;
 
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,21 +29,35 @@ public class AvaliacaoController {
    }
 
    @PostMapping
-   public ResponseEntity<?> criar(@RequestBody AvaliacaoRequestDTO dto){
-       CriarAvaliacaoInput input = AvaliacaoMapper.toInput(dto);
+   public ResponseEntity<AvaliacaoResponseDTO> criar(
+           @PathVariable String alunoId,
+           @RequestBody AvaliacaoRequestDTO dto
+   ){
+       CriarAvaliacaoInput input = AvaliacaoMapper.toInput(alunoId, dto);
        CriarAvaliacaoOutput output = criarAvaliacao.criar(input);
-       System.out.println(input);
-       return ResponseEntity.status(201).body(output);
+
+       AvaliacaoResponseDTO response = AvaliacaoMapper.toResponse(output);
+
+       return ResponseEntity.status(HttpStatus.CREATED).body(response);
    }
 
-   @GetMapping("/{id}")
-    public ResponseEntity<?> buscar(@PathVariable String id){
-        BuscarAvaliacaoOutput output = buscarAvaliacao.buscar(id);
-        return ResponseEntity.ok(AvaliacaoMapper.toResponse(output));
+   @GetMapping("/{avaliacaoId}")
+    public ResponseEntity<?> buscar(@PathVariable String alunoId, @PathVariable String avaliacaoId){
+        BuscarAvaliacaoOutput output = buscarAvaliacao.buscar(alunoId, avaliacaoId);
+
+        AvaliacaoResponseDTO response = AvaliacaoMapper.toResponse(output);
+
+        return ResponseEntity.ok(response);
    }
 
     @GetMapping
-    public ResponseEntity<List<ListarAvaliacaoOutput>> listar(@PathVariable String alunoId){
-        return ResponseEntity.ok(listarAvaliacao.listar(alunoId));
+    public ResponseEntity<List<AvaliacaoResponseDTO>> listar(@PathVariable String alunoId){
+        List<ListarAvaliacaoOutput> outputs = listarAvaliacao.listar(alunoId);
+
+        List<AvaliacaoResponseDTO> response = outputs.stream()
+                .map(AvaliacaoMapper::toResponse)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 }

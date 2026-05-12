@@ -10,10 +10,7 @@ public interface AvaliacaoRepository {
 
     void salvar(Avaliacao avaliacao);
 
-    Optional<Avaliacao> buscarPorId(AvaliacaoId id);
+    Optional<Avaliacao> buscarPorAlunoIdEId(String alunoId, AvaliacaoId id);
 
     List<Avaliacao> listarPorAlunoId(String alunoId);
-
-
-//    List<Avaliacao> listarAvaliacoes();
 }

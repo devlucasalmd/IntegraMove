@@ -1,9 +1,9 @@
 package com.br.integramove.domain.treino.exercicio;
 
 public enum Intensidade {
-    LEVE,
-    MODERADO,
-    INTENSO;
+    BAIXA,
+    MEDIA,
+    ALTA;
 
     public static Intensidade from(String value) {
         try {

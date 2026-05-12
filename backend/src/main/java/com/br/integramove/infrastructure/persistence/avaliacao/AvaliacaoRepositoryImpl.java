@@ -25,8 +25,11 @@ public class AvaliacaoRepositoryImpl implements AvaliacaoRepository {
     }
 
     @Override
-    public Optional<Avaliacao> buscarPorId(AvaliacaoId id){
-        return jpa.findById(id.getValue())
+    public Optional<Avaliacao> buscarPorAlunoIdEId(String alunoId, AvaliacaoId id){
+        return jpa.buscarPorAlunoIdEId(
+                UUID.fromString(alunoId),
+                        id.getValue()
+                )
                 .map(AvaliacaoEntityMapper::toDomain);
     }
 

@@ -21,11 +21,10 @@ public class TreinoMapper {
             String responsavel,
             String funcionalidade,
             String nivel,
-            String repeticoes,
-            List<TreinoItemOutput> exercicios
+            String repeticoes
     ){
         return new TreinoResponseDTO(
-                id, nome, responsavel, funcionalidade, nivel, repeticoes, exercicios
+                id, nome, responsavel, funcionalidade, nivel, repeticoes
         );
     }
 
@@ -37,17 +36,7 @@ public class TreinoMapper {
                 dto.funcionalidade(),
                 dto.nivel(),
                 dto.repeticoes(),
-                dto.exercicios()
-                        .stream()
-                        .map(item -> new CriarTreinoItemInput(
-                                item.exercicioId(),
-                                item.series(),
-                                item.repeticoes(),
-                                item.carga(),
-                                item.descanso(),
-                                item.ordem()
-                        ))
-                        .toList()
+                dto.observacoes()
         );
     }
 
@@ -59,19 +48,7 @@ public class TreinoMapper {
                 output.funcionalidade(),
                 output.responsavel(),
                 output.nivel(),
-                output.repeticoes(),
-                output.exercicios()
-                        .stream()
-                        .map(item -> new TreinoItemOutput(
-                                item.exercicioId(),
-                                item.nomeExercicio(),
-                                item.series(),
-                                item.repeticoes(),
-                                item.carga(),
-                                item.descanso(),
-                                item.ordem()
-                        ))
-                        .toList()
+                output.repeticoes()
         );
     }
 
@@ -83,19 +60,7 @@ public class TreinoMapper {
                 output.funcionalidade(),
                 output.responsavel(),
                 output.nivel(),
-                output.repeticoes(),
-                output.exercicios()
-                        .stream()
-                        .map(item -> new TreinoItemOutput(
-                                item.exercicioId(),
-                                item.nomeExercicio(),
-                                item.series(),
-                                item.repeticoes(),
-                                item.carga(),
-                                item.descanso(),
-                                item.ordem()
-                        ))
-                        .toList()
+                output.repeticoes()
         );
     }
 
@@ -107,23 +72,7 @@ public class TreinoMapper {
                 output.responsavel(),
                 output.funcionalidade(),
                 output.nivel(),
-                output.repeticoes(),
-                List.of()
+                output.repeticoes()
         );
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

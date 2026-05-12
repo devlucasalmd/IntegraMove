@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public record AvaliacaoResponseDTO(
         String id,
+        String alunoId,
         LocalDate dataAvaliacao,
         BigDecimal remadaBracoD,
         BigDecimal remadaBracoE,

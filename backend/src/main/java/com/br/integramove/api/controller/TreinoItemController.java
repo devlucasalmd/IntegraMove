@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("treino/item")
+@RequestMapping("treino/{treinoId}/item")
 public class TreinoItemController {
 
     private final CriarTreinoItem criarTreinoItem;
@@ -34,9 +34,12 @@ public class TreinoItemController {
 
 
     @PostMapping
-    public ResponseEntity<TreinoItemResponseDTO> criar(@RequestBody TreinoItemRequestDTO request){
+    public ResponseEntity<TreinoItemResponseDTO> criar(
+            @PathVariable String treinoId,
+            @RequestBody TreinoItemRequestDTO request
+    ){
 
-        CriarTreinoItemInput input = TreinoItemMapper.toInput(request);
+        CriarTreinoItemInput input = TreinoItemMapper.toInput(treinoId, request);
 
         CriarTreinoItemOutput output = criarTreinoItem.criar(input);
 
@@ -45,9 +48,9 @@ public class TreinoItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TreinoItemResponseDTO>> listar(){
+    public ResponseEntity<List<TreinoItemResponseDTO>> listar(@PathVariable String treinoId){
 
-        List<ListarTreinoItemOutput> outputs = listarTreinoItem.listar();
+        List<ListarTreinoItemOutput> outputs = listarTreinoItem.listarPorTreino(treinoId);
 
         return ResponseEntity.ok(
                 outputs.stream()
@@ -73,7 +76,4 @@ public class TreinoItemController {
 
         return ResponseEntity.ok(TreinoItemMapper.toResponse(output));
     }
-
-
-
 }

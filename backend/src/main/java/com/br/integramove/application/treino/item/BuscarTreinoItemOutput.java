@@ -6,7 +6,7 @@ public record BuscarTreinoItemOutput(
         String id,
         String exercicioId,
         Integer series,
-        Integer repeticoes,
+        String repeticoes,
         BigDecimal carga,
         Integer descanso,
         Integer ordem

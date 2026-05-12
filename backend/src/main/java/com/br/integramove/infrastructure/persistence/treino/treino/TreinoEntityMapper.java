@@ -33,7 +33,8 @@ public class TreinoEntityMapper {
                 entity.getResponsavel(),
                 entity.getFuncionalidade(),
                 entity.getNivel(),
-                entity.getRepeticoes()
+                entity.getRepeticoes(),
+                entity.getObservacoes()
         );
     }
 }

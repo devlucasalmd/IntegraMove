@@ -60,23 +60,4 @@ public class TreinoController {
 
         return ResponseEntity.ok(TreinoMapper.toResponse(output));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

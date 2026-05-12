@@ -4,7 +4,7 @@
     <button
       mat-raised-button
       color="primary"
-      [routerLink]="['avaliacoes/nova']"
+      [routerLink]="['nova']"
     >
       Nova Avaliação Física
     </button>
@@ -19,14 +19,19 @@
   <div *ngIf="avaliacoes.length > 0">
 
     <mat-card class="avaliacao-card" *ngFor="let avaliacao of avaliacoes">
-
-      <h3>Data da avaliação: {{ avaliacao.dataAvaliacao }}</h3>
-
+    <h3>
+      Data da avaliação:
+      {{ avaliacao.dataAvaliacao | date:'dd/MM/yyyy' }}
+    </h3>
       <p><strong>Avaliador:</strong> Sistema</p>
-      <p><strong>Próxima avaliação:</strong> --</p>
 
-      <button mat-stroked-button>Anamnese</button>
-
+      <button
+        mat-stroked-button
+        color="primary"
+        [routerLink]="[avaliacao.id]"
+      >
+        Visualizar
+      </button>
     </mat-card>
 
   </div>

@@ -10,6 +10,6 @@ public record CriarTreinoInput(
         String funcionalidade,
         String nivel,
         String repeticoes,
-        List<CriarTreinoItemInput> exercicios
+        String observacao
 ) {
 }

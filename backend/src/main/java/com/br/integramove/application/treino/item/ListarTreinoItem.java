@@ -14,9 +14,9 @@ public class ListarTreinoItem {
         this.repository = repository;
     }
 
-    public List<ListarTreinoItemOutput> listar(){
+    public List<ListarTreinoItemOutput> listarPorTreino(String treinoId){
 
-        return repository.listarTodos()
+        return repository.listarPorTreinoId(treinoId)
                 .stream()
                 .map( treinoItem -> new ListarTreinoItemOutput(
                         treinoItem.getId().getValue().toString(),

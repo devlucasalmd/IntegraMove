@@ -10,7 +10,7 @@ export class AvaliacaoService {
 
   private apiUrl = 'http://localhost:8080/alunos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   cadastrarAvaliacao(alunoId: string, avaliacao: AvaliacaoRequestDTO): Observable<any> {
     return this.http.post(`${this.apiUrl}/${alunoId}/avaliacoes`, avaliacao);
@@ -20,4 +20,13 @@ export class AvaliacaoService {
     return this.http.get<any[]>(`${this.apiUrl}/${alunoId}/avaliacoes`);
   }
 
+  buscarPorId(
+    alunoId: string,
+    avaliacaoId: string
+  ): Observable<any> {
+
+    return this.http.get<any>(
+      `${this.apiUrl}/${alunoId}/avaliacoes/${avaliacaoId}`
+    );
+  }
 }

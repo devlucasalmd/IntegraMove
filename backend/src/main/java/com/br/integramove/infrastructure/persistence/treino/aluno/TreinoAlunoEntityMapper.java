@@ -4,6 +4,7 @@ import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.treino.aluno.TreinoAluno;
 import com.br.integramove.domain.treino.aluno.TreinoAlunoId;
 import com.br.integramove.domain.treino.treino.TreinoId;
+import com.br.integramove.infrastructure.persistence.treino.treino.TreinoEntity;
 
 public class TreinoAlunoEntityMapper {
 
@@ -12,9 +13,10 @@ public class TreinoAlunoEntityMapper {
         if (domain == null) return null;
 
         TreinoAlunoEntity entity = new TreinoAlunoEntity();
+        TreinoEntity treino = new TreinoEntity();
 
         entity.setId(domain.getId().getValue());
-        entity.setTreinoId(domain.getTreinoId().getValue());
+        entity.setTreino(treino);
         entity.setAlunoId(domain.getAlunoId().getValue());
         entity.setNome(domain.getNome());
         entity.setDataInicio(domain.getDataInicio());
@@ -29,7 +31,7 @@ public class TreinoAlunoEntityMapper {
 
         return new TreinoAluno(
                 TreinoAlunoId.from(entity.getAlunoId().toString()),
-                TreinoId.from(entity.getTreinoId().toString()),
+                TreinoId.from(entity.getTreino().getId().toString()),
                 AlunoId.from(entity.getAlunoId().toString()),
                 entity.getNome(),
                 entity.getDataInicio(),

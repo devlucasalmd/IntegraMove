@@ -31,44 +31,12 @@ public class CriarTreino {
                 input.responsavel(),
                 input.funcionalidade(),
                 input.nivel(),
-                input.repeticoes()
+                input.repeticoes(),
+                input.observacao()
+
         );
 
-        List<TreinoItem> itens = input.exercicios()
-                .stream()
-                .map(item -> new TreinoItem(
-                        TreinoItemId.novo(),
-                        ExercicioId.from(item.exercicioId()),
-                        item.series(),
-                        item.repeticoes(),
-                        item.carga(),
-                        item.descanso(),
-                        item.ordem()
-                ))
-                .toList();
-
-        treino.adicionarExercicios(itens);
-
         repository.salvar(treino);
-
-        List<TreinoItemOutput> itensOutput = itens.stream()
-                .map(item -> {
-                    String nomeExercicio = exercicioRepository
-                            .buscarPorId(item.getExercicioId())
-                            .get().getNome();
-
-
-                    return new TreinoItemOutput(
-                            item.getExercicioId().toString(),
-                            nomeExercicio,
-                            item.getSeries(),
-                            item.getRepeticoes(),
-                            item.getCarga(),
-                            item.getDescanso(),
-                            item.getOrdem()
-                    );
-                })
-                .toList();
 
         return new CriarTreinoOutput(
                 treino.getId().getValue().toString(),
@@ -77,7 +45,7 @@ public class CriarTreino {
                 treino.getFuncionalidade(),
                 treino.getNivel(),
                 treino.getRepeticoes(),
-                itensOutput
+                treino.getObservacao()
         );
     }
 }

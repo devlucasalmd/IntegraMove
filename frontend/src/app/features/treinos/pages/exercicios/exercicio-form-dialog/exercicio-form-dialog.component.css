@@ -1,0 +1,185 @@
+/* ===================== DIALOG CONTAINER ===================== */
+.custom-dialog .mat-mdc-dialog-container {
+  padding: 0 !important;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ===================== CONTAINER ===================== */
+.page-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ===================== HEADER ===================== */
+.section-header.mini {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 12px;
+  margin-bottom: 10px;
+
+  background: #eef2ff;
+  border-radius: 6px;
+  border-left: 3px solid #3f51b5;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.section-header.mini i-tabler {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===================== GRID ===================== */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+  margin-top: 12px;
+}
+
+/* COLUNAS */
+.col-12 {
+  grid-column: span 12;
+}
+
+.col-6 {
+  grid-column: span 6;
+}
+
+.col-3 {
+  grid-column: span 3;
+}
+
+/* ===================== FORM ===================== */
+mat-form-field {
+  width: 100%;
+}
+
+/* LABEL */
+mat-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* INPUT */
+input[matInput] {
+  font-size: 14px;
+}
+
+/* FOCO */
+.mat-mdc-form-field.mat-focused .mdc-notched-outline {
+  border-color: #3f51b5 !important;
+}
+
+/* ===================== RADIO ===================== */
+mat-radio-group {
+  display: flex;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+/* ===================== ACTIONS ===================== */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* BOTÕES */
+button[mat-flat-button] {
+  min-width: 120px;
+  height: 42px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* CANCELAR */
+.btn-cancel {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #dc2626;
+}
+
+/* SUBMIT */
+.btn-submit {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.btn-submit:hover {
+  background-color: #303f9f;
+}
+
+/* ===================== COMPACT ===================== */
+.compact {
+  padding: 16px;
+}
+
+.compact-grid {
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.compact-actions {
+  margin-top: 16px;
+}
+
+/* ===================== RESPONSIVIDADE ===================== */
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .col-6 {
+    grid-column: span 12;
+  }
+
+  .col-3 {
+    grid-column: span 12;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .page-container {
+    padding: 16px;
+  }
+
+  mat-radio-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  button[mat-flat-button] {
+    width: 100%;
+  }
+}
+
+/* MOBILE PEQUENO */
+@media (max-width: 480px) {
+  .page-container {
+    padding: 12px;
+  }
+
+  .section-header.mini {
+    font-size: 12px;
+  }
+}

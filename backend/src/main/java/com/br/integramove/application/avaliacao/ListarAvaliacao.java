@@ -22,6 +22,7 @@ public class ListarAvaliacao {
         return avaliacoes.stream()
                 .map(avaliacao -> new ListarAvaliacaoOutput(
                         avaliacao.getId().getValue().toString(),
+                        avaliacao.getAlunoId().getValue().toString(),
                         avaliacao.getDataAvaliacao(),
                         avaliacao.getRemadaBracoD(),
                         avaliacao.getRemadaBracoE(),

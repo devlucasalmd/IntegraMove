@@ -6,7 +6,7 @@ public record TreinoItemResponseDTO(
         String treinoItemId,
         String exercicioId,
         Integer series,
-        Integer repeticoes,
+        String repeticoes,
         BigDecimal carga,
         Integer descanso,
         Integer ordem

@@ -39,6 +39,20 @@ public class CriarAvaliacao {
 
         avaliacaoRepository.salvar(avaliacao);
 
-        return new CriarAvaliacaoOutput(id.getValue().toString());
+        return new CriarAvaliacaoOutput(
+                id.getValue().toString(),
+                avaliacao.getAlunoId().getValue().toString(),
+                avaliacao.getDataAvaliacao(),
+                avaliacao.getRemadaBracoD(),
+                avaliacao.getRemadaBracoE(),
+                avaliacao.getElevacaoLatD(),
+                avaliacao.getElevacaoLatE(),
+                avaliacao.getExtensaoJoelhoD(),
+                avaliacao.getExtensaoJoelhoE(),
+                avaliacao.getFlexaoJoelhoD(),
+                avaliacao.getFlexaoJoelhoE(),
+                avaliacao.getExtensaoQuadrilD(),
+                avaliacao.getExtensaoQuadrilE()
+        );
     }
 }

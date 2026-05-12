@@ -1,0 +1,64 @@
+<form [formGroup]="form" class="page-container compact">
+
+  <!-- HEADER -->
+  <div class="section-header mini">
+    <!-- <i-tabler name="barbell"></i-tabler> -->
+    <span>Informações do Exercício</span>
+  </div>
+
+  <div class="form-grid compact-grid">
+
+    <!-- NOME -->
+    <div class="col-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" />
+      </mat-form-field>
+    </div>
+
+    <!-- GRUPO MUSCULAR -->
+    <div class="col-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Grupo Muscular</mat-label>
+        <mat-select formControlName="grupoMuscular">
+          <mat-option *ngFor="let g of gruposMusculares" [value]="g">
+            {{ g }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- INTENSIDADE -->
+    <div class="col-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Intensidade</mat-label>
+        <mat-select formControlName="intensidade">
+          <mat-option *ngFor="let i of intensidades" [value]="i">
+            {{ i }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- STATUS -->
+    <div class="col-12">
+      <mat-radio-group formControlName="ativo">
+        <mat-radio-button [value]="true">Ativo</mat-radio-button>
+        <mat-radio-button [value]="false">Inativo</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+  </div>
+
+  <!-- BOTÕES -->
+  <div class="actions compact-actions">
+    <button mat-flat-button type="button" class="btn-cancel" (click)="fechar()">
+      Cancelar
+    </button>
+
+    <button mat-flat-button type="button" class="btn-submit" (click)="salvar()">
+      {{ isEdit ? 'Atualizar' : 'Salvar' }}
+    </button>
+  </div>
+
+</form>

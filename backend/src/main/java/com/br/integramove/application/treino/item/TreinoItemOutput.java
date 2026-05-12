@@ -6,7 +6,7 @@ public record TreinoItemOutput(
         String exercicioId,
         String nomeExercicio,
         Integer series,
-        Integer repeticoes,
+        String repeticoes,
         BigDecimal carga,
         Integer descanso,
         Integer ordem

@@ -1,0 +1,19 @@
+.page-container {
+  padding: 24px;
+}
+
+.page-header {
+  margin-bottom: 20px;
+}
+
+.empty-card {
+  text-align: center;
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+  color: #9ca3af;
+}

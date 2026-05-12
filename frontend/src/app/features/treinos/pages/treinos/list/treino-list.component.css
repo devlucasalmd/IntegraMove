@@ -1,34 +1,59 @@
-<div class="treinos-container">
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
 
-  <mat-card class="treino-card" *ngFor="let treino of treinos">
+.treinos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
 
-    <div class="card-header">
-      <h2>{{ treino.nome }}</h2>
-    </div>
+.treino-card {
+  border-radius: 20px;
+  padding: 12px;
+}
 
-    <div class="card-content">
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
 
-      <div class="info">
-        <mat-icon>person</mat-icon>
-        <span><strong>Responsável:</strong> {{ treino.professor }}</span>
-      </div>
+.card-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
 
-      <div class="info">
-        <mat-icon>event</mat-icon>
-        <span><strong>Criado em:</strong> {{ treino.dataCriacao | date:'dd \'de\' MMM \'de\' yyyy' }}</span>
-      </div>
+.card-header p {
+  margin-top: 4px;
+  color: #666;
+}
 
-      <div class="info">
-        <mat-icon>schedule</mat-icon>
-        <span><strong>Válido até:</strong> {{ treino.validade | date:'dd/MM/yyyy' }}</span>
-      </div>
+.card-body {
+  margin-top: 20px;
+}
 
-    </div>
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #eeeeee;
+  margin-right: 8px;
+  font-size: 13px;
+}
 
-    <div class="card-actions">
-      <button mat-button color="primary">Ver treino</button>
-    </div>
+.exercicios {
+  margin-top: 18px;
+  font-weight: 500;
+}
 
-  </mat-card>
-
-</div>
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}

@@ -21,6 +21,9 @@ export class TreinoService {
     return this.http.get<TreinoResponseDTO[]>(this.apiUrl);
   }
 
+  buscarTreinoPorId(id: string): Observable<TreinoResponseDTO> {
+    return this.http.get<TreinoResponseDTO>(`${this.apiUrl}/${id}`);
+  }
 
 }
 

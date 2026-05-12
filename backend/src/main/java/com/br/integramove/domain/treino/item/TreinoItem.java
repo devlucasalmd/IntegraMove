@@ -10,7 +10,7 @@ public class TreinoItem {
     private TreinoItemId id;
     private ExercicioId exercicioId;
     private Integer series;
-    private Integer repeticoes;
+    private String repeticoes;
     private BigDecimal carga;
     private Integer descanso;
     private Integer ordem;
@@ -19,7 +19,7 @@ public class TreinoItem {
             TreinoItemId id,
             ExercicioId exercicioId,
             Integer series,
-            Integer repeticoes,
+            String repeticoes,
             BigDecimal carga,
             Integer descanso,
             Integer ordem
@@ -54,11 +54,11 @@ public class TreinoItem {
         this.series = series;
     }
 
-    public Integer getRepeticoes() {
+    public String getRepeticoes() {
         return repeticoes;
     }
 
-    public void setRepeticoes(Integer repeticoes) {
+    public void setRepeticoes(String repeticoes) {
         this.repeticoes = repeticoes;
     }
 
@@ -88,7 +88,7 @@ public class TreinoItem {
 
     public void atualizar(
             Integer series,
-            Integer repeticoes,
+            String repeticoes,
             BigDecimal carga,
             Integer descanso,
             Integer ordem

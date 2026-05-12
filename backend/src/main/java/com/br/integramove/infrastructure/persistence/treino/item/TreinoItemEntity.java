@@ -29,7 +29,7 @@ public class TreinoItemEntity {
     private UUID exercicioId;
 
     private Integer series;
-    private Integer repeticoes;
+    private String repeticoes;
     private BigDecimal carga;
     private Integer descanso;
     private Integer ordem;

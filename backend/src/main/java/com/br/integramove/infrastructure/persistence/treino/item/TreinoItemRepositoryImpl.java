@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class TreinoItemRepositoryImpl implements TreinoItemRepository {
@@ -41,5 +42,12 @@ public class TreinoItemRepositoryImpl implements TreinoItemRepository {
     }
 
 
+    @Override
+    public List<TreinoItem> listarPorTreinoId(String treinoId) {
+        return jpa.findById(UUID.fromString(treinoId))
+                .stream()
+                .map(TreinoItemEntityMapper::toDomain)
+                .toList();
+    }
 
 }

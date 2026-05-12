@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
+import { RouterOutlet, RouterLinkWithHref, RouterModule, Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   standalone: true,
@@ -22,7 +24,11 @@ import { MatMenuModule } from '@angular/material/menu';
     MatSidenavModule,
     MatListModule,
     MatMenuModule,
-    RouterLinkWithHref
+    RouterLinkWithHref,
+    MatSidenavModule,
+    MatExpansionModule,
+    MatDividerModule,
+    RouterModule
 ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
@@ -31,7 +37,9 @@ import { MatMenuModule } from '@angular/material/menu';
 
 export class LayoutComponent {
 
+  constructor(private router: Router) {}
+
   logout() {
-    console.log('Logout acionado');
+    this.router.navigate(['/login']);
   }
 }

@@ -12,5 +12,5 @@ public record CriarTreinoOutput(
         String funcionalidade,
         String nivel,
         String repeticoes,
-        List<TreinoItemOutput> exercicios
+        String observacao
 ){}

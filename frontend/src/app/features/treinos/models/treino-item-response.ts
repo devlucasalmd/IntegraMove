@@ -1,4 +1,4 @@
-export interface TreinoItem {
+export interface TreinoItemResponseDTO {
   treinoItemId?: string;
   exercicioId: string;
   series: number;

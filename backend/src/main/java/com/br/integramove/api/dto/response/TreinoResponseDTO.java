@@ -10,7 +10,6 @@ public record TreinoResponseDTO(
         String responsavel,
         String funcionalidade,
         String nivel,
-        String repeticoes,
-        List<TreinoItemOutput> exercicios
+        String repeticoes
 ) {
 }

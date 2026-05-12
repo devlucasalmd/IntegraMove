@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record AvaliacaoRequestDTO(
-        String alunoId,
         LocalDate dataAvaliacao,
         BigDecimal remadaBracoD,
         BigDecimal remadaBracoE,

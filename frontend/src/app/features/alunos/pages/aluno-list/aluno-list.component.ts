@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { AlunoResponseDTO } from '../../models/aluno-response.model';
 import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-aluno-list',
   standalone: true,
@@ -25,7 +26,8 @@ import { FormsModule } from '@angular/forms';
     MatMenuModule,
     MatDividerModule,
     FormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule
   ],
 })
 export class AlunoListComponent implements OnInit {

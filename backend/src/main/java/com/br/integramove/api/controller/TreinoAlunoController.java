@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/treino-aluno")
+@RequestMapping("/alunos/{alunoId}/treinos")
 public class TreinoAlunoController {
 
     private final CriarTreinoAluno criarTreinoAluno;

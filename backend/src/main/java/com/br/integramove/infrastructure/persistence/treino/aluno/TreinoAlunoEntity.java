@@ -1,6 +1,7 @@
 package com.br.integramove.infrastructure.persistence.treino.aluno;
 
 import com.br.integramove.infrastructure.persistence.treino.item.TreinoItemEntity;
+import com.br.integramove.infrastructure.persistence.treino.treino.TreinoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "treino-aluno")
+@Table(name = "aluno_treino")
 public class TreinoAlunoEntity {
 
     @Id
@@ -29,8 +30,9 @@ public class TreinoAlunoEntity {
 //    @Column(name = "professor_id", nullable = false)
 //    private UUID professorId;
 
-    @Column(name = "treino_id", nullable = false)
-    private UUID treinoId;
+    @ManyToOne
+    @JoinColumn(name = "treino_id")
+    private TreinoEntity treino;
 
     private String nome;
 

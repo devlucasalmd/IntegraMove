@@ -1,4 +1,4 @@
-<div class="avaliacao-container">
+<div class="avaliacao-container" [class.visualizacao]="modoVisualizacao">
   <mat-card>
     <mat-card-header>
       <mat-card-title>Avaliação Física</mat-card-title>
@@ -7,7 +7,6 @@
 
     <mat-card-content>
       <form [formGroup]="avaliacaoForm" (ngSubmit)="salvar()">
-
         <h3 class="section-title">Dados da Avaliação</h3>
 
         <div class="form-grid">
@@ -22,22 +21,42 @@
         <div class="form-grid">
           <mat-form-field appearance="outline">
             <mat-label>Remada Braço Direito</mat-label>
-            <input matInput type="number" formControlName="remadaBracoD" />
+            <input
+              matInput
+              type="number"
+              formControlName="remadaBracoD"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Remada Braço Esquerdo</mat-label>
-            <input matInput type="number" formControlName="remadaBracoE" />
+            <input
+              matInput
+              type="number"
+              formControlName="remadaBracoE"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Elevação Lateral Direita</mat-label>
-            <input matInput type="number" formControlName="elevacaoLatD" />
+            <input
+              matInput
+              type="number"
+              formControlName="elevacaoLatD"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Elevação Lateral Esquerda</mat-label>
-            <input matInput type="number" formControlName="elevacaoLatE" />
+            <input
+              matInput
+              type="number"
+              formControlName="elevacaoLatE"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
         </div>
 
@@ -46,22 +65,42 @@
         <div class="form-grid">
           <mat-form-field appearance="outline">
             <mat-label>Extensão Joelho Direito</mat-label>
-            <input matInput type="number" formControlName="extensaoJoelhoD" />
+            <input
+              matInput
+              type="number"
+              formControlName="extensaoJoelhoD"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Extensão Joelho Esquerdo</mat-label>
-            <input matInput type="number" formControlName="extensaoJoelhoE" />
+            <input
+              matInput
+              type="number"
+              formControlName="extensaoJoelhoE"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Flexão Joelho Direito</mat-label>
-            <input matInput type="number" formControlName="flexaoJoelhoD" />
+            <input
+              matInput
+              type="number"
+              formControlName="flexaoJoelhoD"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Flexão Joelho Esquerdo</mat-label>
-            <input matInput type="number" formControlName="flexaoJoelhoE" />
+            <input
+              matInput
+              type="number"
+              formControlName="flexaoJoelhoE"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
         </div>
 
@@ -70,17 +109,32 @@
         <div class="form-grid">
           <mat-form-field appearance="outline">
             <mat-label>Extensão Quadril Direito</mat-label>
-            <input matInput type="number" formControlName="extensaoQuadrilD" />
+            <input
+              matInput
+              type="number"
+              formControlName="extensaoQuadrilD"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Extensão Quadril Esquerdo</mat-label>
-            <input matInput type="number" formControlName="extensaoQuadrilE" />
+            <input
+              matInput
+              type="number"
+              formControlName="extensaoQuadrilE"
+              [readonly]="modoVisualizacao"
+            />
           </mat-form-field>
         </div>
 
         <div class="form-actions">
-          <button mat-raised-button color="primary" type="submit">
+          <button
+            *ngIf="!modoVisualizacao"
+            mat-raised-button
+            color="primary"
+            type="submit"
+          >
             Salvar Avaliação
           </button>
 

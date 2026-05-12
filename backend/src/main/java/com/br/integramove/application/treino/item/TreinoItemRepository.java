@@ -15,4 +15,6 @@ public interface TreinoItemRepository {
     Optional<TreinoItem> buscarPorId(TreinoItemId id);
 
     List<TreinoItem> listarTodos();
+
+    List<TreinoItem> listarPorTreinoId(String treinoId);
 }

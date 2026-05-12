@@ -14,15 +14,20 @@ export const alunosRoutes: Routes = [
       { path: 'novo', component: AlunoFormComponent },
 
       {
-        path: ':id',
+        path: ':alunoId',
         component: AlunoDetalheComponent,
         children: [
           { path: '', redirectTo: 'resumo', pathMatch: 'full' },
           // { path: 'resumo', component:  },
           // { path: 'contrato', component:  },
           // { path: 'financeiro', component:  },
-          { path: 'avaliacoes', component: AvaliacaoListComponent },
-          { path: 'avaliacoes/nova', component: AvaliacaoFormComponent },
+          { path: 'avaliacoes',
+            children: [
+              { path: '', component: AvaliacaoListComponent},
+              { path: 'nova', component: AvaliacaoFormComponent},
+              { path: ':avaliacaoId', component: AvaliacaoFormComponent}
+            ]
+          },
           { path: 'treino', component: TreinoListComponent}
         ]
       }

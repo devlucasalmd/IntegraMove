@@ -29,7 +29,7 @@ export class AlunoDetalheComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('alunoId');
 
     if (id) {
       this.alunoService.buscarAlunoPorId(id)

@@ -5,8 +5,9 @@ import java.math.BigDecimal;
 public record TreinoItemRequestDTO(
         String exercicioId,
         Integer series,
-        Integer repeticoes,
+        String repeticoes,
         BigDecimal carga,
         Integer descanso,
-        Integer ordem
+        Integer ordem,
+        String observacao
 ) {}

@@ -4,14 +4,16 @@
     import com.br.integramove.api.dto.response.AvaliacaoResponseDTO;
     import com.br.integramove.application.avaliacao.BuscarAvaliacaoOutput;
     import com.br.integramove.application.avaliacao.CriarAvaliacaoInput;
+    import com.br.integramove.application.avaliacao.CriarAvaliacaoOutput;
+    import com.br.integramove.application.avaliacao.ListarAvaliacaoOutput;
     import org.springframework.stereotype.Component;
 
     @Component
     public class AvaliacaoMapper {
 
-        public static CriarAvaliacaoInput toInput(AvaliacaoRequestDTO dto) {
+        public static CriarAvaliacaoInput toInput(String alunoId, AvaliacaoRequestDTO dto) {
             return new CriarAvaliacaoInput(
-                    dto.alunoId(),
+                    alunoId,
                     dto.dataAvaliacao(),
                     dto.remadaBracoD(),
                     dto.remadaBracoE(),
@@ -26,9 +28,46 @@
             );
         }
 
+        public static AvaliacaoResponseDTO toResponse(CriarAvaliacaoOutput output){
+            return new AvaliacaoResponseDTO(
+                    output.id(),
+                    output.alunoId(),
+                    output.dataAvaliacao(),
+                    output.remadaBracoD(),
+                    output.remadaBracoE(),
+                    output.elevacaoLatD(),
+                    output.elevacaoLatE(),
+                    output.extensaoJoelhoD(),
+                    output.extensaoJoelhoE(),
+                    output.flexaoJoelhoD(),
+                    output.flexaoJoelhoE(),
+                    output.extensaoQuadrilD(),
+                    output.extensaoQuadrilE()
+            );
+        }
+
         public static AvaliacaoResponseDTO toResponse(BuscarAvaliacaoOutput output){
             return new AvaliacaoResponseDTO(
-                    output.id().toString(),
+                    output.id(),
+                    output.alunoId(),
+                    output.dataAvaliacao(),
+                    output.remadaBracoD(),
+                    output.remadaBracoE(),
+                    output.elevacaoLatD(),
+                    output.elevacaoLatE(),
+                    output.extensaoJoelhoD(),
+                    output.extensaoJoelhoE(),
+                    output.flexaoJoelhoD(),
+                    output.flexaoJoelhoE(),
+                    output.extensaoQuadrilD(),
+                    output.extensaoQuadrilE()
+            );
+        }
+
+        public static AvaliacaoResponseDTO toResponse(ListarAvaliacaoOutput output){
+            return new AvaliacaoResponseDTO(
+                    output.id(),
+                    output.alunoId(),
                     output.dataAvaliacao(),
                     output.remadaBracoD(),
                     output.remadaBracoE(),

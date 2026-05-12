@@ -14,14 +14,22 @@ public class BuscarAvaliacao {
         this.avaliacaoRepository = avaliacaoRepository;
     }
 
-    public BuscarAvaliacaoOutput buscar(String avaliacaoId){
+    public BuscarAvaliacaoOutput buscar(String alunoId, String avaliacaoId){
 
         AvaliacaoId id = AvaliacaoId.from(avaliacaoId);
 
-        Avaliacao avaliacao = avaliacaoRepository.buscarPorId(id).orElseThrow(() -> new AvaliacaoNaoEncontradaException(id.getValue().toString()));
+        Avaliacao avaliacao = avaliacaoRepository.buscarPorAlunoIdEId(alunoId, id).orElseThrow(() -> new AvaliacaoNaoEncontradaException(id.getValue().toString()));
+
+        if (!avaliacao.getAlunoId().getValue().toString().equals(alunoId)) {
+
+            throw new AvaliacaoNaoEncontradaException(
+                    avaliacao.getId().getValue().toString()
+            );
+        }
 
         return new BuscarAvaliacaoOutput(
-                avaliacao.getId().toString(),
+                avaliacao.getId().getValue().toString(),
+                alunoId,
                 avaliacao.getDataAvaliacao(),
                 avaliacao.getRemadaBracoD(),
                 avaliacao.getRemadaBracoE(),
