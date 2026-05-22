@@ -1,5 +1,6 @@
 package com.br.integramove.application.treino.item;
 
+import com.br.integramove.domain.treino.treino.TreinoId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +15,13 @@ public class ListarTreinoItem {
         this.repository = repository;
     }
 
-    public List<ListarTreinoItemOutput> listarPorTreino(String treinoId){
+    public List<ListarTreinoItemOutput> listarPorTreino(TreinoId treinoId){
 
         return repository.listarPorTreinoId(treinoId)
                 .stream()
                 .map( treinoItem -> new ListarTreinoItemOutput(
                         treinoItem.getId().getValue().toString(),
+                        treinoItem.getTreinoId().getValue().toString(),
                         treinoItem.getExercicioId().getValue().toString(),
                         treinoItem.getSeries(),
                         treinoItem.getRepeticoes(),

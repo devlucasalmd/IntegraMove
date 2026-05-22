@@ -2,6 +2,7 @@ package com.br.integramove.application.treino.item;
 
 import com.br.integramove.domain.treino.item.TreinoItem;
 import com.br.integramove.domain.treino.item.TreinoItemId;
+import com.br.integramove.domain.treino.treino.TreinoId;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,5 +17,5 @@ public interface TreinoItemRepository {
 
     List<TreinoItem> listarTodos();
 
-    List<TreinoItem> listarPorTreinoId(String treinoId);
+    List<TreinoItem> listarPorTreinoId(TreinoId treinoId);
 }

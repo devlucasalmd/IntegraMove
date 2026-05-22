@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public record BuscarTreinoItemOutput(
         String id,
+        String treinoId,
         String exercicioId,
         Integer series,
         String repeticoes,

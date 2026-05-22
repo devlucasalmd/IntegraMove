@@ -2,7 +2,8 @@ package com.br.integramove.domain.plano;
 
 import java.math.BigDecimal;
 
-public class Plano {
+public class
+Plano {
 
     private PlanoId id;
     private String nome;

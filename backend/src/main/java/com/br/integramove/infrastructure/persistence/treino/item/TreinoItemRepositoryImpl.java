@@ -3,6 +3,7 @@ package com.br.integramove.infrastructure.persistence.treino.item;
 import com.br.integramove.application.treino.item.TreinoItemRepository;
 import com.br.integramove.domain.treino.item.TreinoItem;
 import com.br.integramove.domain.treino.item.TreinoItemId;
+import com.br.integramove.domain.treino.treino.TreinoId;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,8 +44,8 @@ public class TreinoItemRepositoryImpl implements TreinoItemRepository {
 
 
     @Override
-    public List<TreinoItem> listarPorTreinoId(String treinoId) {
-        return jpa.findById(UUID.fromString(treinoId))
+    public List<TreinoItem> listarPorTreinoId(TreinoId treinoId) {
+        return jpa.findByTreinoId(treinoId.getValue())
                 .stream()
                 .map(TreinoItemEntityMapper::toDomain)
                 .toList();

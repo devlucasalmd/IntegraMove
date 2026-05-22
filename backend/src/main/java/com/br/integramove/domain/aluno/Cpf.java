@@ -2,6 +2,8 @@ package com.br.integramove.domain.aluno;
 
 import com.br.integramove.api.exception.aluno.CpfInvalidoException;
 
+import java.util.UUID;
+
 public class Cpf {
 
     private final String value;
@@ -18,9 +20,14 @@ public class Cpf {
         return numeros.replaceFirst("(\\d{3})(\\d{3})(\\d{3})(\\d{2})","$1.$2.$3-$4");
     }
 
+    public static Cpf of(String value) { return new Cpf(value); }
+
     @Override
     public String toString() {
         return value;
     }
 
+    public String getValue() {
+        return value;
+    }
 }

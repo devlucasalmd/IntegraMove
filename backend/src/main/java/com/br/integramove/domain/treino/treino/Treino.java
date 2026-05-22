@@ -1,5 +1,6 @@
 package com.br.integramove.domain.treino.treino;
 
+import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
 import com.br.integramove.domain.treino.item.TreinoItem;
 
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ public class Treino {
     private String funcionalidade;
     private String nivel;
     private String repeticoes;
-    private String observacao;
+    private String observacoes;
+    private GrupoMuscular grupoMuscular;
     private List<TreinoItem> exercicios = new ArrayList<>();
 
 
@@ -24,7 +26,8 @@ public class Treino {
             String funcionalidade,
             String nivel,
             String repeticoes,
-            String observacao
+            String observacoes,
+            GrupoMuscular grupoMuscular
     ) {
         this.id = id;
         this.nome = nome;
@@ -32,7 +35,8 @@ public class Treino {
         this.funcionalidade = funcionalidade;
         this.nivel = nivel;
         this.repeticoes = repeticoes;
-        this.observacao = observacao;
+        this.observacoes = observacoes;
+        this.grupoMuscular = grupoMuscular;
         this.exercicios = new ArrayList<>();
     }
 
@@ -88,10 +92,13 @@ public class Treino {
         this.repeticoes = repeticoes;
     }
 
-    public String getObservacao() { return observacao; }
+    public String getObservacoes() { return observacoes; }
 
-    public void setObservacao(String observacao) { this.observacao = observacao; }
+    public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
 
+    public GrupoMuscular getGrupoMuscular() { return grupoMuscular; }
+
+    public void setGrupoMuscular(GrupoMuscular grupoMuscular) { this.grupoMuscular = grupoMuscular; }
 
     public List<TreinoItem> getExercicios() {
         return exercicios;
@@ -100,4 +107,5 @@ public class Treino {
     public void setExercicios(List<TreinoItem> itens) {
         this.exercicios = itens;
     }
+
 }

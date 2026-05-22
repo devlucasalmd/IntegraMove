@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface AlunoRepository {
 
-    void salvar(Aluno aluno);
+    Aluno salvar(Aluno aluno);
 
     boolean existePorCpf(String cpf);
 
     Optional<Aluno> buscarPorId(AlunoId id);
 
-    List<Aluno> buscarTodosAlunos();
+    List<Aluno> listarTodos();
 }

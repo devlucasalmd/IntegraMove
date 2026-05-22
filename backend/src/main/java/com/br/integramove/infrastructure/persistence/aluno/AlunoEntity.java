@@ -1,5 +1,6 @@
 package com.br.integramove.infrastructure.persistence.aluno;
 
+import com.br.integramove.domain.aluno.StatusAluno;
 import com.br.integramove.domain.avaliacao.Avaliacao;
 import com.br.integramove.infrastructure.persistence.avaliacao.AvaliacaoEntity;
 import jakarta.persistence.*;
@@ -27,7 +28,7 @@ public class AlunoEntity {
     private String genero;
     private String telefone;
     private String email;
-    private boolean ativo;
+    private StatusAluno status;
     private String cep;
     private String estado;
     private String cidade;

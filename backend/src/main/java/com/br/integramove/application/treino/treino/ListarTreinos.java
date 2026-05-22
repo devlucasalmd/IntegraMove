@@ -23,7 +23,9 @@ public class ListarTreinos {
                         treino.getResponsavel(),
                         treino.getFuncionalidade(),
                         treino.getNivel(),
-                        treino.getRepeticoes()
+                        treino.getRepeticoes(),
+                        treino.getObservacoes(),
+                        treino.getGrupoMuscular()
                 ))
                 .toList();
     }

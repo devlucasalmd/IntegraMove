@@ -34,6 +34,7 @@ public class AtualizarTreinoItem {
 
         return new AtualizarTreinoItemOutput(
                 treinoItemSalvo.getId().getValue().toString(),
+                treinoItemSalvo.getTreinoId().getValue().toString(),
                 treinoItemSalvo.getExercicioId().getValue().toString(),
                 treinoItemSalvo.getSeries(),
                 treinoItemSalvo.getRepeticoes(),

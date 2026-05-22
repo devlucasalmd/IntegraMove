@@ -8,6 +8,7 @@ import com.br.integramove.application.treino.treino.BuscarTreinoOutput;
 import com.br.integramove.application.treino.treino.CriarTreinoInput;
 import com.br.integramove.application.treino.treino.CriarTreinoOutput;
 import com.br.integramove.application.treino.treino.ListarTreinosOutput;
+import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,10 +22,12 @@ public class TreinoMapper {
             String responsavel,
             String funcionalidade,
             String nivel,
-            String repeticoes
+            String repeticoes,
+            String observacoes,
+            GrupoMuscular grupoMuscular
     ){
         return new TreinoResponseDTO(
-                id, nome, responsavel, funcionalidade, nivel, repeticoes
+                id, nome, responsavel, funcionalidade, nivel, repeticoes, observacoes, grupoMuscular
         );
     }
 
@@ -36,7 +39,8 @@ public class TreinoMapper {
                 dto.funcionalidade(),
                 dto.nivel(),
                 dto.repeticoes(),
-                dto.observacoes()
+                dto.observacoes(),
+                dto.grupoMuscular()
         );
     }
 
@@ -45,10 +49,12 @@ public class TreinoMapper {
         return build(
                 output.id(),
                 output.nome(),
-                output.funcionalidade(),
                 output.responsavel(),
+                output.funcionalidade(),
                 output.nivel(),
-                output.repeticoes()
+                output.repeticoes(),
+                output.observacoes(),
+                output.grupoMuscular()
         );
     }
 
@@ -57,10 +63,12 @@ public class TreinoMapper {
         return build(
                 output.id(),
                 output.nome(),
-                output.funcionalidade(),
                 output.responsavel(),
+                output.funcionalidade(),
                 output.nivel(),
-                output.repeticoes()
+                output.repeticoes(),
+                output.observacoes(),
+                output.grupoMuscular()
         );
     }
 
@@ -72,7 +80,9 @@ public class TreinoMapper {
                 output.responsavel(),
                 output.funcionalidade(),
                 output.nivel(),
-                output.repeticoes()
+                output.repeticoes(),
+                output.observacoes(),
+                output.grupoMuscular()
         );
     }
 }

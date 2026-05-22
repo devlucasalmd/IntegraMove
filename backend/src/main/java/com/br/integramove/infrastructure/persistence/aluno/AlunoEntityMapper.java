@@ -14,7 +14,7 @@ public class AlunoEntityMapper {
         entity.setGenero(aluno.getGenero().name());
         entity.setTelefone(aluno.getTelefone());
         entity.setEmail(aluno.getEmail().toString());
-        entity.setAtivo(aluno.estaAtivo());
+        entity.setStatus(aluno.getStatus());
 
         Endereco e = aluno.getEndereco();
         entity.setCep(e.getCep());
@@ -46,7 +46,7 @@ public class AlunoEntityMapper {
                 entity.getTelefone(),
                 new Email(entity.getEmail()),
                 endereco,
-                entity.isAtivo()
+                entity.getStatus()
         );
     }
 }

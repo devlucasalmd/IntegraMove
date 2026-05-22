@@ -3,6 +3,8 @@ package com.br.integramove.infrastructure.persistence.treino.item;
 import com.br.integramove.domain.treino.item.TreinoItem;
 import com.br.integramove.domain.treino.item.TreinoItemId;
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
+import com.br.integramove.domain.treino.treino.TreinoId;
+import com.br.integramove.infrastructure.persistence.treino.treino.TreinoEntity;
 
 public class TreinoItemEntityMapper {
 
@@ -11,10 +13,14 @@ public class TreinoItemEntityMapper {
 
         if (domain == null) return null;
 
+        TreinoEntity treinoEntity = new TreinoEntity();
+        treinoEntity.setId(domain.getTreinoId().getValue());
+
         TreinoItemEntity entity = new TreinoItemEntity();
 
         entity.setId(domain.getId().getValue());
         entity.setExercicioId(domain.getExercicioId().getValue());
+        entity.setTreino(treinoEntity);
         entity.setSeries(domain.getSeries());
         entity.setRepeticoes(domain.getRepeticoes());
         entity.setCarga(domain.getCarga());
@@ -31,6 +37,7 @@ public class TreinoItemEntityMapper {
         return new TreinoItem(
                 TreinoItemId.from(entity.getId().toString()),
                 ExercicioId.from(entity.getExercicioId().toString()),
+                TreinoId.of(entity.getTreino().getId()),
                 entity.getSeries(),
                 entity.getRepeticoes(),
                 entity.getCarga(),
@@ -38,7 +45,4 @@ public class TreinoItemEntityMapper {
                 entity.getOrdem()
         );
     }
-
-
-
 }

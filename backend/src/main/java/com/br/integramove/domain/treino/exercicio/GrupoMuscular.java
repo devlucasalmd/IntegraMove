@@ -4,9 +4,11 @@ public enum GrupoMuscular {
     PEITO,
     COSTAS,
     PERNAS,
-    OMBRO,
+    OMBROS,
     BICEPS,
     TRICEPS,
+    ABDOMEN,
+    GLUTEOS,
     TRAPEZIO,
     ANTEBRACO;
 

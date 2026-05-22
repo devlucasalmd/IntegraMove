@@ -1,6 +1,8 @@
-package com.br.integramove.application.aluno;
+package com.br.integramove.application.aluno.services;
 
 import com.br.integramove.api.exception.aluno.AlunoNaoEncontradoException;
+import com.br.integramove.application.aluno.AlunoRepository;
+import com.br.integramove.application.aluno.inputs.DesativarAlunoInput;
 import com.br.integramove.domain.aluno.Aluno;
 import com.br.integramove.domain.aluno.AlunoId;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class DesativarAluno {
 
         Aluno aluno = alunoRepository.buscarPorId(id).orElseThrow(() -> new AlunoNaoEncontradoException(id));
 
-        aluno.setAtivo(false);
+        aluno.desativar();
 
         alunoRepository.salvar(aluno);
     }

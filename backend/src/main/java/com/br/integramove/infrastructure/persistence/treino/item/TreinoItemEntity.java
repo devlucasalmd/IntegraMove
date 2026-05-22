@@ -15,23 +15,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "treinoItem")
+@Table(name = "treino_itens")
 public class TreinoItemEntity {
 
     @Id
     private UUID id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "treino_id")
     private TreinoEntity treino;
-
     @Column(name = "exercicio_id", nullable = false)
     private UUID exercicioId;
-
     private Integer series;
     private String repeticoes;
     private BigDecimal carga;
     private Integer descanso;
     private Integer ordem;
-
 }

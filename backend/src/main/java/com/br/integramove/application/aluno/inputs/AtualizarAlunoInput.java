@@ -1,21 +1,21 @@
-package com.br.integramove.api.dto.request;
+package com.br.integramove.application.aluno.inputs;
 
 import com.br.integramove.domain.aluno.Cpf;
 import com.br.integramove.domain.aluno.Email;
 import com.br.integramove.domain.aluno.Genero;
 import com.br.integramove.domain.aluno.StatusAluno;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
-public record AlunoRequestDTO(
+public record AtualizarAlunoInput(
+        String id,
         String nome,
-        @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate dataNascimento,
         Cpf cpf,
         Genero genero,
         String telefone,
         Email email,
         StatusAluno status,
-        EnderecoRequestDTO enderecoDTO
+        EnderecoInput endereco
 ) {}
+

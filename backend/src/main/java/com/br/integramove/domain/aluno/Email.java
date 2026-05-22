@@ -2,6 +2,8 @@ package com.br.integramove.domain.aluno;
 
 import com.br.integramove.api.exception.aluno.EmailInvalidoException;
 
+import java.util.UUID;
+
 public class Email {
 
     private final String email;
@@ -13,8 +15,13 @@ public class Email {
         this.email = email;
     }
 
+    public static Email of(String value) { return new Email(value); }
+
     public String toString() {
         return email;
     }
 
+    public String getValue() {
+        return email;
+    }
 }

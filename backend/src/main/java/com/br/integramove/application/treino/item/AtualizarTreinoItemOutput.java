@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public record AtualizarTreinoItemOutput(
         String id,
+        String treinoId,
         String exercicioId,
         Integer series,
         String repeticoes,

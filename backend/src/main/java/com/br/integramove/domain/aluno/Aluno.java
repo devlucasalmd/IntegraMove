@@ -15,8 +15,9 @@ public class Aluno {
     private Genero genero;
     private String telefone;
     private Email email;
+    private StatusAluno status;
     private Endereco endereco;
-    private boolean ativo = true;
+
 
     public Aluno(
             AlunoId id,
@@ -27,7 +28,7 @@ public class Aluno {
             String telefone,
             Email email,
             Endereco endereco,
-            Boolean ativo
+            StatusAluno status
     ) {
 
         if(id == null) throw new IllegalArgumentException("Id obrigatorio");
@@ -43,16 +44,15 @@ public class Aluno {
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
-        this.ativo = ativo;
-    }
+        this.status = status != null ? status : StatusAluno.ATIVO;    }
 
-    public void ativar(){
-        this.ativo = true;
-    }
-
-    public void desativar(){
-        this.ativo = false;
-    }
+//    public void ativar(){
+//        this.status = true;
+//    }
+//
+//    public void desativar(){
+//        this.status = false;
+//    }
 
     public void atualizarDados (
             String nome,
@@ -61,8 +61,11 @@ public class Aluno {
             String telefone,
             Email email,
             Endereco endereco,
-            Boolean ativo
+            StatusAluno status
     ) {
+
+        if (nome == null || nome.isBlank()) throw new NomeInvalidoException();
+        if (email == null) throw new EmailInvalidoException();
 
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -70,11 +73,18 @@ public class Aluno {
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
-        this.ativo = ativo;
+        this.status = status != null ? status : this.status;    }
+
+    public void ativar() {
+        this.status = StatusAluno.ATIVO;
     }
 
-    public boolean estaAtivo(){
-        return ativo;
+    public void desativar() {
+        this.status = StatusAluno.INATIVO;
+    }
+
+    public boolean isAtivo() {
+        return this.status == StatusAluno.ATIVO;
     }
 
     public AlunoId getId() { return id; }
@@ -91,10 +101,12 @@ public class Aluno {
 
     public Email getEmail() { return email; }
 
+    public StatusAluno getStatus() { return status; }
+
     public Endereco getEndereco() { return endereco; }
 
-
     public void setNome(String nome) {
+        if (nome == null || nome.isBlank()) throw new NomeInvalidoException();
         this.nome = nome;
     }
 
@@ -103,6 +115,7 @@ public class Aluno {
     }
 
     public void setCpf(Cpf cpf) {
+        if (cpf == null) throw new CpfInvalidoException();
         this.cpf = cpf;
     }
 
@@ -115,6 +128,7 @@ public class Aluno {
     }
 
     public void setEmail(Email email) {
+        if (email == null) throw new EmailInvalidoException();
         this.email = email;
     }
 
@@ -122,7 +136,8 @@ public class Aluno {
         this.endereco = endereco;
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(StatusAluno status) {
+        this.status = status != null ? status : this.status;
     }
+
 }

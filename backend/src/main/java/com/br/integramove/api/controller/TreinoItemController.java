@@ -4,6 +4,7 @@ import com.br.integramove.api.dto.request.TreinoItemRequestDTO;
 import com.br.integramove.api.dto.response.TreinoItemResponseDTO;
 import com.br.integramove.api.mapper.TreinoItemMapper;
 import com.br.integramove.application.treino.item.*;
+import com.br.integramove.domain.treino.treino.TreinoId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,7 @@ public class TreinoItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TreinoItemResponseDTO>> listar(@PathVariable String treinoId){
+    public ResponseEntity<List<TreinoItemResponseDTO>> listar(@PathVariable TreinoId treinoId){
 
         List<ListarTreinoItemOutput> outputs = listarTreinoItem.listarPorTreino(treinoId);
 

@@ -22,6 +22,7 @@ public class BuscarTreinoItem {
 
         return new BuscarTreinoItemOutput(
                 treinoItem.getId().getValue().toString(),
+                treinoItem.getTreinoId().getValue().toString(),
                 treinoItem.getExercicioId().getValue().toString(),
                 treinoItem.getSeries(),
                 treinoItem.getRepeticoes(),

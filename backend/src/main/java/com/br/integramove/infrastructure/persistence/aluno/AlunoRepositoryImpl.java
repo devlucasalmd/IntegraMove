@@ -18,9 +18,12 @@ public class AlunoRepositoryImpl implements AlunoRepository {
     }
 
     @Override
-    public void salvar(Aluno aluno){
+    public Aluno salvar(Aluno aluno){
+
         AlunoEntity entity = AlunoEntityMapper.toEntity(aluno);
-        jpa.save(entity);
+        AlunoEntity alunoSalvo = jpa.save(entity);
+
+        return AlunoEntityMapper.toDomain(alunoSalvo);
     }
 
     @Override
@@ -30,7 +33,7 @@ public class AlunoRepositoryImpl implements AlunoRepository {
     }
 
     @Override
-    public List<Aluno> buscarTodosAlunos() {
+    public List<Aluno> listarTodos() {
         return jpa.findAll()
                 .stream()
                 .map(AlunoEntityMapper::toDomain)

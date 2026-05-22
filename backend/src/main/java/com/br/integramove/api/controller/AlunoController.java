@@ -1,8 +1,18 @@
 package com.br.integramove.api.controller;
 
 import com.br.integramove.api.dto.request.AlunoRequestDTO;
+import com.br.integramove.api.dto.response.AlunoResponseDTO;
+import com.br.integramove.api.dto.response.AlunoResumoResponseDTO;
 import com.br.integramove.api.mapper.AlunoMapper;
-import com.br.integramove.application.aluno.*;
+import com.br.integramove.application.aluno.inputs.AtualizarAlunoInput;
+import com.br.integramove.application.aluno.inputs.CriarAlunoInput;
+import com.br.integramove.application.aluno.inputs.DesativarAlunoInput;
+import com.br.integramove.application.aluno.outputs.AtualizarAlunoOutput;
+import com.br.integramove.application.aluno.outputs.BuscarAlunoOutput;
+import com.br.integramove.application.aluno.outputs.CriarAlunoOutput;
+import com.br.integramove.application.aluno.outputs.ListarAlunosOutput;
+import com.br.integramove.application.aluno.services.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,28 +43,37 @@ public class AlunoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> criar(@RequestBody AlunoRequestDTO dto){
-        CriarAlunoInput input = AlunoMapper.toInput(dto);
+    public ResponseEntity<AlunoResponseDTO> criar(@RequestBody AlunoRequestDTO request){
+        CriarAlunoInput input = AlunoMapper.toInput(request);
         CriarAlunoOutput output = criarAluno.criar(input);
-        return ResponseEntity.status(201).body(output);
+        return ResponseEntity .status(HttpStatus.CREATED)
+                .body(AlunoMapper.toResponse(output));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AlunoResumoResponseDTO>> listar() {
+
+        List<ListarAlunosOutput> output = listarAlunos.listar();
+
+        List<AlunoResumoResponseDTO> response = output.stream()
+                .map(AlunoMapper::toResumoResponse)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscar(@PathVariable String id){
+    public ResponseEntity<AlunoResponseDTO> buscar(@PathVariable String id){
         BuscarAlunoOutput output = buscarAluno.buscar(id);
         return ResponseEntity.ok(AlunoMapper.toResponse(output));
     }
 
-    @GetMapping
-    public ResponseEntity<List<ListarAlunosOutput>> listar() {
-        return ResponseEntity.ok(listarAlunos.listar());
-    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody AlunoRequestDTO dto) {
-        AtualizarAlunoInput input = AlunoMapper.toAtualizar(id, dto);
+    public ResponseEntity<AlunoResponseDTO> atualizar(@PathVariable String id, @RequestBody AlunoRequestDTO request) {
+        AtualizarAlunoInput input = AlunoMapper.toAtualizar(id, request);
         AtualizarAlunoOutput output = atualizarAluno.atualizar(input);
-        return ResponseEntity.ok(output);
+        return ResponseEntity.ok(AlunoMapper.toResponse(output));
     }
 
     @DeleteMapping("/{id}")

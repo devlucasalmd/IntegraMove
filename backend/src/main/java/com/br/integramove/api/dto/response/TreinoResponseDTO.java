@@ -1,6 +1,7 @@
 package com.br.integramove.api.dto.response;
 
 import com.br.integramove.application.treino.item.TreinoItemOutput;
+import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ public record TreinoResponseDTO(
         String responsavel,
         String funcionalidade,
         String nivel,
-        String repeticoes
+        String repeticoes,
+        String observacoes,
+        GrupoMuscular grupoMuscular
 ) {
 }

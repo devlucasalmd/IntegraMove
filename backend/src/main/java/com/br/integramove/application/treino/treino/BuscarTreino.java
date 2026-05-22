@@ -42,6 +42,8 @@ public class BuscarTreino {
                 treino.getFuncionalidade(),
                 treino.getNivel(),
                 treino.getRepeticoes(),
+                treino.getObservacoes(),
+                treino.getGrupoMuscular(),
                 itens
         );
     }

@@ -12,6 +12,7 @@ public class TreinoItemMapper {
 
     private static TreinoItemResponseDTO build(
             String id,
+            String treinoId,
             String exercicioId,
             Integer series,
             String repeticoes,
@@ -20,7 +21,7 @@ public class TreinoItemMapper {
             Integer ordem
     ) {
         return new TreinoItemResponseDTO(
-                id, exercicioId, series, repeticoes, carga, descanso, ordem
+                id, treinoId, exercicioId, series, repeticoes, carga, descanso, ordem
         );
     }
 
@@ -54,6 +55,7 @@ public class TreinoItemMapper {
 
         return build(
                 output.id(),
+                output.treinoId(),
                 output.exercicioId(),
                 output.series(),
                 output.repeticoes(),
@@ -67,6 +69,7 @@ public class TreinoItemMapper {
 
         return build(
                 output.id(),
+                output.treinoId(),
                 output.exercicioId(),
                 output.series(),
                 output.repeticoes(),
@@ -80,6 +83,7 @@ public class TreinoItemMapper {
 
         return build(
                 output.id(),
+                output.treinoId(),
                 output.exercicioId(),
                 output.series(),
                 output.repeticoes(),
@@ -93,6 +97,7 @@ public class TreinoItemMapper {
 
         return build(
                 output.id(),
+                output.treinoId(),
                 output.exercicioId(),
                 output.series(),
                 output.repeticoes(),

@@ -1,6 +1,7 @@
 package com.br.integramove.domain.treino.item;
 
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
+import com.br.integramove.domain.treino.treino.TreinoId;
 
 import java.math.BigDecimal;
 
@@ -9,6 +10,7 @@ public class TreinoItem {
 
     private TreinoItemId id;
     private ExercicioId exercicioId;
+    private TreinoId treinoId;
     private Integer series;
     private String repeticoes;
     private BigDecimal carga;
@@ -18,6 +20,7 @@ public class TreinoItem {
     public TreinoItem(
             TreinoItemId id,
             ExercicioId exercicioId,
+            TreinoId treinoId,
             Integer series,
             String repeticoes,
             BigDecimal carga,
@@ -26,6 +29,7 @@ public class TreinoItem {
     ) {
             this.id = id;
             this.exercicioId = exercicioId;
+            this.treinoId = treinoId;
             this.series = series;
             this.repeticoes = repeticoes;
             this.carga = carga;
@@ -44,6 +48,14 @@ public class TreinoItem {
 
     public ExercicioId getExercicioId() {
         return exercicioId;
+    }
+
+    public TreinoId getTreinoId() {
+        return treinoId;
+    }
+
+    public void setTreinoId(TreinoId treinoId) {
+        this.treinoId = treinoId;
     }
 
     public Integer getSeries() {

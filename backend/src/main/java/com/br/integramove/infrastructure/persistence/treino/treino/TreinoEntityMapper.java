@@ -3,10 +3,9 @@ package com.br.integramove.infrastructure.persistence.treino.treino;
 import com.br.integramove.domain.treino.treino.Treino;
 import com.br.integramove.domain.treino.treino.TreinoId;
 import com.br.integramove.infrastructure.persistence.treino.item.TreinoItemEntityMapper;
-
 public class TreinoEntityMapper {
 
-    public static TreinoEntity toEntity(Treino domain){
+    public static TreinoEntity toEntity(Treino domain) {
 
         if (domain == null) return null;
 
@@ -17,13 +16,14 @@ public class TreinoEntityMapper {
         entity.setResponsavel(domain.getResponsavel());
         entity.setFuncionalidade(domain.getFuncionalidade());
         entity.setNivel(domain.getNivel());
-        entity.setRepeticoes(entity.getRepeticoes());
-        entity.setExercicios(entity.getExercicios());
+        entity.setRepeticoes(domain.getRepeticoes());
+        entity.setGrupoMuscular(domain.getGrupoMuscular());
+        entity.setObservacoes(domain.getObservacoes());
 
         return entity;
     }
 
-    public static Treino toDomain(TreinoEntity entity){
+    public static Treino toDomain(TreinoEntity entity) {
 
         if (entity == null) return null;
 
@@ -34,7 +34,8 @@ public class TreinoEntityMapper {
                 entity.getFuncionalidade(),
                 entity.getNivel(),
                 entity.getRepeticoes(),
-                entity.getObservacoes()
+                entity.getObservacoes(),
+                entity.getGrupoMuscular()
         );
     }
 }

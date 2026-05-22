@@ -32,8 +32,8 @@ public class CriarTreino {
                 input.funcionalidade(),
                 input.nivel(),
                 input.repeticoes(),
-                input.observacao()
-
+                input.observacoes(),
+                input.grupoMuscular()
         );
 
         repository.salvar(treino);
@@ -45,7 +45,8 @@ public class CriarTreino {
                 treino.getFuncionalidade(),
                 treino.getNivel(),
                 treino.getRepeticoes(),
-                treino.getObservacao()
+                treino.getObservacoes(),
+                treino.getGrupoMuscular()
         );
     }
 }
