@@ -3,6 +3,7 @@ package com.br.integramove.infrastructure.persistence.aluno;
 import com.br.integramove.domain.aluno.StatusAluno;
 import com.br.integramove.domain.avaliacao.Avaliacao;
 import com.br.integramove.infrastructure.persistence.avaliacao.AvaliacaoEntity;
+import com.br.integramove.infrastructure.persistence.plano.PlanoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,4 +38,7 @@ public class AlunoEntity {
     private String bairro;
     @OneToMany(mappedBy = "aluno")
     private List<AvaliacaoEntity> avaliacoes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plano_id")
+    private PlanoEntity plano;
 }

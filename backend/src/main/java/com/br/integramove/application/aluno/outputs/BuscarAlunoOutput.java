@@ -16,5 +16,7 @@ public record BuscarAlunoOutput(
         String telefone,
         String email,
         StatusAluno status,
-        EnderecoOutput endereco
+        EnderecoOutput endereco,
+        String planoId,
+        String nomePlano
 ) {}

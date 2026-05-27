@@ -1,9 +1,11 @@
 package com.br.integramove.infrastructure.persistence.pagamento;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.br.integramove.domain.pagamento.FormaPagamento;
+import com.br.integramove.domain.pagamento.StatusPagamento;
+import com.br.integramove.infrastructure.persistence.aluno.AlunoEntity;
+import com.br.integramove.infrastructure.persistence.plano.PlanoEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +25,23 @@ public class PagamentoEntity {
 
     @Id
     private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "aluno_id", nullable = false)
+    private AlunoEntity aluno;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plano_id", nullable = false)
+
+    private PlanoEntity plano;
     private BigDecimal valor;
-    private LocalDate data;
+    private LocalDate dataVencimento;
+    private LocalDate dataPagamento;
+
+    @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private StatusPagamento status;
 
 }

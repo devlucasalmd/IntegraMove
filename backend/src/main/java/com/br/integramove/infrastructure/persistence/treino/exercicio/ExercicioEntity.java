@@ -1,6 +1,7 @@
 package com.br.integramove.infrastructure.persistence.treino.exercicio;
 
 import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
+import com.br.integramove.domain.treino.exercicio.Intensidade;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class ExercicioEntity {
     @Enumerated(EnumType.STRING)
     private GrupoMuscular grupoMuscular;
     private String descricao;
-    private String intensidade;
+    @Enumerated(EnumType.STRING)
+    private Intensidade intensidade;
     private Boolean ativo;
 }

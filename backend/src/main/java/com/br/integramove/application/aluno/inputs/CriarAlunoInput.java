@@ -15,5 +15,6 @@ public record CriarAlunoInput(
     String telefone,
     Email email,
     StatusAluno status,
+    String planoId,
     EnderecoInput endereco
 ) {}

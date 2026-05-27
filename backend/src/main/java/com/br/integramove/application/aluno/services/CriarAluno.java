@@ -6,19 +6,40 @@ import com.br.integramove.application.aluno.inputs.CriarAlunoInput;
 import com.br.integramove.application.aluno.inputs.EnderecoInput;
 import com.br.integramove.application.aluno.outputs.CriarAlunoOutput;
 import com.br.integramove.application.aluno.outputs.EnderecoOutput;
+import com.br.integramove.application.plano.PlanoRepository;
 import com.br.integramove.domain.aluno.*;
+import com.br.integramove.domain.plano.Plano;
+import com.br.integramove.domain.plano.PlanoId;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CriarAluno {
 
     private final AlunoRepository repository;
+    private final PlanoRepository planoRepository;
 
-    public CriarAluno(AlunoRepository repository) {
+    public CriarAluno(
+            AlunoRepository repository,
+            PlanoRepository planoRepository
+    ) {
         this.repository = repository;
+        this.planoRepository = planoRepository;
     }
 
     public CriarAlunoOutput criar(CriarAlunoInput input) {
+        PlanoId planoId = null;
+
+        if (input.planoId() != null && !input.planoId().isBlank()) {
+            Plano plano = planoRepository.buscarPorId(PlanoId.from(input.planoId()))
+                    .orElseThrow(() -> new RuntimeException("Plano não encontrado"));
+
+            if (!plano.estaAtivo()) {
+                throw new RuntimeException("Plano está inativo");
+            }
+
+            planoId = plano.getId();
+        }
+
         Aluno aluno = new Aluno(
                 AlunoId.novo(),
                 input.nome(),
@@ -27,9 +48,10 @@ public class CriarAluno {
                 input.genero(),
                 input.telefone(),
                 Email.of(input.email().toString()),
-                toEndereco(input.endereco()),
-                input.status()
-        );
+                input.status(),
+                planoId,
+                toEndereco(input.endereco())
+                );
 
         Aluno alunoSalvo = repository.salvar(aluno);
 
@@ -42,8 +64,9 @@ public class CriarAluno {
                 alunoSalvo.getTelefone(),
                 alunoSalvo.getEmail().getValue(),
                 alunoSalvo.getStatus(),
+                alunoSalvo.getPlanoId() != null ? alunoSalvo.getPlanoId().getValue().toString() : null,
                 toEnderecoOutput(alunoSalvo.getEndereco())
-        );
+                );
     }
 
     private Endereco toEndereco(EnderecoInput input) {

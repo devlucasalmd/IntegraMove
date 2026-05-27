@@ -7,8 +7,8 @@ import java.time.LocalDate;
 
 public class TreinoAluno {
     private TreinoAlunoId id;
-    private TreinoId treinoId;
     private AlunoId alunoId;
+    private TreinoId treinoId;
 //    private ProfessorId professorId;
     private String nome;
     private LocalDate dataInicio;
@@ -16,15 +16,35 @@ public class TreinoAluno {
 
     public TreinoAluno(
             TreinoAlunoId id,
-            TreinoId treinoId,
             AlunoId alunoId,
+            TreinoId treinoId,
             String nome,
             LocalDate dataInicio,
             boolean ativo
     ) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id da ficha de treino é obrigatório");
+        }
+
+        if (alunoId == null) {
+            throw new IllegalArgumentException("Aluno é obrigatório");
+        }
+
+        if (treinoId == null) {
+            throw new IllegalArgumentException("Treino é obrigatório");
+        }
+
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome da ficha é obrigatório");
+        }
+
+        if (dataInicio == null) {
+            throw new IllegalArgumentException("Data de início é obrigatória");
+        }
+
         this.id = id;
-        this.treinoId = treinoId;
         this.alunoId = alunoId;
+        this.treinoId = treinoId;
         this.nome = nome;
         this.dataInicio = dataInicio;
         this.ativo = ativo;
@@ -33,37 +53,29 @@ public class TreinoAluno {
     public TreinoAlunoId getId() {
         return id;
     }
+    public AlunoId getAlunoId() {
+        return alunoId;
+    }
+    public TreinoId getTreinoId() {
+        return treinoId;
+    }
+    public String getNome() {
+        return nome;
+    }
+    public LocalDate getDataInicio() { return dataInicio; }
 
     public void setId(TreinoAlunoId id) {
         this.id = id;
     }
-
-    public TreinoId getTreinoId() {
-        return treinoId;
-    }
-
-    public void setTreinoId(TreinoId treino) {
-        this.treinoId = treinoId;
-    }
-
-    public AlunoId getAlunoId() {
-        return alunoId;
-    }
-
     public void setAlunoId(AlunoId alunoId) {
         this.alunoId = alunoId;
     }
-
-    public String getNome() {
-        return nome;
+    public void setTreinoId(TreinoId treinoId) {
+        this.treinoId = treinoId;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public LocalDate getDataInicio() {
-        return dataInicio;
     }
 
     public void setDataInicio(LocalDate dataInicio) {
@@ -74,7 +86,11 @@ public class TreinoAluno {
         return ativo;
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public void ativar() {
+        this.ativo = true;
+    }
+
+    public void inativar() {
+        this.ativo = false;
     }
 }

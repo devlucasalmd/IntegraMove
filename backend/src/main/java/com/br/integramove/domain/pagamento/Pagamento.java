@@ -1,65 +1,120 @@
 package com.br.integramove.domain.pagamento;
 
-import com.br.integramove.infrastructure.persistence.pagamento.FormaPagamento;
+import com.br.integramove.domain.aluno.AlunoId;
+import com.br.integramove.domain.plano.PlanoId;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class Pagamento {
 
     private PagamentoId id;
-    private FormaPagamento formaPagamento;
+    private AlunoId alunoId;
+    private PlanoId planoId;
     private BigDecimal valor;
-    private LocalDate data;
-    private String status;
+    private LocalDate dataVencimento;
+    private LocalDate dataPagamento;
+    private FormaPagamento formaPagamento;
+    private StatusPagamento status;
 
-    public Pagamento(PagamentoId id, FormaPagamento formaPagamento, BigDecimal valor, LocalDate data, String status) {
+
+    public Pagamento(
+            PagamentoId id,
+            AlunoId alunoId,
+            PlanoId planoId,
+            BigDecimal valor,
+            LocalDate dataVencimento,
+            LocalDate dataPagamento,
+            FormaPagamento formaPagamento,
+            StatusPagamento status
+    ) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id do pagamento é obrigatório");
+        }
+
+        if (alunoId == null) {
+            throw new IllegalArgumentException("Aluno é obrigatório para o pagamento");
+        }
+
+        if (planoId == null) {
+            throw new IllegalArgumentException("Plano é obrigatório para o pagamento");
+        }
+
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Valor do pagamento deve ser maior que zero");
+        }
+
+        if (dataVencimento == null) {
+            throw new IllegalArgumentException("Data de vencimento é obrigatória");
+        }
+
         this.id = id;
-        this.formaPagamento = formaPagamento;
+        this.alunoId = alunoId;
+        this.planoId = planoId;
         this.valor = valor;
-        this.data = data;
+        this.dataVencimento = dataVencimento;
+        this.dataPagamento = dataPagamento;
+        this.formaPagamento = formaPagamento;
         this.status = status;
     }
-
 
     public PagamentoId getId() {
         return id;
     }
 
-    public void setId(PagamentoId id) {
-        this.id = id;
+    public AlunoId getAlunoId() {
+        return alunoId;
+    }
+
+    public PlanoId getPlanoId() {
+        return planoId;
     }
 
     public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public LocalDate getDataVencimento() {
+        return dataVencimento;
     }
 
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
+    public LocalDate getDataPagamento() {
+        return dataPagamento;
     }
 
     public FormaPagamento getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaPagamento(FormaPagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
-    }
-
-    public String getStatus() {
+    public StatusPagamento getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+
+    public void pagar(FormaPagamento formaPagamento, LocalDate dataPagamento) {
+        if (formaPagamento == null) {
+            throw new IllegalArgumentException("Forma de pagamento é obrigatória");
+        }
+
+        this.formaPagamento = formaPagamento;
+        this.dataPagamento = dataPagamento != null ? dataPagamento : LocalDate.now();
+        this.status = StatusPagamento.PAGO;
+    }
+
+    public void marcarComoPago(FormaPagamento formaPagamento, LocalDate dataPagamento) {
+        if (formaPagamento == null) {
+            throw new IllegalArgumentException("Forma de pagamento é obrigatória");
+        }
+
+        this.formaPagamento = formaPagamento;
+        this.dataPagamento = dataPagamento != null ? dataPagamento : LocalDate.now();
+        this.status = StatusPagamento.PAGO;
+    }
+
+    public void marcarComoVencido() {
+        if (this.status != StatusPagamento.PAGO &&
+                LocalDate.now().isAfter(this.dataVencimento)) {
+            this.status = StatusPagamento.VENCIDO;
+        }
     }
 }

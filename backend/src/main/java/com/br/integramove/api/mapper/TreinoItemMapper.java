@@ -2,7 +2,12 @@ package com.br.integramove.api.mapper;
 
 import com.br.integramove.api.dto.request.TreinoItemRequestDTO;
 import com.br.integramove.api.dto.response.TreinoItemResponseDTO;
-import com.br.integramove.application.treino.item.*;
+import com.br.integramove.application.treino.item.inputs.AtualizarTreinoItemInput;
+import com.br.integramove.application.treino.item.inputs.CriarTreinoItemInput;
+import com.br.integramove.application.treino.item.outputs.AtualizarTreinoItemOutput;
+import com.br.integramove.application.treino.item.outputs.BuscarTreinoItemOutput;
+import com.br.integramove.application.treino.item.outputs.CriarTreinoItemOutput;
+import com.br.integramove.application.treino.item.outputs.ListarTreinoItemOutput;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -12,8 +17,8 @@ public class TreinoItemMapper {
 
     private static TreinoItemResponseDTO build(
             String id,
-            String treinoId,
             String exercicioId,
+            String nomeExercicio,
             Integer series,
             String repeticoes,
             BigDecimal carga,
@@ -21,7 +26,7 @@ public class TreinoItemMapper {
             Integer ordem
     ) {
         return new TreinoItemResponseDTO(
-                id, treinoId, exercicioId, series, repeticoes, carga, descanso, ordem
+                id, exercicioId, nomeExercicio, series, repeticoes, carga, descanso, ordem
         );
     }
 
@@ -55,8 +60,8 @@ public class TreinoItemMapper {
 
         return build(
                 output.id(),
-                output.treinoId(),
                 output.exercicioId(),
+                output.nomeExercicio(),
                 output.series(),
                 output.repeticoes(),
                 output.carga(),
@@ -69,8 +74,8 @@ public class TreinoItemMapper {
 
         return build(
                 output.id(),
-                output.treinoId(),
                 output.exercicioId(),
+                output.nomeExercicio(),
                 output.series(),
                 output.repeticoes(),
                 output.carga(),
@@ -83,8 +88,8 @@ public class TreinoItemMapper {
 
         return build(
                 output.id(),
-                output.treinoId(),
                 output.exercicioId(),
+                output.nomeExercicio(),
                 output.series(),
                 output.repeticoes(),
                 output.carga(),
@@ -97,8 +102,8 @@ public class TreinoItemMapper {
 
         return build(
                 output.id(),
-                output.treinoId(),
                 output.exercicioId(),
+                output.nomeExercicio(),
                 output.series(),
                 output.repeticoes(),
                 output.carga(),

@@ -32,7 +32,9 @@ public class BuscarAluno {
                 aluno.getTelefone(),
                 aluno.getEmail().getValue(),
                 aluno.getStatus(),
-                toEnderecoOutput(aluno.getEndereco())
+                toEnderecoOutput(aluno.getEndereco()),
+                aluno.getPlanoId().getValue().toString(),
+                null
         );
     }
 

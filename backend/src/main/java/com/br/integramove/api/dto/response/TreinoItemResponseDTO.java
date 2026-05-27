@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public record TreinoItemResponseDTO(
         String treinoItemId,
         String exercicioId,
-        String nome,
+        String nomeExercicio,
         Integer series,
         String repeticoes,
         BigDecimal carga,

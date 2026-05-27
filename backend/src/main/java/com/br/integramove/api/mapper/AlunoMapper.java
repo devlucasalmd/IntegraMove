@@ -26,6 +26,7 @@ public class AlunoMapper {
                 dto.telefone(),
                 dto.email(),
                 dto.status(),
+                dto.planoId(),
                 toEnderecoInput(dto.enderecoDTO())
         );
     }
@@ -64,7 +65,9 @@ public class AlunoMapper {
                 output.telefone(),
                 output.email(),
                 output.status(),
-                toEnderecoResponse(output.endereco())
+                toEnderecoResponse(output.endereco()),
+                output.planoId(),
+                output.nomePlano()
         );
     }
 
@@ -78,7 +81,9 @@ public class AlunoMapper {
                 output.telefone(),
                 output.email(),
                 output.status(),
-                toEnderecoResponse(output.endereco())
+                toEnderecoResponse(output.endereco()),
+                null,
+                null
         );
     }
 
@@ -92,7 +97,9 @@ public class AlunoMapper {
                 output.telefone(),
                 output.email(),
                 output.status(),
-                toEnderecoResponse(output.endereco())
+                toEnderecoResponse(output.endereco()),
+                null,
+                null
         );
     }
 

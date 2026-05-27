@@ -16,7 +16,7 @@ public class ExercicioEntityMapper {
         entity.setNome(exercicio.getNome());
         entity.setGrupoMuscular(exercicio.getGrupoMuscular());
         entity.setDescricao(exercicio.getDescricao());
-        entity.setIntensidade(exercicio.getIntensidade().name());
+        entity.setIntensidade(exercicio.getIntensidade());
         entity.setAtivo(exercicio.getAtivo());
 
 
@@ -32,7 +32,7 @@ public class ExercicioEntityMapper {
                 entity.getNome(),
                 entity.getGrupoMuscular(),
                 entity.getDescricao(),
-                Intensidade.from(entity.getIntensidade()),
+               entity.getIntensidade(),
                 entity.getAtivo()
         );
     }

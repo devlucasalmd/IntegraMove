@@ -1,6 +1,8 @@
 package com.br.integramove.infrastructure.persistence.aluno;
 
 import com.br.integramove.domain.aluno.*;
+import com.br.integramove.domain.plano.PlanoId;
+import com.br.integramove.infrastructure.persistence.plano.PlanoEntity;
 
 public class AlunoEntityMapper {
 
@@ -24,6 +26,14 @@ public class AlunoEntityMapper {
         entity.setNumero(e.getNumero());
         entity.setBairro(e.getBairro());
 
+        if (aluno.getPlanoId() != null) {
+            PlanoEntity planoEntity = new PlanoEntity();
+            planoEntity.setId(aluno.getPlanoId().getValue());
+            entity.setPlano(planoEntity);
+        } else {
+            entity.setPlano(null);
+        }
+
         return entity;
     }
 
@@ -37,6 +47,13 @@ public class AlunoEntityMapper {
                 entity.getBairro()
         );
 
+        PlanoId planoId = null;
+
+        if (entity.getPlano() != null) {
+            planoId = PlanoId.from(entity.getPlano().getId().toString());
+        }
+
+
         return new Aluno(
                 AlunoId.from(entity.getId().toString()),
                 entity.getNome(),
@@ -45,8 +62,9 @@ public class AlunoEntityMapper {
                 Genero.valueOf(entity.getGenero()),
                 entity.getTelefone(),
                 new Email(entity.getEmail()),
-                endereco,
-                entity.getStatus()
-        );
+                entity.getStatus(),
+                planoId,
+                endereco
+                );
     }
 }

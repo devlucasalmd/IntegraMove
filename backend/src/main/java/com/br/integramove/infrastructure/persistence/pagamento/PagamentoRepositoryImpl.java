@@ -1,6 +1,7 @@
 package com.br.integramove.infrastructure.persistence.pagamento;
 
 import com.br.integramove.application.pagamento.PagamentoRepository;
+import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.pagamento.Pagamento;
 import com.br.integramove.domain.pagamento.PagamentoId;
 import org.springframework.stereotype.Repository;
@@ -39,5 +40,12 @@ public class PagamentoRepositoryImpl implements PagamentoRepository {
                 .toList();
     }
 
+    @Override
+    public List<Pagamento> listarPorAlunoId(AlunoId alunoId) {
+        return jpa.findByAluno_Id(alunoId.getValue())
+                .stream()
+                .map(PagamentoEntityMapper::toDomain)
+                .toList();
+    }
 
 }

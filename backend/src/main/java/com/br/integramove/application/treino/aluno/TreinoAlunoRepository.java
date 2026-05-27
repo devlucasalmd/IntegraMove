@@ -1,5 +1,6 @@
 package com.br.integramove.application.treino.aluno;
 
+import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.treino.aluno.TreinoAluno;
 import com.br.integramove.domain.treino.aluno.TreinoAlunoId;
 
@@ -13,5 +14,7 @@ public interface TreinoAlunoRepository {
     Optional<TreinoAluno> buscarPorId(TreinoAlunoId id);
 
     List<TreinoAluno> listarTodos();
+
+    List<TreinoAluno> listarPorAlunoId(AlunoId alunoId);
 
 }

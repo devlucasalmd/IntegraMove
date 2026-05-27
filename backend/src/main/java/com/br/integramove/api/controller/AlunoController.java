@@ -3,19 +3,23 @@ package com.br.integramove.api.controller;
 import com.br.integramove.api.dto.request.AlunoRequestDTO;
 import com.br.integramove.api.dto.response.AlunoResponseDTO;
 import com.br.integramove.api.dto.response.AlunoResumoResponseDTO;
+import com.br.integramove.api.dto.response.FinanceiroAlunoResponseDTO;
+import com.br.integramove.api.dto.response.PagamentoResponseDTO;
 import com.br.integramove.api.mapper.AlunoMapper;
+import com.br.integramove.api.mapper.FinanceiroAlunoMapper;
+import com.br.integramove.api.mapper.PagamentoMapper;
 import com.br.integramove.application.aluno.inputs.AtualizarAlunoInput;
 import com.br.integramove.application.aluno.inputs.CriarAlunoInput;
 import com.br.integramove.application.aluno.inputs.DesativarAlunoInput;
-import com.br.integramove.application.aluno.outputs.AtualizarAlunoOutput;
-import com.br.integramove.application.aluno.outputs.BuscarAlunoOutput;
-import com.br.integramove.application.aluno.outputs.CriarAlunoOutput;
-import com.br.integramove.application.aluno.outputs.ListarAlunosOutput;
+import com.br.integramove.application.aluno.outputs.*;
 import com.br.integramove.application.aluno.services.*;
+import com.br.integramove.application.pagamento.outputs.ListarPagamentosPorAlunoOutput;
+import com.br.integramove.application.pagamento.services.ListarPagamentosPorAluno;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.PublicKey;
 import java.util.List;
 
 @RestController
@@ -27,19 +31,28 @@ public class AlunoController {
     private final ListarAlunos listarAlunos;
     private final AtualizarAluno atualizarAluno;
     private final DesativarAluno desativarAluno;
+    private final VincularPlanoAoAluno vincularPlano;
+    private final ListarPagamentosPorAluno listarPagamentosPorAluno;
+    private final BuscarFinanceiroAluno buscarFinanceiroAluno;
 
     public AlunoController(
             CriarAluno criarAluno,
             BuscarAluno buscarAluno,
             ListarAlunos listarAlunos,
             AtualizarAluno atualizarAluno,
-            DesativarAluno desativarAluno
-    ) {
+            DesativarAluno desativarAluno,
+            VincularPlanoAoAluno vincularPlano,
+            ListarPagamentosPorAluno listarPagamentosPorAluno,
+            BuscarFinanceiroAluno buscarFinanceiroAluno
+            ) {
         this.criarAluno = criarAluno;
         this.buscarAluno = buscarAluno;
         this.listarAlunos = listarAlunos;
         this.atualizarAluno = atualizarAluno;
         this.desativarAluno = desativarAluno;
+        this.vincularPlano = vincularPlano;
+        this.listarPagamentosPorAluno = listarPagamentosPorAluno;
+        this.buscarFinanceiroAluno = buscarFinanceiroAluno;
     }
 
     @PostMapping
@@ -80,5 +93,34 @@ public class AlunoController {
     public ResponseEntity<?> desativar(@PathVariable String id){
         desativarAluno.desativar(new DesativarAlunoInput(id));
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{alunoId}/plano/{planoId}")
+    public ResponseEntity<Void> vincularPlano(@PathVariable String alunoId, @PathVariable String planoId){
+        vincularPlano.executar(alunoId, planoId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{alunoId}/pagamentos")
+    public ResponseEntity<List<PagamentoResponseDTO>> listarPagamentosPorAluno(
+            @PathVariable String alunoId
+    ) {
+        List<ListarPagamentosPorAlunoOutput> outputs =
+                listarPagamentosPorAluno.listar(alunoId);
+
+        return ResponseEntity.ok(
+                outputs.stream()
+                        .map(PagamentoMapper::toResponse)
+                        .toList()
+        );
+    }
+
+    @GetMapping("/{alunoId}/financeiro")
+    public ResponseEntity<FinanceiroAlunoResponseDTO> buscarFinanceiro(
+            @PathVariable String alunoId
+    ) {
+        BuscarFinanceiroAlunoOutput output = buscarFinanceiroAluno.buscar(alunoId);
+
+        return ResponseEntity.ok(FinanceiroAlunoMapper.toResponse(output));
     }
 }

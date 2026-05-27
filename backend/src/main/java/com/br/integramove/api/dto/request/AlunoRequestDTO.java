@@ -17,5 +17,6 @@ public record AlunoRequestDTO(
         String telefone,
         Email email,
         StatusAluno status,
+        String planoId,
         EnderecoRequestDTO enderecoDTO
 ) {}

@@ -17,5 +17,7 @@ public record AlunoResponseDTO(
         String telefone,
         String email,
         StatusAluno status,
-        EnderecoResponseDTO enderecoDTO
+        EnderecoResponseDTO enderecoDTO,
+        String planoId,
+        String nomePlano
 ) {}
