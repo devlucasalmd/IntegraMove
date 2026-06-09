@@ -9,6 +9,7 @@ import com.br.integramove.domain.treino.aluno.TreinoAlunoId;
 import com.br.integramove.domain.treino.treino.TreinoId;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,28 +24,40 @@ public class CriarTreinoAluno {
     public CriarTreinoAlunoOutput criar(CriarTreinoAlunoInput input){
 
         System.out.println("USECASE input.alunoId: " + input.alunoId());
-        System.out.println("USECASE input.treinoId: " + input.treinoId());
+        System.out.println("USECASE input.treinoId: " + input.treinosIds());
+
+        List<TreinoId> treinosIds = input.treinosIds()
+                .stream()
+                .map(id -> TreinoId.of(UUID.fromString(id)))
+                .toList();
+
 
         TreinoAluno treinoAluno = new TreinoAluno(
                 TreinoAlunoId.novo(),
                 AlunoId.of(UUID.fromString(input.alunoId())),
-                TreinoId.of(UUID.fromString(input.treinoId())),
+                treinosIds,
                 input.nome(),
                 input.dataInicio(),
+                input.dataFim(),
                 input.ativo()
         );
 
         TreinoAluno saved = treinoAlunoRepository.salvar(treinoAluno);
 
+        List<String> treinosIdsResponse = saved.getTreinosIds()
+                .stream()
+                .map(treinoId -> treinoId.getValue().toString())
+                .toList();
+
         return new CriarTreinoAlunoOutput(
 
                 saved.getId().getValue().toString(),
                 saved.getAlunoId().getValue().toString(),
-                saved.getTreinoId().getValue().toString(),
+                treinosIdsResponse,
                 saved.getNome(),
                 saved.getDataInicio(),
+                saved.getDataFim(),
                 saved.isAtivo()
-
         );
     }
 

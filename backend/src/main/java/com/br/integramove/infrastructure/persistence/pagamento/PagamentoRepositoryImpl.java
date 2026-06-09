@@ -12,40 +12,42 @@ import java.util.Optional;
 @Repository
 public class PagamentoRepositoryImpl implements PagamentoRepository {
 
-    private final PagamentoJpaRepository jpa;
+    private final PagamentoJpaRepository pagamentoJpaRepository;
+    private final PagamentoEntityMapper pagamentoEntityMapper;
 
-    public PagamentoRepositoryImpl(PagamentoJpaRepository jpa) {
-        this.jpa = jpa;
+    public PagamentoRepositoryImpl(
+            PagamentoJpaRepository pagamentoJpaRepository,
+            PagamentoEntityMapper pagamentoEntityMapper
+    ) {
+        this.pagamentoJpaRepository = pagamentoJpaRepository;
+        this.pagamentoEntityMapper = pagamentoEntityMapper;
     }
 
     @Override
-    public Pagamento salvar(Pagamento pagamento){
-        PagamentoEntity entity = PagamentoEntityMapper.toEntity(pagamento);
-        PagamentoEntity saved = jpa.save(entity);
-
-        return PagamentoEntityMapper.toDomain(saved);
+    public Pagamento salvar(Pagamento pagamento) {
+        PagamentoEntity entity = pagamentoEntityMapper.toEntity(pagamento);
+        PagamentoEntity salvo = pagamentoJpaRepository.save(entity);
+        return pagamentoEntityMapper.toDomain(salvo);
     }
 
     @Override
-    public Optional<Pagamento> buscarPorId(PagamentoId id){
-        return jpa.findById(id.getValue())
-                .map(PagamentoEntityMapper::toDomain);
+    public Optional<Pagamento> buscarPorId(PagamentoId pagamentoId) {
+        return pagamentoJpaRepository.findById(pagamentoId.getValue())
+                .map(pagamentoEntityMapper::toDomain);
     }
 
     @Override
-    public List<Pagamento> listarTodos(){
-        return jpa.findAll()
-                .stream()
-                .map(PagamentoEntityMapper::toDomain)
-                .toList();
+    public Optional<Pagamento> buscarPorAlunoIdEPagamentoId(AlunoId alunoId, PagamentoId pagamentoId) {
+        return pagamentoJpaRepository
+                .findByAluno_IdAndId(alunoId.getValue(), pagamentoId.getValue())
+                .map(pagamentoEntityMapper::toDomain);
     }
 
     @Override
     public List<Pagamento> listarPorAlunoId(AlunoId alunoId) {
-        return jpa.findByAluno_Id(alunoId.getValue())
+        return pagamentoJpaRepository.findByAluno_Id(alunoId.getValue())
                 .stream()
-                .map(PagamentoEntityMapper::toDomain)
+                .map(pagamentoEntityMapper::toDomain)
                 .toList();
     }
-
 }

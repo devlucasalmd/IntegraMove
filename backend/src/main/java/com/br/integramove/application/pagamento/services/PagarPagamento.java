@@ -1,29 +1,37 @@
 package com.br.integramove.application.pagamento.services;
 
 import com.br.integramove.application.pagamento.PagamentoRepository;
-import com.br.integramove.application.pagamento.inputs.CriarPagamentoInput;
+import com.br.integramove.application.pagamento.inputs.PagarPagamentoInput;
 import com.br.integramove.application.pagamento.outputs.PagamentoOutput;
 import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.pagamento.Pagamento;
-import com.br.integramove.domain.plano.PlanoId;
+import com.br.integramove.domain.pagamento.PagamentoId;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CriarPagamento {
+public class PagarPagamento {
 
     private final PagamentoRepository pagamentoRepository;
 
-    public CriarPagamento(PagamentoRepository pagamentoRepository) {
+    public PagarPagamento(PagamentoRepository pagamentoRepository) {
         this.pagamentoRepository = pagamentoRepository;
     }
 
-    public PagamentoOutput executar(CriarPagamentoInput input) {
-        Pagamento pagamento = Pagamento.criar(
-                AlunoId.from(input.alunoId()),
-                PlanoId.from(input.planoId()),
-                input.valor(),
-                input.dataVencimento(),
-                input.observacoes()
+    public PagamentoOutput executar(
+            String alunoId,
+            String pagamentoId,
+            PagarPagamentoInput input
+    ) {
+        Pagamento pagamento = pagamentoRepository
+                .buscarPorAlunoIdEPagamentoId(
+                        AlunoId.from(alunoId),
+                        PagamentoId.from(pagamentoId)
+                )
+                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado para este aluno"));
+
+        pagamento.pagar(
+                input.formaPagamento(),
+                input.dataPagamento()
         );
 
         Pagamento pagamentoSalvo = pagamentoRepository.salvar(pagamento);

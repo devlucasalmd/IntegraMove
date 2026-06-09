@@ -1,7 +1,8 @@
 package com.br.integramove.application.pagamento.services;
 
 import com.br.integramove.application.pagamento.PagamentoRepository;
-import com.br.integramove.application.pagamento.outputs.BuscarPagamentoOutput;
+import com.br.integramove.application.pagamento.outputs.PagamentoOutput;
+import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.pagamento.Pagamento;
 import com.br.integramove.domain.pagamento.PagamentoId;
 import org.springframework.stereotype.Service;
@@ -15,21 +16,28 @@ public class BuscarPagamento {
         this.pagamentoRepository = pagamentoRepository;
     }
 
-    public BuscarPagamentoOutput buscar(String id){
+    public PagamentoOutput executar(String alunoId, String pagamentoId) {
+        Pagamento pagamento = pagamentoRepository
+                .buscarPorAlunoIdEPagamentoId(
+                        AlunoId.from(alunoId),
+                        PagamentoId.from(pagamentoId)
+                )
+                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado para este aluno"));
 
-        PagamentoId pagamentoId = PagamentoId.from(id);
+        return toOutput(pagamento);
+    }
 
-        Pagamento pagamento = pagamentoRepository.buscarPorId(pagamentoId).orElseThrow();
-
-        return new BuscarPagamentoOutput(
+    private PagamentoOutput toOutput(Pagamento pagamento) {
+        return new PagamentoOutput(
                 pagamento.getId().getValue().toString(),
                 pagamento.getAlunoId().getValue().toString(),
                 pagamento.getPlanoId().getValue().toString(),
                 pagamento.getValor(),
-                pagamento.getDataPagamento(),
                 pagamento.getDataVencimento(),
-                pagamento.getFormaPagamento(),
-                pagamento.getStatus()
+                pagamento.getDataPagamento(),
+                pagamento.getFormaPagamento() != null ? pagamento.getFormaPagamento().name() : null,
+                pagamento.getStatus() != null ? pagamento.getStatus().name() : null,
+                pagamento.getObservacoes()
         );
     }
 }

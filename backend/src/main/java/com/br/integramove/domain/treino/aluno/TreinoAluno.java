@@ -4,22 +4,26 @@ import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.treino.treino.TreinoId;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TreinoAluno {
     private TreinoAlunoId id;
     private AlunoId alunoId;
-    private TreinoId treinoId;
+    private List<TreinoId> treinosIds = new ArrayList<>();
 //    private ProfessorId professorId;
     private String nome;
     private LocalDate dataInicio;
+    private LocalDate dataFim;
     private boolean ativo;
 
     public TreinoAluno(
             TreinoAlunoId id,
             AlunoId alunoId,
-            TreinoId treinoId,
+            List<TreinoId> treinosIds,
             String nome,
             LocalDate dataInicio,
+            LocalDate dataFim,
             boolean ativo
     ) {
         if (id == null) {
@@ -30,9 +34,9 @@ public class TreinoAluno {
             throw new IllegalArgumentException("Aluno é obrigatório");
         }
 
-        if (treinoId == null) {
-            throw new IllegalArgumentException("Treino é obrigatório");
-        }
+//        if (treinoId == null) {
+//            throw new IllegalArgumentException("Treino é obrigatório");
+//        }
 
         if (nome == null || nome.isBlank()) {
             throw new IllegalArgumentException("Nome da ficha é obrigatório");
@@ -44,9 +48,10 @@ public class TreinoAluno {
 
         this.id = id;
         this.alunoId = alunoId;
-        this.treinoId = treinoId;
+        this.treinosIds = treinosIds;
         this.nome = nome;
         this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
         this.ativo = ativo;
     }
 
@@ -56,22 +61,17 @@ public class TreinoAluno {
     public AlunoId getAlunoId() {
         return alunoId;
     }
-    public TreinoId getTreinoId() {
-        return treinoId;
-    }
+    public List<TreinoId> getTreinosIds() { return treinosIds; }
     public String getNome() {
         return nome;
     }
     public LocalDate getDataInicio() { return dataInicio; }
-
+    public LocalDate getDataFim() { return dataFim; }
     public void setId(TreinoAlunoId id) {
         this.id = id;
     }
     public void setAlunoId(AlunoId alunoId) {
         this.alunoId = alunoId;
-    }
-    public void setTreinoId(TreinoId treinoId) {
-        this.treinoId = treinoId;
     }
 
     public void setNome(String nome) {

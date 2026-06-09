@@ -12,59 +12,39 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
 @Repository
 public class TreinoAlunoRepositoryImpl implements TreinoAlunoRepository {
 
     private final TreinoAlunoJpaRepository treinoAlunoJpaRepository;
-    private final AlunoJpaRepository alunoJpaRepository;
-    private final TreinoJpaRepository treinoJpaRepository;
+    private final TreinoAlunoEntityMapper mapper;
 
     public TreinoAlunoRepositoryImpl(
             TreinoAlunoJpaRepository treinoAlunoJpaRepository,
-            AlunoJpaRepository alunoJpaRepository,
-            TreinoJpaRepository treinoJpaRepository
+            TreinoAlunoEntityMapper mapper
     ) {
         this.treinoAlunoJpaRepository = treinoAlunoJpaRepository;
-        this.alunoJpaRepository = alunoJpaRepository;
-        this.treinoJpaRepository = treinoJpaRepository;
+        this.mapper = mapper;
     }
+
     @Override
     public TreinoAluno salvar(TreinoAluno treinoAluno) {
-        TreinoAlunoEntity entity = TreinoAlunoEntityMapper.toEntity(treinoAluno);
-
-        System.out.println("========== DEBUG TREINO ALUNO ==========");
-        System.out.println("ID da ficha: " + treinoAluno.getId().getValue());
-        System.out.println("AlunoId recebido: " + treinoAluno.getAlunoId().getValue());
-        System.out.println("TreinoId recebido: " + treinoAluno.getTreinoId().getValue());
-        System.out.println("========================================");
-
-        AlunoEntity alunoEntity = alunoJpaRepository.findById(
-                treinoAluno.getAlunoId().getValue()
-        ).orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
-
-        TreinoEntity treinoEntity = treinoJpaRepository.findById(
-                treinoAluno.getTreinoId().getValue()
-        ).orElseThrow(() -> new RuntimeException("Treino não encontrado"));
-
-        entity.setAluno(alunoEntity);
-        entity.setTreino(treinoEntity);
-
-        TreinoAlunoEntity salvo = treinoAlunoJpaRepository.save(entity);
-
-        return TreinoAlunoEntityMapper.toDomain(salvo);
+        TreinoAlunoEntity entity = mapper.toEntity(treinoAluno);
+        TreinoAlunoEntity saved = treinoAlunoJpaRepository.save(entity);
+        return mapper.toDomain(saved);
     }
 
     @Override
     public Optional<TreinoAluno> buscarPorId(TreinoAlunoId id) {
         return treinoAlunoJpaRepository.findById(id.getValue())
-                .map(TreinoAlunoEntityMapper::toDomain);
+                .map(mapper::toDomain);
     }
 
     @Override
     public List<TreinoAluno> listarTodos() {
         return treinoAlunoJpaRepository.findAll()
                 .stream()
-                .map(TreinoAlunoEntityMapper::toDomain)
+                .map(mapper::toDomain)
                 .toList();
     }
 
@@ -72,7 +52,7 @@ public class TreinoAlunoRepositoryImpl implements TreinoAlunoRepository {
     public List<TreinoAluno> listarPorAlunoId(AlunoId alunoId) {
         return treinoAlunoJpaRepository.findByAluno_Id(alunoId.getValue())
                 .stream()
-                .map(TreinoAlunoEntityMapper::toDomain)
+                .map(mapper::toDomain)
                 .toList();
     }
 }

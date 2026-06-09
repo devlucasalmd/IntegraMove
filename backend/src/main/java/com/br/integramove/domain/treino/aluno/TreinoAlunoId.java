@@ -1,5 +1,6 @@
 package com.br.integramove.domain.treino.aluno;
 
+import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.treino.treino.TreinoId;
 
 import java.util.Objects;
@@ -29,6 +30,11 @@ public class TreinoAlunoId {
         TreinoAlunoId treinoAlunoId = (TreinoAlunoId) obj;
         return value.equals(treinoAlunoId.value);
     }
+
+    public static TreinoAlunoId of(UUID value) {
+        return new TreinoAlunoId(value);
+    }
+
 
     @Override
     public int hashCode() {

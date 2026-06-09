@@ -13,13 +13,11 @@ import com.br.integramove.application.aluno.inputs.CriarAlunoInput;
 import com.br.integramove.application.aluno.inputs.DesativarAlunoInput;
 import com.br.integramove.application.aluno.outputs.*;
 import com.br.integramove.application.aluno.services.*;
-import com.br.integramove.application.pagamento.outputs.ListarPagamentosPorAlunoOutput;
 import com.br.integramove.application.pagamento.services.ListarPagamentosPorAluno;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
 import java.util.List;
 
 @RestController
@@ -101,26 +99,5 @@ public class AlunoController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{alunoId}/pagamentos")
-    public ResponseEntity<List<PagamentoResponseDTO>> listarPagamentosPorAluno(
-            @PathVariable String alunoId
-    ) {
-        List<ListarPagamentosPorAlunoOutput> outputs =
-                listarPagamentosPorAluno.listar(alunoId);
 
-        return ResponseEntity.ok(
-                outputs.stream()
-                        .map(PagamentoMapper::toResponse)
-                        .toList()
-        );
-    }
-
-    @GetMapping("/{alunoId}/financeiro")
-    public ResponseEntity<FinanceiroAlunoResponseDTO> buscarFinanceiro(
-            @PathVariable String alunoId
-    ) {
-        BuscarFinanceiroAlunoOutput output = buscarFinanceiroAluno.buscar(alunoId);
-
-        return ResponseEntity.ok(FinanceiroAlunoMapper.toResponse(output));
-    }
 }

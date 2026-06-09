@@ -7,6 +7,8 @@ import com.br.integramove.domain.treino.aluno.TreinoAluno;
 import com.br.integramove.domain.treino.aluno.TreinoAlunoId;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BuscarTreinoAluno {
 
@@ -16,17 +18,27 @@ public class BuscarTreinoAluno {
         this.repository = repository;
     }
 
-    public BuscarTreinoAlunoOutput buscar(String id){
+    public BuscarTreinoAlunoOutput buscar(String alunoId, String id) {
 
         TreinoAluno treinoAluno = repository.buscarPorId(TreinoAlunoId.from(id))
                 .orElseThrow(() -> new TreinoAlunoNaoEncontradoExcpetion("Treino Aluno não encontrado"));
 
+        if (!treinoAluno.getAlunoId().getValue().toString().equals(alunoId)) {
+            throw new TreinoAlunoNaoEncontradoExcpetion("Treino Aluno não encontrado para este aluno");
+        }
+
+        List<String> treinosIds = treinoAluno.getTreinosIds()
+                .stream()
+                .map(treinoId -> treinoId.getValue().toString())
+                .toList();
+
         return new BuscarTreinoAlunoOutput(
                 treinoAluno.getId().getValue().toString(),
-                treinoAluno.getTreinoId().getValue().toString(),
                 treinoAluno.getAlunoId().getValue().toString(),
+                treinosIds,
                 treinoAluno.getNome(),
                 treinoAluno.getDataInicio(),
+                treinoAluno.getDataFim(),
                 treinoAluno.isAtivo()
         );
     }

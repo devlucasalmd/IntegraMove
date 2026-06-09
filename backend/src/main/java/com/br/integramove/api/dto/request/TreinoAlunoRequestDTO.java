@@ -1,13 +1,14 @@
 package com.br.integramove.api.dto.request;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record TreinoAlunoRequestDTO(
-        String id,
-        String treinoId,
-//      ProfessorId professorId;
+        String alunoId,
         String nome,
         LocalDate dataInicio,
-        Boolean ativo
+        LocalDate dataFim,
+        Boolean ativo,
+        List<String> treinosIds
 ) {
 }

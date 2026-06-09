@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/alunos/{alunoId}/treinos")
 public class TreinoAlunoController {
@@ -24,7 +23,6 @@ public class TreinoAlunoController {
     private final CriarTreinoAluno criarTreinoAluno;
     private final BuscarTreinoAluno buscarTreinoAluno;
     private final ListarTreinosAluno listarTreinosAluno;
-
 
     public TreinoAlunoController(
             CriarTreinoAluno criarTreinoAluno,
@@ -41,10 +39,6 @@ public class TreinoAlunoController {
             @PathVariable String alunoId,
             @RequestBody TreinoAlunoRequestDTO request
     ) {
-
-        System.out.println("CONTROLLER alunoId: " + alunoId);
-        System.out.println("CONTROLLER treinoId: " + request.treinoId());
-
         CriarTreinoAlunoInput input = TreinoAlunoMapper.toInput(alunoId, request);
 
         CriarTreinoAlunoOutput output = criarTreinoAluno.criar(input);
@@ -55,9 +49,10 @@ public class TreinoAlunoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TreinoAlunoResponseDTO>> listar(){
-
-        List<ListarTreinoAlunoOutput> outputs = listarTreinosAluno.listar();
+    public ResponseEntity<List<TreinoAlunoResponseDTO>> listar(
+            @PathVariable String alunoId
+    ) {
+        List<ListarTreinoAlunoOutput> outputs = listarTreinosAluno.listar(alunoId);
 
         return ResponseEntity.ok(
                 outputs.stream()
@@ -67,9 +62,11 @@ public class TreinoAlunoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TreinoAlunoResponseDTO> buscar(@PathVariable String id){
-
-        BuscarTreinoAlunoOutput output = buscarTreinoAluno.buscar(id);
+    public ResponseEntity<TreinoAlunoResponseDTO> buscar(
+            @PathVariable String alunoId,
+            @PathVariable String id
+    ) {
+        BuscarTreinoAlunoOutput output = buscarTreinoAluno.buscar(alunoId, id);
 
         return ResponseEntity.ok(TreinoAlunoMapper.toResponse(output));
     }

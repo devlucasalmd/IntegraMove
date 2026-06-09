@@ -1,15 +1,12 @@
 package com.br.integramove.api.controller;
 
 import com.br.integramove.api.dto.request.PagamentoRequestDTO;
+import com.br.integramove.api.dto.request.PagarPagamentoRequestDTO;
 import com.br.integramove.api.dto.response.PagamentoResponseDTO;
 import com.br.integramove.api.mapper.PagamentoMapper;
 import com.br.integramove.application.pagamento.inputs.CriarPagamentoInput;
-import com.br.integramove.application.pagamento.outputs.BuscarPagamentoOutput;
-import com.br.integramove.application.pagamento.outputs.CriarPagamentoOutput;
-import com.br.integramove.application.pagamento.outputs.ListarPagamentosOutput;
-import com.br.integramove.application.pagamento.services.BuscarPagamento;
-import com.br.integramove.application.pagamento.services.CriarPagamento;
-import com.br.integramove.application.pagamento.services.ListarPagamentos;
+import com.br.integramove.application.pagamento.outputs.PagamentoOutput;
+import com.br.integramove.application.pagamento.services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,50 +14,91 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pagamentos")
+@RequestMapping("/alunos/{alunoId}/pagamentos")
 public class PagamentoController {
 
     private final CriarPagamento criarPagamento;
+    private final ListarPagamentosPorAluno listarPagamentos;
     private final BuscarPagamento buscarPagamento;
-    private final ListarPagamentos listarPagamentos;
-
+    private final PagarPagamento pagarPagamento;
+    private final CancelarPagamento cancelarPagamento;
+    private final PagamentoMapper pagamentoMapper;
 
     public PagamentoController(
             CriarPagamento criarPagamento,
+            ListarPagamentosPorAluno listarPagamentos,
             BuscarPagamento buscarPagamento,
-            ListarPagamentos listarPagamentos
+            PagarPagamento pagarPagamento,
+            CancelarPagamento cancelarPagamento,
+            PagamentoMapper pagamentoMapper
     ) {
         this.criarPagamento = criarPagamento;
-        this.buscarPagamento = buscarPagamento;
         this.listarPagamentos = listarPagamentos;
+        this.buscarPagamento = buscarPagamento;
+        this.pagarPagamento = pagarPagamento;
+        this.cancelarPagamento = cancelarPagamento;
+        this.pagamentoMapper = pagamentoMapper;
     }
 
     @PostMapping
-    public ResponseEntity<PagamentoResponseDTO> criar(@RequestBody PagamentoRequestDTO dto){
+    @ResponseStatus(HttpStatus.CREATED)
+    public PagamentoResponseDTO criar(
+            @PathVariable String alunoId,
+            @RequestBody PagamentoRequestDTO request
+    ) {
+        PagamentoOutput output = criarPagamento.executar(
+                pagamentoMapper.toInput(alunoId, request)
+        );
 
-        CriarPagamentoInput input = PagamentoMapper.toInput(dto);
-        CriarPagamentoOutput output = criarPagamento.criar(input);
-
-        return  ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(PagamentoMapper.toResponse(output));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<PagamentoResponseDTO> buscar(@PathVariable String id){
-        BuscarPagamentoOutput output = buscarPagamento.buscar(id);
-        return ResponseEntity.ok(PagamentoMapper.toResponse(output));
+        return pagamentoMapper.toResponse(output);
     }
 
     @GetMapping
-    public ResponseEntity<List<PagamentoResponseDTO>> listar(){
+    public List<PagamentoResponseDTO> listarPorAluno(@PathVariable String alunoId) {
+        return listarPagamentos.executar(alunoId)
+                .stream()
+                .map(pagamentoMapper::toResponse)
+                .toList();
+    }
 
-        List<ListarPagamentosOutput> outputs = listarPagamentos.listar();
-
-        return ResponseEntity.ok(
-                outputs.stream()
-                        .map(PagamentoMapper::toResponse)
-                        .toList()
+    @GetMapping("/{pagamentoId}")
+    public PagamentoResponseDTO buscarPorId(
+            @PathVariable String alunoId,
+            @PathVariable String pagamentoId
+    ) {
+        PagamentoOutput output = buscarPagamento.executar(
+                alunoId,
+                pagamentoId
         );
+
+        return pagamentoMapper.toResponse(output);
+    }
+
+    @PatchMapping("/{pagamentoId}/pagar")
+    public PagamentoResponseDTO pagar(
+            @PathVariable String alunoId,
+            @PathVariable String pagamentoId,
+            @RequestBody PagarPagamentoRequestDTO request
+    ) {
+        PagamentoOutput output = pagarPagamento.executar(
+                alunoId,
+                pagamentoId,
+                pagamentoMapper.toInput(request)
+        );
+
+        return pagamentoMapper.toResponse(output);
+    }
+
+    @PatchMapping("/{pagamentoId}/cancelar")
+    public PagamentoResponseDTO cancelar(
+            @PathVariable String alunoId,
+            @PathVariable String pagamentoId
+    ) {
+        PagamentoOutput output = cancelarPagamento.executar(
+                alunoId,
+                pagamentoId
+        );
+
+        return pagamentoMapper.toResponse(output);
     }
 }

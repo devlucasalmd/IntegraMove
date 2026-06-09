@@ -28,18 +28,20 @@ public class TreinoAlunoEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "aluno_id", nullable = false)
     private AlunoEntity aluno;
-//
-//    @Column(name = "professor_id", nullable = false)
-//    private UUID professorId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "treino_id", nullable = false)
-    private TreinoEntity treino;
 
     private String nome;
 
     private LocalDate dataInicio;
+    private LocalDate dataFim;
     private boolean ativo;
 
+
+    @ManyToMany
+    @JoinTable(
+            name = "aluno_treino_treinos",
+            joinColumns = @JoinColumn(name = "treino_aluno_id"),
+            inverseJoinColumns = @JoinColumn(name = "treino_id")
+    )
+    private List<TreinoEntity> treinos = new ArrayList<>();
 
 }

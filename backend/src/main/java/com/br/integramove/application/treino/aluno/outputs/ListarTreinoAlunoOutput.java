@@ -1,14 +1,15 @@
 package com.br.integramove.application.treino.aluno.outputs;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record ListarTreinoAlunoOutput(
         String id,
-        String treinoId,
         String alunoId,
-//      ProfessorId professorId;
+        List<String> treinosIds,
         String nome,
         LocalDate dataInicio,
-        Boolean ativo
+        LocalDate dataFim,
+        boolean ativo
 ) {
 }

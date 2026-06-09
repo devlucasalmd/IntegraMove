@@ -1,12 +1,9 @@
-package com.br.integramove.api.dto.response;
-
-import com.br.integramove.domain.pagamento.FormaPagamento;
-import com.br.integramove.domain.pagamento.StatusPagamento;
+package com.br.integramove.application.pagamento.outputs;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record PagamentoResponseDTO(
+public record PagamentoOutput(
         String id,
         String alunoId,
         String planoId,
@@ -16,4 +13,5 @@ public record PagamentoResponseDTO(
         String formaPagamento,
         String status,
         String observacoes
-) {}
+) {
+}

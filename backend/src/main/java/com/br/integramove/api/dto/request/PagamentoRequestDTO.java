@@ -7,9 +7,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record PagamentoRequestDTO(
-        String alunoId,
-        LocalDate dataPagamento,
+        String planoId,
+        BigDecimal valor,
         LocalDate dataVencimento,
-        FormaPagamento formaPagamento,
-        StatusPagamento status
+        String observacoes
 ) {}

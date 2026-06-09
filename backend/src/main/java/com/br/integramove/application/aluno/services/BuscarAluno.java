@@ -1,27 +1,43 @@
 package com.br.integramove.application.aluno.services;
 
+import com.br.integramove.api.dto.response.PlanoResponseDTO;
 import com.br.integramove.api.exception.aluno.AlunoNaoEncontradoException;
 import com.br.integramove.application.aluno.AlunoRepository;
 import com.br.integramove.application.aluno.outputs.BuscarAlunoOutput;
 import com.br.integramove.application.aluno.outputs.EnderecoOutput;
+import com.br.integramove.application.plano.PlanoRepository;
 import com.br.integramove.domain.aluno.Aluno;
 import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.aluno.Endereco;
+import com.br.integramove.domain.plano.Plano;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BuscarAluno {
 
-    private final AlunoRepository repository;
+    private final AlunoRepository alunoRepository;
+    private final PlanoRepository planoRepository;
 
-    public BuscarAluno(AlunoRepository repository) {
-        this.repository = repository;
+    public BuscarAluno(AlunoRepository alunoRepository, PlanoRepository planoRepository) {
+        this.alunoRepository = alunoRepository;
+        this.planoRepository = planoRepository;
     }
 
     public BuscarAlunoOutput buscar(String alunoId){
 
         AlunoId id = AlunoId.from(alunoId);
-        Aluno aluno = repository.buscarPorId(id).orElseThrow(() -> new AlunoNaoEncontradoException(id));
+        Aluno aluno = alunoRepository.buscarPorId(id).orElseThrow(() -> new AlunoNaoEncontradoException(id));
+
+        String planoId = null;
+        String nomePlano = null;
+
+        if (aluno.getPlanoId() != null) {
+            planoId = aluno.getPlanoId().getValue().toString();
+
+            nomePlano = planoRepository.buscarPorId(aluno.getPlanoId())
+                    .map(Plano::getNome)
+                    .orElse(null);
+        }
 
         return new BuscarAlunoOutput(
                 aluno.getId().getValue().toString(),
@@ -34,7 +50,7 @@ public class BuscarAluno {
                 aluno.getStatus(),
                 toEnderecoOutput(aluno.getEndereco()),
                 aluno.getPlanoId().getValue().toString(),
-                null
+                nomePlano
         );
     }
 

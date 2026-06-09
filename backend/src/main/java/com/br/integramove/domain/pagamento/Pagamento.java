@@ -16,7 +16,7 @@ public class Pagamento {
     private LocalDate dataPagamento;
     private FormaPagamento formaPagamento;
     private StatusPagamento status;
-
+    private String observacoes;
 
     public Pagamento(
             PagamentoId id,
@@ -26,7 +26,8 @@ public class Pagamento {
             LocalDate dataVencimento,
             LocalDate dataPagamento,
             FormaPagamento formaPagamento,
-            StatusPagamento status
+            StatusPagamento status,
+            String observacoes
     ) {
         if (id == null) {
             throw new IllegalArgumentException("Id do pagamento é obrigatório");
@@ -56,6 +57,7 @@ public class Pagamento {
         this.dataPagamento = dataPagamento;
         this.formaPagamento = formaPagamento;
         this.status = status;
+        this.observacoes = observacoes;
     }
 
     public PagamentoId getId() {
@@ -90,6 +92,27 @@ public class Pagamento {
         return status;
     }
 
+    public String getObservacoes() { return observacoes; }
+
+    public static Pagamento criar(
+            AlunoId alunoId,
+            PlanoId planoId,
+            BigDecimal valor,
+            LocalDate dataVencimento,
+            String observacoes
+    ) {
+        return new Pagamento(
+                PagamentoId.novo(),
+                alunoId,
+                planoId,
+                valor,
+                dataVencimento,
+                null,
+                null,
+                StatusPagamento.A_VENCER,
+                observacoes
+        );
+    }
 
     public void pagar(FormaPagamento formaPagamento, LocalDate dataPagamento) {
         if (formaPagamento == null) {
@@ -99,6 +122,10 @@ public class Pagamento {
         this.formaPagamento = formaPagamento;
         this.dataPagamento = dataPagamento != null ? dataPagamento : LocalDate.now();
         this.status = StatusPagamento.PAGO;
+    }
+
+    public void cancelar() {
+        this.status = StatusPagamento.CANCELADO;
     }
 
     public void marcarComoPago(FormaPagamento formaPagamento, LocalDate dataPagamento) {

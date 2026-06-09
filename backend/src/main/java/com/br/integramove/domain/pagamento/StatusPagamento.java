@@ -4,5 +4,6 @@ public enum StatusPagamento {
     PAGO,
     EM_ABERTO,
     A_VENCER,
-    VENCIDO
+    VENCIDO,
+    CANCELADO
 }

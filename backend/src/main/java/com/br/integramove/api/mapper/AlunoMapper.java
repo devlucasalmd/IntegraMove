@@ -50,7 +50,8 @@ public class AlunoMapper {
         return new AlunoResumoResponseDTO(
                 output.id(),
                 output.nome(),
-                output.plano(),
+                output.planoId(),
+                output.nomePlano(),
                 output.pagamento(),
                 output.status()
         );

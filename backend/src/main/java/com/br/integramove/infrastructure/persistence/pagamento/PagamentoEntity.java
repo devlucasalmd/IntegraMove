@@ -32,10 +32,14 @@ public class PagamentoEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plano_id", nullable = false)
-
     private PlanoEntity plano;
+
     private BigDecimal valor;
+
+    @Column(name = "data_vencimento")
     private LocalDate dataVencimento;
+
+    @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
 
     @Enumerated(EnumType.STRING)
@@ -43,5 +47,7 @@ public class PagamentoEntity {
 
     @Enumerated(EnumType.STRING)
     private StatusPagamento status;
+
+    private String observacoes;
 
 }

@@ -6,7 +6,8 @@ import com.br.integramove.domain.pagamento.StatusPagamento;
 public record AlunoResumoResponseDTO(
         String id,
         String nome,
-        String plano,
+        String planoId,
+        String nomePlano,
         StatusPagamento pagamento,
         StatusAluno status
 ) {

@@ -5,7 +5,12 @@ import com.br.integramove.domain.treino.aluno.TreinoAluno;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TreinoAlunoJpaRepository extends JpaRepository<TreinoAlunoEntity, UUID> {
-    List<TreinoAlunoEntity> findByAluno_Id(UUID alunoId);}
+    List<TreinoAlunoEntity> findByAluno_Id(UUID alunoId);
+
+    Optional<TreinoAlunoEntity> findByAluno_IdAndAtivoTrue(UUID alunoId);
+
+}

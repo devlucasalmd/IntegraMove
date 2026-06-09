@@ -8,8 +8,8 @@ import java.time.LocalDate;
 
 public record CriarPagamentoInput(
         String alunoId,
-        LocalDate dataPagamento,
+        String planoId,
+        BigDecimal valor,
         LocalDate dataVencimento,
-        FormaPagamento formaPagamento,
-        StatusPagamento status
+        String observacoes
 ) {}

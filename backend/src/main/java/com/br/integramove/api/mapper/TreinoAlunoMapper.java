@@ -9,21 +9,28 @@ import com.br.integramove.application.treino.aluno.outputs.ListarTreinoAlunoOutp
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public class TreinoAlunoMapper {
 
     private static TreinoAlunoResponseDTO build(
             String id,
-            String treinoId,
             String alunoId,
-//      ProfessorId professorId;
+            List<String> treinosIds,
             String nome,
             LocalDate dataInicio,
+            LocalDate dataFim,
             Boolean ativo
-    ){
+    ) {
         return new TreinoAlunoResponseDTO(
-                id, treinoId, alunoId, nome, dataInicio, ativo
+                id,
+                alunoId,
+                treinosIds,
+                nome,
+                dataInicio,
+                dataFim,
+                ativo
         );
     }
 
@@ -33,45 +40,46 @@ public class TreinoAlunoMapper {
     ) {
         return new CriarTreinoAlunoInput(
                 alunoId,
-                dto.treinoId(),
+                dto.treinosIds(),
                 dto.nome(),
                 dto.dataInicio(),
+                dto.dataFim(),
                 dto.ativo()
         );
     }
 
-    public static TreinoAlunoResponseDTO toResponse(CriarTreinoAlunoOutput output){
-
+    public static TreinoAlunoResponseDTO toResponse(CriarTreinoAlunoOutput output) {
         return build(
                 output.id(),
-                output.treinoId(),
                 output.alunoId(),
+                output.treinosIds(),
                 output.nome(),
                 output.dataInicio(),
+                output.dataFim(),
                 output.ativo()
         );
     }
 
-    public static TreinoAlunoResponseDTO toResponse(BuscarTreinoAlunoOutput output){
-
+    public static TreinoAlunoResponseDTO toResponse(BuscarTreinoAlunoOutput output) {
         return build(
                 output.id(),
-                output.treinoId(),
                 output.alunoId(),
+                output.treinosIds(),
                 output.nome(),
                 output.dataInicio(),
+                output.dataFim(),
                 output.ativo()
         );
     }
 
-    public static TreinoAlunoResponseDTO toResponse(ListarTreinoAlunoOutput output){
-
+    public static TreinoAlunoResponseDTO toResponse(ListarTreinoAlunoOutput output) {
         return build(
                 output.id(),
-                output.treinoId(),
                 output.alunoId(),
+                output.treinosIds(),
                 output.nome(),
                 output.dataInicio(),
+                output.dataFim(),
                 output.ativo()
         );
     }
