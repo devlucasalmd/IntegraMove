@@ -1,7 +1,7 @@
 package com.br.integramove.infrastructure.persistence.treino.exercicio;
 
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
-import com.br.integramove.domain.treino.exercicio.Intensidade;
+import com.br.integramove.domain.enums.GrupoMuscular;
+import com.br.integramove.domain.enums.Intensidade;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

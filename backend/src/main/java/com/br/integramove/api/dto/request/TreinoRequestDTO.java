@@ -1,7 +1,6 @@
 package com.br.integramove.api.dto.request;
 
-import com.br.integramove.application.treino.item.TreinoItemOutput;
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
+import com.br.integramove.domain.enums.GrupoMuscular;
 
 import java.util.ArrayList;
 import java.util.List;

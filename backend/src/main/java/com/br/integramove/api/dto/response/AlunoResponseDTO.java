@@ -1,10 +1,7 @@
 package com.br.integramove.api.dto.response;
 
-import com.br.integramove.domain.aluno.Cpf;
-import com.br.integramove.domain.aluno.Email;
-import com.br.integramove.domain.aluno.Genero;
-import com.br.integramove.domain.aluno.StatusAluno;
-import org.hibernate.validator.constraints.br.CPF;
+import com.br.integramove.domain.enums.Genero;
+import com.br.integramove.domain.enums.StatusAluno;
 
 import java.time.LocalDate;
 

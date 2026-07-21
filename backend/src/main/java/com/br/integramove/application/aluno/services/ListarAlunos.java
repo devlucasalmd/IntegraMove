@@ -4,8 +4,7 @@ import com.br.integramove.application.aluno.AlunoRepository;
 import com.br.integramove.application.aluno.outputs.ListarAlunosOutput;
 import com.br.integramove.application.plano.PlanoRepository;
 import com.br.integramove.domain.aluno.Aluno;
-import com.br.integramove.domain.aluno.StatusAluno;
-import com.br.integramove.domain.pagamento.StatusPagamento;
+import com.br.integramove.domain.enums.StatusPagamento;
 import com.br.integramove.domain.plano.Plano;
 import org.springframework.stereotype.Service;
 

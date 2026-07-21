@@ -1,6 +1,6 @@
 package com.br.integramove.application.treino.treino;
 
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
+import com.br.integramove.domain.enums.GrupoMuscular;
 
 public record CriarTreinoInput(
         String nome,

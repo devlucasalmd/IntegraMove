@@ -2,10 +2,10 @@
 
     import com.br.integramove.api.dto.request.AvaliacaoRequestDTO;
     import com.br.integramove.api.dto.response.AvaliacaoResponseDTO;
-    import com.br.integramove.application.avaliacao.BuscarAvaliacaoOutput;
-    import com.br.integramove.application.avaliacao.CriarAvaliacaoInput;
-    import com.br.integramove.application.avaliacao.CriarAvaliacaoOutput;
-    import com.br.integramove.application.avaliacao.ListarAvaliacaoOutput;
+    import com.br.integramove.application.avaliacao.outputs.BuscarAvaliacaoOutput;
+    import com.br.integramove.application.avaliacao.inputs.CriarAvaliacaoInput;
+    import com.br.integramove.application.avaliacao.outputs.CriarAvaliacaoOutput;
+    import com.br.integramove.application.avaliacao.outputs.ListarAvaliacaoOutput;
     import org.springframework.stereotype.Component;
 
     @Component

@@ -1,7 +1,7 @@
 package com.br.integramove.application.treino.exercicio;
 
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
-import com.br.integramove.domain.treino.exercicio.Intensidade;
+import com.br.integramove.domain.enums.GrupoMuscular;
+import com.br.integramove.domain.enums.Intensidade;
 
 public record BuscarExercicioOutput(
         String id,

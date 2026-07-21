@@ -6,12 +6,7 @@ import com.br.integramove.api.dto.response.PagamentoResponseDTO;
 import com.br.integramove.application.pagamento.inputs.CriarPagamentoInput;
 import com.br.integramove.application.pagamento.inputs.PagarPagamentoInput;
 import com.br.integramove.application.pagamento.outputs.PagamentoOutput;
-import com.br.integramove.domain.pagamento.FormaPagamento;
-import com.br.integramove.domain.pagamento.StatusPagamento;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Component
 public class PagamentoMapper {

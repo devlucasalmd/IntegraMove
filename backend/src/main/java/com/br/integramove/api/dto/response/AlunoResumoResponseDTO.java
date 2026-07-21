@@ -1,7 +1,7 @@
 package com.br.integramove.api.dto.response;
 
-import com.br.integramove.domain.aluno.StatusAluno;
-import com.br.integramove.domain.pagamento.StatusPagamento;
+import com.br.integramove.domain.enums.StatusAluno;
+import com.br.integramove.domain.enums.StatusPagamento;
 
 public record AlunoResumoResponseDTO(
         String id,

@@ -1,6 +1,6 @@
 package com.br.integramove.domain.treino.treino;
 
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
+import com.br.integramove.domain.enums.GrupoMuscular;
 import com.br.integramove.domain.treino.item.TreinoItem;
 
 import java.util.ArrayList;

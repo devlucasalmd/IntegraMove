@@ -3,8 +3,8 @@ package com.br.integramove.api.mapper;
 import com.br.integramove.api.dto.request.ExercicioRequestDTO;
 import com.br.integramove.api.dto.response.ExercicioResponseDTO;
 import com.br.integramove.application.treino.exercicio.*;
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
-import com.br.integramove.domain.treino.exercicio.Intensidade;
+import com.br.integramove.domain.enums.GrupoMuscular;
+import com.br.integramove.domain.enums.Intensidade;
 import org.springframework.stereotype.Component;
 
 @Component

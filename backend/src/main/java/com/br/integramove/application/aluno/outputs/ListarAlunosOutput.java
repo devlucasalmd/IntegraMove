@@ -1,7 +1,7 @@
 package com.br.integramove.application.aluno.outputs;
 
-import com.br.integramove.domain.aluno.StatusAluno;
-import com.br.integramove.domain.pagamento.StatusPagamento;
+import com.br.integramove.domain.enums.StatusAluno;
+import com.br.integramove.domain.enums.StatusPagamento;
 
 public record ListarAlunosOutput(
         String id,

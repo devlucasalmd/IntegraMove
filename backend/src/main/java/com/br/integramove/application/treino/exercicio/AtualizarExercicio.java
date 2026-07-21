@@ -3,8 +3,8 @@ package com.br.integramove.application.treino.exercicio;
 import com.br.integramove.api.exception.treino.exercicio.ExercicioNaoEncontradoException;
 import com.br.integramove.domain.treino.exercicio.Exercicio;
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
-import com.br.integramove.domain.treino.exercicio.Intensidade;
+import com.br.integramove.domain.enums.GrupoMuscular;
+import com.br.integramove.domain.enums.Intensidade;
 import org.springframework.stereotype.Service;
 
 @Service

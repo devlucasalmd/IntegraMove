@@ -1,7 +1,11 @@
 package com.br.integramove.infrastructure.persistence.aluno;
 
 import com.br.integramove.domain.aluno.*;
+import com.br.integramove.domain.enums.Genero;
 import com.br.integramove.domain.plano.PlanoId;
+import com.br.integramove.domain.valueobjects.Cpf;
+import com.br.integramove.domain.valueobjects.Email;
+import com.br.integramove.domain.valueobjects.Endereco;
 import com.br.integramove.infrastructure.persistence.plano.PlanoEntity;
 
 public class AlunoEntityMapper {

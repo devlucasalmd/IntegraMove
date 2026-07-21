@@ -1,6 +1,6 @@
 package com.br.integramove.infrastructure.persistence.treino.treino;
 
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
+import com.br.integramove.domain.enums.GrupoMuscular;
 import com.br.integramove.infrastructure.persistence.treino.item.TreinoItemEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

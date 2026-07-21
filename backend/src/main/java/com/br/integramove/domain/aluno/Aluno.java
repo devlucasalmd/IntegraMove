@@ -3,7 +3,12 @@ package com.br.integramove.domain.aluno;
 import com.br.integramove.api.exception.aluno.CpfInvalidoException;
 import com.br.integramove.api.exception.aluno.EmailInvalidoException;
 import com.br.integramove.api.exception.aluno.NomeInvalidoException;
+import com.br.integramove.domain.enums.Genero;
+import com.br.integramove.domain.enums.StatusAluno;
 import com.br.integramove.domain.plano.PlanoId;
+import com.br.integramove.domain.valueobjects.Cpf;
+import com.br.integramove.domain.valueobjects.Email;
+import com.br.integramove.domain.valueobjects.Endereco;
 
 import java.time.LocalDate;
 

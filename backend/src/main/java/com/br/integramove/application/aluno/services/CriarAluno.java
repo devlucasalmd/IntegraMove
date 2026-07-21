@@ -1,6 +1,5 @@
 package com.br.integramove.application.aluno.services;
 
-import com.br.integramove.api.exception.aluno.CpfJaCadastradoException;
 import com.br.integramove.application.aluno.AlunoRepository;
 import com.br.integramove.application.aluno.inputs.CriarAlunoInput;
 import com.br.integramove.application.aluno.inputs.EnderecoInput;
@@ -10,6 +9,9 @@ import com.br.integramove.application.plano.PlanoRepository;
 import com.br.integramove.domain.aluno.*;
 import com.br.integramove.domain.plano.Plano;
 import com.br.integramove.domain.plano.PlanoId;
+import com.br.integramove.domain.valueobjects.Cpf;
+import com.br.integramove.domain.valueobjects.Email;
+import com.br.integramove.domain.valueobjects.Endereco;
 import org.springframework.stereotype.Service;
 
 @Service

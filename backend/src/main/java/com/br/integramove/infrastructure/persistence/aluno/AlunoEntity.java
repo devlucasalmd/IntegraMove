@@ -1,7 +1,6 @@
 package com.br.integramove.infrastructure.persistence.aluno;
 
-import com.br.integramove.domain.aluno.StatusAluno;
-import com.br.integramove.domain.avaliacao.Avaliacao;
+import com.br.integramove.domain.enums.StatusAluno;
 import com.br.integramove.infrastructure.persistence.avaliacao.AvaliacaoEntity;
 import com.br.integramove.infrastructure.persistence.plano.PlanoEntity;
 import jakarta.persistence.*;

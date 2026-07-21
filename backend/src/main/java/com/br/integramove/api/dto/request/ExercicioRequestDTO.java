@@ -1,8 +1,7 @@
 package com.br.integramove.api.dto.request;
 
-import com.br.integramove.domain.treino.exercicio.ExercicioId;
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
-import com.br.integramove.domain.treino.exercicio.Intensidade;
+import com.br.integramove.domain.enums.GrupoMuscular;
+import com.br.integramove.domain.enums.Intensidade;
 
 public record ExercicioRequestDTO (
         String nome,

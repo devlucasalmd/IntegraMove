@@ -2,7 +2,6 @@ package com.br.integramove.application.treino.exercicio;
 
 import com.br.integramove.domain.treino.exercicio.Exercicio;
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
 import org.springframework.stereotype.Service;
 
 @Service

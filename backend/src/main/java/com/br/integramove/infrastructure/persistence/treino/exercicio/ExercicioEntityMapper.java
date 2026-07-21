@@ -2,7 +2,6 @@ package com.br.integramove.infrastructure.persistence.treino.exercicio;
 
 import com.br.integramove.domain.treino.exercicio.Exercicio;
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
-import com.br.integramove.domain.treino.exercicio.Intensidade;
 
 public class ExercicioEntityMapper {
 

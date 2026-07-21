@@ -1,6 +1,6 @@
 package com.br.integramove.infrastructure.persistence.treino.exercicio;
 
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
+import com.br.integramove.domain.enums.GrupoMuscular;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

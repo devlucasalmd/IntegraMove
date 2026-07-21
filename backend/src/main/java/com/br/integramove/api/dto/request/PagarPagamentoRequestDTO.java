@@ -1,6 +1,6 @@
 package com.br.integramove.api.dto.request;
 
-import com.br.integramove.domain.pagamento.FormaPagamento;
+import com.br.integramove.domain.enums.FormaPagamento;
 
 import java.time.LocalDate;
 

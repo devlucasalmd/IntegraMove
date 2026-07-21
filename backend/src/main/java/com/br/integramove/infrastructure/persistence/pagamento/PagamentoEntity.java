@@ -1,8 +1,8 @@
 package com.br.integramove.infrastructure.persistence.pagamento;
 
 
-import com.br.integramove.domain.pagamento.FormaPagamento;
-import com.br.integramove.domain.pagamento.StatusPagamento;
+import com.br.integramove.domain.enums.FormaPagamento;
+import com.br.integramove.domain.enums.StatusPagamento;
 import com.br.integramove.infrastructure.persistence.aluno.AlunoEntity;
 import com.br.integramove.infrastructure.persistence.plano.PlanoEntity;
 import jakarta.persistence.*;

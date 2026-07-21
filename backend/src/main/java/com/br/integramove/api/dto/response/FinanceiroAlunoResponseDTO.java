@@ -1,6 +1,6 @@
 package com.br.integramove.api.dto.response;
 
-import com.br.integramove.domain.pagamento.StatusFinanceiro;
+import com.br.integramove.domain.enums.StatusFinanceiro;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

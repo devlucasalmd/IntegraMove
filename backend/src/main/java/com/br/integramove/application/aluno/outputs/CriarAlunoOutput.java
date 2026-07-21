@@ -1,9 +1,7 @@
 package com.br.integramove.application.aluno.outputs;
 
-import com.br.integramove.domain.aluno.Cpf;
-import com.br.integramove.domain.aluno.Email;
-import com.br.integramove.domain.aluno.Genero;
-import com.br.integramove.domain.aluno.StatusAluno;
+import com.br.integramove.domain.enums.Genero;
+import com.br.integramove.domain.enums.StatusAluno;
 
 import java.time.LocalDate;
 

@@ -1,5 +1,8 @@
 package com.br.integramove.domain.treino.exercicio;
 
+import com.br.integramove.domain.enums.GrupoMuscular;
+import com.br.integramove.domain.enums.Intensidade;
+
 public class Exercicio {
 
     private ExercicioId id;

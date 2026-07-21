@@ -1,6 +1,5 @@
 package com.br.integramove.application.aluno.services;
 
-import com.br.integramove.api.dto.request.EnderecoRequestDTO;
 import com.br.integramove.api.exception.aluno.AlunoNaoEncontradoException;
 import com.br.integramove.application.aluno.AlunoRepository;
 import com.br.integramove.application.aluno.inputs.AtualizarAlunoInput;
@@ -8,6 +7,8 @@ import com.br.integramove.application.aluno.inputs.EnderecoInput;
 import com.br.integramove.application.aluno.outputs.AtualizarAlunoOutput;
 import com.br.integramove.application.aluno.outputs.EnderecoOutput;
 import com.br.integramove.domain.aluno.*;
+import com.br.integramove.domain.valueobjects.Email;
+import com.br.integramove.domain.valueobjects.Endereco;
 import org.springframework.stereotype.Service;
 
 @Service

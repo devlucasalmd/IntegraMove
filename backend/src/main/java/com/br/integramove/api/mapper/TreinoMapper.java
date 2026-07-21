@@ -6,7 +6,7 @@ import com.br.integramove.application.treino.treino.BuscarTreinoOutput;
 import com.br.integramove.application.treino.treino.CriarTreinoInput;
 import com.br.integramove.application.treino.treino.CriarTreinoOutput;
 import com.br.integramove.application.treino.treino.ListarTreinosOutput;
-import com.br.integramove.domain.treino.exercicio.GrupoMuscular;
+import com.br.integramove.domain.enums.GrupoMuscular;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,6 +1,8 @@
 package com.br.integramove.domain.pagamento;
 
 import com.br.integramove.domain.aluno.AlunoId;
+import com.br.integramove.domain.enums.FormaPagamento;
+import com.br.integramove.domain.enums.StatusPagamento;
 import com.br.integramove.domain.plano.PlanoId;
 
 import java.math.BigDecimal;

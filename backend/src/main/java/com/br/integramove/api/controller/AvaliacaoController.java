@@ -3,9 +3,14 @@ package com.br.integramove.api.controller;
 import com.br.integramove.api.dto.request.AvaliacaoRequestDTO;
 import com.br.integramove.api.dto.response.AvaliacaoResponseDTO;
 import com.br.integramove.api.mapper.AvaliacaoMapper;
-import com.br.integramove.application.avaliacao.*;
 
-import org.apache.coyote.Response;
+import com.br.integramove.application.avaliacao.inputs.CriarAvaliacaoInput;
+import com.br.integramove.application.avaliacao.outputs.BuscarAvaliacaoOutput;
+import com.br.integramove.application.avaliacao.outputs.CriarAvaliacaoOutput;
+import com.br.integramove.application.avaliacao.outputs.ListarAvaliacaoOutput;
+import com.br.integramove.application.avaliacao.services.BuscarAvaliacao;
+import com.br.integramove.application.avaliacao.services.CriarAvaliacao;
+import com.br.integramove.application.avaliacao.services.ListarAvaliacao;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
