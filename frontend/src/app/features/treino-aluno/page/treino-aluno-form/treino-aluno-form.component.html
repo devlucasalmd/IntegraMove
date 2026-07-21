@@ -1,0 +1,194 @@
+<div class="container">
+
+  <div class="page-header">
+    <button
+      mat-icon-button
+      type="button"
+      (click)="voltar()"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <div>
+      <h1>Nova ficha de treino</h1>
+      <p>Selecione um ou mais treinos já cadastrados e vincule ao aluno.</p>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <mat-card class="form-card">
+
+      <form [formGroup]="form" (ngSubmit)="salvar()">
+
+        <div class="form-section">
+          <h2>Informações da ficha</h2>
+          <p>Esses dados identificam a ficha de treino do aluno.</p>
+        </div>
+
+        <div class="form-grid">
+
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>Treinos da ficha</mat-label>
+
+            <mat-select formControlName="treinosIds" multiple>
+              <mat-option
+                *ngFor="let treino of treinos"
+                [value]="treino.id"
+              >
+                {{ treino.nome }} — {{ treino.nivel }} / {{ treino.funcionalidade }}
+              </mat-option>
+            </mat-select>
+
+            <mat-hint>
+              Você pode selecionar mais de um treino para montar a ficha.
+            </mat-hint>
+
+            <mat-error *ngIf="campoInvalido('treinosIds')">
+              Selecione pelo menos um treino
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>Nome da ficha</mat-label>
+            <input
+              matInput
+              formControlName="nome"
+              placeholder="Ex: Ficha inicial de hipertrofia"
+            >
+
+            <mat-error *ngIf="campoInvalido('nome')">
+              Nome da ficha é obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Data de início</mat-label>
+            <input
+              matInput
+              type="date"
+              formControlName="dataInicio"
+            >
+
+            <mat-error *ngIf="campoInvalido('dataInicio')">
+              Data de início é obrigatória
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Data fim</mat-label>
+            <input
+              matInput
+              type="date"
+              formControlName="dataFim"
+            >
+          </mat-form-field>
+
+          <div class="toggle-field">
+            <span>Status da ficha</span>
+
+            <mat-slide-toggle formControlName="ativo">
+              {{ form.value.ativo ? 'Ativa' : 'Inativa' }}
+            </mat-slide-toggle>
+          </div>
+
+        </div>
+
+        <div class="actions">
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="voltar()"
+            [disabled]="salvando"
+          >
+            Cancelar
+          </button>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="salvando"
+          >
+            {{ salvando ? 'Salvando...' : 'Criar ficha' }}
+          </button>
+        </div>
+
+      </form>
+
+    </mat-card>
+
+    <mat-card class="preview-card">
+
+      <div class="preview-header">
+        <mat-icon>fitness_center</mat-icon>
+        <div>
+          <h2>Prévia da ficha</h2>
+          <p>Resumo dos treinos selecionados.</p>
+        </div>
+      </div>
+
+      <div *ngIf="treinosSelecionados.length === 0" class="preview-empty">
+        <p>Selecione um ou mais treinos para visualizar os detalhes.</p>
+      </div>
+
+      <div *ngIf="treinosSelecionados.length > 0" class="preview-content">
+
+        <div class="selected-summary">
+          <span>Treinos selecionados</span>
+          <strong>{{ treinosSelecionados.length }}</strong>
+        </div>
+
+        <div
+          class="treino-preview-item"
+          *ngFor="let treino of treinosSelecionados"
+        >
+
+          <h3>{{ treino.nome }}</h3>
+
+          <div class="preview-grid">
+
+            <div>
+              <span>Responsável</span>
+              <strong>{{ treino.responsavel }}</strong>
+            </div>
+
+            <div>
+              <span>Funcionalidade</span>
+              <strong>{{ treino.funcionalidade }}</strong>
+            </div>
+
+            <div>
+              <span>Nível</span>
+              <strong>{{ treino.nivel }}</strong>
+            </div>
+
+            <div>
+              <span>Grupo muscular</span>
+              <strong>{{ treino.grupoMuscular || 'Não informado' }}</strong>
+            </div>
+
+            <div>
+              <span>Repetições</span>
+              <strong>{{ treino.repeticoes || 'Não informado' }}</strong>
+            </div>
+
+          </div>
+
+          <div
+            class="preview-observacoes"
+            *ngIf="treino.observacoes"
+          >
+            <span>Observações</span>
+            <p>{{ treino.observacoes }}</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </mat-card>
+
+  </div>
+
+</div>

@@ -50,6 +50,23 @@
         Selecione a funcionalidade.
       </mat-error>
     </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Grupo muscular</mat-label>
+
+      <mat-select formControlName="grupoMuscular">
+        <mat-option
+          *ngFor="let grupo of gruposMusculares"
+          [value]="grupo.value"
+        >
+          {{ grupo.label }}
+        </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="treinoForm.get('grupoMuscular')?.hasError('required')">
+        Grupo muscular é obrigatório
+      </mat-error>
+    </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Repetições padrão</mat-label>

@@ -1,0 +1,103 @@
+<div class="dialog-header">
+  <div>
+    <h2>
+      {{ data?.despesa ? "Editar despesa" : "Nova despesa" }}
+    </h2>
+
+    <p>Cadastre uma nova conta a pagar da academia.</p>
+  </div>
+</div>
+
+<form [formGroup]="despesaForm" class="form-container">
+  <div class="form-grid">
+    <mat-form-field appearance="outline" class="col-2">
+      <mat-label>Descrição</mat-label>
+
+      <input
+        matInput
+        formControlName="descricao"
+        placeholder="Ex: Aluguel da academia"
+      />
+
+      <mat-error *ngIf="campoInvalido('descricao')">
+        Informe a descrição.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Categoria</mat-label>
+
+      <mat-select formControlName="categoria">
+        <mat-option
+          *ngFor="let categoria of categorias"
+          [value]="categoria.value"
+        >
+          {{ categoria.label }}
+        </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="campoInvalido('categoria')">
+        Selecione a categoria.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Valor</mat-label>
+
+      <input
+        matInput
+        type="number"
+        formControlName="valor"
+        placeholder="0,00"
+      />
+
+      <mat-error *ngIf="campoInvalido('valor')">
+        Informe um valor válido.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Data de vencimento</mat-label>
+
+      <input matInput type="date" formControlName="dataVencimento" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fornecedor</mat-label>
+
+      <input
+        matInput
+        formControlName="fornecedor"
+        placeholder="Ex: Companhia de Energia"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Observações</mat-label>
+
+      <input
+        matInput
+        formControlName="observacoes"
+        placeholder="Informações adicionais"
+      />
+    </mat-form-field>
+  </div>
+</form>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button type="button" (click)="fechar()" [disabled]="salvando">
+    Cancelar
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="salvar()"
+    [disabled]="salvando"
+  >
+    <span *ngIf="!salvando"> Salvar despesa </span>
+
+    <span *ngIf="salvando"> Salvando... </span>
+  </button>
+</mat-dialog-actions>

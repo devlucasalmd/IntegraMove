@@ -1,147 +1,187 @@
 <mat-sidenav-container class="sidenav-container">
   <!-- SIDEBAR -->
-  <mat-sidenav #drawer mode="side" class="sidenav" [opened]="false">
-    <div class="menu-header">
-      <h3>Menu</h3>
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    [mode]="isMobile ? 'over' : 'side'"
+    [opened]="!isMobile"
+  >
+    <!-- BRAND -->
+    <div class="brand">
+      <div class="brand-logo">
+        <mat-icon>fitness_center</mat-icon>
+      </div>
+
+      <div>
+        <h2>Integra Move</h2>
+        <span>Gestão Fitness</span>
+      </div>
     </div>
 
-    <mat-nav-list>
-      <!-- INÍCIO -->
-      <mat-expansion-panel class="menu-expansion no-expand ">
-        <mat-expansion-panel-header
-          [routerLink]="['/']"
-          routerLinkActive="active"
-        >
-          <mat-panel-title>
-            <mat-icon>home</mat-icon>
-            <span>Início</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
+    <!-- MENU -->
+    <nav class="sidebar-nav">
+      <a
+        mat-ripple
+        class="nav-item"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="fecharMenuMobile(drawer)"
+      >
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
 
-      <!-- ALUNOS -->
-      <mat-expansion-panel class="menu-expansion no-expand">
-        <mat-expansion-panel-header
-          routerLink="/alunos"
-          routerLinkActive="active"
-        >
-          <mat-panel-title>
-            <mat-icon>group</mat-icon>
-            <span>Alunos</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
+      <a
+        mat-ripple
+        class="nav-item"
+        routerLink="/alunos"
+        routerLinkActive="active"
+        (click)="fecharMenuMobile(drawer)"
+      >
+        <mat-icon>groups</mat-icon>
+        <span>Alunos</span>
+      </a>
 
-      <!-- PLANOS -->
-      <mat-expansion-panel class="menu-expansion no-expand">
-        <mat-expansion-panel-header
-          routerLink="/planos"
-          routerLinkActive="active"
-        >
-          <mat-panel-title>
-            <mat-icon>card_membership</mat-icon>
-            <span>Planos</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
+      <a
+        mat-ripple
+        class="nav-item"
+        routerLink="/planos"
+        routerLinkActive="active"
+        (click)="fecharMenuMobile(drawer)"
+      >
+        <mat-icon>workspace_premium</mat-icon>
+        <span>Planos</span>
+      </a>
 
-      <!-- FINANCEIRO -->
-      <mat-expansion-panel class="menu-expansion no-expand">
-        <mat-expansion-panel-header
-          routerLink="/financeiro"
-          routerLinkActive="active"
+      <!-- FINANÇAS -->
+      <div class="nav-group">
+        <button
+          type="button"
+          class="nav-item nav-group-button"
+          (click)="toggleFinancas()"
+          [class.open]="financasAberto"
         >
-          <mat-panel-title>
-            <mat-icon>attach_money</mat-icon>
-            <span>Financeiro</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
+          <mat-icon>account_balance_wallet</mat-icon>
+          <span>Finanças</span>
+          <mat-icon class="chevron">expand_more</mat-icon>
+        </button>
 
-      <!-- TREINO (COM SUBMENU) -->
-      <mat-expansion-panel class="menu-expansion" hideToggle>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>fitness_center</mat-icon>
-            <span>Treino</span>
-          </mat-panel-title>
-          <mat-panel-description>
-            <mat-icon>expand_more</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
+        <div class="submenu" [class.open]="financasAberto">
+          <a
+            mat-ripple
+            routerLink="/financeiro/despesas"
+            routerLinkActive="active"
+            (click)="fecharMenuMobile(drawer)"
+          >
+            <mat-icon>payments</mat-icon>
+            <span>Contas a pagar</span>
+          </a>
 
-        <a
-          mat-list-item
-          routerLink="/treino/exercicios"
-          routerLinkActive="active"
-          class="submenu"
+          <a
+            mat-ripple
+            routerLink="/financeiro/receitas"
+            routerLinkActive="active"
+            (click)="fecharMenuMobile(drawer)"
+          >
+            <mat-icon>request_quote</mat-icon>
+            <span>Contas a receber</span>
+          </a>
+        </div>
+      </div>
+      <!-- TREINO -->
+      <div class="nav-group">
+        <button
+          type="button"
+          class="nav-item nav-group-button"
+          (click)="toggleTreino()"
+          [class.open]="treinoAberto"
         >
-          <mat-icon>sports_gymnastics</mat-icon>
-          <span>Exercícios</span>
-        </a>
+          <mat-icon>fitness_center</mat-icon>
+          <span>Treino</span>
+          <mat-icon class="chevron">expand_more</mat-icon>
+        </button>
 
-        <a
-          mat-list-item
-          routerLink="/treino/treinos"
-          routerLinkActive="active"
-          class="submenu"
-        >
-          <mat-icon>list_alt</mat-icon>
-          <span>Treinos</span>
-        </a>
-      </mat-expansion-panel>
+        <div class="submenu" [class.open]="treinoAberto">
+          <a
+            mat-ripple
+            routerLink="/treino/exercicios"
+            routerLinkActive="active"
+            (click)="fecharMenuMobile(drawer)"
+          >
+            <mat-icon>sports_gymnastics</mat-icon>
+            <span>Exercícios</span>
+          </a>
 
-      <!-- RELATÓRIOS -->
-      <mat-expansion-panel class="menu-expansion no-expand">
-        <mat-expansion-panel-header
-          routerLink="/relatorios"
-          routerLinkActive="active"
-        >
-          <mat-panel-title>
-            <mat-icon>bar_chart</mat-icon>
-            <span>Relatórios</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
+          <a
+            mat-ripple
+            routerLink="/treino/treinos"
+            routerLinkActive="active"
+            (click)="fecharMenuMobile(drawer)"
+          >
+            <mat-icon>assignment</mat-icon>
+            <span>Treinos</span>
+          </a>
+        </div>
+      </div>
+      <a
+        mat-ripple
+        class="nav-item"
+        routerLink="/agenda"
+        routerLinkActive="active"
+        (click)="fecharMenuMobile(drawer)"
+      >
+        <mat-icon>calendar_month</mat-icon>
+        <span>Agenda</span>
+      </a>
 
-      <!-- AGENDA -->
-      <mat-expansion-panel class="menu-expansion no-expand">
-        <mat-expansion-panel-header
-          routerLink="/agenda"
-          routerLinkActive="active"
-        >
-          <mat-panel-title>
-            <mat-icon>event</mat-icon>
-            <span>Agenda</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
+      <a
+        mat-ripple
+        class="nav-item"
+        routerLink="/relatorios"
+        routerLinkActive="active"
+        (click)="fecharMenuMobile(drawer)"
+      >
+        <mat-icon>bar_chart</mat-icon>
+        <span>Relatórios</span>
+      </a>
 
-      <!-- ESTOQUE -->
-      <mat-expansion-panel class="menu-expansion no-expand">
-        <mat-expansion-panel-header
-          routerLink="/estoque"
-          routerLinkActive="active"
-        >
-          <mat-panel-title>
-            <mat-icon>inventory_2</mat-icon>
-            <span>Estoque</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
-    </mat-nav-list>
+      <a
+        mat-ripple
+        class="nav-item"
+        routerLink="/estoque"
+        routerLinkActive="active"
+        (click)="fecharMenuMobile(drawer)"
+      >
+        <mat-icon>inventory_2</mat-icon>
+        <span>Estoque</span>
+      </a>
+    </nav>
+
+    <!-- FOOTER SIDEBAR -->
+    <div class="sidebar-footer">
+      <div class="plan-card">
+        <span>Plano atual</span>
+        <strong>Academia Pro</strong>
+      </div>
+    </div>
   </mat-sidenav>
 
   <!-- CONTEÚDO -->
   <mat-sidenav-content>
     <!-- TOOLBAR -->
-    <mat-toolbar color="primary" class="toolbar">
-      <!-- MENU BTN -->
-      <button mat-icon-button (click)="drawer.toggle()">
+    <mat-toolbar class="toolbar">
+      <button mat-icon-button class="menu-button" (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
 
-      <!-- SEARCH -->
+      <div class="toolbar-title">
+        <span>Bem-vindo,</span>
+        <strong>Lucas</strong>
+      </div>
+
+      <div class="toolbar-spacer"></div>
+
       <div class="search-container">
         <mat-form-field appearance="outline" class="search-field">
           <mat-icon matPrefix>search</mat-icon>
@@ -149,8 +189,12 @@
         </mat-form-field>
       </div>
 
+      <button mat-icon-button class="toolbar-icon">
+        <mat-icon>notifications_none</mat-icon>
+      </button>
+
       <!-- USER -->
-      <div class="user-area" [matMenuTriggerFor]="userMenu">
+      <button class="user-area" [matMenuTriggerFor]="userMenu">
         <div class="avatar">
           <span>L</span>
         </div>
@@ -161,9 +205,9 @@
         </div>
 
         <mat-icon class="expand-icon">expand_more</mat-icon>
-      </div>
+      </button>
 
-      <!-- MENU USER -->
+      <!-- USER MENU -->
       <mat-menu #userMenu="matMenu" class="user-menu">
         <div class="user-menu-header">
           <div class="avatar large">

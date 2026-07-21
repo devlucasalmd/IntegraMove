@@ -1,14 +1,25 @@
 <div class="planos-container">
 
-  <h1 class="titulo">Conheça nossos planos</h1>
-  <p class="subtitulo">E faça sua matrícula</p>
+  <section class="planos-hero">
+    <span class="eyebrow">Planos Integra Move</span>
+
+    <h1 class="titulo">Escolha o plano ideal para sua jornada</h1>
+
+    <p class="subtitulo">
+      Treine com estrutura, acompanhamento e benefícios pensados para sua evolução.
+    </p>
+  </section>
 
   <div class="planos-grid">
 
     <!-- START -->
     <mat-card class="plano-card start">
 
-      <h2>START</h2>
+      <div class="card-header">
+        <span class="plano-tag">Essencial</span>
+        <h2>START</h2>
+        <p>Para quem quer começar com consistência.</p>
+      </div>
 
       <ul>
         <li>Acesso à musculação e cardio</li>
@@ -17,19 +28,25 @@
       </ul>
 
       <div class="preco">
-        <span>R$</span>
-        <strong>119,90</strong>
+        <div>
+          <span>R$</span>
+          <strong>119,90</strong>
+        </div>
         <p>Mensal</p>
       </div>
 
-      <button mat-raised-button color="primary">Escolher</button>
+      <button mat-flat-button class="btn-plano">Escolher plano</button>
 
     </mat-card>
 
     <!-- INTEGRA -->
     <mat-card class="plano-card integra">
 
-      <h2>INTEGRA</h2>
+      <div class="card-header">
+        <span class="plano-tag">Mais escolhido</span>
+        <h2>INTEGRA</h2>
+        <p>Equilíbrio entre acompanhamento e benefícios.</p>
+      </div>
 
       <ul>
         <li>Acesso à musculação e cardio</li>
@@ -40,12 +57,14 @@
       </ul>
 
       <div class="preco">
-        <span>R$</span>
-        <strong>139,90</strong>
+        <div>
+          <span>R$</span>
+          <strong>139,90</strong>
+        </div>
         <p>Recorrente</p>
       </div>
 
-      <button mat-raised-button color="primary">Escolher</button>
+      <button mat-flat-button class="btn-plano">Escolher plano</button>
 
     </mat-card>
 
@@ -54,7 +73,11 @@
 
       <div class="badge">MAIS COMPLETO</div>
 
-      <h2>INTEGRA MOVE</h2>
+      <div class="card-header">
+        <span class="plano-tag">Performance</span>
+        <h2>INTEGRA MOVE</h2>
+        <p>Experiência completa para máxima evolução.</p>
+      </div>
 
       <ul>
         <li>Acesso total</li>
@@ -66,12 +89,14 @@
       </ul>
 
       <div class="preco">
-        <span>R$</span>
-        <strong>299,90</strong>
+        <div>
+          <span>R$</span>
+          <strong>299,90</strong>
+        </div>
         <p>Recorrente</p>
       </div>
 
-      <button mat-raised-button color="accent">Escolher</button>
+      <button mat-flat-button class="btn-plano btn-destaque">Escolher plano</button>
 
     </mat-card>
 

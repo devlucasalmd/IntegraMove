@@ -14,6 +14,7 @@ import { TreinoDialogComponent } from '../treino-dialog/treino-dialog.component'
 import { TreinoResponseDTO } from '../../../models/treino-response.model';
 import { ExercicioDialogComponent } from '../treino-detail/exercicio-dialog/exercicio-dialog.component';
 import { TreinoItemService } from '../../../services/treino-item.service';
+import { TreinoDetailComponent } from '../treino-detail/treino-detail.component';
 
 @Component({
   selector: 'app-treino-list',
@@ -26,61 +27,50 @@ import { TreinoItemService } from '../../../services/treino-item.service';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
-  ]
+    MatDialogModule,
+  ],
 })
 export class TreinoListComponent implements OnInit {
-
   treinos: TreinoResponseDTO[] = [];
   carregando = false;
 
   constructor(
     private dialog: MatDialog,
-    private treinoService :TreinoService,
-    private treinoItemService: TreinoItemService
+    private treinoService: TreinoService,
+    private treinoItemService: TreinoItemService,
   ) {}
 
   ngOnInit(): void {
     this.carregarTreinos();
   }
-
-  // carregarTreinos(): void {
-
-  //   this.treinoService.listarTreinos().subscribe({
-  //     next: (response) => {
-  //       this.treinos = response.map(treino => ({
-  //         ...treino,
-  //         exercicios: treino.exercicios ?? []
-  //       }));
-  //     }
-  //   });
-  // }
-
-   carregarTreinos(): void {
+  carregarTreinos(): void {
     this.carregando = true;
 
-    this.treinoService.listarTreinos()
+    this.treinoService
+      .listarTreinos()
       .pipe(
         switchMap((treinos) => {
           if (treinos.length === 0) {
             return of([]);
           }
 
-          const requisicoes = treinos.map(treino =>
+          const requisicoes = treinos.map((treino) =>
             this.treinoItemService.listarItensDoTreino(treino.id).pipe(
-              map(itens => ({
+              map((itens) => ({
                 ...treino,
-                exercicios: itens ?? []
+                exercicios: itens ?? [],
               })),
-              catchError(() => of({
-                ...treino,
-                exercicios: []
-              }))
-            )
+              catchError(() =>
+                of({
+                  ...treino,
+                  exercicios: [],
+                }),
+              ),
+            ),
           );
 
           return forkJoin(requisicoes);
-        })
+        }),
       )
       .subscribe({
         next: (treinosComExercicios) => {
@@ -90,7 +80,7 @@ export class TreinoListComponent implements OnInit {
         error: (erro) => {
           console.error('Erro ao carregar treinos:', erro);
           this.carregando = false;
-        }
+        },
       });
   }
 
@@ -100,21 +90,23 @@ export class TreinoListComponent implements OnInit {
       maxWidth: '95vw',
       disableClose: true,
       autoFocus: false,
-      panelClass: 'dialog-profissional'
+      panelClass: 'dialog-profissional',
     });
 
-    dialogRef.afterClosed().subscribe((treinoSalvo: TreinoResponseDTO | undefined) => {
-      if (!treinoSalvo) {
-        return;
-      }
+    dialogRef
+      .afterClosed()
+      .subscribe((treinoSalvo: TreinoResponseDTO | undefined) => {
+        if (!treinoSalvo) {
+          return;
+        }
 
-      this.carregarTreinos();
+        this.carregarTreinos();
 
-      this.abrirDialogAdicionarExercicios(treinoSalvo);
-    });
+        this.abrirDialogAdicionarExercicios(treinoSalvo);
+      });
   }
 
-   private abrirDialogAdicionarExercicios(treino: TreinoResponseDTO): void {
+  private abrirDialogAdicionarExercicios(treino: TreinoResponseDTO): void {
     const dialogRef = this.dialog.open(ExercicioDialogComponent, {
       width: '900px',
       maxWidth: '96vw',
@@ -124,13 +116,27 @@ export class TreinoListComponent implements OnInit {
       panelClass: 'dialog-profissional',
       data: {
         treinoId: treino.id,
-        treinoNome: treino.nome
-      }
+        treinoNome: treino.nome,
+        grupoMuscular: treino.grupoMuscular
+      },
     });
 
     dialogRef.afterClosed().subscribe((atualizou: boolean) => {
       if (atualizou) {
         this.carregarTreinos();
+      }
+    });
+  }
+
+  abrirDetalhesTreino(treino: TreinoResponseDTO): void {
+    this.dialog.open(TreinoDetailComponent, {
+      width: '850px',
+      maxWidth: '96vw',
+      maxHeight: '90vh',
+      autoFocus: false,
+      panelClass: 'dialog-profissional',
+      data: {
+        treinoId: treino.id
       }
     });
   }

@@ -1,7 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -27,12 +37,11 @@ import { MatIcon } from '@angular/material/icon';
     MatButtonModule,
     MatProgressSpinnerModule,
     FormsModule,
-    MatIcon
-  ]
+    MatIcon,
+  ],
 })
 export class ExercicioDialogComponent implements OnInit {
-
-  form! : FormGroup;
+  form!: FormGroup;
 
   filtro = '';
   exercicioSelecionado: ExercicioResponseDTO | null = null;
@@ -44,42 +53,46 @@ export class ExercicioDialogComponent implements OnInit {
   salvando = false;
   finalizouComAlteracao = false;
 
-
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<ExercicioDialogComponent>,
     private exercicioService: ExercicioService,
     private treinoItemService: TreinoItemService,
-     @Inject(MAT_DIALOG_DATA) public data: {
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
       treinoId: string;
       treinoNome: string;
-    }
+      grupoMuscular: string;
+    },
   ) {
     this.form = this.fb.group({
+      ordem: [1, [Validators.required, Validators.min(1)]],
       series: [3, [Validators.required, Validators.min(1)]],
       repeticoes: ['', [Validators.required]],
       carga: [0, [Validators.min(0)]],
       descanso: [60, [Validators.required, Validators.min(0)]],
-      observacao: ['']
+      observacao: [''],
     });
   }
 
   ngOnInit(): void {
-        this.carregarExercicios();
+    this.carregarExercicios();
   }
 
   carregarExercicios(): void {
     this.carregandoExercicios = true;
 
     this.exercicioService.listarExercicios()
-      .pipe(finalize(() => this.carregandoExercicios = false))
+      .pipe(finalize(() => (this.carregandoExercicios = false)))
       .subscribe({
         next: (response) => {
-          this.exercicios = response;
+          this.exercicios = response.filter(
+            (exercicio) => exercicio.grupoMuscular === this.data.grupoMuscular,
+          );
         },
         error: (erro) => {
           console.error('Erro ao carregar exercícios:', erro);
-        }
+        },
       });
   }
 
@@ -90,12 +103,12 @@ export class ExercicioDialogComponent implements OnInit {
       return this.exercicios;
     }
 
-    return this.exercicios.filter(exercicio =>
-      exercicio.nome.toLowerCase().includes(termo) ||
-      exercicio.grupoMuscular?.toLowerCase().includes(termo)
+    return this.exercicios.filter(
+      (exercicio) =>
+        exercicio.nome.toLowerCase().includes(termo) ||
+        exercicio.grupoMuscular?.toLowerCase().includes(termo),
     );
   }
-
 
   adicionar(): void {
     if (!this.exercicioSelecionado) {
@@ -114,13 +127,14 @@ export class ExercicioDialogComponent implements OnInit {
       carga: this.form.value.carga,
       descanso: this.form.value.descanso,
       observacao: this.form.value.observacao,
-      ordem: this.exerciciosAdicionados.length + 1
+      ordem: this.form.value.ordem,
     };
 
     this.salvando = true;
 
-    this.treinoItemService.adicionarItemAoTreino(this.data.treinoId, request)
-      .pipe(finalize(() => this.salvando = false))
+    this.treinoItemService
+      .adicionarItemAoTreino(this.data.treinoId, request)
+      .pipe(finalize(() => (this.salvando = false)))
       .subscribe({
         next: () => {
           this.finalizouComAlteracao = true;
@@ -131,16 +145,17 @@ export class ExercicioDialogComponent implements OnInit {
           this.filtro = '';
 
           this.form.reset({
+            ordem: this.exerciciosAdicionados.length + 1,
             series: 3,
             repeticoes: '',
             carga: 0,
             descanso: 60,
-            observacao: ''
+            observacao: '',
           });
         },
         error: (erro) => {
           console.error('Erro ao adicionar exercício ao treino:', erro);
-        }
+        },
       });
   }
 
@@ -158,53 +173,7 @@ export class ExercicioDialogComponent implements OnInit {
   }
 
   jaAdicionado(exercicio: ExercicioResponseDTO): boolean {
-    return this.exerciciosAdicionados.some(item => item.id === exercicio.id);
-  }
-
-  salvar() {
-    if (!this.exercicioSelecionado) {
-      return;
-    }
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    const request: TreinoItemRequestDTO = {
-      exercicioId: this.exercicioSelecionado.id,
-      series: this.form.value.series,
-      repeticoes: this.form.value.repeticoes,
-      carga: this.form.value.carga,
-      descanso: this.form.value.descanso,
-      observacao: this.form.value.observacao,
-      ordem: this.exerciciosAdicionados.length + 1
-    };
-
-    this.salvando = true;
-
-    this.treinoItemService.adicionarItemAoTreino(this.data.treinoId, request)
-      .pipe(finalize(() => this.salvando = false))
-      .subscribe({
-        next: () => {
-          this.finalizouComAlteracao = true;
-
-          this.exerciciosAdicionados.push(this.exercicioSelecionado!);
-
-          this.exercicioSelecionado = null;
-          this.filtro = '';
-
-          this.form.reset({
-            series: 3,
-            repeticoes: '',
-            carga: 0,
-            descanso: 60,
-            observacao: ''
-          });
-        },
-        error: (erro) => {
-          console.error('Erro ao adicionar exercício ao treino:', erro);
-        }
-      });
+    return this.exerciciosAdicionados.some((item) => item.id === exercicio.id);
   }
 
   fechar() {

@@ -1,0 +1,464 @@
+<div class="contas-container">
+
+  <div class="page-header">
+    <div>
+      <span class="subtitle">Financeiro</span>
+      <h1>Contas a receber</h1>
+      <p>Gerencie mensalidades, vendas, serviços e demais receitas da academia.</p>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="abrirNovo()">
+      <mat-icon>add</mat-icon>
+      Nova receita
+    </button>
+  </div>
+
+  <div class="cards-grid">
+
+    <mat-card class="summary-card">
+      <div class="card-icon total">
+        <mat-icon>account_balance_wallet</mat-icon>
+      </div>
+
+      <div>
+        <span>Total previsto</span>
+        <strong>{{ totalReceitas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="card-icon success">
+        <mat-icon>payments</mat-icon>
+      </div>
+
+      <div>
+        <span>Total recebido</span>
+        <strong>{{ totalRecebido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="card-icon warning">
+        <mat-icon>schedule</mat-icon>
+      </div>
+
+      <div>
+        <span>A receber</span>
+        <strong>{{ totalPendente | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="card-icon danger">
+        <mat-icon>warning</mat-icon>
+      </div>
+
+      <div>
+        <span>Em atraso</span>
+        <strong>{{ totalVencido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+    </mat-card>
+
+  </div>
+
+  <mat-card class="form-card" *ngIf="exibindoFormulario">
+
+    <div class="form-header">
+      <div>
+        <h2>{{ receitaEditando ? 'Editar receita' : 'Nova receita' }}</h2>
+        <p>Informe os dados da conta a receber.</p>
+      </div>
+
+      <button mat-icon-button (click)="fecharFormulario()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <form [formGroup]="form" class="form-grid">
+
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>Descrição</mat-label>
+        <input
+          matInput
+          formControlName="descricao"
+          placeholder="Ex: Mensalidade João Silva">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>Categoria</mat-label>
+
+        <mat-select formControlName="categoria">
+          <mat-option
+            *ngFor="let categoria of categorias"
+            [value]="categoria.value">
+            {{ categoria.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>Valor</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="valor"
+          placeholder="0,00">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>Vencimento</mat-label>
+        <input
+          matInput
+          type="date"
+          formControlName="dataVencimento">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-4">
+        <mat-label>Cliente</mat-label>
+        <input
+          matInput
+          formControlName="cliente"
+          placeholder="Nome do aluno ou cliente">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-5">
+        <mat-label>Observações</mat-label>
+        <input
+          matInput
+          formControlName="observacoes"
+          placeholder="Observações adicionais">
+      </mat-form-field>
+
+      <div class="form-actions col-12">
+
+        <button
+          mat-button
+          type="button"
+          (click)="fecharFormulario()">
+          Cancelar
+        </button>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="salvar()">
+
+          <mat-icon>save</mat-icon>
+          Salvar
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </mat-card>
+
+  <mat-card class="filters-card">
+
+    <form
+      [formGroup]="filtroForm"
+      class="filters-grid">
+
+      <mat-form-field appearance="outline">
+
+        <mat-label>Buscar</mat-label>
+
+        <input
+          matInput
+          formControlName="termo"
+          placeholder="Descrição, cliente ou observação">
+
+        <mat-icon matPrefix>search</mat-icon>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+
+        <mat-label>Status</mat-label>
+
+        <mat-select formControlName="status">
+
+          <mat-option value="">
+            Todos
+          </mat-option>
+
+          <mat-option
+            *ngFor="let status of statusOptions"
+            [value]="status.value">
+
+            {{ status.label }}
+
+          </mat-option>
+
+        </mat-select>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+
+        <mat-label>Categoria</mat-label>
+
+        <mat-select formControlName="categoria">
+
+          <mat-option value="">
+            Todas
+          </mat-option>
+
+          <mat-option
+            *ngFor="let categoria of categorias"
+            [value]="categoria.value">
+
+            {{ categoria.label }}
+
+          </mat-option>
+
+        </mat-select>
+
+      </mat-form-field>
+
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="limparFiltros()">
+
+        <mat-icon>filter_alt_off</mat-icon>
+
+        Limpar
+
+      </button>
+
+    </form>
+
+  </mat-card>
+
+  <mat-card class="table-card">
+
+    <div class="table-header">
+      <div>
+        <h2>Receitas cadastradas</h2>
+        <p>Lista de contas a receber da academia.</p>
+      </div>
+    </div>
+
+    <div
+      class="loading"
+      *ngIf="carregando">
+
+      <mat-spinner diameter="36"></mat-spinner>
+      <span>Carregando receitas...</span>
+
+    </div>
+
+    <div
+      class="empty-state"
+      *ngIf="!carregando && receitasFiltradas.length === 0">
+
+      <mat-icon>payments</mat-icon>
+
+      <h3>Nenhuma receita encontrada</h3>
+
+      <p>
+        Cadastre uma nova receita ou ajuste os filtros aplicados.
+      </p>
+
+    </div>
+
+    <div
+      class="table-wrapper"
+      *ngIf="!carregando && receitasFiltradas.length > 0">
+
+      <table
+        mat-table
+        [dataSource]="receitasFiltradas"
+        class="receitas-table">
+
+        <ng-container matColumnDef="descricao">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Descrição
+          </th>
+
+          <td mat-cell *matCellDef="let receita">
+
+            <div class="descricao-cell">
+
+              <strong>{{ receita.descricao }}</strong>
+
+              <span>
+                {{ receita.observacoes || 'Sem observações' }}
+              </span>
+
+            </div>
+
+          </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="categoria">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Categoria
+          </th>
+
+          <td mat-cell *matCellDef="let receita">
+
+            {{ getCategoriaLabel(receita.categoria) }}
+
+          </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="cliente">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Cliente
+          </th>
+
+          <td mat-cell *matCellDef="let receita">
+
+            {{ receita.cliente || '-' }}
+
+          </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="dataVencimento">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Vencimento
+          </th>
+
+          <td mat-cell *matCellDef="let receita">
+
+            {{ receita.dataVencimento | date:'dd/MM/yyyy' }}
+
+          </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="dataRecebimento">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Recebimento
+          </th>
+
+          <td mat-cell *matCellDef="let receita">
+
+            {{
+              receita.dataRecebimento
+                ? (receita.dataRecebimento | date:'dd/MM/yyyy')
+                : '-'
+            }}
+
+          </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="valor">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Valor
+          </th>
+
+          <td mat-cell *matCellDef="let receita">
+
+            <strong>
+              {{ receita.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </strong>
+
+          </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Status
+          </th>
+
+          <td mat-cell *matCellDef="let receita">
+
+            <span
+              class="status-badge"
+              [ngClass]="getStatusClass(receita.status)">
+
+              {{ getStatusLabel(receita.status) }}
+
+            </span>
+
+          </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Ações
+          </th>
+
+          <td mat-cell *matCellDef="let receita">
+
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu">
+
+              <mat-icon>more_vert</mat-icon>
+
+            </button>
+
+            <mat-menu #menu="matMenu">
+
+              <button
+                mat-menu-item
+                (click)="editar(receita)">
+
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+
+              </button>
+
+              <button
+                mat-menu-item
+                *ngIf="receita.status !== 'PAGA' && receita.status !== 'CANCELADA'"
+                (click)="receber(receita)">
+
+                <mat-icon>payments</mat-icon>
+                <span>Marcar como recebida</span>
+
+              </button>
+
+              <button
+                mat-menu-item
+                *ngIf="receita.status !== 'CANCELADA'"
+                (click)="cancelar(receita)">
+
+                <mat-icon>cancel</mat-icon>
+                <span>Cancelar</span>
+
+              </button>
+
+            </mat-menu>
+
+          </td>
+
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns">
+        </tr>
+
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+
+      </table>
+
+    </div>
+
+  </mat-card>
+
+</div>

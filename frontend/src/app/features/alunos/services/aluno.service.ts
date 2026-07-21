@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AlunoRequestDTO } from '../models/aluno-request.model';
-import { AlunoResponseDTO } from '../models/aluno-response.model';
+import { AlunoDetalheResponseDTO } from '../models/aluno-detalhe-response.model';
+import { AlunoResumoResponseDTO } from '../models/aluno-resumo-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +14,19 @@ export class AlunoService {
 
   constructor(private http: HttpClient) {}
 
-  cadastrarAluno(aluno: AlunoRequestDTO): Observable<AlunoRequestDTO> {
-    return this.http.post<AlunoRequestDTO>(this.apiUrl, aluno);
+  cadastrarAluno(aluno: AlunoRequestDTO): Observable<AlunoDetalheResponseDTO> {
+    return this.http.post<AlunoDetalheResponseDTO>(this.apiUrl, aluno);
   }
 
-  listarAlunos() {
-    return this.http.get<AlunoResponseDTO[]>(this.apiUrl);
+  listarAlunos(): Observable<AlunoResumoResponseDTO[]> {
+    return this.http.get<AlunoResumoResponseDTO[]>(this.apiUrl);
   }
 
-  buscarAlunoPorId(id: string) {
-    return this.http.get<AlunoResponseDTO>(`${this.apiUrl}/${id}`);
+  buscarAlunoPorId(id: string): Observable<AlunoDetalheResponseDTO>{
+    return this.http.get<AlunoDetalheResponseDTO>(`${this.apiUrl}/${id}`);
+  }
+
+  atualizarAluno(id: string, aluno: AlunoRequestDTO): Observable<AlunoDetalheResponseDTO> {
+    return this.http.put<AlunoDetalheResponseDTO>( `${this.apiUrl}/${id}`, aluno);
   }
 }

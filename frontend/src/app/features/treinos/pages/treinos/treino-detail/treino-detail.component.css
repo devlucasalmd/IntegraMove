@@ -1,51 +1,263 @@
-.dialog-header {
-  padding: 24px 24px 8px;
+.detalhe-container {
+  padding: 24px;
+  background: #fff;
 }
 
-.dialog-header h2 {
+.detalhe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.subtitle {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detalhe-header h2 {
   margin: 0;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
-  color: #1f2937;
+  color: #1f1f1f;
 }
 
-.dialog-header p {
+.detalhe-header p {
   margin: 6px 0 0;
-  color: #6b7280;
+  color: #666;
+  font-size: 15px;
+}
+
+.section {
+  margin-top: 28px;
+}
+
+.section-header {
+  margin-bottom: 16px;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+}
+
+.section-header p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.info-card {
+  padding: 16px;
+  border-radius: 14px;
+  background: #f7f7f7;
+  border: 1px solid #ededed;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-card span,
+.observacoes-card span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #777;
+}
+
+.info-card strong {
+  font-size: 15px;
+  color: #222;
+  word-break: break-word;
+}
+
+.observacoes-card {
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #fafafa;
+  border: 1px solid #ededed;
+}
+
+.observacoes-card p {
+  margin: 8px 0 0;
+  color: #333;
+  line-height: 1.5;
+}
+
+.empty-state {
+  padding: 32px 20px;
+  border-radius: 16px;
+  background: #fafafa;
+  border: 1px dashed #d6d6d6;
+  text-align: center;
+  color: #777;
+}
+
+.empty-state mat-icon {
+  width: 42px;
+  height: 42px;
+  font-size: 42px;
+  margin-bottom: 8px;
+  color: #999;
+}
+
+.empty-state strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #333;
+  font-size: 16px;
+}
+
+.empty-state p {
+  margin: 0;
   font-size: 14px;
 }
 
-.form-container {
-  padding: 8px 24px 0;
+.exercicios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+.exercicio-card {
+  padding: 18px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.col-2 {
-  grid-column: span 2;
+.exercicio-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
-.dialog-actions {
-  padding: 16px 24px 24px;
+.exercicio-topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.exercicio-titulo {
+  display: flex;
+  align-items: flex-start;
   gap: 12px;
 }
 
-.button-spinner {
-  display: inline-block;
-  margin-right: 8px;
-  vertical-align: middle;
+.ordem {
+  min-width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1f1f1f;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
 }
 
-@media (max-width: 700px) {
-  .form-grid {
+.exercicio-titulo h4 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #222;
+}
+
+.exercicio-titulo p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #888;
+}
+
+.exercicio-dados {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.dado {
+  padding: 12px;
+  border-radius: 12px;
+  background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dado span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #777;
+}
+
+.dado strong {
+  font-size: 15px;
+  color: #222;
+}
+
+.exercicio-observacao {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.exercicio-observacao span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #777;
+}
+
+.exercicio-observacao p {
+  margin: 4px 0 0;
+  color: #333;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .exercicio-dados {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .detalhe-container {
+    padding: 18px;
+  }
+
+  .detalhe-header h2 {
+    font-size: 23px;
+  }
+
+  .info-grid {
     grid-template-columns: 1fr;
   }
 
-  .col-2 {
-    grid-column: span 1;
+  .exercicio-dados {
+    grid-template-columns: 1fr;
+  }
+
+  .exercicio-card {
+    padding: 14px;
   }
 }

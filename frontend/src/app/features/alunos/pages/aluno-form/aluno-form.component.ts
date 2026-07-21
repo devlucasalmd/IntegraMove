@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -20,6 +20,9 @@ import { TablerIconComponent, provideTablerIcons } from 'angular-tabler-icons';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { AlunoService } from '../../services/aluno.service';
 import { AlunoRequestDTO } from '../../models/aluno-request.model';
+import { Router } from '@angular/router';
+import { PlanoService } from '../../../planos/plano.service';
+import { PlanoResponseDTO } from '../../../planos/models/plano-response';
 
 @Component({
   selector: 'app-aluno-form',
@@ -47,78 +50,128 @@ import { AlunoRequestDTO } from '../../models/aluno-request.model';
   styleUrls: ['./aluno-form.component.css'],
   providers: [provideNativeDateAdapter(), provideTablerIcons({})],
 })
-export class AlunoFormComponent {
-  alunoForm: FormGroup;
+export class AlunoFormComponent implements OnInit {
 
-  generos = ['MASCULINO', 'FEMININO', 'OUTROS'];
+  alunoForm!: FormGroup;
+
+  planos: PlanoResponseDTO[] = [];
+
+  generos: string[] = [
+    'MASCULINO',
+    'FEMININO',
+    'OUTRO'
+  ];
+
+  salvando = false;
+  carregandoPlanos = false;
 
   constructor(
     private fb: FormBuilder,
     private alunoService: AlunoService,
-  ) {
+    private planoService: PlanoService,
+    private router: Router
+    ) {}
+
+  ngOnInit(): void {
+    this.criarFormulario();
+    this.carregarPlanos();
+  }
+
+  private criarFormulario(): void {
     this.alunoForm = this.fb.group({
       nome: ['', Validators.required],
-      dataNascimento: ['', Validators.required],
       cpf: ['', Validators.required],
       genero: ['', Validators.required],
-      telefone: [''],
+      dataNascimento: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      telefone: ['', Validators.required],
+      status: [true],
+      planoId: [null],
+
       enderecoDTO: this.fb.group({
         rua: [''],
         numero: [''],
+        cep: [''],
         bairro: [''],
         cidade: [''],
-        estado: [''],
-        cep: [''],
-      }),
-      ativo: [true],
+        estado: ['']
+      })
     });
   }
 
-  private formatarData(data: Date): string {
-    return data.toLocaleDateString('sv-SE');
+  carregarPlanos(): void {
+    this.carregandoPlanos = true;
+
+    this.planoService.listarPlanos().subscribe({
+      next: (planos) => {
+        this.planos = planos.filter(plano => plano.ativo);
+        this.carregandoPlanos = false;
+      },
+      error: (erro) => {
+        console.error('Erro ao carregar planos:', erro);
+        this.carregandoPlanos = false;
+      }
+    });
   }
 
-  private formatarCpf(cpf: string): string {
-    const numeros = cpf.replace(/\D/g, '');
-
-    if (numeros.length !== 11) {
-      return cpf;
+  salvar(): void {
+    if (this.alunoForm.invalid) {
+      this.alunoForm.markAllAsTouched();
+      return;
     }
 
-    return numeros.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-  }
+    this.salvando = true;
 
-  salvar() {
-    if (this.alunoForm.invalid) return;
+    const formValue = this.alunoForm.getRawValue();
 
-    const formValue = this.alunoForm.value;
-
-    const aluno: AlunoRequestDTO = {
+    const request: AlunoRequestDTO = {
       nome: formValue.nome,
-      dataNascimento: this.formatarData(formValue.dataNascimento),
-      cpf: this.formatarCpf(formValue.cpf),
+      cpf: formValue.cpf,
       genero: formValue.genero,
+      dataNascimento: this.formatarData(formValue.dataNascimento),
       telefone: formValue.telefone,
       email: formValue.email,
-      ativo: !!formValue.ativo,
-      enderecoDTO: formValue.enderecoDTO,
+      status: formValue.status ? 'ATIVO' : 'INATIVO',
+      planoId: formValue.planoId,
+      enderecoDTO: {
+        rua: formValue.enderecoDTO.rua,
+        numero: formValue.enderecoDTO.numero,
+        cep: formValue.enderecoDTO.cep,
+        bairro: formValue.enderecoDTO.bairro,
+        cidade: formValue.enderecoDTO.cidade,
+        estado: formValue.enderecoDTO.estado
+      }
     };
 
-    console.log('Dados sendo enviados: ', formValue);
-
-    this.alunoService.cadastrarAluno(aluno).subscribe({
-      next: (response) => {
-        console.log('Aluno salvo com sucesso:', response);
-        this.alunoForm.reset();
+    this.alunoService.cadastrarAluno(request).subscribe({
+      next: () => {
+        this.salvando = false;
+        this.fechar();
       },
-      error: (err) => {
-        console.error('Erro ao salvar aluno:', err);
-      },
+      error: (erro) => {
+        console.error('Erro ao salvar aluno:', erro);
+        this.salvando = false;
+      }
     });
   }
 
-  fechar() {
-    return;
+  fechar(): void {
+    this.router.navigate(['/alunos']);
+  }
+
+  private formatarData(data: Date | string): string {
+    if (!data) {
+      return '';
+    }
+
+    if (typeof data === 'string') {
+      return data;
+    }
+
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia}`;
   }
 }

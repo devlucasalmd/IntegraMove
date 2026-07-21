@@ -8,5 +8,6 @@ export interface TreinoRequestDTO {
   nivel: string;
   repeticoes?: string;
   observacoes?: string;
+  grupoMuscular: string;
   exercicios: TreinoItemResponseDTO[];
 }

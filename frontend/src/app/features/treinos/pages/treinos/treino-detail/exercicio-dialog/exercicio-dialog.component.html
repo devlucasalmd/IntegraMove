@@ -1,12 +1,13 @@
 <div class="dialog-container">
-
   <div class="dialog-header">
     <div>
       <span class="eyebrow">Etapa 2 de 2</span>
       <h2>Adicionar exercícios</h2>
       <p>
-        Treino criado com sucesso. Agora selecione os exercícios que farão parte de
-        <strong>{{ data.treinoNome }}</strong>.
+        Treino criado com sucesso. Agora selecione os exercícios que farão parte
+        de
+        <strong>{{ data.treinoNome }}</strong
+        >.
       </p>
     </div>
 
@@ -16,10 +17,8 @@
   </div>
 
   <div class="content-grid">
-
     <!-- COLUNA ESQUERDA -->
     <section class="exercise-panel">
-
       <mat-form-field appearance="outline" class="full">
         <mat-label>Buscar exercício</mat-label>
         <mat-icon matPrefix>search</mat-icon>
@@ -35,13 +34,18 @@
         <span>Carregando exercícios...</span>
       </div>
 
-      <div class="empty" *ngIf="!carregandoExercicios && exerciciosFiltrados.length === 0">
+      <div
+        class="empty"
+        *ngIf="!carregandoExercicios && exerciciosFiltrados.length === 0"
+      >
         <mat-icon>fitness_center</mat-icon>
         <p>Nenhum exercício encontrado.</p>
       </div>
 
-      <div class="lista" *ngIf="!carregandoExercicios && exerciciosFiltrados.length > 0">
-
+      <div
+        class="lista"
+        *ngIf="!carregandoExercicios && exerciciosFiltrados.length > 0"
+      >
         <button
           type="button"
           class="item"
@@ -52,20 +56,20 @@
         >
           <div class="item-main">
             <strong>{{ ex.nome }}</strong>
-            <span>{{ ex.grupoMuscular || 'Grupo não informado' }}</span>
+            <span>{{ ex.grupoMuscular || "Grupo não informado" }}</span>
           </div>
 
           <mat-icon *ngIf="jaAdicionado(ex)">check_circle</mat-icon>
         </button>
-
       </div>
-
     </section>
 
     <!-- COLUNA DIREITA -->
     <section class="config-panel">
-
-      <div class="selected-card" *ngIf="exercicioSelecionado; else nenhumSelecionado">
+      <div
+        class="selected-card"
+        *ngIf="exercicioSelecionado; else nenhumSelecionado"
+      >
         <span>Exercício selecionado</span>
         <strong>{{ exercicioSelecionado.nome }}</strong>
         <small>{{ exercicioSelecionado.grupoMuscular }}</small>
@@ -80,10 +84,17 @@
       </ng-template>
 
       <form [formGroup]="form" class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Ordem</mat-label>
+          <input matInput type="number" formControlName="ordem" />
+          <mat-error *ngIf="campoInvalido('ordem')">
+            Informe a ordem.
+          </mat-error>
+        </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Séries</mat-label>
-          <input matInput type="number" formControlName="series">
+          <input matInput type="number" formControlName="series" />
           <mat-error *ngIf="campoInvalido('series')">
             Informe as séries.
           </mat-error>
@@ -91,7 +102,11 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Repetições</mat-label>
-          <input matInput formControlName="repeticoes" placeholder="Ex: 8 a 12">
+          <input
+            matInput
+            formControlName="repeticoes"
+            placeholder="Ex: 8 a 12"
+          />
           <mat-error *ngIf="campoInvalido('repeticoes')">
             Informe as repetições.
           </mat-error>
@@ -99,7 +114,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Carga kg</mat-label>
-          <input matInput type="number" formControlName="carga">
+          <input matInput type="number" formControlName="carga" />
           <mat-error *ngIf="campoInvalido('carga')">
             Carga inválida.
           </mat-error>
@@ -107,7 +122,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Descanso segundos</mat-label>
-          <input matInput type="number" formControlName="descanso">
+          <input matInput type="number" formControlName="descanso" />
           <mat-error *ngIf="campoInvalido('descanso')">
             Descanso inválido.
           </mat-error>
@@ -122,24 +137,22 @@
             placeholder="Ex: Executar com controle de movimento"
           ></textarea>
         </mat-form-field>
-
       </form>
 
       <div class="added-info" *ngIf="exerciciosAdicionados.length > 0">
         <mat-icon>check_circle</mat-icon>
         <span>
           {{ exerciciosAdicionados.length }}
-          exercício{{ exerciciosAdicionados.length > 1 ? 's' : '' }}
-          adicionado{{ exerciciosAdicionados.length > 1 ? 's' : '' }}.
+          exercício{{
+            exerciciosAdicionados.length > 1 ? "s" : ""
+          }}
+          adicionado{{ exerciciosAdicionados.length > 1 ? "s" : "" }}.
         </span>
       </div>
-
     </section>
-
   </div>
 
   <mat-dialog-actions align="end" class="dialog-actions">
-
     <button
       mat-button
       type="button"
@@ -165,7 +178,5 @@
       <span *ngIf="!salvando">Adicionar exercício</span>
       <span *ngIf="salvando">Adicionando...</span>
     </button>
-
   </mat-dialog-actions>
-
 </div>

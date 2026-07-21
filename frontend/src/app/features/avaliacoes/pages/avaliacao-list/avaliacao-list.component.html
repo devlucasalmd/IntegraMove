@@ -1,37 +1,110 @@
-<div class="container">
+<div class="avaliacoes-container">
 
-  <div class="header">
+  <div class="page-header">
+
+    <div>
+      <h1>Avaliações físicas</h1>
+      <p>Acompanhe os registros de força e desempenho muscular do aluno.</p>
+    </div>
+
     <button
       mat-raised-button
       color="primary"
-      [routerLink]="['nova']"
+      type="button"
+      (click)="abrirNovaAvaliacao()"
     >
-      Nova Avaliação Física
+      <mat-icon>add</mat-icon>
+      Nova avaliação
+    </button>
+
+  </div>
+
+  <div class="summary-grid" *ngIf="avaliacoes.length > 0">
+
+    <mat-card class="summary-card">
+      <span>Total de avaliações</span>
+      <strong>{{ avaliacoes.length }}</strong>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <span>Última avaliação</span>
+      <strong>
+        {{ avaliacoes[0].dataAvaliacao | date:'dd/MM/yyyy' }}
+      </strong>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <span>Avaliador</span>
+      <strong>Sistema</strong>
+    </mat-card>
+
+  </div>
+
+  <div
+    *ngIf="!carregando && avaliacoes.length === 0"
+    class="empty-state"
+  >
+    <mat-icon>monitoring</mat-icon>
+    <h2>Nenhuma avaliação realizada</h2>
+    <p>Registre a primeira avaliação física deste aluno.</p>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="abrirNovaAvaliacao()"
+    >
+      Criar avaliação
     </button>
   </div>
 
-  <!-- 🔥 SE NÃO TIVER AVALIAÇÕES -->
-  <div *ngIf="avaliacoes.length === 0" class="empty-state">
-    <p>Nenhuma avaliação realizada.</p>
-  </div>
+  <div class="avaliacoes-grid" *ngIf="avaliacoes.length > 0">
 
-  <!-- 🔥 SE TIVER AVALIAÇÕES -->
-  <div *ngIf="avaliacoes.length > 0">
+    <mat-card
+      class="avaliacao-card"
+      *ngFor="let avaliacao of avaliacoes"
+    >
 
-    <mat-card class="avaliacao-card" *ngFor="let avaliacao of avaliacoes">
-    <h3>
-      Data da avaliação:
-      {{ avaliacao.dataAvaliacao | date:'dd/MM/yyyy' }}
-    </h3>
-      <p><strong>Avaliador:</strong> Sistema</p>
+      <div class="card-top">
 
-      <button
-        mat-stroked-button
-        color="primary"
-        [routerLink]="[avaliacao.id]"
-      >
-        Visualizar
-      </button>
+        <div class="icon-box">
+          <mat-icon>fitness_center</mat-icon>
+        </div>
+
+        <div>
+          <h2>Avaliação física</h2>
+          <p>{{ avaliacao.dataAvaliacao | date:'dd/MM/yyyy' }}</p>
+        </div>
+
+      </div>
+
+      <div class="card-info">
+
+        <div class="info-item">
+          <span>Avaliador</span>
+          <strong>Sistema</strong>
+        </div>
+
+        <div class="info-item">
+          <span>Registro</span>
+          <strong>Desempenho muscular</strong>
+        </div>
+
+      </div>
+
+      <div class="card-actions">
+
+        <button
+          mat-stroked-button
+          color="primary"
+          type="button"
+          (click)="abrirVisualizacao(avaliacao)"
+        >
+          Visualizar
+        </button>
+
+      </div>
+
     </mat-card>
 
   </div>

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core"
 import { Observable } from "rxjs";
 import { TreinoResponseDTO } from "../models/treino-response.model";
 import { TreinoRequestDTO } from "../models/treinos-request.model";
+import { TreinoItemResponseDTO } from "../models/treino-item-response";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,8 @@ export class TreinoService {
     return this.http.get<TreinoResponseDTO>(`${this.apiUrl}/${id}`);
   }
 
+  listarItensPorTreino(treinoId: string): Observable<TreinoItemResponseDTO[]> {
+    return this.http.get<TreinoItemResponseDTO[]>(`${this.apiUrl}/${treinoId}/item`);
+  }
 }
-
 

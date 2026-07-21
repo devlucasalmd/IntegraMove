@@ -1,3 +1,5 @@
+import { StatusAluno } from "./aluno-resumo-response.model";
+
 export interface AlunoRequestDTO {
   nome: string;
   dataNascimento: string;
@@ -5,7 +7,8 @@ export interface AlunoRequestDTO {
   genero: string;
   telefone?: string;
   email: string;
-  ativo: boolean;
+  status: StatusAluno;
+  planoId?: string | null;
   enderecoDTO?: EnderecoDTO | null;
 }
 

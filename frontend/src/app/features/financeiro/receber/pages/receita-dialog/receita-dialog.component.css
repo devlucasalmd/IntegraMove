@@ -1,0 +1,164 @@
+.dialog-header {
+  padding: 24px 24px 8px;
+}
+
+.dialog-header h2 {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 800;
+
+  color: #172033;
+}
+
+.dialog-header p {
+  margin: 6px 0 0;
+
+  font-size: 14px;
+
+  color: #667085;
+}
+
+/* ==========================
+   FORMULÁRIO
+========================== */
+
+.form-container {
+  padding: 12px 24px 0;
+}
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+/* Colunas */
+
+.col-3 {
+  grid-column: span 3;
+}
+
+.col-4 {
+  grid-column: span 4;
+}
+
+.col-5 {
+  grid-column: span 5;
+}
+
+.col-6 {
+  grid-column: span 6;
+}
+
+.col-12 {
+  grid-column: span 12;
+}
+
+/* ==========================
+   AÇÕES
+========================== */
+
+.dialog-actions {
+  padding: 20px 24px 24px;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.dialog-actions button {
+  min-width: 120px;
+}
+
+/* ==========================
+   BOTÃO LOADING
+========================== */
+
+.button-spinner {
+  display: inline-block;
+
+  margin-right: 8px;
+
+  vertical-align: middle;
+}
+
+/* ==========================
+   MAT DIALOG
+========================== */
+
+::ng-deep .mat-mdc-dialog-container {
+  border-radius: 18px;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  border-radius: 18px;
+}
+
+/* ==========================
+   RESPONSIVIDADE
+========================== */
+
+@media (max-width: 900px) {
+  .form-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .col-3 {
+    grid-column: span 3;
+  }
+
+  .col-4,
+  .col-5,
+  .col-6 {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 600px) {
+  .dialog-header {
+    padding: 20px 16px 8px;
+  }
+
+  .dialog-header h2 {
+    font-size: 20px;
+  }
+
+  .form-container {
+    padding: 8px 16px 0;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .col-3,
+  .col-4,
+  .col-5,
+  .col-6,
+  .col-12 {
+    grid-column: span 1;
+  }
+
+  .dialog-actions {
+    padding: 16px;
+
+    flex-direction: column-reverse;
+  }
+
+  .dialog-actions button {
+    width: 100%;
+  }
+}

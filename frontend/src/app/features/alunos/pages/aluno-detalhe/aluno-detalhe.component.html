@@ -1,35 +1,99 @@
 <div class="container" *ngIf="aluno">
   <!-- HEADER -->
-  <div class="header">
-    <div class="avatar"></div>
+  <section class="profile-header">
+    <div class="profile-main">
+      <div class="avatar">
+        <span>{{ aluno.nome?.charAt(0) || 'A' }}</span>
+      </div>
 
-    <div class="info">
-      <h1>
-        {{ aluno.nome }}
-        <span class="status" [ngClass]="aluno.ativo ? 'ativo' : 'inativo'">
-          {{ aluno.ativo ? "Ativo" : "Inativo" }}
-        </span>
-      </h1>
+      <div class="info">
+        <div class="title-row">
+          <h1>{{ aluno.nome }}</h1>
 
-      <p>CPF: {{ aluno.cpf }}</p>
+          <span class="badges">
+            <span
+              class="status-badge"
+              [ngClass]="alunoAtivo() ? 'ativo' : 'inativo'"
+            >
+              {{ alunoAtivo() ? "Ativo" : "Inativo" }}
+            </span>
+
+            <span
+              class="plano-badge"
+              [ngClass]="alunoPossuiPlano() ? 'com-plano' : 'sem-plano'"
+            >
+              {{ obterNomePlano() }}
+            </span>
+          </span>
+        </div>
+
+        <div class="meta-row">
+          <span>
+            <mat-icon>badge</mat-icon>
+            CPF: {{ aluno.cpf }}
+          </span>
+
+          <span *ngIf="aluno.email">
+            <mat-icon>mail</mat-icon>
+            {{ aluno.email }}
+          </span>
+
+          <span *ngIf="aluno.telefone">
+            <mat-icon>call</mat-icon>
+            {{ aluno.telefone }}
+          </span>
+        </div>
+      </div>
     </div>
 
     <div class="actions">
-      <button mat-raised-button color="primary">Cadastro</button>
-      <button mat-stroked-button>Mais ações</button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="btn-primary"
+        (click)="abrirCadastro()"
+      >
+        <mat-icon>edit</mat-icon>
+        Cadastro
+      </button>
+
+      <button mat-stroked-button type="button" class="btn-secondary">
+        <mat-icon>more_horiz</mat-icon>
+        Mais ações
+      </button>
     </div>
-  </div>
+  </section>
 
   <!-- TABS -->
-  <div class="tabs">
-    <span class="tab" routerLink="resumo" routerLinkActive="active">Resumo</span>
-    <span class="tab" routerLink="contratos" routerLinkActive="active">Contratos</span>
-    <span class="tab" routerLink="financeiro" routerLinkActive="active">Financeiro</span>
-    <span class="tab" routerLink="avaliacoes" routerLinkActive="active">Avaliações</span>
-    <span class="tab" routerLink="treinos" routerLinkActive="active">Treinos</span>
-  </div>
+  <nav class="tabs">
+    <a class="tab" routerLink="resumo" routerLinkActive="active">
+      <mat-icon>dashboard</mat-icon>
+      Resumo
+    </a>
 
-  <!-- 🔥 CONTEÚDO DINÂMICO -->
+    <a class="tab" routerLink="contratos" routerLinkActive="active">
+      <mat-icon>description</mat-icon>
+      Contratos
+    </a>
+
+    <a class="tab" routerLink="financeiro" routerLinkActive="active">
+      <mat-icon>payments</mat-icon>
+      Financeiro
+    </a>
+
+    <a class="tab" routerLink="avaliacoes" routerLinkActive="active">
+      <mat-icon>monitor_heart</mat-icon>
+      Avaliações
+    </a>
+
+    <a class="tab" routerLink="treinos" routerLinkActive="active">
+      <mat-icon>fitness_center</mat-icon>
+      Ficha de Treino
+    </a>
+  </nav>
+
+  <!-- CONTEÚDO DINÂMICO -->
   <mat-card class="content-card">
     <router-outlet></router-outlet>
   </mat-card>

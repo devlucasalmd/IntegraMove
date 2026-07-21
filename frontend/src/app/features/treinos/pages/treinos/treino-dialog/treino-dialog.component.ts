@@ -47,6 +47,19 @@ export class TreinoDialogComponent {
     'Avançado'
   ];
 
+  gruposMusculares = [
+    { value: 'PEITO', label: 'Peito' },
+    { value: 'COSTAS', label: 'Costas' },
+    { value: 'PERNAS', label: 'Pernas' },
+    { value: 'OMBROS', label: 'Ombros' },
+    { value: 'BICEPS', label: 'Bíceps' },
+    { value: 'TRICEPS', label: 'Tríceps' },
+    { value: 'ABDOMEN', label: 'Abdômen' },
+    { value: 'GLUTEOS', label: 'Glúteos' },
+    { value: 'TRAPEZIO', label: 'Trapezio' },
+    { value: 'ANTEBRACO', label: 'Antebraço' }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private treinoService: TreinoService,
@@ -61,6 +74,7 @@ export class TreinoDialogComponent {
       responsavel: ['', Validators.required],
       funcionalidade: ['', Validators.required],
       nivel: ['', Validators.required],
+      grupoMuscular: ['', Validators.required],
       repeticoes: [''],
       observacoes: ['']
     });

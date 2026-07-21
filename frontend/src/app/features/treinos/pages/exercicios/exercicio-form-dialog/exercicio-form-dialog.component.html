@@ -1,9 +1,16 @@
-<form [formGroup]="form" class="page-container compact">
+<form [formGroup]="form" (ngSubmit)="salvar()" class="page-container compact">
 
   <!-- HEADER -->
   <div class="section-header mini">
-    <!-- <i-tabler name="barbell"></i-tabler> -->
-    <span>Informações do Exercício</span>
+    <span>
+      {{
+        isView
+          ? 'Visualizar exercício'
+          : isEdit
+            ? 'Editar exercício'
+            : 'Novo exercício'
+      }}
+    </span>
   </div>
 
   <div class="form-grid compact-grid">
@@ -12,19 +19,32 @@
     <div class="col-6">
       <mat-form-field appearance="outline">
         <mat-label>Nome</mat-label>
+
         <input matInput formControlName="nome" />
+
+        <mat-error *ngIf="form.get('nome')?.hasError('required')">
+          Nome é obrigatório
+        </mat-error>
       </mat-form-field>
     </div>
 
     <!-- GRUPO MUSCULAR -->
     <div class="col-3">
       <mat-form-field appearance="outline">
-        <mat-label>Grupo Muscular</mat-label>
+        <mat-label>Grupo muscular</mat-label>
+
         <mat-select formControlName="grupoMuscular">
-          <mat-option *ngFor="let g of gruposMusculares" [value]="g">
-            {{ g }}
+          <mat-option
+            *ngFor="let grupo of gruposMusculares"
+            [value]="grupo.value"
+          >
+            {{ grupo.label }}
           </mat-option>
         </mat-select>
+
+        <mat-error *ngIf="form.get('grupoMuscular')?.hasError('required')">
+          Grupo muscular é obrigatório
+        </mat-error>
       </mat-form-field>
     </div>
 
@@ -32,32 +52,58 @@
     <div class="col-3">
       <mat-form-field appearance="outline">
         <mat-label>Intensidade</mat-label>
+
         <mat-select formControlName="intensidade">
-          <mat-option *ngFor="let i of intensidades" [value]="i">
-            {{ i }}
+          <mat-option
+            *ngFor="let intensidade of intensidades"
+            [value]="intensidade.value"
+          >
+            {{ intensidade.label }}
           </mat-option>
         </mat-select>
+
+        <mat-error *ngIf="form.get('intensidade')?.hasError('required')">
+          Intensidade é obrigatória
+        </mat-error>
       </mat-form-field>
     </div>
 
     <!-- STATUS -->
     <div class="col-12">
-      <mat-radio-group formControlName="ativo">
+      <mat-radio-group formControlName="ativo" class="status-radio-group">
         <mat-radio-button [value]="true">Ativo</mat-radio-button>
         <mat-radio-button [value]="false">Inativo</mat-radio-button>
       </mat-radio-group>
     </div>
-
   </div>
 
-  <!-- BOTÕES -->
-  <div class="actions compact-actions">
-    <button mat-flat-button type="button" class="btn-cancel" (click)="fechar()">
-      Cancelar
+  <div class="form-actions">
+    <button
+      mat-stroked-button
+      type="button"
+      (click)="fechar()"
+    >
+      Voltar
     </button>
 
-    <button mat-flat-button type="button" class="btn-submit" (click)="salvar()">
-      {{ isEdit ? 'Atualizar' : 'Salvar' }}
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      *ngIf="isView"
+      (click)="habilitarEdicao()"
+    >
+      <mat-icon>edit</mat-icon>
+      Editar
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      *ngIf="!isView"
+    >
+      Salvar
     </button>
   </div>
 

@@ -1,148 +1,404 @@
-/* ===================== CONTAINER ===================== */
 .page-container {
-  max-width: 1200px;
-  margin: auto;
   padding: 24px;
+  max-width: 1280px;
+  margin: auto;
 }
 
-/* ===================== HEADER ===================== */
 .page-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-.page-header h1 {
-  font-size: 26px;
-  font-weight: 600;
-  margin: 0;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 24px;
 }
 
 .subtitle {
+  display: inline-block;
+  margin-bottom: 6px;
   font-size: 13px;
-  color: #6b7280;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-/* BOTÃO */
-.btn-primary {
+.page-header h1 {
+  margin: 0;
+  color: #1f1f1f;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.page-header p {
+  margin: 6px 0 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.new-button {
+  min-height: 42px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 6px;
-  border-radius: 8px;
-  height: 42px;
+  white-space: nowrap;
 }
 
-/* ===================== FILTRO ===================== */
-.filter-card {
-  margin-bottom: 16px;
-  padding: 10px;
-  border-radius: 10px;
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
-.filter-field {
+.summary-card {
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid #eeeeee;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+}
+
+.summary-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #e3f2fd;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.summary-icon.ativo {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.summary-icon.inativo {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.summary-card span {
+  display: block;
+  margin-bottom: 4px;
+  color: #777;
+  font-size: 13px;
+}
+
+.summary-card strong {
+  color: #222;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.content-card {
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #eeeeee;
+  background: #fff;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.search-field {
   width: 100%;
+  max-width: 460px;
 }
 
-/* ===================== TABELA ===================== */
-.table-card {
-  border-radius: 12px;
-  overflow: hidden;
+.toolbar-info {
+  color: #777;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
 }
 
 .alunos-table {
   width: 100%;
+  min-width: 850px;
 }
 
-/* ===================== NOME ===================== */
-.col-nome {
+.alunos-table th {
+  color: #666;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.alunos-table td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.aluno-cell {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-/* AVATAR */
 .avatar {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: #3f51b5;
-  color: white;
-  font-weight: 600;
+  background: linear-gradient(135deg, #1976d2, #42a5f5);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
 }
 
-/* ===================== BADGES ===================== */
+.aluno-cell strong {
+  display: block;
+  color: #222;
+  font-size: 15px;
+}
+
+.aluno-cell span {
+  display: block;
+  margin-top: 3px;
+  color: #999;
+  font-size: 12px;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-muted {
+  color: #555;
+  font-size: 14px;
+}
+
 .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.plano-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 24px;
   padding: 4px 10px;
-  border-radius: 8px;
+  border-radius: 999px;
+
   font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.plano-badge.com-plano {
   background: #eef2ff;
-  color: #3f51b5;
+  color: #07276c;
+  border: 1px solid #c7d2fe;
 }
 
-.badge.secondary {
-  background: #ecfdf5;
-  color: #059669;
+.plano-badge.sem-plano {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
 }
 
-/* ===================== STATUS ===================== */
-.status-badge {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.status-badge.ativo {
-  background: #e6f4ea;
+.status.ativo {
+  background: #e8f5e9;
   color: #2e7d32;
 }
 
-.status-badge.inativo {
-  background: #fdecea;
+.status.inativo {
+  background: #ffebee;
   color: #c62828;
 }
 
-/* ===================== AÇÕES ===================== */
-.acoes-cell {
-  text-align: right;
+.pagamento.feito {
+  background: #e8f5e9;
+  color: #2e7d32;
 }
 
-/* ===================== LINHA ===================== */
-.row-click {
-  cursor: pointer;
-  transition: all 0.2s ease;
+.pagamento.em_aberto {
+  background: #fff8e1;
+  color: #f57f17;
 }
 
-.row-click:hover {
-  background: #f9fafb;
+.pagamento.a_vencer {
+  background: #e3f2fd;
+  color: #1565c0;
 }
 
-/* ===================== RESPONSIVO ===================== */
-@media (max-width: 768px) {
+.pagamento.vencido {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.actions-cell {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.actions-cell button {
+  border-radius: 10px;
+}
+
+.empty-state {
+  padding: 46px 24px;
+  text-align: center;
+  color: #777;
+}
+
+.empty-state mat-icon {
+  width: 54px;
+  height: 54px;
+  font-size: 54px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+.empty-state h2 {
+  margin: 0 0 8px;
+  color: #333;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.empty-state p {
+  margin: 0 0 18px;
+  font-size: 15px;
+}
+
+.empty-state button {
+  border-radius: 12px;
+}
+
+.mobile-list {
+  display: none;
+}
+
+.actions-cell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+}
+
+.actions-cell button {
+  width: 38px;
+  height: 38px;
+}
+
+@media (max-width: 800px) {
+  .page-container {
+    padding: 18px;
+  }
 
   .page-header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    align-items: stretch;
   }
 
-  .btn-primary {
+  .new-button {
     width: 100%;
     justify-content: center;
   }
 
-  .avatar {
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
+  .summary-grid {
+    grid-template-columns: 1fr;
   }
 
-  .status-badge {
-    font-size: 11px;
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
   }
 
+  .search-field {
+    max-width: 100%;
+  }
+
+  .toolbar-info {
+    text-align: left;
+  }
+
+  .table-wrapper {
+    display: none;
+  }
+
+  .mobile-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .mobile-card {
+    padding: 18px;
+    border-radius: 18px;
+    border: 1px solid #eeeeee;
+  }
+
+  .mobile-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .mobile-card-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+  }
+
+  .mobile-card-header p {
+    margin: 4px 0 0;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .mobile-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .mobile-info div {
+    padding: 12px;
+    border-radius: 12px;
+    background: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .mobile-info span {
+    color: #777;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .mobile-card button {
+    width: 100%;
+    border-radius: 12px;
+  }
 }

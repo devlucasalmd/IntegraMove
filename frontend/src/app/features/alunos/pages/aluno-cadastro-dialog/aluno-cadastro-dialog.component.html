@@ -1,0 +1,215 @@
+<div class="dialog-container" *ngIf="aluno as aluno">
+
+  <div class="dialog-header">
+
+    <div>
+      <span class="subtitle">Cadastro do aluno</span>
+
+      <h2>
+        {{ aluno.nome }}
+
+        <span
+          class="status"
+          [ngClass]="form.get('status')?.value === 'ATIVO' ? 'ativo' : 'inativo'"
+        >
+          {{ form.get('status')?.value === 'ATIVO' ? 'Ativo' : 'Inativo' }}
+        </span>
+      </h2>
+
+      <p>Visualize e edite as informações cadastrais do aluno.</p>
+    </div>
+
+    <button
+      mat-icon-button
+      type="button"
+      (click)="fechar()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+
+  </div>
+
+
+  <form [formGroup]="form">
+
+    <section class="section">
+
+      <div class="section-header">
+        <div>
+          <h3>Dados pessoais</h3>
+          <p>Informações principais do aluno.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Nome completo</mat-label>
+          <input matInput formControlName="nome">
+
+          <mat-error *ngIf="campoInvalido('nome')">
+            Nome é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>CPF</mat-label>
+          <input matInput formControlName="cpf">
+
+          <mat-error *ngIf="campoInvalido('cpf')">
+            CPF é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Data de nascimento</mat-label>
+          <input matInput type="date" formControlName="dataNascimento">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Gênero</mat-label>
+
+          <mat-select formControlName="genero">
+            <mat-option
+              *ngFor="let genero of generos"
+              [value]="genero.value"
+            >
+              {{ genero.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="toggle-field">
+          <span>Status do aluno</span>
+
+          <mat-slide-toggle formControlName="status">
+            {{ form.get('status')?.value ? 'Ativo' : 'Inativo' }}
+          </mat-slide-toggle>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="section">
+
+      <div class="section-header">
+        <div>
+          <h3>Contato</h3>
+          <p>Dados para comunicação com o aluno.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Telefone</mat-label>
+          <input matInput formControlName="telefone">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email">
+
+          <mat-error *ngIf="campoInvalido('email')">
+            E-mail inválido
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+    </section>
+
+    <section class="section" formGroupName="enderecoDTO">
+
+      <div class="section-header">
+        <div>
+          <h3>Endereço</h3>
+          <p>Localização residencial do aluno.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+
+        <mat-form-field appearance="outline">
+          <mat-label>CEP</mat-label>
+          <input matInput formControlName="cep">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estado</mat-label>
+          <input matInput formControlName="estado">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Cidade</mat-label>
+          <input matInput formControlName="cidade">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Bairro</mat-label>
+          <input matInput formControlName="bairro">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Rua</mat-label>
+          <input matInput formControlName="rua">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Número</mat-label>
+          <input matInput formControlName="numero">
+        </mat-form-field>
+
+      </div>
+
+    </section>
+
+  </form>
+
+  <div class="dialog-actions">
+
+    <button
+      mat-stroked-button
+      type="button"
+      (click)="fechar()"
+      [disabled]="salvando"
+    >
+      Fechar
+    </button>
+
+    <button
+      mat-stroked-button
+      color="warn"
+      type="button"
+      *ngIf="modoEdicao"
+      (click)="cancelarEdicao()"
+      [disabled]="salvando"
+    >
+      Cancelar edição
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      *ngIf="!modoEdicao"
+      (click)="habilitarEdicao()"
+    >
+      Editar cadastro
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      *ngIf="modoEdicao"
+      (click)="salvar()"
+      [disabled]="salvando"
+    >
+      {{ salvando ? 'Salvando...' : 'Salvar alterações' }}
+    </button>
+
+  </div>
+
+</div>

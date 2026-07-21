@@ -1,136 +1,138 @@
+<div class="detalhe-container" *ngIf="treino">
 
+  <div class="detalhe-header">
 
-
-<div class="page-container">
-
-  <!-- HEADER -->
-  <div class="treino-header">
     <div>
-      <h1>{{ treino.nome }}</h1>
-      <p>Criado por: {{ treino.responsavel }}</p>
+      <span class="subtitle">Detalhes do treino</span>
+      <h2>{{ treino.nome }}</h2>
+      <p>Responsável: {{ treino.responsavel }}</p>
     </div>
 
-    <div class="badges">
-      <span class="badge">{{ treino.nivel }}</span>
-      <span class="badge secondary">{{ treino.funcionalidade }}</span>
-    </div>
-  </div>
-
-  <!-- BOTÃO ADD -->
-  <div class="add-container">
-    <button mat-raised-button color="primary" (click)="adicionar()">
-      <mat-icon>add</mat-icon>
-      Adicionar Exercício
+    <button mat-icon-button (click)="fechar()">
+      <mat-icon>close</mat-icon>
     </button>
-  </div>
-
-  <!-- ===================== CARD VIEW (PADRÃO) ===================== -->
-  <div class="exercicio-grid">
-
-    <mat-card class="exercicio-card" *ngFor="let item of exercicios">
-
-      <div class="card-top">
-        <h2>{{ item.nome }}</h2>
-      </div>
-
-      <div class="card-body">
-        <p><strong>Séries:</strong> {{ item.series }}</p>
-        <p><strong>Reps:</strong> {{ item.repeticoes }}</p>
-        <p><strong>Carga:</strong> {{ item.carga }} kg</p>
-        <p><strong>Descanso:</strong> {{ item.descanso }}s</p>
-      </div>
-
-      <div class="card-actions">
-        <button mat-icon-button (click)="editar(item)">
-          <mat-icon>edit</mat-icon>
-        </button>
-
-        <button mat-icon-button color="warn" (click)="remover(item.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-
-    </mat-card>
 
   </div>
 
-  <!-- ===================== TABELA ===================== -->
-  <mat-card class="table-card">
+  <section class="section">
 
-    <table mat-table [dataSource]="exercicios" class="treino-table">
+    <div class="section-header">
+      <h3>Informações do treino</h3>
+      <p>Dados cadastrados na criação do treino.</p>
+    </div>
 
-      <!-- EXERCÍCIO -->
-      <ng-container matColumnDef="nome">
-        <th mat-header-cell *matHeaderCellDef>Exercício</th>
-        <td mat-cell *matCellDef="let item">
-          <strong>{{ item.nome }}</strong>
-        </td>
-      </ng-container>
+    <div class="info-grid">
 
-      <!-- SÉRIES -->
-      <ng-container matColumnDef="series">
-        <th mat-header-cell *matHeaderCellDef>Séries</th>
-        <td mat-cell *matCellDef="let item">
-          {{ item.series }}
-        </td>
-      </ng-container>
+      <div class="info-card">
+        <span>Funcionalidade</span>
+        <strong>{{ treino.funcionalidade }}</strong>
+      </div>
 
-      <!-- REPS -->
-      <ng-container matColumnDef="reps">
-        <th mat-header-cell *matHeaderCellDef>Reps</th>
-        <td mat-cell *matCellDef="let item">
-          {{ item.repeticoes }}
-        </td>
-      </ng-container>
+      <div class="info-card">
+        <span>Nível</span>
+        <strong>{{ treino.nivel }}</strong>
+      </div>
 
-      <!-- CARGA -->
-      <ng-container matColumnDef="carga">
-        <th mat-header-cell *matHeaderCellDef>Carga</th>
-        <td mat-cell *matCellDef="let item">
-          {{ item.carga }} kg
-        </td>
-      </ng-container>
+      <div class="info-card">
+        <span>Grupo muscular</span>
+        <strong>{{ treino.grupoMuscular || 'Não informado' }}</strong>
+      </div>
 
-      <!-- INTERVALO -->
-      <ng-container matColumnDef="descanso">
-        <th mat-header-cell *matHeaderCellDef>Intervalo</th>
-        <td mat-cell *matCellDef="let item">
-          {{ item.descanso }}s
-        </td>
-      </ng-container>
+      <div class="info-card">
+        <span>Repetições</span>
+        <strong>{{ treino.repeticoes || 'Não informado' }}</strong>
+      </div>
 
-      <!-- OBSERVAÇÃO -->
-      <ng-container matColumnDef="observacao">
-        <th mat-header-cell *matHeaderCellDef>Observação</th>
-        <td mat-cell *matCellDef="let item">
-          {{ item.observacao || '-' }}
-        </td>
-      </ng-container>
+      <div class="info-card">
+        <span>Total de exercícios</span>
+        <strong>{{ exercicios.length }}</strong>
+      </div>
 
-      <!-- AÇÕES -->
-      <ng-container matColumnDef="acoes">
-        <th mat-header-cell *matHeaderCellDef class="acoes-header">Ações</th>
-        <td mat-cell *matCellDef="let item" class="acoes-cell">
+    </div>
 
-          <button mat-icon-button (click)="editar(item)">
-            <mat-icon>edit</mat-icon>
-          </button>
+    <div class="observacoes-card" *ngIf="temObservacoes()">
+      <span>Observações</span>
+      <p>{{ treino.observacoes }}</p>
+    </div>
 
-          <button mat-icon-button color="warn" (click)="remover(item.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
+  </section>
 
-        </td>
-      </ng-container>
+  <section class="section">
 
-      <!-- HEADER -->
-      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+    <div class="section-header">
+      <h3>Exercícios incluídos</h3>
+      <p>Lista de exercícios vinculados a este treino.</p>
+    </div>
 
-      <!-- ROW -->
-      <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+    <div
+      class="empty-state"
+      *ngIf="!carregandoExercicios && exercicios.length === 0"
+    >
+      <mat-icon>fitness_center</mat-icon>
+      <strong>Nenhum exercício incluído</strong>
+      <p>Este treino ainda não possui exercícios cadastrados.</p>
+    </div>
 
-    </table>
+    <div
+      class="exercicios-lista"
+      *ngIf="exercicios.length > 0"
+    >
 
-  </mat-card>
+      <div
+        class="exercicio-card"
+        *ngFor="let item of exercicios; let i = index"
+      >
+
+        <div class="exercicio-topo">
+
+          <div class="exercicio-titulo">
+            <span class="ordem">
+              {{ item.ordem || i + 1 }}
+            </span>
+
+            <div>
+              <h4>{{ item.nomeExercicio || 'Exercício não identificado' }}</h4>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="exercicio-dados">
+
+          <div class="dado">
+            <span>Séries</span>
+            <strong>{{ item.series }}</strong>
+          </div>
+
+          <div class="dado">
+            <span>Reps</span>
+            <strong>{{ item.repeticoes }}</strong>
+          </div>
+
+          <div class="dado">
+            <span>Carga</span>
+            <strong>{{ item.carga }} kg</strong>
+          </div>
+
+          <div class="dado">
+            <span>Descanso</span>
+            <strong>{{ item.descanso }}s</strong>
+          </div>
+
+        </div>
+
+        <div
+          class="exercicio-observacao"
+          *ngIf="item.observacao"
+        >
+          <span>Observação</span>
+          <p>{{ item.observacao }}</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 </div>

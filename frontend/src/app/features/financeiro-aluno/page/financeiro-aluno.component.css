@@ -1,0 +1,251 @@
+.financeiro-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.financeiro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.financeiro-header h2 {
+  margin: 4px 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #172033;
+}
+
+.financeiro-header p {
+  margin: 0;
+  color: #667085;
+  font-size: 14px;
+}
+
+.subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #07276c;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.summary-card {
+  padding: 18px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
+}
+
+.summary-card span {
+  display: block;
+  font-size: 13px;
+  color: #667085;
+  margin-bottom: 4px;
+}
+
+.summary-card strong {
+  font-size: 20px;
+  font-weight: 700;
+  color: #172033;
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-icon mat-icon {
+  font-size: 22px;
+}
+
+.card-icon.success {
+  background: #e7f8ef;
+  color: #079455;
+}
+
+.card-icon.warning {
+  background: #fff4e5;
+  color: #dc6803;
+}
+
+.card-icon.danger {
+  background: #fee4e2;
+  color: #d92d20;
+}
+
+.card-icon.info {
+  background: #e8efff;
+  color: #07276c;
+}
+
+.table-card {
+  border-radius: 18px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
+}
+
+.table-header {
+  padding: 22px 24px;
+  border-bottom: 1px solid #eef0f4;
+}
+
+.table-header h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #172033;
+}
+
+.table-header p {
+  margin: 0;
+  font-size: 14px;
+  color: #667085;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.financeiro-table {
+  width: 100%;
+}
+
+.financeiro-table th {
+  font-size: 12px;
+  font-weight: 700;
+  color: #667085;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #f9fafb;
+}
+
+.financeiro-table td {
+  color: #344054;
+  font-size: 14px;
+}
+
+.descricao-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.descricao-cell strong {
+  color: #172033;
+  font-weight: 600;
+}
+
+.descricao-cell span {
+  font-size: 12px;
+  color: #98a2b3;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status-pago {
+  background: #e7f8ef;
+  color: #027a48;
+}
+
+.status-a-vencer {
+  background: #e8efff;
+  color: #07276c;
+}
+
+.status-em-aberto {
+  background: #fff4e5;
+  color: #b54708;
+}
+
+.status-vencido {
+  background: #fee4e2;
+  color: #b42318;
+}
+
+.status-cancelado {
+  background: #f2f4f7;
+  color: #667085;
+}
+
+.loading {
+  padding: 48px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  color: #667085;
+}
+
+.empty-state {
+  padding: 56px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.empty-state mat-icon {
+  font-size: 44px;
+  width: 44px;
+  height: 44px;
+  color: #98a2b3;
+  margin-bottom: 12px;
+}
+
+.empty-state h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: #172033;
+}
+
+.empty-state p {
+  margin: 0;
+  color: #667085;
+  font-size: 14px;
+}
+
+@media (max-width: 1100px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .financeiro-header {
+    flex-direction: column;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    align-items: flex-start;
+  }
+}

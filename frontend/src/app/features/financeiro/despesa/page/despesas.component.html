@@ -1,0 +1,290 @@
+<div class="contas-container">
+
+  <div class="page-header">
+    <div>
+      <span class="subtitle">Financeiro</span>
+      <h1>Contas a pagar</h1>
+      <p>Gerencie despesas fixas, variáveis, contas vencidas e pagamentos da academia.</p>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="abrirNovo()">
+      <mat-icon>add</mat-icon>
+      Nova despesa
+    </button>
+  </div>
+
+  <div class="cards-grid">
+
+    <mat-card class="summary-card">
+      <div class="card-icon total">
+        <mat-icon>account_balance_wallet</mat-icon>
+      </div>
+
+      <div>
+        <span>Total cadastrado</span>
+        <strong>{{ totalDespesas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="card-icon success">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+
+      <div>
+        <span>Total pago</span>
+        <strong>{{ totalPago | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="card-icon warning">
+        <mat-icon>schedule</mat-icon>
+      </div>
+
+      <div>
+        <span>Pendente</span>
+        <strong>{{ totalPendente | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="card-icon danger">
+        <mat-icon>error_outline</mat-icon>
+      </div>
+
+      <div>
+        <span>Vencido</span>
+        <strong>{{ totalVencido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+    </mat-card>
+
+  </div>
+
+  <mat-card class="form-card" *ngIf="exibindoFormulario">
+
+    <div class="form-header">
+      <div>
+        <h2>{{ despesaEditando ? 'Editar despesa' : 'Nova despesa' }}</h2>
+        <p>Informe os dados da conta a pagar.</p>
+      </div>
+
+      <button mat-icon-button (click)="fecharFormulario()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <form [formGroup]="form" class="form-grid">
+
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>Descrição</mat-label>
+        <input matInput formControlName="descricao" placeholder="Ex: Aluguel da academia">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="categoria">
+          <mat-option *ngFor="let categoria of categorias" [value]="categoria.value">
+            {{ categoria.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>Valor</mat-label>
+        <input matInput type="number" formControlName="valor" placeholder="0,00">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-3">
+        <mat-label>Vencimento</mat-label>
+        <input matInput type="date" formControlName="dataVencimento">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-4">
+        <mat-label>Fornecedor</mat-label>
+        <input matInput formControlName="fornecedor" placeholder="Ex: Imobiliária Central">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-5">
+        <mat-label>Observações</mat-label>
+        <input matInput formControlName="observacoes" placeholder="Observações adicionais">
+      </mat-form-field>
+
+      <div class="form-actions col-12">
+        <button mat-button type="button" (click)="fecharFormulario()">
+          Cancelar
+        </button>
+
+        <button mat-raised-button color="primary" type="button" (click)="salvar()">
+          <mat-icon>save</mat-icon>
+          Salvar
+        </button>
+      </div>
+
+    </form>
+
+  </mat-card>
+
+  <mat-card class="filters-card">
+
+    <form [formGroup]="filtroForm" class="filters-grid">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input matInput formControlName="termo" placeholder="Descrição, fornecedor ou observação">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="">Todos</mat-option>
+          <mat-option *ngFor="let status of statusOptions" [value]="status.value">
+            {{ status.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="categoria">
+          <mat-option value="">Todas</mat-option>
+          <mat-option *ngFor="let categoria of categorias" [value]="categoria.value">
+            {{ categoria.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-stroked-button type="button" (click)="limparFiltros()">
+        <mat-icon>filter_alt_off</mat-icon>
+        Limpar
+      </button>
+
+    </form>
+
+  </mat-card>
+
+  <mat-card class="table-card">
+
+    <div class="table-header">
+      <div>
+        <h2>Despesas cadastradas</h2>
+        <p>Lista de contas a pagar da academia.</p>
+      </div>
+    </div>
+
+    <div class="loading" *ngIf="carregando">
+      <mat-spinner diameter="36"></mat-spinner>
+      <span>Carregando despesas...</span>
+    </div>
+
+    <div class="empty-state" *ngIf="!carregando && despesasFiltradas.length === 0">
+      <mat-icon>receipt_long</mat-icon>
+      <h3>Nenhuma despesa encontrada</h3>
+      <p>Cadastre uma nova despesa ou ajuste os filtros aplicados.</p>
+    </div>
+
+    <div class="table-wrapper" *ngIf="!carregando && despesasFiltradas.length > 0">
+
+      <table mat-table [dataSource]="despesasFiltradas" class="despesas-table">
+
+        <ng-container matColumnDef="descricao">
+          <th mat-header-cell *matHeaderCellDef>Descrição</th>
+          <td mat-cell *matCellDef="let despesa">
+            <div class="descricao-cell">
+              <strong>{{ despesa.descricao }}</strong>
+              <span>{{ despesa.observacoes || 'Sem observações' }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="categoria">
+          <th mat-header-cell *matHeaderCellDef>Categoria</th>
+          <td mat-cell *matCellDef="let despesa">
+            {{ getCategoriaLabel(despesa.categoria) }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fornecedor">
+          <th mat-header-cell *matHeaderCellDef>Fornecedor</th>
+          <td mat-cell *matCellDef="let despesa">
+            {{ despesa.fornecedor || '-' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dataVencimento">
+          <th mat-header-cell *matHeaderCellDef>Vencimento</th>
+          <td mat-cell *matCellDef="let despesa">
+            {{ despesa.dataVencimento | date:'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dataPagamento">
+          <th mat-header-cell *matHeaderCellDef>Pagamento</th>
+          <td mat-cell *matCellDef="let despesa">
+            {{ despesa.dataPagamento ? (despesa.dataPagamento | date:'dd/MM/yyyy') : '-' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef>Valor</th>
+          <td mat-cell *matCellDef="let despesa">
+            <strong>{{ despesa.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let despesa">
+            <span class="status-badge" [ngClass]="getStatusClass(despesa.status)">
+              {{ getStatusLabel(despesa.status) }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let despesa">
+
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+
+              <button mat-menu-item (click)="editar(despesa)">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </button>
+
+              <button
+                mat-menu-item
+                *ngIf="despesa.status !== 'PAGA' && despesa.status !== 'CANCELADA'"
+                (click)="pagar(despesa)">
+                <mat-icon>check_circle</mat-icon>
+                <span>Marcar como paga</span>
+              </button>
+
+              <button
+                mat-menu-item
+                *ngIf="despesa.status !== 'CANCELADA'"
+                (click)="cancelar(despesa)">
+                <mat-icon>cancel</mat-icon>
+                <span>Cancelar</span>
+              </button>
+
+            </mat-menu>
+
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+
+    </div>
+
+  </mat-card>
+
+</div>

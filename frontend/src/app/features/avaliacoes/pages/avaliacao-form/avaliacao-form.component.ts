@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AvaliacaoService } from '../../services/avaliacao.service';
 
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,7 +21,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 
-import { AvaliacaoRequestDTO } from '../../models/avaliacao.model';
+import { AvaliacaoRequestDTO } from '../../models/avaliacao-request.model';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-avaliacao-form',
@@ -38,86 +39,121 @@ import { AvaliacaoRequestDTO } from '../../models/avaliacao.model';
     MatNativeDateModule,
     MatCardModule,
     CommonModule,
+    MatIcon
   ],
   templateUrl: './avaliacao-form.component.html',
   styleUrls: ['./avaliacao-form.component.css'],
 })
 export class AvaliacaoFormComponent implements OnInit {
-  avaliacaoForm: FormGroup;
+
+  avaliacaoForm!: FormGroup;
 
   alunoId!: string;
 
-  // 🔥 ID da avaliação para visualização
   avaliacaoId?: string;
 
-  // 🔥 controla se é modo visualização
   modoVisualizacao = false;
+  salvando = false;
+  carregando = false;
 
   constructor(
     private fb: FormBuilder,
     private avaliacaoService: AvaliacaoService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {
+    private dialogRef: MatDialogRef<AvaliacaoFormComponent>,
+
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      alunoId: string;
+      avaliacaoId?: string;
+      modoVisualizacao?: boolean;
+    }
+  ){}
+
+  ngOnInit(): void {
+    this.modoVisualizacao = !!this.data.modoVisualizacao;
+
     this.avaliacaoForm = this.fb.group({
       dataAvaliacao: ['', Validators.required],
 
-      remadaBracoD: [null, Validators.required],
-      remadaBracoE: [null, Validators.required],
+      remadaBracoD: [null],
+      remadaBracoE: [null],
+      elevacaoLatD: [null],
+      elevacaoLatE: [null],
 
-      elevacaoLatD: [null, Validators.required],
-      elevacaoLatE: [null, Validators.required],
+      extensaoJoelhoD: [null],
+      extensaoJoelhoE: [null],
+      flexaoJoelhoD: [null],
+      flexaoJoelhoE: [null],
 
-      extensaoJoelhoD: [null, Validators.required],
-      extensaoJoelhoE: [null, Validators.required],
+      extensaoQuadrilD: [null],
+      extensaoQuadrilE: [null]
+    });
 
-      flexaoJoelhoD: [null, Validators.required],
-      flexaoJoelhoE: [null, Validators.required],
+    if (this.data.avaliacaoId) {
+      this.carregarAvaliacao();
+    } else {
+      this.avaliacaoForm.patchValue({
+        dataAvaliacao: this.dataAtual()
+      });
+    }
 
-      extensaoQuadrilD: [null, Validators.required],
-      extensaoQuadrilE: [null, Validators.required],
+    if (this.modoVisualizacao) {
+      this.avaliacaoForm.disable();
+    }
+  }
+
+  carregarAvaliacao(): void {
+    this.carregando = true;
+
+    this.avaliacaoService.buscarPorId(this.data.alunoId, this.data.avaliacaoId!).subscribe({
+      next: (response) => {
+        this.avaliacaoForm.patchValue(response);
+
+        if (this.modoVisualizacao) {
+          this.avaliacaoForm.disable();
+        }
+
+        this.carregando = false;
+      },
+      error: (erro) => {
+        console.error('Erro ao carregar avaliação:', erro);
+        this.carregando = false;
+      }
     });
   }
 
-  ngOnInit(): void {
-    try {
-      // 🔥 id do aluno vindo da rota pai
-      this.alunoId = this.getAlunoId();
-
-      console.log('✅ alunoId:', this.alunoId);
-
-      // 🔥 pega id da avaliação
-      this.avaliacaoId = this.route.snapshot.paramMap.get('avaliacaoId')!;
-
-      console.log('📌 avaliacaoId:', this.avaliacaoId);
-
-      // 🔥 se existir avaliação -> visualização
-      if (this.avaliacaoId) {
-        this.modoVisualizacao = true;
-
-        this.buscarAvaliacao(this.avaliacaoId);
-      }
-    } catch (e) {
-      console.error('❌ Erro ao obter IDs', e);
+  salvar(): void {
+    if (this.modoVisualizacao) {
+      return;
     }
+
+    if (this.avaliacaoForm.invalid) {
+      this.avaliacaoForm.markAllAsTouched();
+      return;
+    }
+
+    const request: AvaliacaoRequestDTO = this.avaliacaoForm.getRawValue();
+
+    this.salvando = true;
+
+    this.avaliacaoService.criar(this.data.alunoId, request).subscribe({
+      next: () => {
+        this.salvando = false;
+        this.dialogRef.close(true);
+      },
+      error: (erro) => {
+        console.error('Erro ao salvar avaliação:', erro);
+        this.salvando = false;
+      }
+    });
   }
 
-  getAlunoId(): string {
-    let route: ActivatedRoute | null = this.route;
-
-    while (route) {
-      // 🔥 procura somente o parametro "id"
-      const alunoId = route.snapshot.paramMap.get('alunoId');
-
-      // 🔥 mas IGNORA se for a rota da avaliação
-      if (alunoId && !route.snapshot.paramMap.get('avaliacaoId')) {
-        return alunoId;
-      }
-
-      route = route.parent;
+  fechar(): void {
+    if (this.salvando) {
+      return;
     }
 
-    throw new Error('ID do aluno não encontrado');
+    this.dialogRef.close(false);
   }
 
   buscarAvaliacao(avaliacaoId: string): void {
@@ -141,63 +177,13 @@ export class AvaliacaoFormComponent implements OnInit {
     });
   }
 
-  private formatarData(data: any): string {
-    if (!data) return '';
-
-    const date = new Date(data);
-
-    return date.toLocaleDateString('sv-SE');
+  campoInvalido(campo: string): boolean {
+    const control = this.avaliacaoForm.get(campo);
+    return !!control && control.invalid && control.touched;
   }
 
-  salvar(): void {
-    // 🔥 impede salvar em modo visualização
-    if (this.modoVisualizacao) {
-      return;
-    }
-
-    if (!this.alunoId) {
-      console.error('❌ alunoId está undefined');
-
-      return;
-    }
-
-    if (this.avaliacaoForm.invalid) {
-      return;
-    }
-
-    const formValue = this.avaliacaoForm.value;
-
-    const avaliacao: AvaliacaoRequestDTO = {
-      alunoId: this.alunoId,
-
-      dataAvaliacao: this.formatarData(formValue.dataAvaliacao),
-
-      ...formValue,
-    };
-
-    console.log('🚀 Dados enviados:', avaliacao);
-
-    this.avaliacaoService
-      .cadastrarAvaliacao(this.alunoId, avaliacao)
-      .subscribe({
-        next: (response) => {
-          console.log('✅ Avaliação salva com sucesso', response);
-
-          this.avaliacaoForm.reset();
-
-          // 🔥 volta para listagem
-          this.router.navigate(['../'], {
-            relativeTo: this.route,
-          });
-        },
-
-        error: (err) => {
-          console.error('❌ Erro ao salvar avaliação', err);
-        },
-      });
+  private dataAtual(): string {
+    return new Date().toISOString().split('T')[0];
   }
 
-  cancelar(): void {
-    this.router.navigate(['/alunos', this.alunoId, 'avaliacoes']);
-  }
 }

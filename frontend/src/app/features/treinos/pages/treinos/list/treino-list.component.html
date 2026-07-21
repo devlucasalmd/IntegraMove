@@ -17,6 +17,7 @@
   <mat-card
     class="treino-card"
     *ngFor="let treino of treinos"
+    (click)="abrirDetalhesTreino(treino)"
   >
 
     <div class="card-header">
@@ -29,13 +30,20 @@
         </p>
       </div>
 
-      <button mat-icon-button>
+      <button
+        mat-icon-button
+        (click)="$event.stopPropagation()"
+      >
         <mat-icon>more_vert</mat-icon>
       </button>
 
     </div>
 
     <div class="card-body">
+
+      <span class="badge">
+        {{ treino.grupoMuscular }}
+      </span>
 
       <span class="badge">
         {{ treino.nivel }}
@@ -45,10 +53,10 @@
         {{ treino.funcionalidade }}
       </span>
 
-    <p class="exercicios">
-      {{ treino.exercicios?.length || 0 }}
-      {{ (treino.exercicios?.length || 0) === 1 ? 'exercício' : 'exercícios' }}
-    </p>
+      <p class="exercicios">
+        {{ treino.exercicios.length }}
+        {{ treino.exercicios.length === 1 ? 'exercício' : 'exercícios' }}
+      </p>
 
     </div>
 
@@ -57,7 +65,7 @@
       <button
         mat-button
         color="primary"
-        (click)="editarTreino(treino.id)"
+        (click)="editarTreino(treino.id); $event.stopPropagation()"
       >
         Editar
       </button>
@@ -65,7 +73,7 @@
       <button
         mat-button
         color="warn"
-        (click)="excluirTreino(treino.id)"
+        (click)="excluirTreino(treino.id); $event.stopPropagation()"
       >
         Excluir
       </button>

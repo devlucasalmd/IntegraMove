@@ -1,0 +1,100 @@
+<div class="dialog-header">
+  <div>
+    <h2>
+      {{ data?.receita ? "Editar receita" : "Nova receita" }}
+    </h2>
+
+    <p>Cadastre os dados da conta a receber da academia.</p>
+  </div>
+</div>
+
+<form [formGroup]="receitaForm" class="form-container">
+  <div class="form-grid">
+    <mat-form-field appearance="outline" class="col-6">
+      <mat-label>Descrição</mat-label>
+
+      <input
+        matInput
+        formControlName="descricao"
+        placeholder="Ex: Mensalidade plano mensal"
+      />
+
+      <mat-error *ngIf="campoInvalido('descricao')">
+        Informe uma descrição.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-3">
+      <mat-label>Categoria</mat-label>
+
+      <mat-select formControlName="categoria">
+        <mat-option
+          *ngFor="let categoria of categorias"
+          [value]="categoria.value"
+        >
+          {{ categoria.label }}
+        </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="campoInvalido('categoria')">
+        Selecione uma categoria.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-3">
+      <mat-label>Valor</mat-label>
+
+      <input
+        matInput
+        type="number"
+        formControlName="valor"
+        placeholder="0,00"
+      />
+
+      <mat-error *ngIf="campoInvalido('valor')">
+        Informe um valor válido.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-3">
+      <mat-label>Data vencimento</mat-label>
+
+      <input matInput type="date" formControlName="dataVencimento" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-4">
+      <mat-label>Cliente</mat-label>
+
+      <input matInput formControlName="cliente" placeholder="Ex: João Silva" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-5">
+      <mat-label>Observações</mat-label>
+
+      <textarea
+        matInput
+        rows="3"
+        formControlName="observacoes"
+        placeholder="Informações adicionais"
+      ></textarea>
+    </mat-form-field>
+  </div>
+</form>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button type="button" (click)="fechar()" [disabled]="salvando">
+    Cancelar
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="salvar()"
+    [disabled]="salvando"
+  >
+    <span *ngIf="!salvando"> Salvar </span>
+
+    <span *ngIf="salvando"> Salvando... </span>
+  </button>
+</mat-dialog-actions>

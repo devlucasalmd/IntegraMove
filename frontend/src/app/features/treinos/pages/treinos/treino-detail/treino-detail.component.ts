@@ -1,12 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { ExercicioDialogComponent } from './exercicio-dialog/exercicio-dialog.component';
+import { TreinoResponseDTO } from '../../../models/treino-response.model';
+import { TreinoItemResponseDTO } from '../../../models/treino-item-response';
+import { TreinoService } from '../../../services/treino.service';
+import { TreinoItemService } from '../../../services/treino-item.service';
 
 interface TreinoItem {
   id: string;
@@ -29,19 +38,16 @@ interface TreinoItem {
     MatIconModule,
     MatButtonModule,
     MatTableModule,
-    MatDialogModule
-  ]
+    MatDialogModule,
+  ],
 })
 export class TreinoDetailComponent implements OnInit {
-
   treinoId!: string;
+  treino: TreinoResponseDTO | null = null;
+  exercicios: TreinoItemResponseDTO[] = [];
 
-  treino = {
-    nome: 'Treino A',
-    responsavel: 'Carlos',
-    nivel: 'Intermediário',
-    funcionalidade: 'Hipertrofia'
-  };
+  carregandoTreino = false;
+  carregandoExercicios = false;
 
   colunas: string[] = [
     'nome',
@@ -49,39 +55,61 @@ export class TreinoDetailComponent implements OnInit {
     'reps',
     'carga',
     'descanso',
-    'observacao'
+    'observacao',
   ];
 
-  exercicios: TreinoItem[] = [];
-
   constructor(
-    private route: ActivatedRoute,
-    private dialog: MatDialog
+    private treinoService: TreinoService,
+    private treinoItemService: TreinoItemService,
+    private dialogRef: MatDialogRef<TreinoDetailComponent>,
+
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      treinoId: string;
+    },
   ) {}
 
   ngOnInit(): void {
-    this.treinoId = this.route.snapshot.paramMap.get('id')!;
+    this.treinoId = this.data.treinoId;
 
-    // MOCK
-    this.exercicios = [
-      {
-        id: '1',
-        nome: 'Supino Reto',
-        series: 3,
-        repeticoes: '10',
-        carga: 40,
-        descanso: 60
-      },
-      {
-        id: '2',
-        nome: 'Crucifixo',
-        series: 3,
-        repeticoes: '12',
-        carga: 20,
-        descanso: 45
-      }
-    ];
+    this.carregarTreino();
+    this.carregarExercicios();
   }
+
+  carregarTreino(): void {
+    this.carregandoTreino = true;
+
+    this.treinoService.buscarTreinoPorId(this.treinoId).subscribe({
+      next: (response) => {
+        this.treino = response;
+        this.carregandoTreino = false;
+      },
+      error: (erro) => {
+        console.error('Erro ao carregar treino:', erro);
+        this.carregandoTreino = false;
+      }
+    });
+  }
+
+   carregarExercicios(): void {
+    this.carregandoExercicios = true;
+
+    this.treinoItemService.listarItensDoTreino(this.treinoId).subscribe({
+      next: (response) => {
+        this.exercicios = response;
+        this.carregandoExercicios = false;
+      },
+      error: (erro) => {
+        console.error('Erro ao carregar exercícios do treino:', erro);
+        this.carregandoExercicios = false;
+      }
+    });
+  }
+
+  temObservacoes(): boolean {
+    return !!this.treino?.observacoes && this.treino.observacoes.trim().length > 0;
+  }
+
 
   editar(item: TreinoItem) {
     console.log('Editar', item);
@@ -91,15 +119,7 @@ export class TreinoDetailComponent implements OnInit {
     console.log('Remover', id);
   }
 
-  adicionar() {
-    const dialogRef = this.dialog.open(ExercicioDialogComponent, { width: '600px'});
-    dialogRef.afterClosed().subscribe((result) => {
-      if(result) {
-        this.exercicios.push({
-          id: Date.now().toString(),
-          ...result
-        })
-      }
-    })
+  fechar(): void {
+    this.dialogRef.close();
   }
 }

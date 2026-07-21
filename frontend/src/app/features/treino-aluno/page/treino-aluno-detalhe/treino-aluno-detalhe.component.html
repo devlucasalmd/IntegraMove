@@ -1,0 +1,286 @@
+<div class="page-container">
+
+  <div class="loading-state" *ngIf="carregando">
+    <mat-icon>sync</mat-icon>
+    <strong>Carregando ficha de treino</strong>
+    <p>Buscando os treinos e exercícios vinculados ao aluno.</p>
+  </div>
+
+  <div class="error-state" *ngIf="!carregando && erro">
+    <mat-icon>error_outline</mat-icon>
+    <strong>Não foi possível carregar a ficha</strong>
+    <p>Verifique se a ficha existe e tente novamente.</p>
+
+    <button mat-stroked-button type="button" (click)="voltar()">
+      Voltar
+    </button>
+  </div>
+
+  <div class="detalhe-container" *ngIf="!carregando && !erro && ficha">
+
+    <div class="hero-card">
+
+      <div class="hero-left">
+
+        <button
+          mat-icon-button
+          type="button"
+          class="back-button"
+          (click)="voltar()"
+        >
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div>
+          <span class="subtitle">Ficha de treino do aluno</span>
+          <h1>{{ ficha.nome }}</h1>
+
+          <div class="hero-meta">
+            <span>
+              <mat-icon>event</mat-icon>
+              Início: {{ formatarData(ficha.dataInicio) }}
+            </span>
+
+            <span>
+              <mat-icon>event_available</mat-icon>
+              Fim: {{ formatarData(ficha.dataFim) }}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div
+        class="status-pill"
+        [class.ativo]="ficha.ativo"
+        [class.inativo]="!ficha.ativo"
+      >
+        {{ statusLabel() }}
+      </div>
+
+    </div>
+
+    <section class="summary-grid">
+
+      <mat-card class="summary-card">
+        <div class="summary-icon">
+          <mat-icon>fitness_center</mat-icon>
+        </div>
+
+        <div>
+          <span>Total de treinos</span>
+          <strong>{{ totalTreinos() }}</strong>
+        </div>
+      </mat-card>
+
+      <mat-card class="summary-card">
+        <div class="summary-icon">
+          <mat-icon>format_list_numbered</mat-icon>
+        </div>
+
+        <div>
+          <span>Total de exercícios</span>
+          <strong>{{ totalExercicios() }}</strong>
+        </div>
+      </mat-card>
+
+      <mat-card class="summary-card">
+        <div class="summary-icon">
+          <mat-icon>today</mat-icon>
+        </div>
+
+        <div>
+          <span>Data de início</span>
+          <strong>{{ formatarData(ficha.dataInicio) }}</strong>
+        </div>
+      </mat-card>
+
+      <mat-card class="summary-card">
+        <div class="summary-icon">
+          <mat-icon>verified</mat-icon>
+        </div>
+
+        <div>
+          <span>Status</span>
+          <strong>{{ statusLabel() }}</strong>
+        </div>
+      </mat-card>
+
+    </section>
+
+    <section class="section-card">
+
+      <div class="section-header">
+        <div>
+          <span class="subtitle">Composição da ficha</span>
+          <h2>Treinos vinculados</h2>
+          <p>Visualize todos os treinos que compõem esta ficha e os exercícios de cada treino.</p>
+        </div>
+      </div>
+
+      <div
+        class="empty-state"
+        *ngIf="treinosDetalhados.length === 0"
+      >
+        <mat-icon>playlist_add</mat-icon>
+        <strong>Nenhum treino vinculado</strong>
+        <p>Esta ficha ainda não possui treinos adicionados.</p>
+      </div>
+
+      <div
+        class="treinos-list"
+        *ngIf="treinosDetalhados.length > 0"
+      >
+
+        <mat-card
+          class="treino-card"
+          *ngFor="let item of treinosDetalhados; let i = index"
+        >
+
+          <div class="treino-header">
+
+            <div class="treino-title-area">
+
+              <span class="treino-index">
+                {{ i + 1 }}
+              </span>
+
+              <div>
+                <span class="subtitle">Treino {{ i + 1 }}</span>
+                <h3>{{ item.treino.nome }}</h3>
+                <p>
+                  Responsável:
+                  <strong>{{ item.treino.responsavel || 'Não informado' }}</strong>
+                </p>
+              </div>
+
+            </div>
+
+            <div class="exercise-count">
+              {{ item.exercicios.length }}
+              {{ item.exercicios.length === 1 ? 'exercício' : 'exercícios' }}
+            </div>
+
+          </div>
+
+          <div class="treino-info-grid">
+
+            <div class="info-item">
+              <span>Funcionalidade</span>
+              <strong>{{ item.treino.funcionalidade || 'Não informado' }}</strong>
+            </div>
+
+            <div class="info-item">
+              <span>Nível</span>
+              <strong>{{ item.treino.nivel || 'Não informado' }}</strong>
+            </div>
+
+            <div class="info-item">
+              <span>Grupo muscular</span>
+              <strong>{{ item.treino.grupoMuscular || 'Não informado' }}</strong>
+            </div>
+
+            <div class="info-item">
+              <span>Repetições</span>
+              <strong>{{ item.treino.repeticoes || 'Não informado' }}</strong>
+            </div>
+
+          </div>
+
+          <div
+            class="observacao-box"
+            *ngIf="item.treino.observacoes"
+          >
+            <span>Observações do treino</span>
+            <p>{{ item.treino.observacoes }}</p>
+          </div>
+
+          <div class="exercicios-section">
+
+            <div class="subsection-header">
+              <h4>Exercícios incluídos</h4>
+              <p>Lista de exercícios cadastrados neste treino.</p>
+            </div>
+
+            <div
+              class="empty-exercicios"
+              *ngIf="item.exercicios.length === 0"
+            >
+              <mat-icon>info</mat-icon>
+              <span>Este treino ainda não possui exercícios cadastrados.</span>
+            </div>
+
+            <div
+              class="exercicios-list"
+              *ngIf="item.exercicios.length > 0"
+            >
+
+              <div
+                class="exercicio-card"
+                *ngFor="let exercicio of item.exercicios; let exIndex = index"
+              >
+
+                <div class="exercicio-header">
+
+                  <div class="exercicio-title">
+
+                    <span class="exercicio-index">
+                      {{ exercicio.ordem || exIndex + 1 }}
+                    </span>
+
+                    <div>
+                      <h5>{{ exercicio.nomeExercicio || 'Exercício não identificado' }}</h5>
+                      <p>ID: {{ exercicio.exercicioId }}</p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="exercicio-metrics">
+
+                  <div>
+                    <span>Séries</span>
+                    <strong>{{ exercicio.series }}</strong>
+                  </div>
+
+                  <div>
+                    <span>Reps</span>
+                    <strong>{{ exercicio.repeticoes }}</strong>
+                  </div>
+
+                  <div>
+                    <span>Carga</span>
+                    <strong>{{ exercicio.carga }} kg</strong>
+                  </div>
+
+                  <div>
+                    <span>Descanso</span>
+                    <strong>{{ exercicio.descanso }}s</strong>
+                  </div>
+
+                </div>
+
+                <div
+                  class="exercicio-observacao"
+                  *ngIf="exercicio.observacao"
+                >
+                  <span>Observação</span>
+                  <p>{{ exercicio.observacao }}</p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </mat-card>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</div>
