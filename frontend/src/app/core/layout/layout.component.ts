@@ -42,6 +42,7 @@ export class LayoutComponent {
   isMobile = false;
   treinoAberto = false;
   financasAberto = false;
+  administradorAberto = false;
 
   constructor(
     private router: Router,
@@ -67,7 +68,11 @@ export class LayoutComponent {
   toggleFinancas(): void {
     this.financasAberto = !this.financasAberto;
   }
-  
+
+  toggleAdministrador(): void {
+    this.administradorAberto = !this.administradorAberto;
+  }
+
   logout() {
     this.router.navigate(['/login']);
   }

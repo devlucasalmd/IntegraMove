@@ -1,65 +1,32 @@
-import { ReceitaRequestDTO } from '../models/receita-request.model';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReceitaResponseDTO } from '../models/receita-response.model';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ReceberReceitaRequestDTO } from '../models/receber-receita-request.model';
+import { ReceitasResponseDTO } from '../models/receita-response.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReceitaService {
 
-  private apiUrl = 'http://localhost:8080/contas-receber';
+  private readonly apiUrl = 'http://localhost:8080/contas-receber';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient
+  ) {}
 
-  listar(): Observable<ReceitaResponseDTO[]> {
-    return this.http.get<ReceitaResponseDTO[]>(this.apiUrl);
+  listarReceitas(): Observable<ReceitasResponseDTO[]> {
+    return this.http.get<ReceitasResponseDTO[]>(this.apiUrl);
   }
 
-  buscarPorId(receitaId: string): Observable<ReceitaResponseDTO> {
-    return this.http.get<ReceitaResponseDTO>(
-      `${this.apiUrl}/${receitaId}`
+  buscarPorId(id: string): Observable<ReceitasResponseDTO> {
+    return this.http.get<ReceitasResponseDTO>(
+      `${this.apiUrl}/${id}`
     );
   }
 
-  criar(
-    request: ReceitaRequestDTO
-  ): Observable<ReceitaResponseDTO> {
-    return this.http.post<ReceitaResponseDTO>(
-      this.apiUrl,
-      request
+  buscarCategoria(categoria: string): Observable<ReceitasResponseDTO[]> {
+    return this.http.get<ReceitasResponseDTO[]>(
+      `${this.apiUrl}/categoria/${categoria}`
     );
   }
-
-  atualizar(
-    receitaId: string,
-    request: ReceitaRequestDTO
-  ): Observable<ReceitaResponseDTO> {
-    return this.http.put<ReceitaResponseDTO>(
-      `${this.apiUrl}/${receitaId}`,
-      request
-    );
-  }
-
-  receber(
-    receitaId: string,
-    request: ReceberReceitaRequestDTO
-  ): Observable<ReceitaResponseDTO> {
-
-    return this.http.patch<ReceitaResponseDTO>(
-      `${this.apiUrl}/${receitaId}/receber`,
-      request
-    );
-  }
-
-  cancelar(receitaId: string): Observable<ReceitaResponseDTO> {
-
-    return this.http.patch<ReceitaResponseDTO>(
-      `${this.apiUrl}/${receitaId}/cancelar`,
-      {}
-    );
-  }
-
 }

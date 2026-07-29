@@ -4,8 +4,9 @@ export interface ReceitaRequestDTO {
   valor: number;
   dataVencimento: string;
   cliente?: string | null;
-  observacoes?: string |null;
+  observacoes?: string | null;
 }
+
 
 export interface AtualizarReceitaRequestDTO {
   descricao: string;
@@ -15,6 +16,7 @@ export interface AtualizarReceitaRequestDTO {
   cliente?: string | null;
   observacoes?: string | null;
 }
+
 
 export interface ReceberReceitaRequestDTO {
   dataRecebimento: string;

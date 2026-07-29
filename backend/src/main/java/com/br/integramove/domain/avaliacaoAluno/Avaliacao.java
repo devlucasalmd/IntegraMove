@@ -1,6 +1,7 @@
 package com.br.integramove.domain.avaliacao;
 
 import com.br.integramove.domain.aluno.AlunoId;
+import com.br.integramove.domain.usuario.Usuario;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,6 +26,8 @@ public class Avaliacao {
     private BigDecimal extensaoQuadrilD;
     private BigDecimal extensaoQuadrilE;
 
+//    private Usuario avaliador;
+//    private String observacao;
 
 
     public Avaliacao(

@@ -1,12 +1,6 @@
-export interface ReceitaResponseDTO {
-  id: string;
-  descricao: string;
+export interface ReceitasResponseDTO {
   categoria: string;
-  valor: number;
-  dataVencimento: string;
-  dataRecebimento: string | null;
-  formaRecebimento: string | null;
-  status: string;
-  cliente: string | null;
-  observacoes: string | null;
+  total: number;
+  recebido: number;
+  pendente: number;
 }
