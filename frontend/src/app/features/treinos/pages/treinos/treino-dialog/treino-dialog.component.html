@@ -12,17 +12,21 @@
     <mat-form-field appearance="outline" class="col-2">
       <mat-label>Nome do treino</mat-label>
       <input matInput formControlName="nome" placeholder="Ex: Treino A - Hipertrofia">
-      <mat-error *ngIf="campoInvalido('nome')">
-        Informe um nome válido.
-      </mat-error>
+      @if (campoInvalido('nome')) {
+        <mat-error>
+          Informe um nome válido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Responsável</mat-label>
       <input matInput formControlName="responsavel" placeholder="Ex: Carlos">
-      <mat-error *ngIf="campoInvalido('responsavel')">
-        Informe o responsável.
-      </mat-error>
+      @if (campoInvalido('responsavel')) {
+        <mat-error>
+          Informe o responsável.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -32,9 +36,11 @@
         <mat-option value="Intermediário">Intermediário</mat-option>
         <mat-option value="Avançado">Avançado</mat-option>
       </mat-select>
-      <mat-error *ngIf="campoInvalido('nivel')">
-        Selecione o nível.
-      </mat-error>
+      @if (campoInvalido('nivel')) {
+        <mat-error>
+          Selecione o nível.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -46,26 +52,31 @@
         <mat-option value="Força">Força</mat-option>
         <mat-option value="Condicionamento">Condicionamento</mat-option>
       </mat-select>
-      <mat-error *ngIf="campoInvalido('funcionalidade')">
-        Selecione a funcionalidade.
-      </mat-error>
+      @if (campoInvalido('funcionalidade')) {
+        <mat-error>
+          Selecione a funcionalidade.
+        </mat-error>
+      }
     </mat-form-field>
-    
+
     <mat-form-field appearance="outline">
       <mat-label>Grupo muscular</mat-label>
 
       <mat-select formControlName="grupoMuscular">
-        <mat-option
-          *ngFor="let grupo of gruposMusculares"
-          [value]="grupo.value"
-        >
-          {{ grupo.label }}
-        </mat-option>
+        @for (grupo of gruposMusculares; track grupo) {
+          <mat-option
+            [value]="grupo.value"
+            >
+            {{ grupo.label }}
+          </mat-option>
+        }
       </mat-select>
 
-      <mat-error *ngIf="treinoForm.get('grupoMuscular')?.hasError('required')">
-        Grupo muscular é obrigatório
-      </mat-error>
+      @if (treinoForm.get('grupoMuscular')?.hasError('required')) {
+        <mat-error>
+          Grupo muscular é obrigatório
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -94,7 +105,7 @@
     type="button"
     (click)="fechar()"
     [disabled]="salvando"
-  >
+    >
     Cancelar
   </button>
 
@@ -104,15 +115,19 @@
     type="button"
     (click)="salvar()"
     [disabled]="salvando"
-  >
+    >
     <!-- <mat-spinner
-      *ngIf="salvando"
-      diameter="20"
-      class="button-spinner"
-    ></mat-spinner> -->
+    *ngIf="salvando"
+    diameter="20"
+    class="button-spinner"
+  ></mat-spinner> -->
 
-    <span *ngIf="!salvando">Salvar e adicionar exercícios</span>
-    <span *ngIf="salvando">Salvando...</span>
-  </button>
+  @if (!salvando) {
+    <span>Salvar e adicionar exercícios</span>
+  }
+  @if (salvando) {
+    <span>Salvando...</span>
+  }
+</button>
 
 </mat-dialog-actions>

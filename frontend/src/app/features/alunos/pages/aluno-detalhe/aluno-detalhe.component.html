@@ -1,100 +1,92 @@
-<div class="container" *ngIf="aluno">
-  <!-- HEADER -->
-  <section class="profile-header">
-    <div class="profile-main">
-      <div class="avatar">
-        <span>{{ aluno.nome?.charAt(0) || 'A' }}</span>
-      </div>
-
-      <div class="info">
-        <div class="title-row">
-          <h1>{{ aluno.nome }}</h1>
-
-          <span class="badges">
-            <span
-              class="status-badge"
-              [ngClass]="alunoAtivo() ? 'ativo' : 'inativo'"
-            >
-              {{ alunoAtivo() ? "Ativo" : "Inativo" }}
-            </span>
-
-            <span
-              class="plano-badge"
-              [ngClass]="alunoPossuiPlano() ? 'com-plano' : 'sem-plano'"
-            >
-              {{ obterNomePlano() }}
-            </span>
-          </span>
+@if (aluno) {
+  <div class="container">
+    <!-- HEADER -->
+    <section class="profile-header">
+      <div class="profile-main">
+        <div class="avatar">
+          <span>{{ aluno.nome?.charAt(0) || 'A' }}</span>
         </div>
-
-        <div class="meta-row">
-          <span>
-            <mat-icon>badge</mat-icon>
-            CPF: {{ aluno.cpf }}
-          </span>
-
-          <span *ngIf="aluno.email">
-            <mat-icon>mail</mat-icon>
-            {{ aluno.email }}
-          </span>
-
-          <span *ngIf="aluno.telefone">
-            <mat-icon>call</mat-icon>
-            {{ aluno.telefone }}
-          </span>
+        <div class="info">
+          <div class="title-row">
+            <h1>{{ aluno.nome }}</h1>
+            <span class="badges">
+              <span
+                class="status-badge"
+                [ngClass]="alunoAtivo() ? 'ativo' : 'inativo'"
+                >
+                {{ alunoAtivo() ? "Ativo" : "Inativo" }}
+              </span>
+              <span
+                class="plano-badge"
+                [ngClass]="alunoPossuiPlano() ? 'com-plano' : 'sem-plano'"
+                >
+                {{ obterNomePlano() }}
+              </span>
+            </span>
+          </div>
+          <div class="meta-row">
+            <span>
+              <mat-icon>badge</mat-icon>
+              CPF: {{ aluno.cpf }}
+            </span>
+            @if (aluno.email) {
+              <span>
+                <mat-icon>mail</mat-icon>
+                {{ aluno.email }}
+              </span>
+            }
+            @if (aluno.telefone) {
+              <span>
+                <mat-icon>call</mat-icon>
+                {{ aluno.telefone }}
+              </span>
+            }
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="actions">
-      <button
-        mat-flat-button
-        color="primary"
-        type="button"
-        class="btn-primary"
-        (click)="abrirCadastro()"
-      >
-        <mat-icon>edit</mat-icon>
-        Cadastro
-      </button>
-
-      <button mat-stroked-button type="button" class="btn-secondary">
-        <mat-icon>more_horiz</mat-icon>
-        Mais ações
-      </button>
-    </div>
-  </section>
-
-  <!-- TABS -->
-  <nav class="tabs">
-    <a class="tab" routerLink="resumo" routerLinkActive="active">
-      <mat-icon>dashboard</mat-icon>
-      Resumo
-    </a>
-
-    <a class="tab" routerLink="contratos" routerLinkActive="active">
-      <mat-icon>description</mat-icon>
-      Contratos
-    </a>
-
-    <a class="tab" routerLink="financeiro" routerLinkActive="active">
-      <mat-icon>payments</mat-icon>
-      Financeiro
-    </a>
-
-    <a class="tab" routerLink="avaliacoes" routerLinkActive="active">
-      <mat-icon>monitor_heart</mat-icon>
-      Avaliações
-    </a>
-
-    <a class="tab" routerLink="treinos" routerLinkActive="active">
-      <mat-icon>fitness_center</mat-icon>
-      Ficha de Treino
-    </a>
-  </nav>
-
-  <!-- CONTEÚDO DINÂMICO -->
-  <mat-card class="content-card">
-    <router-outlet></router-outlet>
-  </mat-card>
-</div>
+      <div class="actions">
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          class="btn-primary"
+          (click)="abrirCadastro()"
+          >
+          <mat-icon>edit</mat-icon>
+          Cadastro
+        </button>
+        <button mat-stroked-button type="button" class="btn-secondary">
+          <mat-icon>more_horiz</mat-icon>
+          Mais ações
+        </button>
+      </div>
+    </section>
+    <!-- TABS -->
+    <nav class="tabs">
+      <a class="tab" routerLink="resumo" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon>
+        Resumo
+      </a>
+      <a class="tab" routerLink="contratos" routerLinkActive="active">
+        <mat-icon>description</mat-icon>
+        Contratos
+      </a>
+      <a class="tab" routerLink="financeiro" routerLinkActive="active">
+        <mat-icon>payments</mat-icon>
+        Financeiro
+      </a>
+      <a class="tab" routerLink="avaliacoes" routerLinkActive="active">
+        <mat-icon>monitor_heart</mat-icon>
+        Avaliações
+      </a>
+      <a class="tab" routerLink="treinos" routerLinkActive="active">
+        <mat-icon>fitness_center</mat-icon>
+        Ficha de Treino
+      </a>
+    </nav>
+    <!-- CONTEÚDO DINÂMICO -->
+    <mat-card class="content-card">
+      <router-outlet></router-outlet>
+    </mat-card>
+  </div>
+}

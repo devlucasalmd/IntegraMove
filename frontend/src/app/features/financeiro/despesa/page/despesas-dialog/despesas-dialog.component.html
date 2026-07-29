@@ -17,28 +17,33 @@
         matInput
         formControlName="descricao"
         placeholder="Ex: Aluguel da academia"
-      />
+        />
 
-      <mat-error *ngIf="campoInvalido('descricao')">
-        Informe a descrição.
-      </mat-error>
+      @if (campoInvalido('descricao')) {
+        <mat-error>
+          Informe a descrição.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Categoria</mat-label>
 
       <mat-select formControlName="categoria">
-        <mat-option
-          *ngFor="let categoria of categorias"
-          [value]="categoria.value"
-        >
-          {{ categoria.label }}
-        </mat-option>
+        @for (categoria of categorias; track categoria) {
+          <mat-option
+            [value]="categoria.value"
+            >
+            {{ categoria.label }}
+          </mat-option>
+        }
       </mat-select>
 
-      <mat-error *ngIf="campoInvalido('categoria')">
-        Selecione a categoria.
-      </mat-error>
+      @if (campoInvalido('categoria')) {
+        <mat-error>
+          Selecione a categoria.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -49,11 +54,13 @@
         type="number"
         formControlName="valor"
         placeholder="0,00"
-      />
+        />
 
-      <mat-error *ngIf="campoInvalido('valor')">
-        Informe um valor válido.
-      </mat-error>
+      @if (campoInvalido('valor')) {
+        <mat-error>
+          Informe um valor válido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -69,7 +76,7 @@
         matInput
         formControlName="fornecedor"
         placeholder="Ex: Companhia de Energia"
-      />
+        />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -79,7 +86,7 @@
         matInput
         formControlName="observacoes"
         placeholder="Informações adicionais"
-      />
+        />
     </mat-form-field>
   </div>
 </form>
@@ -95,9 +102,13 @@
     type="button"
     (click)="salvar()"
     [disabled]="salvando"
-  >
-    <span *ngIf="!salvando"> Salvar despesa </span>
+    >
+    @if (!salvando) {
+      <span> Salvar despesa </span>
+    }
 
-    <span *ngIf="salvando"> Salvando... </span>
+    @if (salvando) {
+      <span> Salvando... </span>
+    }
   </button>
 </mat-dialog-actions>

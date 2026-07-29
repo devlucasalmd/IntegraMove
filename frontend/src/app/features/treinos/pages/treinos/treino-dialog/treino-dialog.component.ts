@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   FormBuilder,
   FormGroup,
@@ -26,14 +26,13 @@ import { TreinoRequestDTO } from '../../../models/treinos-request.model';
   templateUrl: './treino-dialog.component.html',
   styleUrls: ['./treino-dialog.component.css'],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSelectModule,
-  ]
+    MatSelectModule
+]
 })
 
 export class TreinoDialogComponent {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   FormBuilder,
@@ -24,7 +24,6 @@ import { TreinoAlunoRequestDTO } from '../../model/treino-aluno-request.model';
   selector: 'app-aluno-treino-form',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     ReactiveFormsModule,
     MatCardModule,
@@ -33,8 +32,8 @@ import { TreinoAlunoRequestDTO } from '../../model/treino-aluno-request.model';
     MatInputModule,
     MatSelectModule,
     MatIconModule,
-    MatSlideToggleModule,
-  ],
+    MatSlideToggleModule
+],
   templateUrl: './treino-aluno-form.component.html',
   styleUrls: ['./treino-aluno-form.component.css'],
 })

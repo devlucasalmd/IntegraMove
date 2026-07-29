@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,14 +17,13 @@ import { DespesaRequestDTO } from '../../models/despesa-request.model';
   templateUrl: './despesas-dialog.component.html',
   styleUrls: ['./despesas-dialog.component.css'],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule
-  ]
+]
 })
 export class DespesaDialogComponent {
 

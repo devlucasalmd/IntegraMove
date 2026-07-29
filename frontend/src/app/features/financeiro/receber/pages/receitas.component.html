@@ -80,7 +80,7 @@
         <mat-form-field
           appearance="outline"
           class="search-field"
-        >
+          >
 
           <mat-label>
             Buscar receita
@@ -90,19 +90,20 @@
             matInput
             [(ngModel)]="filtro"
             (input)="filtrarReceitas()"
-          />
+            />
 
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            *ngIf="filtro"
-            (click)="limparFiltro()"
-          >
-            <mat-icon>
-              close
-            </mat-icon>
-          </button>
+          @if (filtro) {
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="limparFiltro()"
+              >
+              <mat-icon>
+                close
+              </mat-icon>
+            </button>
+          }
 
         </mat-form-field>
 
@@ -113,7 +114,7 @@
           type="button"
           class="filter-button"
           (click)="alternarFiltros()"
-        >
+          >
 
           <mat-icon>
             filter_list
@@ -123,14 +124,14 @@
 
         </button>
 
-<!--
+        <!--
         NOVA RECEITA
         <button
           mat-raised-button
           type="button"
           class="primary-action"
           (click)="abrirNovo()"
-        >
+          >
 
           <mat-icon>
             add
@@ -146,366 +147,269 @@
 
 
     <!-- LOADING -->
-    <div
-      class="loading-container"
-      *ngIf="carregando"
-    >
-
-      <mat-spinner diameter="40"></mat-spinner>
-
-    </div>
+    @if (carregando) {
+      <div
+        class="loading-container"
+        >
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    }
 
 
     <!-- DESKTOP -->
-    <div
-      class="table-wrapper"
-      *ngIf="
-        !carregando &&
-        receitasFiltrados.length > 0
-      "
-    >
-
-      <table
-        mat-table
-        [dataSource]="receitasFiltrados"
-        class="receitas-table"
-      >
-
-
-        <!-- CATEGORIA -->
-        <ng-container
-          matColumnDef="categoria"
+    @if (
+      !carregando &&
+      receitasFiltrados.length > 0
+      ) {
+      <div
+        class="table-wrapper"
         >
-
-          <th
-            mat-header-cell
-            *matHeaderCellDef
+        <table
+          mat-table
+          [dataSource]="receitasFiltrados"
+          class="receitas-table"
           >
-            Categoria
-          </th>
-
-          <td
-            mat-cell
-            *matCellDef="let receita"
-          >
-
-            <div class="categoria-cell">
-
-              <div class="categoria-thumb">
-
-                <mat-icon>
-                  account_balance_wallet
-                </mat-icon>
-
+          <!-- CATEGORIA -->
+          <ng-container
+            matColumnDef="categoria"
+            >
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              >
+              Categoria
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let receita"
+              >
+              <div class="categoria-cell">
+                <div class="categoria-thumb">
+                  <mat-icon>
+                    account_balance_wallet
+                  </mat-icon>
+                </div>
+                <div>
+                  <strong>
+                    {{ receita.categoria }}
+                  </strong>
+                </div>
               </div>
-
-              <div>
-
-                <strong>
-                  {{ receita.categoria }}
-                </strong>
-
-              </div>
-
-            </div>
-
-          </td>
-
-        </ng-container>
-
-
-        <!-- TOTAL -->
-        <ng-container
-          matColumnDef="total"
-        >
-
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-          >
-            Total
-          </th>
-
-          <td
-            mat-cell
-            *matCellDef="let receita"
-          >
-
-            <span class="soft-chip">
-
-              {{
+            </td>
+          </ng-container>
+          <!-- TOTAL -->
+          <ng-container
+            matColumnDef="total"
+            >
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              >
+              Total
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let receita"
+              >
+              <span class="soft-chip">
+                {{
                 receita.total
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-              }}
-
-            </span>
-
-          </td>
-
-        </ng-container>
-
-
-        <!-- RECEBIDO -->
-        <ng-container
-          matColumnDef="recebido"
-        >
-
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-          >
-            Recebido
-          </th>
-
-          <td
-            mat-cell
-            *matCellDef="let receita"
-          >
-
-            <span class="soft-chip">
-
-              {{
+                | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+                }}
+              </span>
+            </td>
+          </ng-container>
+          <!-- RECEBIDO -->
+          <ng-container
+            matColumnDef="recebido"
+            >
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              >
+              Recebido
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let receita"
+              >
+              <span class="soft-chip">
+                {{
                 receita.recebido
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-              }}
-
-            </span>
-
-          </td>
-
-        </ng-container>
-
-
-        <!-- PENDENTE -->
-        <ng-container
-          matColumnDef="pendente"
-        >
-
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-          >
-            Pendente
-          </th>
-
-          <td
-            mat-cell
-            *matCellDef="let receita"
-          >
-
-            <span class="soft-chip">
-
-              {{
+                | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+                }}
+              </span>
+            </td>
+          </ng-container>
+          <!-- PENDENTE -->
+          <ng-container
+            matColumnDef="pendente"
+            >
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              >
+              Pendente
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let receita"
+              >
+              <span class="soft-chip">
+                {{
                 receita.pendente
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-              }}
-
-            </span>
-
-          </td>
-
-        </ng-container>
-
-
-        <!-- LINHAS -->
-        <tr
-          mat-header-row
-          *matHeaderRowDef="colunas"
-        ></tr>
-
-        <tr
-          mat-row
+                | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+                }}
+              </span>
+            </td>
+          </ng-container>
+          <!-- LINHAS -->
+          <tr
+            mat-header-row
+            *matHeaderRowDef="colunas"
+          ></tr>
+          <tr
+            mat-row
           *matRowDef="
             let row;
             columns: colunas
           "
-          class="table-row"
-          (click)="visualizarReceita(row)"
-        ></tr>
-
-      </table>
-
-    </div>
+            class="table-row"
+            (click)="visualizarReceita(row)"
+          ></tr>
+        </table>
+      </div>
+    }
 
 
     <!-- MOBILE -->
-    <div
-      class="mobile-grid"
-      *ngIf="
-        !carregando &&
-        receitasFiltrados.length > 0
-      "
-    >
-
-      <mat-card
-        class="receitas-mobile-card"
-        *ngFor="
-          let receita of receitasFiltrados
-        "
-        (click)="visualizarReceita(receita)"
-      >
-
-        <!-- TOPO -->
-        <div class="mobile-card-top">
-
-          <div class="receitas-thumb">
-
-            <mat-icon>
-              account_balance_wallet
-            </mat-icon>
-
-          </div>
-
-
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="menuMobile"
-            (click)="$event.stopPropagation()"
-          >
-
-            <mat-icon>
-              more_vert
-            </mat-icon>
-
-          </button>
-
-
-          <mat-menu
-            #menuMobile="matMenu"
-          >
-
-            <button
-              mat-menu-item
-              (click)="visualizarReceita(receita)"
+    @if (
+      !carregando &&
+      receitasFiltrados.length > 0
+      ) {
+      <div
+        class="mobile-grid"
+        >
+        @for (
+          receita of receitasFiltrados
+          ; track
+          receita) {
+          <mat-card
+            class="receitas-mobile-card"
+            (click)="visualizarReceita(receita)"
             >
-
+            <!-- TOPO -->
+            <div class="mobile-card-top">
+              <div class="receitas-thumb">
+                <mat-icon>
+                  account_balance_wallet
+                </mat-icon>
+              </div>
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="menuMobile"
+                (click)="$event.stopPropagation()"
+                >
+                <mat-icon>
+                  more_vert
+                </mat-icon>
+              </button>
+              <mat-menu
+                #menuMobile="matMenu"
+                >
+                <button
+                  mat-menu-item
+                  (click)="visualizarReceita(receita)"
+                  >
+                  <mat-icon>
+                    visibility
+                  </mat-icon>
+                  <span>
+                    Visualizar
+                  </span>
+                </button>
+              </mat-menu>
+            </div>
+            <!-- CATEGORIA -->
+            <h3>
+              {{ receita.categoria }}
+            </h3>
+            <!-- INFORMAÇÕES -->
+            <div class="mobile-card-info">
+              <!-- TOTAL -->
+              <div>
+                <span>
+                  Total
+                </span>
+                <strong class="badge total">
+                  {{
+                  receita.total
+                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+                  }}
+                </strong>
+              </div>
+              <!-- RECEBIDO -->
+              <div>
+                <span>
+                  Recebido
+                </span>
+                <strong class="badge recebido">
+                  {{
+                  receita.recebido
+                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+                  }}
+                </strong>
+              </div>
+              <!-- PENDENTE -->
+              <div>
+                <span>
+                  Pendente
+                </span>
+                <strong class="badge pendente">
+                  {{
+                  receita.pendente
+                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+                  }}
+                </strong>
+              </div>
+            </div>
+            <!-- DETALHES -->
+            <button
+              mat-stroked-button
+              class="details-button"
+              type="button"
+              (click)="visualizarReceita(receita); $event.stopPropagation()"
+              >
               <mat-icon>
                 visibility
               </mat-icon>
-
-              <span>
-                Visualizar
-              </span>
-
+              Ver receita
             </button>
-
-          </mat-menu>
-
-        </div>
-
-
-        <!-- CATEGORIA -->
-        <h3>
-          {{ receita.categoria }}
-        </h3>
-
-
-        <!-- INFORMAÇÕES -->
-        <div class="mobile-card-info">
-
-
-          <!-- TOTAL -->
-          <div>
-
-            <span>
-              Total
-            </span>
-
-            <strong class="badge total">
-
-              {{
-                receita.total
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-              }}
-
-            </strong>
-
-          </div>
-
-
-          <!-- RECEBIDO -->
-          <div>
-
-            <span>
-              Recebido
-            </span>
-
-            <strong class="badge recebido">
-
-              {{
-                receita.recebido
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-              }}
-
-            </strong>
-
-          </div>
-
-
-          <!-- PENDENTE -->
-          <div>
-
-            <span>
-              Pendente
-            </span>
-
-            <strong class="badge pendente">
-
-              {{
-                receita.pendente
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-              }}
-
-            </strong>
-
-          </div>
-
-        </div>
-
-
-        <!-- DETALHES -->
-        <button
-          mat-stroked-button
-          class="details-button"
-          type="button"
-          (click)="visualizarReceita(receita); $event.stopPropagation()"
-        >
-
-          <mat-icon>
-            visibility
-          </mat-icon>
-
-          Ver receita
-
-        </button>
-
-      </mat-card>
-
-    </div>
+          </mat-card>
+        }
+      </div>
+    }
 
 
     <!-- ESTADO VAZIO -->
-    <div
-      class="empty-state"
-      *ngIf="
-        !carregando &&
-        receitasFiltrados.length === 0
-      "
-    >
-
-      <mat-icon>
-        account_balance_wallet
-      </mat-icon>
-
-      <h3>
-        Nenhuma receita encontrada
-      </h3>
-
-      <p>
-        Não existem contas a receber para os filtros informados.
-      </p>
-
-    </div>
+    @if (
+      !carregando &&
+      receitasFiltrados.length === 0
+      ) {
+      <div
+        class="empty-state"
+        >
+        <mat-icon>
+          account_balance_wallet
+        </mat-icon>
+        <h3>
+          Nenhuma receita encontrada
+        </h3>
+        <p>
+          Não existem contas a receber para os filtros informados.
+        </p>
+      </div>
+    }
 
   </mat-card>
 

@@ -5,7 +5,7 @@
       mat-icon-button
       type="button"
       (click)="voltar()"
-    >
+      >
       <mat-icon>arrow_back</mat-icon>
     </button>
 
@@ -32,21 +32,24 @@
             <mat-label>Treinos da ficha</mat-label>
 
             <mat-select formControlName="treinosIds" multiple>
-              <mat-option
-                *ngFor="let treino of treinos"
-                [value]="treino.id"
-              >
-                {{ treino.nome }} — {{ treino.nivel }} / {{ treino.funcionalidade }}
-              </mat-option>
+              @for (treino of treinos; track treino) {
+                <mat-option
+                  [value]="treino.id"
+                  >
+                  {{ treino.nome }} — {{ treino.nivel }} / {{ treino.funcionalidade }}
+                </mat-option>
+              }
             </mat-select>
 
             <mat-hint>
               Você pode selecionar mais de um treino para montar a ficha.
             </mat-hint>
 
-            <mat-error *ngIf="campoInvalido('treinosIds')">
-              Selecione pelo menos um treino
-            </mat-error>
+            @if (campoInvalido('treinosIds')) {
+              <mat-error>
+                Selecione pelo menos um treino
+              </mat-error>
+            }
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full">
@@ -55,11 +58,13 @@
               matInput
               formControlName="nome"
               placeholder="Ex: Ficha inicial de hipertrofia"
-            >
+              >
 
-            <mat-error *ngIf="campoInvalido('nome')">
-              Nome da ficha é obrigatório
-            </mat-error>
+            @if (campoInvalido('nome')) {
+              <mat-error>
+                Nome da ficha é obrigatório
+              </mat-error>
+            }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -68,11 +73,13 @@
               matInput
               type="date"
               formControlName="dataInicio"
-            >
+              >
 
-            <mat-error *ngIf="campoInvalido('dataInicio')">
-              Data de início é obrigatória
-            </mat-error>
+            @if (campoInvalido('dataInicio')) {
+              <mat-error>
+                Data de início é obrigatória
+              </mat-error>
+            }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -81,7 +88,7 @@
               matInput
               type="date"
               formControlName="dataFim"
-            >
+              >
           </mat-form-field>
 
           <div class="toggle-field">
@@ -100,7 +107,7 @@
             type="button"
             (click)="voltar()"
             [disabled]="salvando"
-          >
+            >
             Cancelar
           </button>
 
@@ -109,7 +116,7 @@
             color="primary"
             type="submit"
             [disabled]="salvando"
-          >
+            >
             {{ salvando ? 'Salvando...' : 'Criar ficha' }}
           </button>
         </div>
@@ -128,64 +135,57 @@
         </div>
       </div>
 
-      <div *ngIf="treinosSelecionados.length === 0" class="preview-empty">
-        <p>Selecione um ou mais treinos para visualizar os detalhes.</p>
-      </div>
-
-      <div *ngIf="treinosSelecionados.length > 0" class="preview-content">
-
-        <div class="selected-summary">
-          <span>Treinos selecionados</span>
-          <strong>{{ treinosSelecionados.length }}</strong>
+      @if (treinosSelecionados.length === 0) {
+        <div class="preview-empty">
+          <p>Selecione um ou mais treinos para visualizar os detalhes.</p>
         </div>
+      }
 
-        <div
-          class="treino-preview-item"
-          *ngFor="let treino of treinosSelecionados"
-        >
-
-          <h3>{{ treino.nome }}</h3>
-
-          <div class="preview-grid">
-
-            <div>
-              <span>Responsável</span>
-              <strong>{{ treino.responsavel }}</strong>
-            </div>
-
-            <div>
-              <span>Funcionalidade</span>
-              <strong>{{ treino.funcionalidade }}</strong>
-            </div>
-
-            <div>
-              <span>Nível</span>
-              <strong>{{ treino.nivel }}</strong>
-            </div>
-
-            <div>
-              <span>Grupo muscular</span>
-              <strong>{{ treino.grupoMuscular || 'Não informado' }}</strong>
-            </div>
-
-            <div>
-              <span>Repetições</span>
-              <strong>{{ treino.repeticoes || 'Não informado' }}</strong>
-            </div>
-
+      @if (treinosSelecionados.length > 0) {
+        <div class="preview-content">
+          <div class="selected-summary">
+            <span>Treinos selecionados</span>
+            <strong>{{ treinosSelecionados.length }}</strong>
           </div>
-
-          <div
-            class="preview-observacoes"
-            *ngIf="treino.observacoes"
-          >
-            <span>Observações</span>
-            <p>{{ treino.observacoes }}</p>
-          </div>
-
+          @for (treino of treinosSelecionados; track treino) {
+            <div
+              class="treino-preview-item"
+              >
+              <h3>{{ treino.nome }}</h3>
+              <div class="preview-grid">
+                <div>
+                  <span>Responsável</span>
+                  <strong>{{ treino.responsavel }}</strong>
+                </div>
+                <div>
+                  <span>Funcionalidade</span>
+                  <strong>{{ treino.funcionalidade }}</strong>
+                </div>
+                <div>
+                  <span>Nível</span>
+                  <strong>{{ treino.nivel }}</strong>
+                </div>
+                <div>
+                  <span>Grupo muscular</span>
+                  <strong>{{ treino.grupoMuscular || 'Não informado' }}</strong>
+                </div>
+                <div>
+                  <span>Repetições</span>
+                  <strong>{{ treino.repeticoes || 'Não informado' }}</strong>
+                </div>
+              </div>
+              @if (treino.observacoes) {
+                <div
+                  class="preview-observacoes"
+                  >
+                  <span>Observações</span>
+                  <p>{{ treino.observacoes }}</p>
+                </div>
+              }
+            </div>
+          }
         </div>
-
-      </div>
+      }
 
     </mat-card>
 

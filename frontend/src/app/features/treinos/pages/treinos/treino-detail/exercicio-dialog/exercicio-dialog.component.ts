@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   FormBuilder,
   FormGroup,
@@ -29,7 +29,6 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './exercicio-dialog.component.html',
   styleUrls: ['./exercicio-dialog.component.css'],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatDialogModule,
@@ -37,8 +36,8 @@ import { MatIcon } from '@angular/material/icon';
     MatButtonModule,
     MatProgressSpinnerModule,
     FormsModule,
-    MatIcon,
-  ],
+    MatIcon
+],
 })
 export class ExercicioDialogComponent implements OnInit {
   form!: FormGroup;

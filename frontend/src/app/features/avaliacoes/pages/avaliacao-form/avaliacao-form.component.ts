@@ -19,7 +19,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
+
 
 import { AvaliacaoRequestDTO } from '../../models/avaliacao-request.model';
 import { MatIcon } from '@angular/material/icon';
@@ -38,9 +38,8 @@ import { MatIcon } from '@angular/material/icon';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCardModule,
-    CommonModule,
     MatIcon
-  ],
+],
   templateUrl: './avaliacao-form.component.html',
   styleUrls: ['./avaliacao-form.component.css'],
 })

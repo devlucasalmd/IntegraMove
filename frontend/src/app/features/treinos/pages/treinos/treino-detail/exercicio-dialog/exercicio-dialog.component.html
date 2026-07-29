@@ -7,176 +7,199 @@
         Treino criado com sucesso. Agora selecione os exercícios que farão parte
         de
         <strong>{{ data.treinoNome }}</strong
-        >.
-      </p>
+          >.
+        </p>
+      </div>
+
+      <button mat-icon-button type="button" (click)="finalizar()">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
 
-    <button mat-icon-button type="button" (click)="finalizar()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-
-  <div class="content-grid">
-    <!-- COLUNA ESQUERDA -->
-    <section class="exercise-panel">
-      <mat-form-field appearance="outline" class="full">
-        <mat-label>Buscar exercício</mat-label>
-        <mat-icon matPrefix>search</mat-icon>
-        <input
-          matInput
-          [(ngModel)]="filtro"
-          placeholder="Nome ou grupo muscular"
-        />
-      </mat-form-field>
-
-      <div class="loading" *ngIf="carregandoExercicios">
-        <mat-spinner diameter="32"></mat-spinner>
-        <span>Carregando exercícios...</span>
-      </div>
-
-      <div
-        class="empty"
-        *ngIf="!carregandoExercicios && exerciciosFiltrados.length === 0"
-      >
-        <mat-icon>fitness_center</mat-icon>
-        <p>Nenhum exercício encontrado.</p>
-      </div>
-
-      <div
-        class="lista"
-        *ngIf="!carregandoExercicios && exerciciosFiltrados.length > 0"
-      >
-        <button
-          type="button"
-          class="item"
-          *ngFor="let ex of exerciciosFiltrados"
-          [class.active]="exercicioSelecionado?.id === ex.id"
-          [class.added]="jaAdicionado(ex)"
-          (click)="selecionar(ex)"
-        >
-          <div class="item-main">
-            <strong>{{ ex.nome }}</strong>
-            <span>{{ ex.grupoMuscular || "Grupo não informado" }}</span>
-          </div>
-
-          <mat-icon *ngIf="jaAdicionado(ex)">check_circle</mat-icon>
-        </button>
-      </div>
-    </section>
-
-    <!-- COLUNA DIREITA -->
-    <section class="config-panel">
-      <div
-        class="selected-card"
-        *ngIf="exercicioSelecionado; else nenhumSelecionado"
-      >
-        <span>Exercício selecionado</span>
-        <strong>{{ exercicioSelecionado.nome }}</strong>
-        <small>{{ exercicioSelecionado.grupoMuscular }}</small>
-      </div>
-
-      <ng-template #nenhumSelecionado>
-        <div class="selected-card muted">
-          <span>Nenhum exercício selecionado</span>
-          <strong>Selecione um exercício ao lado</strong>
-          <small>Depois configure séries, repetições, carga e descanso.</small>
-        </div>
-      </ng-template>
-
-      <form [formGroup]="form" class="form-grid">
-        <mat-form-field appearance="outline">
-          <mat-label>Ordem</mat-label>
-          <input matInput type="number" formControlName="ordem" />
-          <mat-error *ngIf="campoInvalido('ordem')">
-            Informe a ordem.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Séries</mat-label>
-          <input matInput type="number" formControlName="series" />
-          <mat-error *ngIf="campoInvalido('series')">
-            Informe as séries.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Repetições</mat-label>
+    <div class="content-grid">
+      <!-- COLUNA ESQUERDA -->
+      <section class="exercise-panel">
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Buscar exercício</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
           <input
             matInput
-            formControlName="repeticoes"
-            placeholder="Ex: 8 a 12"
-          />
-          <mat-error *ngIf="campoInvalido('repeticoes')">
-            Informe as repetições.
-          </mat-error>
+            [(ngModel)]="filtro"
+            placeholder="Nome ou grupo muscular"
+            />
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Carga kg</mat-label>
-          <input matInput type="number" formControlName="carga" />
-          <mat-error *ngIf="campoInvalido('carga')">
-            Carga inválida.
-          </mat-error>
-        </mat-form-field>
+        @if (carregandoExercicios) {
+          <div class="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+            <span>Carregando exercícios...</span>
+          </div>
+        }
 
-        <mat-form-field appearance="outline">
-          <mat-label>Descanso segundos</mat-label>
-          <input matInput type="number" formControlName="descanso" />
-          <mat-error *ngIf="campoInvalido('descanso')">
-            Descanso inválido.
-          </mat-error>
-        </mat-form-field>
+        @if (!carregandoExercicios && exerciciosFiltrados.length === 0) {
+          <div
+            class="empty"
+            >
+            <mat-icon>fitness_center</mat-icon>
+            <p>Nenhum exercício encontrado.</p>
+          </div>
+        }
 
-        <mat-form-field appearance="outline" class="col-2">
-          <mat-label>Observação</mat-label>
-          <textarea
-            matInput
-            rows="3"
-            formControlName="observacao"
-            placeholder="Ex: Executar com controle de movimento"
-          ></textarea>
-        </mat-form-field>
-      </form>
+        @if (!carregandoExercicios && exerciciosFiltrados.length > 0) {
+          <div
+            class="lista"
+            >
+            @for (ex of exerciciosFiltrados; track ex) {
+              <button
+                type="button"
+                class="item"
+                [class.active]="exercicioSelecionado?.id === ex.id"
+                [class.added]="jaAdicionado(ex)"
+                (click)="selecionar(ex)"
+                >
+                <div class="item-main">
+                  <strong>{{ ex.nome }}</strong>
+                  <span>{{ ex.grupoMuscular || "Grupo não informado" }}</span>
+                </div>
+                @if (jaAdicionado(ex)) {
+                  <mat-icon>check_circle</mat-icon>
+                }
+              </button>
+            }
+          </div>
+        }
+      </section>
 
-      <div class="added-info" *ngIf="exerciciosAdicionados.length > 0">
-        <mat-icon>check_circle</mat-icon>
-        <span>
-          {{ exerciciosAdicionados.length }}
-          exercício{{
-            exerciciosAdicionados.length > 1 ? "s" : ""
-          }}
-          adicionado{{ exerciciosAdicionados.length > 1 ? "s" : "" }}.
-        </span>
-      </div>
-    </section>
+      <!-- COLUNA DIREITA -->
+      <section class="config-panel">
+        @if (exercicioSelecionado) {
+          <div
+            class="selected-card"
+            >
+            <span>Exercício selecionado</span>
+            <strong>{{ exercicioSelecionado.nome }}</strong>
+            <small>{{ exercicioSelecionado.grupoMuscular }}</small>
+          </div>
+        } @else {
+          <div class="selected-card muted">
+            <span>Nenhum exercício selecionado</span>
+            <strong>Selecione um exercício ao lado</strong>
+            <small>Depois configure séries, repetições, carga e descanso.</small>
+          </div>
+        }
+
+
+        <form [formGroup]="form" class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Ordem</mat-label>
+            <input matInput type="number" formControlName="ordem" />
+            @if (campoInvalido('ordem')) {
+              <mat-error>
+                Informe a ordem.
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Séries</mat-label>
+            <input matInput type="number" formControlName="series" />
+            @if (campoInvalido('series')) {
+              <mat-error>
+                Informe as séries.
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Repetições</mat-label>
+            <input
+              matInput
+              formControlName="repeticoes"
+              placeholder="Ex: 8 a 12"
+              />
+            @if (campoInvalido('repeticoes')) {
+              <mat-error>
+                Informe as repetições.
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Carga kg</mat-label>
+            <input matInput type="number" formControlName="carga" />
+            @if (campoInvalido('carga')) {
+              <mat-error>
+                Carga inválida.
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Descanso segundos</mat-label>
+            <input matInput type="number" formControlName="descanso" />
+            @if (campoInvalido('descanso')) {
+              <mat-error>
+                Descanso inválido.
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-2">
+            <mat-label>Observação</mat-label>
+            <textarea
+              matInput
+              rows="3"
+              formControlName="observacao"
+              placeholder="Ex: Executar com controle de movimento"
+            ></textarea>
+          </mat-form-field>
+        </form>
+
+        @if (exerciciosAdicionados.length > 0) {
+          <div class="added-info">
+            <mat-icon>check_circle</mat-icon>
+            <span>
+              {{ exerciciosAdicionados.length }}
+              exercício{{
+              exerciciosAdicionados.length > 1 ? "s" : ""
+              }}
+              adicionado{{ exerciciosAdicionados.length > 1 ? "s" : "" }}.
+            </span>
+          </div>
+        }
+      </section>
+    </div>
+
+    <mat-dialog-actions align="end" class="dialog-actions">
+      <button
+        mat-button
+        type="button"
+        (click)="finalizar()"
+        [disabled]="salvando"
+        >
+        Finalizar
+      </button>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="adicionar()"
+        [disabled]="salvando || !exercicioSelecionado"
+        >
+        @if (salvando) {
+          <mat-spinner
+            diameter="20"
+            class="button-spinner"
+          ></mat-spinner>
+        }
+
+        @if (!salvando) {
+          <span>Adicionar exercício</span>
+        }
+        @if (salvando) {
+          <span>Adicionando...</span>
+        }
+      </button>
+    </mat-dialog-actions>
   </div>
-
-  <mat-dialog-actions align="end" class="dialog-actions">
-    <button
-      mat-button
-      type="button"
-      (click)="finalizar()"
-      [disabled]="salvando"
-    >
-      Finalizar
-    </button>
-
-    <button
-      mat-raised-button
-      color="primary"
-      type="button"
-      (click)="adicionar()"
-      [disabled]="salvando || !exercicioSelecionado"
-    >
-      <mat-spinner
-        *ngIf="salvando"
-        diameter="20"
-        class="button-spinner"
-      ></mat-spinner>
-
-      <span *ngIf="!salvando">Adicionar exercício</span>
-      <span *ngIf="salvando">Adicionando...</span>
-    </button>
-  </mat-dialog-actions>
-</div>

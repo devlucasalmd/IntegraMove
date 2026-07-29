@@ -56,17 +56,18 @@
             [(ngModel)]="filtro"
             (input)="filtrarExercicios()"
             placeholder="Nome, grupo, intensidade ou status"
-          />
+            />
 
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            *ngIf="filtro"
-            (click)="limparFiltro()"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
+          @if (filtro) {
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="limparFiltro()"
+              >
+              <mat-icon>close</mat-icon>
+            </button>
+          }
         </mat-form-field>
 
         <button
@@ -74,7 +75,7 @@
           type="button"
           class="filter-button"
           (click)="alternarFiltros()"
-        >
+          >
           <mat-icon>filter_list</mat-icon>
           Filtros
         </button>
@@ -84,7 +85,7 @@
           type="button"
           class="primary-action"
           (click)="abrirNovo()"
-        >
+          >
           <mat-icon>add</mat-icon>
           Adicionar exercício
         </button>
@@ -92,287 +93,264 @@
     </div>
 
     <!-- FILTROS AVANÇADOS -->
-    <div class="filters-panel" *ngIf="filtrosAbertos">
-      <mat-form-field appearance="outline">
-        <mat-label>Grupo muscular</mat-label>
-
-        <mat-select
-          [(ngModel)]="filtroGrupoMuscular"
-          (selectionChange)="filtrarExercicios()"
-        >
-          <mat-option value="">Todos</mat-option>
-          <mat-option *ngFor="let grupo of gruposMusculares" [value]="grupo">
-            {{ grupo }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Intensidade</mat-label>
-
-        <mat-select
-          [(ngModel)]="filtroIntensidade"
-          (selectionChange)="filtrarExercicios()"
-        >
-          <mat-option value="">Todas</mat-option>
-          <mat-option *ngFor="let intensidade of intensidades" [value]="intensidade">
-            {{ intensidade }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Status</mat-label>
-
-        <mat-select
-          [(ngModel)]="filtroStatus"
-          (selectionChange)="filtrarExercicios()"
-        >
-          <mat-option value="">Todos</mat-option>
-          <mat-option value="ativo">Ativo</mat-option>
-          <mat-option value="inativo">Inativo</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <button
-        mat-stroked-button
-        type="button"
-        class="clear-filters-button"
-        (click)="limparTodosFiltros()"
-      >
-        <mat-icon>close</mat-icon>
-        Limpar filtros
-      </button>
-    </div>
+    @if (filtrosAbertos) {
+      <div class="filters-panel">
+        <mat-form-field appearance="outline">
+          <mat-label>Grupo muscular</mat-label>
+          <mat-select
+            [(ngModel)]="filtroGrupoMuscular"
+            (selectionChange)="filtrarExercicios()"
+            >
+            <mat-option value="">Todos</mat-option>
+            @for (grupo of gruposMusculares; track grupo) {
+              <mat-option [value]="grupo">
+                {{ grupo }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Intensidade</mat-label>
+          <mat-select
+            [(ngModel)]="filtroIntensidade"
+            (selectionChange)="filtrarExercicios()"
+            >
+            <mat-option value="">Todas</mat-option>
+            @for (intensidade of intensidades; track intensidade) {
+              <mat-option [value]="intensidade">
+                {{ intensidade }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select
+            [(ngModel)]="filtroStatus"
+            (selectionChange)="filtrarExercicios()"
+            >
+            <mat-option value="">Todos</mat-option>
+            <mat-option value="ativo">Ativo</mat-option>
+            <mat-option value="inativo">Inativo</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button
+          mat-stroked-button
+          type="button"
+          class="clear-filters-button"
+          (click)="limparTodosFiltros()"
+          >
+          <mat-icon>close</mat-icon>
+          Limpar filtros
+        </button>
+      </div>
+    }
 
     <!-- VAZIO -->
-    <div *ngIf="!carregando && exercicios.length === 0" class="empty-state">
-      <div class="empty-icon">
-        <mat-icon>fitness_center</mat-icon>
+    @if (!carregando && exercicios.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">
+          <mat-icon>fitness_center</mat-icon>
+        </div>
+        <h2>Nenhum exercício cadastrado</h2>
+        <p>Cadastre exercícios para começar a montar treinos personalizados.</p>
+        <button mat-raised-button class="primary-action" (click)="abrirNovo()">
+          <mat-icon>add</mat-icon>
+          Cadastrar exercício
+        </button>
       </div>
-
-      <h2>Nenhum exercício cadastrado</h2>
-      <p>Cadastre exercícios para começar a montar treinos personalizados.</p>
-
-      <button mat-raised-button class="primary-action" (click)="abrirNovo()">
-        <mat-icon>add</mat-icon>
-        Cadastrar exercício
-      </button>
-    </div>
+    }
 
     <!-- SEM RESULTADO -->
-    <div
-      *ngIf="!carregando && exercicios.length > 0 && exerciciosFiltrados.length === 0"
-      class="empty-state"
-    >
-      <div class="empty-icon">
-        <mat-icon>search_off</mat-icon>
+    @if (!carregando && exercicios.length > 0 && exerciciosFiltrados.length === 0) {
+      <div
+        class="empty-state"
+        >
+        <div class="empty-icon">
+          <mat-icon>search_off</mat-icon>
+        </div>
+        <h2>Nenhum resultado encontrado</h2>
+        <p>Tente buscar por outro nome, grupo muscular, intensidade ou status.</p>
+        <button mat-stroked-button type="button" (click)="limparTodosFiltros()">
+          Limpar filtros
+        </button>
       </div>
-
-      <h2>Nenhum resultado encontrado</h2>
-      <p>Tente buscar por outro nome, grupo muscular, intensidade ou status.</p>
-
-      <button mat-stroked-button type="button" (click)="limparTodosFiltros()">
-        Limpar filtros
-      </button>
-    </div>
+    }
 
     <!-- DESKTOP -->
-    <div class="table-wrapper" *ngIf="exerciciosFiltrados.length > 0">
-      <table mat-table [dataSource]="exerciciosFiltrados" class="exercise-table">
+    @if (exerciciosFiltrados.length > 0) {
+      <div class="table-wrapper">
+        <table mat-table [dataSource]="exerciciosFiltrados" class="exercise-table">
+          <!-- EXERCÍCIO -->
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef>Exercício</th>
+            <td mat-cell *matCellDef="let exercicio">
+              <div class="exercise-cell">
+                <div class="exercise-thumb">
+                  <mat-icon>fitness_center</mat-icon>
+                </div>
+                <div>
+                  <strong>{{ exercicio.nome }}</strong>
+                  <span>{{ exercicio.grupoMuscular || "Sem grupo muscular" }}</span>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          <!-- GRUPO MUSCULAR -->
+          <ng-container matColumnDef="grupoMuscular">
+            <th mat-header-cell *matHeaderCellDef>Grupo muscular</th>
+            <td mat-cell *matCellDef="let exercicio">
+              <span class="soft-chip">
+                {{ exercicio.grupoMuscular || "Não informado" }}
+              </span>
+            </td>
+          </ng-container>
+          <!-- INTENSIDADE -->
+          <ng-container matColumnDef="intensidade">
+            <th mat-header-cell *matHeaderCellDef>Intensidade</th>
+            <td mat-cell *matCellDef="let exercicio">
+              <span
+                class="badge intensidade"
+                [ngClass]="classeIntensidade(exercicio.intensidade)"
+                >
+                {{ exercicio.intensidade || "Não informada" }}
+              </span>
+            </td>
+          </ng-container>
+          <!-- STATUS -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let exercicio">
+              <span
+                class="badge status"
+                [ngClass]="exercicio.ativo ? 'ativo' : 'inativo'"
+                >
+                {{ exercicio.ativo ? "Ativo" : "Inativo" }}
+              </span>
+            </td>
+          </ng-container>
+          <!-- AÇÕES -->
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let exercicio">
+              <div class="actions-cell">
+                <button
+                  mat-icon-button
+                  class="icon-action"
+                  matTooltip="Visualizar exercício"
+                  (click)="visualizarExercicio(exercicio); $event.stopPropagation()"
+                  >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  class="icon-action"
+                  [matMenuTriggerFor]="menuExercicio"
+                  matTooltip="Mais ações"
+                  (click)="$event.stopPropagation()"
+                  >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menuExercicio="matMenu">
+                  <button mat-menu-item (click)="visualizarExercicio(exercicio)">
+                    <mat-icon>visibility</mat-icon>
+                    <span>Visualizar</span>
+                  </button>
+                  <button mat-menu-item (click)="abrirEditar(exercicio)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>block</mat-icon>
+                    <span>Inativar</span>
+                  </button>
+                  <mat-divider></mat-divider>
+                  <button mat-menu-item>
+                    <mat-icon color="warn">delete</mat-icon>
+                    <span>Excluir</span>
+                  </button>
+                </mat-menu>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: colunas"
+            class="table-row"
+            (click)="visualizarExercicio(row)"
+          ></tr>
+        </table>
+      </div>
+    }
 
-        <!-- EXERCÍCIO -->
-        <ng-container matColumnDef="nome">
-          <th mat-header-cell *matHeaderCellDef>Exercício</th>
-
-          <td mat-cell *matCellDef="let exercicio">
-            <div class="exercise-cell">
+    <!-- MOBILE -->
+    @if (exerciciosFiltrados.length > 0) {
+      <div class="mobile-grid">
+        @for (exercicio of exerciciosFiltrados; track exercicio) {
+          <mat-card
+            class="exercise-mobile-card"
+            >
+            <div class="mobile-card-top">
               <div class="exercise-thumb">
                 <mat-icon>fitness_center</mat-icon>
               </div>
-
-              <div>
-                <strong>{{ exercicio.nome }}</strong>
-                <span>{{ exercicio.grupoMuscular || "Sem grupo muscular" }}</span>
-              </div>
-            </div>
-          </td>
-        </ng-container>
-
-        <!-- GRUPO MUSCULAR -->
-        <ng-container matColumnDef="grupoMuscular">
-          <th mat-header-cell *matHeaderCellDef>Grupo muscular</th>
-
-          <td mat-cell *matCellDef="let exercicio">
-            <span class="soft-chip">
-              {{ exercicio.grupoMuscular || "Não informado" }}
-            </span>
-          </td>
-        </ng-container>
-
-        <!-- INTENSIDADE -->
-        <ng-container matColumnDef="intensidade">
-          <th mat-header-cell *matHeaderCellDef>Intensidade</th>
-
-          <td mat-cell *matCellDef="let exercicio">
-            <span
-              class="badge intensidade"
-              [ngClass]="classeIntensidade(exercicio.intensidade)"
-            >
-              {{ exercicio.intensidade || "Não informada" }}
-            </span>
-          </td>
-        </ng-container>
-
-        <!-- STATUS -->
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-
-          <td mat-cell *matCellDef="let exercicio">
-            <span
-              class="badge status"
-              [ngClass]="exercicio.ativo ? 'ativo' : 'inativo'"
-            >
-              {{ exercicio.ativo ? "Ativo" : "Inativo" }}
-            </span>
-          </td>
-        </ng-container>
-
-        <!-- AÇÕES -->
-        <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef></th>
-
-          <td mat-cell *matCellDef="let exercicio">
-            <div class="actions-cell">
               <button
                 mat-icon-button
-                class="icon-action"
-                matTooltip="Visualizar exercício"
-                (click)="visualizarExercicio(exercicio); $event.stopPropagation()"
-              >
-                <mat-icon>visibility</mat-icon>
-              </button>
-
-              <button
-                mat-icon-button
-                class="icon-action"
-                [matMenuTriggerFor]="menuExercicio"
-                matTooltip="Mais ações"
+                [matMenuTriggerFor]="menuMobile"
                 (click)="$event.stopPropagation()"
-              >
+                >
                 <mat-icon>more_vert</mat-icon>
               </button>
-
-              <mat-menu #menuExercicio="matMenu">
+              <mat-menu #menuMobile="matMenu">
                 <button mat-menu-item (click)="visualizarExercicio(exercicio)">
                   <mat-icon>visibility</mat-icon>
                   <span>Visualizar</span>
                 </button>
-
                 <button mat-menu-item (click)="abrirEditar(exercicio)">
                   <mat-icon>edit</mat-icon>
                   <span>Editar</span>
                 </button>
-
                 <button mat-menu-item>
                   <mat-icon>block</mat-icon>
                   <span>Inativar</span>
                 </button>
-
-                <mat-divider></mat-divider>
-
-                <button mat-menu-item>
-                  <mat-icon color="warn">delete</mat-icon>
-                  <span>Excluir</span>
-                </button>
               </mat-menu>
             </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
-
-        <tr
-          mat-row
-          *matRowDef="let row; columns: colunas"
-          class="table-row"
-          (click)="visualizarExercicio(row)"
-        ></tr>
-      </table>
-    </div>
-
-    <!-- MOBILE -->
-    <div class="mobile-grid" *ngIf="exerciciosFiltrados.length > 0">
-      <mat-card
-        class="exercise-mobile-card"
-        *ngFor="let exercicio of exerciciosFiltrados"
-      >
-        <div class="mobile-card-top">
-          <div class="exercise-thumb">
-            <mat-icon>fitness_center</mat-icon>
-          </div>
-
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="menuMobile"
-            (click)="$event.stopPropagation()"
-          >
-            <mat-icon>more_vert</mat-icon>
-          </button>
-
-          <mat-menu #menuMobile="matMenu">
-            <button mat-menu-item (click)="visualizarExercicio(exercicio)">
+            <h3>{{ exercicio.nome }}</h3>
+            <p>{{ exercicio.grupoMuscular || "Sem grupo muscular" }}</p>
+            <div class="mobile-card-info">
+              <div>
+                <span>Intensidade</span>
+                <strong
+                  class="badge intensidade"
+                  [ngClass]="classeIntensidade(exercicio.intensidade)"
+                  >
+                  {{ exercicio.intensidade || "Não informada" }}
+                </strong>
+              </div>
+              <div>
+                <span>Status</span>
+                <strong
+                  class="badge status"
+                  [ngClass]="exercicio.ativo ? 'ativo' : 'inativo'"
+                  >
+                  {{ exercicio.ativo ? "Ativo" : "Inativo" }}
+                </strong>
+              </div>
+            </div>
+            <button
+              mat-stroked-button
+              class="details-button"
+              type="button"
+              (click)="visualizarExercicio(exercicio)"
+              >
               <mat-icon>visibility</mat-icon>
-              <span>Visualizar</span>
+              Ver detalhes
             </button>
-
-            <button mat-menu-item (click)="abrirEditar(exercicio)">
-              <mat-icon>edit</mat-icon>
-              <span>Editar</span>
-            </button>
-
-            <button mat-menu-item>
-              <mat-icon>block</mat-icon>
-              <span>Inativar</span>
-            </button>
-          </mat-menu>
-        </div>
-
-        <h3>{{ exercicio.nome }}</h3>
-        <p>{{ exercicio.grupoMuscular || "Sem grupo muscular" }}</p>
-
-        <div class="mobile-card-info">
-          <div>
-            <span>Intensidade</span>
-            <strong
-              class="badge intensidade"
-              [ngClass]="classeIntensidade(exercicio.intensidade)"
-            >
-              {{ exercicio.intensidade || "Não informada" }}
-            </strong>
-          </div>
-
-          <div>
-            <span>Status</span>
-            <strong
-              class="badge status"
-              [ngClass]="exercicio.ativo ? 'ativo' : 'inativo'"
-            >
-              {{ exercicio.ativo ? "Ativo" : "Inativo" }}
-            </strong>
-          </div>
-        </div>
-
-        <button
-          mat-stroked-button
-          class="details-button"
-          type="button"
-          (click)="visualizarExercicio(exercicio)"
-        >
-          <mat-icon>visibility</mat-icon>
-          Ver detalhes
-        </button>
-      </mat-card>
-    </div>
+          </mat-card>
+        }
+      </div>
+    }
   </mat-card>
 </div>

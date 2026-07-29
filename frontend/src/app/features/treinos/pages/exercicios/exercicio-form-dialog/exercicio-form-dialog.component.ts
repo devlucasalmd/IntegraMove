@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -28,16 +28,14 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './exercicio-form-dialog.component.css',
 
   imports: [
-    CommonModule,
     MatDialogModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
-    MatIconModule,
-    // TablerIconsModule.pick({ IconBarbell })
-  ],
+    MatIconModule
+],
 })
 export class ExercicioFormDialogComponent implements OnInit {
   isEdit = false;

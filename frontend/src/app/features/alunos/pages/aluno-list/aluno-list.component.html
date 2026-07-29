@@ -11,7 +11,7 @@
       color="primary"
       routerLink="novo"
       class="new-button"
-    >
+      >
       <mat-icon>add</mat-icon>
       Novo aluno
     </button>
@@ -62,17 +62,18 @@
           [(ngModel)]="filtro"
           (input)="filtrarAlunos()"
           placeholder="Nome, plano, pagamento ou status"
-        />
+          />
 
-        <button
-          mat-icon-button
-          matSuffix
-          type="button"
-          *ngIf="filtro"
-          (click)="limparFiltro()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
+        @if (filtro) {
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="limparFiltro()"
+            >
+            <mat-icon>close</mat-icon>
+          </button>
+        }
       </mat-form-field>
 
       <div class="toolbar-info">
@@ -81,174 +82,160 @@
       </div>
     </div>
 
-    <div *ngIf="!carregando && alunos.length === 0" class="empty-state">
-      <mat-icon>person_add</mat-icon>
-      <h2>Nenhum aluno cadastrado</h2>
-      <p>Cadastre o primeiro aluno para começar a gerenciar a academia.</p>
+    @if (!carregando && alunos.length === 0) {
+      <div class="empty-state">
+        <mat-icon>person_add</mat-icon>
+        <h2>Nenhum aluno cadastrado</h2>
+        <p>Cadastre o primeiro aluno para começar a gerenciar a academia.</p>
+        <button mat-raised-button color="primary" routerLink="novo">
+          Cadastrar aluno
+        </button>
+      </div>
+    }
 
-      <button mat-raised-button color="primary" routerLink="novo">
-        Cadastrar aluno
-      </button>
-    </div>
-
-    <div
-      *ngIf="!carregando && alunos.length > 0 && alunosFiltrados.length === 0"
-      class="empty-state"
-    >
-      <mat-icon>search_off</mat-icon>
-      <h2>Nenhum resultado encontrado</h2>
-      <p>Tente buscar por outro nome, plano ou status.</p>
-
-      <button mat-stroked-button type="button" (click)="limparFiltro()">
-        Limpar busca
-      </button>
-    </div>
+    @if (!carregando && alunos.length > 0 && alunosFiltrados.length === 0) {
+      <div
+        class="empty-state"
+        >
+        <mat-icon>search_off</mat-icon>
+        <h2>Nenhum resultado encontrado</h2>
+        <p>Tente buscar por outro nome, plano ou status.</p>
+        <button mat-stroked-button type="button" (click)="limparFiltro()">
+          Limpar busca
+        </button>
+      </div>
+    }
 
     <!-- DESKTOP / TABLET -->
-    <div class="table-wrapper" *ngIf="alunosFiltrados.length > 0">
-      <table mat-table [dataSource]="alunosFiltrados" class="alunos-table">
-        <ng-container matColumnDef="aluno">
-          <th mat-header-cell *matHeaderCellDef>Aluno</th>
-
-          <td mat-cell *matCellDef="let aluno">
-            <div class="aluno-cell">
-              <div class="avatar">
-                {{ inicialNome(aluno.nome) }}
+    @if (alunosFiltrados.length > 0) {
+      <div class="table-wrapper">
+        <table mat-table [dataSource]="alunosFiltrados" class="alunos-table">
+          <ng-container matColumnDef="aluno">
+            <th mat-header-cell *matHeaderCellDef>Aluno</th>
+            <td mat-cell *matCellDef="let aluno">
+              <div class="aluno-cell">
+                <div class="avatar">
+                  {{ inicialNome(aluno.nome) }}
+                </div>
+                <div>
+                  <strong>{{ aluno.nome }}</strong>
+                </div>
               </div>
-
-              <div>
-                <strong>{{ aluno.nome }}</strong>
-              </div>
-            </div>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="plano">
-          <th mat-header-cell *matHeaderCellDef>Plano</th>
-
-          <td mat-cell *matCellDef="let aluno">
-            <span
-              class="plano-badge"
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="plano">
+            <th mat-header-cell *matHeaderCellDef>Plano</th>
+            <td mat-cell *matCellDef="let aluno">
+              <span
+                class="plano-badge"
               [ngClass]="
                 aluno.nomePlano && aluno.nomePlano !== 'Sem plano'
                   ? 'com-plano'
                   : 'sem-plano'
               "
-            >
-              {{ aluno.nomePlano || "Sem plano" }}
-            </span>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="pagamento">
-          <th mat-header-cell *matHeaderCellDef>Pagamento</th>
-
-          <td mat-cell *matCellDef="let aluno">
-            <span
-              class="badge pagamento"
-              [ngClass]="aluno.pagamento.toLowerCase()"
-            >
-              {{ formatarPagamento(aluno.pagamento) }}
-            </span>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-
-          <td mat-cell *matCellDef="let aluno">
-            <span class="badge status" [ngClass]="aluno.status.toLowerCase()">
-              {{ formatarStatus(aluno.status) }}
-            </span>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef></th>
-
-          <td mat-cell *matCellDef="let aluno">
-            <div class="actions-cell">
-              <button
-                mat-icon-button
-                color="primary"
-                [routerLink]="[aluno.id]"
-                matTooltip="Visualizar aluno"
-              >
-                <mat-icon>visibility</mat-icon>
-              </button>
-
-              <button
-                mat-icon-button
-                [matMenuTriggerFor]="menuAluno"
-                matTooltip="Mais ações"
-              >
-                <mat-icon>more_vert</mat-icon>
-              </button>
-
-              <mat-menu #menuAluno="matMenu">
-                <button mat-menu-item [routerLink]="[aluno.id]">
-                  <mat-icon>person</mat-icon>
-                  <span>Abrir cadastro</span>
+                >
+                {{ aluno.nomePlano || "Sem plano" }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="pagamento">
+            <th mat-header-cell *matHeaderCellDef>Pagamento</th>
+            <td mat-cell *matCellDef="let aluno">
+              <span
+                class="badge pagamento"
+                [ngClass]="aluno.pagamento.toLowerCase()"
+                >
+                {{ formatarPagamento(aluno.pagamento) }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let aluno">
+              <span class="badge status" [ngClass]="aluno.status.toLowerCase()">
+                {{ formatarStatus(aluno.status) }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let aluno">
+              <div class="actions-cell">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  [routerLink]="[aluno.id]"
+                  matTooltip="Visualizar aluno"
+                  >
+                  <mat-icon>visibility</mat-icon>
                 </button>
-
-                <button mat-menu-item>
-                  <mat-icon>edit</mat-icon>
-                  <span>Editar</span>
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menuAluno"
+                  matTooltip="Mais ações"
+                  >
+                  <mat-icon>more_vert</mat-icon>
                 </button>
-
-                <button mat-menu-item>
-                  <mat-icon>block</mat-icon>
-                  <span>Inativar</span>
-                </button>
-              </mat-menu>
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
-        <tr mat-row *matRowDef="let row; columns: colunas"></tr>
-      </table>
-    </div>
+                <mat-menu #menuAluno="matMenu">
+                  <button mat-menu-item [routerLink]="[aluno.id]">
+                    <mat-icon>person</mat-icon>
+                    <span>Abrir cadastro</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>block</mat-icon>
+                    <span>Inativar</span>
+                  </button>
+                </mat-menu>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+          <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+        </table>
+      </div>
+    }
 
     <!-- MOBILE -->
-    <div class="mobile-list" *ngIf="alunosFiltrados.length > 0">
-      <mat-card class="mobile-card" *ngFor="let aluno of alunosFiltrados">
-        <div class="mobile-card-header">
-          <div class="avatar">
-            {{ inicialNome(aluno.nome) }}
-          </div>
-
-          <div>
-            <h2>{{ aluno.nome }}</h2>
-            <p>{{ aluno.nomePlano || "Sem plano" }}</p>
-          </div>
-        </div>
-
-        <div class="mobile-info">
-          <div>
-            <span>Pagamento</span>
-
-            <strong
-              class="badge pagamento"
-              [ngClass]="aluno.pagamento.toLowerCase()"
-            >
-              {{ formatarPagamento(aluno.pagamento) }}
-            </strong>
-          </div>
-
-          <div>
-            <span>Status</span>
-
-            <strong class="badge status" [ngClass]="aluno.status.toLowerCase()">
-              {{ formatarStatus(aluno.status) }}
-            </strong>
-          </div>
-        </div>
-
-        <button mat-stroked-button color="primary" [routerLink]="[aluno.id]">
-          Ver detalhes
-        </button>
-      </mat-card>
-    </div>
+    @if (alunosFiltrados.length > 0) {
+      <div class="mobile-list">
+        @for (aluno of alunosFiltrados; track aluno) {
+          <mat-card class="mobile-card">
+            <div class="mobile-card-header">
+              <div class="avatar">
+                {{ inicialNome(aluno.nome) }}
+              </div>
+              <div>
+                <h2>{{ aluno.nome }}</h2>
+                <p>{{ aluno.nomePlano || "Sem plano" }}</p>
+              </div>
+            </div>
+            <div class="mobile-info">
+              <div>
+                <span>Pagamento</span>
+                <strong
+                  class="badge pagamento"
+                  [ngClass]="aluno.pagamento.toLowerCase()"
+                  >
+                  {{ formatarPagamento(aluno.pagamento) }}
+                </strong>
+              </div>
+              <div>
+                <span>Status</span>
+                <strong class="badge status" [ngClass]="aluno.status.toLowerCase()">
+                  {{ formatarStatus(aluno.status) }}
+                </strong>
+              </div>
+            </div>
+            <button mat-stroked-button color="primary" [routerLink]="[aluno.id]">
+              Ver detalhes
+            </button>
+          </mat-card>
+        }
+      </div>
+    }
   </mat-card>
 </div>

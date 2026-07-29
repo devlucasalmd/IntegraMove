@@ -10,117 +10,101 @@
       mat-raised-button
       color="primary"
       [routerLink]="['nova']"
-    >
+      >
       <mat-icon>add</mat-icon>
       Nova ficha
     </button>
   </div>
 
-  <div class="summary-grid" *ngIf="fichas.length > 0">
+  @if (fichas.length > 0) {
+    <div class="summary-grid">
+      <mat-card class="summary-card">
+        <span>Total de fichas</span>
+        <strong>{{ fichas.length }}</strong>
+      </mat-card>
+      <mat-card class="summary-card">
+        <span>Ficha ativa</span>
+        <strong>{{ fichaAtiva ? fichaAtiva.nome : 'Nenhuma' }}</strong>
+      </mat-card>
+      <mat-card class="summary-card">
+        <span>Status</span>
+        <strong [class.status-ativo]="fichaAtiva" [class.status-inativo]="!fichaAtiva">
+          {{ fichaAtiva ? 'Ativa' : 'Sem ficha ativa' }}
+        </strong>
+      </mat-card>
+    </div>
+  }
 
-    <mat-card class="summary-card">
-      <span>Total de fichas</span>
-      <strong>{{ fichas.length }}</strong>
-    </mat-card>
-
-    <mat-card class="summary-card">
-      <span>Ficha ativa</span>
-      <strong>{{ fichaAtiva ? fichaAtiva.nome : 'Nenhuma' }}</strong>
-    </mat-card>
-
-    <mat-card class="summary-card">
-      <span>Status</span>
-      <strong [class.status-ativo]="fichaAtiva" [class.status-inativo]="!fichaAtiva">
-        {{ fichaAtiva ? 'Ativa' : 'Sem ficha ativa' }}
-      </strong>
-    </mat-card>
-
-  </div>
-
-  <div *ngIf="!carregando && fichas.length === 0" class="empty-state">
-    <mat-icon>fitness_center</mat-icon>
-    <h2>Nenhuma ficha de treino cadastrada</h2>
-    <p>Crie uma ficha a partir de um treino já cadastrado.</p>
-
-    <button
-      mat-raised-button
-      color="primary"
-      [routerLink]="['nova']"
-    >
-      Criar primeira ficha
-    </button>
-  </div>
-
-  <div class="fichas-grid" *ngIf="fichas.length > 0">
-
-    <mat-card
-      class="ficha-card"
-      *ngFor="let ficha of fichas"
-      [class.ficha-inativa]="!ficha.ativo"
-    >
-
-      <div class="ficha-header">
-
-        <div>
-          <div class="ficha-title-row">
-            <h2>{{ ficha.nome }}</h2>
-
-            <span
-              class="status"
-              [class.ativo]="ficha.ativo"
-              [class.inativo]="!ficha.ativo"
-            >
-              {{ ficha.ativo ? 'Ativa' : 'Inativa' }}
-            </span>
-          </div>
-
-          <p>
-            Início: {{ ficha.dataInicio | date:'dd/MM/yyyy' }}
-          </p>
-        </div>
-
-        <mat-icon>assignment</mat-icon>
-
-      </div>
-
-      <div class="ficha-info">
-
-        <div class="info-item">
-          <span>Treino base</span>
-          <strong>{{ ficha.treinoNome || 'Treino não informado' }}</strong>
-        </div>
-
-        <div class="info-item">
-          <span>Funcionalidade</span>
-          <strong>{{ ficha.funcionalidade || '-' }}</strong>
-        </div>
-
-        <div class="info-item">
-          <span>Nível</span>
-          <strong>{{ ficha.nivel || '-' }}</strong>
-        </div>
-
-        <div class="info-item">
-          <span>Grupo muscular</span>
-          <strong>{{ ficha.grupoMuscular || '-' }}</strong>
-        </div>
-
-      </div>
-
-      <div class="card-actions">
-
-        <button
-          mat-stroked-button
-          color="primary"
-          [routerLink]="[ficha.id]"
+  @if (!carregando && fichas.length === 0) {
+    <div class="empty-state">
+      <mat-icon>fitness_center</mat-icon>
+      <h2>Nenhuma ficha de treino cadastrada</h2>
+      <p>Crie uma ficha a partir de um treino já cadastrado.</p>
+      <button
+        mat-raised-button
+        color="primary"
+        [routerLink]="['nova']"
         >
-          Visualizar
-        </button>
+        Criar primeira ficha
+      </button>
+    </div>
+  }
 
-      </div>
-
-    </mat-card>
-
-  </div>
+  @if (fichas.length > 0) {
+    <div class="fichas-grid">
+      @for (ficha of fichas; track ficha) {
+        <mat-card
+          class="ficha-card"
+          [class.ficha-inativa]="!ficha.ativo"
+          >
+          <div class="ficha-header">
+            <div>
+              <div class="ficha-title-row">
+                <h2>{{ ficha.nome }}</h2>
+                <span
+                  class="status"
+                  [class.ativo]="ficha.ativo"
+                  [class.inativo]="!ficha.ativo"
+                  >
+                  {{ ficha.ativo ? 'Ativa' : 'Inativa' }}
+                </span>
+              </div>
+              <p>
+                Início: {{ ficha.dataInicio | date:'dd/MM/yyyy' }}
+              </p>
+            </div>
+            <mat-icon>assignment</mat-icon>
+          </div>
+          <div class="ficha-info">
+            <div class="info-item">
+              <span>Treino base</span>
+              <strong>{{ ficha.treinoNome || 'Treino não informado' }}</strong>
+            </div>
+            <div class="info-item">
+              <span>Funcionalidade</span>
+              <strong>{{ ficha.funcionalidade || '-' }}</strong>
+            </div>
+            <div class="info-item">
+              <span>Nível</span>
+              <strong>{{ ficha.nivel || '-' }}</strong>
+            </div>
+            <div class="info-item">
+              <span>Grupo muscular</span>
+              <strong>{{ ficha.grupoMuscular || '-' }}</strong>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button
+              mat-stroked-button
+              color="primary"
+              [routerLink]="[ficha.id]"
+              >
+              Visualizar
+            </button>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
 
 </div>

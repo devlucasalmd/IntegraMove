@@ -7,7 +7,7 @@ import { TreinoItemResponseDTO } from '../../../treinos/models/treino-item-respo
 import { TreinoAlunoResponseDTO } from '../../model/treino-aluno-response.model';
 import { TreinoAlunoService } from '../../service/treino-aluno.service';
 import { TreinoService } from '../../../treinos/services/treino.service';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,12 +25,11 @@ interface TreinoDaFichaDetalhado {
   styleUrls: ['./treino-aluno-detalhe.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule
-  ]
+]
 })
 export class TreinoAlunoDetalheComponent implements OnInit {
   alunoId = '';

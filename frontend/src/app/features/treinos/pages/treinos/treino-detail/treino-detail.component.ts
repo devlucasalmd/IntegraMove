@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,13 +33,12 @@ interface TreinoItem {
   templateUrl: './treino-detail.component.html',
   styleUrls: ['./treino-detail.component.css'],
   imports: [
-    CommonModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,
     MatTableModule,
-    MatDialogModule,
-  ],
+    MatDialogModule
+],
 })
 export class TreinoDetailComponent implements OnInit {
   treinoId!: string;

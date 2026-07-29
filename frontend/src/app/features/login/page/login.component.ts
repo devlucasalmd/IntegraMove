@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -13,13 +13,12 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule
-  ]
+]
 })
 export class LoginComponent implements OnInit {
 

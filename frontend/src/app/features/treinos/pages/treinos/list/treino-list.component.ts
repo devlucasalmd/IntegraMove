@@ -2,7 +2,7 @@ import { TreinoService } from './../../../services/treino.service';
 import { Component, OnInit } from '@angular/core';
 import { forkJoin, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 
 import { MatCardModule } from '@angular/material/card';
@@ -22,13 +22,12 @@ import { TreinoDetailComponent } from '../treino-detail/treino-detail.component'
   templateUrl: './treino-list.component.html',
   styleUrls: ['./treino-list.component.css'],
   imports: [
-    CommonModule,
     RouterModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule,
-  ],
+    MatDialogModule
+],
 })
 export class TreinoListComponent implements OnInit {
   treinos: TreinoResponseDTO[] = [];

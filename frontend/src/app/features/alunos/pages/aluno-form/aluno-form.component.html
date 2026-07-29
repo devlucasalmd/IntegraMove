@@ -28,9 +28,11 @@
         <mat-form-field appearance="outline">
           <mat-label>Gênero</mat-label>
           <mat-select formControlName="genero">
-            <mat-option *ngFor="let g of generos" [value]="g">
-              {{ g }}
-            </mat-option>
+            @for (g of generos; track g) {
+              <mat-option [value]="g">
+                {{ g }}
+              </mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </div>
@@ -43,7 +45,7 @@
             matInput
             [matDatepicker]="pickerNascimento"
             formControlName="dataNascimento"
-          />
+            />
           <mat-datepicker-toggle
             matIconSuffix
             [for]="pickerNascimento"
@@ -97,9 +99,11 @@
           <mat-select formControlName="planoId">
             <mat-option [value]="null">Sem plano</mat-option>
 
-            <mat-option *ngFor="let plano of planos" [value]="plano.id">
-              {{ plano.nome }} - {{ plano.valor | currency : "BRL" }}
-            </mat-option>
+            @for (plano of planos; track plano) {
+              <mat-option [value]="plano.id">
+                {{ plano.nome }} - {{ plano.valor | currency : "BRL" }}
+              </mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </div>
@@ -176,7 +180,7 @@
       class="btn-cancel"
       (click)="fechar()"
       [disabled]="salvando"
-    >
+      >
       Cancelar
     </button>
 
@@ -186,7 +190,7 @@
       class="btn-submit"
       (click)="salvar()"
       [disabled]="salvando || alunoForm.invalid"
-    >
+      >
       {{ salvando ? "Salvando..." : "Salvar" }}
     </button>
   </div>

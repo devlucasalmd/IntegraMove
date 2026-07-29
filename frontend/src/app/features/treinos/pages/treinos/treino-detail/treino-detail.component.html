@@ -1,138 +1,111 @@
-<div class="detalhe-container" *ngIf="treino">
-
-  <div class="detalhe-header">
-
-    <div>
-      <span class="subtitle">Detalhes do treino</span>
-      <h2>{{ treino.nome }}</h2>
-      <p>Responsável: {{ treino.responsavel }}</p>
-    </div>
-
-    <button mat-icon-button (click)="fechar()">
-      <mat-icon>close</mat-icon>
-    </button>
-
-  </div>
-
-  <section class="section">
-
-    <div class="section-header">
-      <h3>Informações do treino</h3>
-      <p>Dados cadastrados na criação do treino.</p>
-    </div>
-
-    <div class="info-grid">
-
-      <div class="info-card">
-        <span>Funcionalidade</span>
-        <strong>{{ treino.funcionalidade }}</strong>
+@if (treino) {
+  <div class="detalhe-container">
+    <div class="detalhe-header">
+      <div>
+        <span class="subtitle">Detalhes do treino</span>
+        <h2>{{ treino.nome }}</h2>
+        <p>Responsável: {{ treino.responsavel }}</p>
       </div>
-
-      <div class="info-card">
-        <span>Nível</span>
-        <strong>{{ treino.nivel }}</strong>
-      </div>
-
-      <div class="info-card">
-        <span>Grupo muscular</span>
-        <strong>{{ treino.grupoMuscular || 'Não informado' }}</strong>
-      </div>
-
-      <div class="info-card">
-        <span>Repetições</span>
-        <strong>{{ treino.repeticoes || 'Não informado' }}</strong>
-      </div>
-
-      <div class="info-card">
-        <span>Total de exercícios</span>
-        <strong>{{ exercicios.length }}</strong>
-      </div>
-
+      <button mat-icon-button (click)="fechar()">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
-
-    <div class="observacoes-card" *ngIf="temObservacoes()">
-      <span>Observações</span>
-      <p>{{ treino.observacoes }}</p>
-    </div>
-
-  </section>
-
-  <section class="section">
-
-    <div class="section-header">
-      <h3>Exercícios incluídos</h3>
-      <p>Lista de exercícios vinculados a este treino.</p>
-    </div>
-
-    <div
-      class="empty-state"
-      *ngIf="!carregandoExercicios && exercicios.length === 0"
-    >
-      <mat-icon>fitness_center</mat-icon>
-      <strong>Nenhum exercício incluído</strong>
-      <p>Este treino ainda não possui exercícios cadastrados.</p>
-    </div>
-
-    <div
-      class="exercicios-lista"
-      *ngIf="exercicios.length > 0"
-    >
-
-      <div
-        class="exercicio-card"
-        *ngFor="let item of exercicios; let i = index"
-      >
-
-        <div class="exercicio-topo">
-
-          <div class="exercicio-titulo">
-            <span class="ordem">
-              {{ item.ordem || i + 1 }}
-            </span>
-
-            <div>
-              <h4>{{ item.nomeExercicio || 'Exercício não identificado' }}</h4>
-            </div>
-          </div>
-
+    <section class="section">
+      <div class="section-header">
+        <h3>Informações do treino</h3>
+        <p>Dados cadastrados na criação do treino.</p>
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <span>Funcionalidade</span>
+          <strong>{{ treino.funcionalidade }}</strong>
         </div>
-
-        <div class="exercicio-dados">
-
-          <div class="dado">
-            <span>Séries</span>
-            <strong>{{ item.series }}</strong>
-          </div>
-
-          <div class="dado">
-            <span>Reps</span>
-            <strong>{{ item.repeticoes }}</strong>
-          </div>
-
-          <div class="dado">
-            <span>Carga</span>
-            <strong>{{ item.carga }} kg</strong>
-          </div>
-
-          <div class="dado">
-            <span>Descanso</span>
-            <strong>{{ item.descanso }}s</strong>
-          </div>
-
+        <div class="info-card">
+          <span>Nível</span>
+          <strong>{{ treino.nivel }}</strong>
         </div>
-
+        <div class="info-card">
+          <span>Grupo muscular</span>
+          <strong>{{ treino.grupoMuscular || 'Não informado' }}</strong>
+        </div>
+        <div class="info-card">
+          <span>Repetições</span>
+          <strong>{{ treino.repeticoes || 'Não informado' }}</strong>
+        </div>
+        <div class="info-card">
+          <span>Total de exercícios</span>
+          <strong>{{ exercicios.length }}</strong>
+        </div>
+      </div>
+      @if (temObservacoes()) {
+        <div class="observacoes-card">
+          <span>Observações</span>
+          <p>{{ treino.observacoes }}</p>
+        </div>
+      }
+    </section>
+    <section class="section">
+      <div class="section-header">
+        <h3>Exercícios incluídos</h3>
+        <p>Lista de exercícios vinculados a este treino.</p>
+      </div>
+      @if (!carregandoExercicios && exercicios.length === 0) {
         <div
-          class="exercicio-observacao"
-          *ngIf="item.observacao"
-        >
-          <span>Observação</span>
-          <p>{{ item.observacao }}</p>
+          class="empty-state"
+          >
+          <mat-icon>fitness_center</mat-icon>
+          <strong>Nenhum exercício incluído</strong>
+          <p>Este treino ainda não possui exercícios cadastrados.</p>
         </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-</div>
+      }
+      @if (exercicios.length > 0) {
+        <div
+          class="exercicios-lista"
+          >
+          @for (item of exercicios; track item; let i = $index) {
+            <div
+              class="exercicio-card"
+              >
+              <div class="exercicio-topo">
+                <div class="exercicio-titulo">
+                  <span class="ordem">
+                    {{ item.ordem || i + 1 }}
+                  </span>
+                  <div>
+                    <h4>{{ item.nomeExercicio || 'Exercício não identificado' }}</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="exercicio-dados">
+                <div class="dado">
+                  <span>Séries</span>
+                  <strong>{{ item.series }}</strong>
+                </div>
+                <div class="dado">
+                  <span>Reps</span>
+                  <strong>{{ item.repeticoes }}</strong>
+                </div>
+                <div class="dado">
+                  <span>Carga</span>
+                  <strong>{{ item.carga }} kg</strong>
+                </div>
+                <div class="dado">
+                  <span>Descanso</span>
+                  <strong>{{ item.descanso }}s</strong>
+                </div>
+              </div>
+              @if (item.observacao) {
+                <div
+                  class="exercicio-observacao"
+                  >
+                  <span>Observação</span>
+                  <p>{{ item.observacao }}</p>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </section>
+  </div>
+}

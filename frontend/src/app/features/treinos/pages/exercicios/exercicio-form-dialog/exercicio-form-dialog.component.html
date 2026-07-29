@@ -4,11 +4,11 @@
   <div class="section-header mini">
     <span>
       {{
-        isView
-          ? 'Visualizar exercício'
-          : isEdit
-            ? 'Editar exercício'
-            : 'Novo exercício'
+      isView
+      ? 'Visualizar exercício'
+      : isEdit
+      ? 'Editar exercício'
+      : 'Novo exercício'
       }}
     </span>
   </div>
@@ -22,9 +22,11 @@
 
         <input matInput formControlName="nome" />
 
-        <mat-error *ngIf="form.get('nome')?.hasError('required')">
-          Nome é obrigatório
-        </mat-error>
+        @if (form.get('nome')?.hasError('required')) {
+          <mat-error>
+            Nome é obrigatório
+          </mat-error>
+        }
       </mat-form-field>
     </div>
 
@@ -34,17 +36,20 @@
         <mat-label>Grupo muscular</mat-label>
 
         <mat-select formControlName="grupoMuscular">
-          <mat-option
-            *ngFor="let grupo of gruposMusculares"
-            [value]="grupo.value"
-          >
-            {{ grupo.label }}
-          </mat-option>
+          @for (grupo of gruposMusculares; track grupo) {
+            <mat-option
+              [value]="grupo.value"
+              >
+              {{ grupo.label }}
+            </mat-option>
+          }
         </mat-select>
 
-        <mat-error *ngIf="form.get('grupoMuscular')?.hasError('required')">
-          Grupo muscular é obrigatório
-        </mat-error>
+        @if (form.get('grupoMuscular')?.hasError('required')) {
+          <mat-error>
+            Grupo muscular é obrigatório
+          </mat-error>
+        }
       </mat-form-field>
     </div>
 
@@ -54,17 +59,20 @@
         <mat-label>Intensidade</mat-label>
 
         <mat-select formControlName="intensidade">
-          <mat-option
-            *ngFor="let intensidade of intensidades"
-            [value]="intensidade.value"
-          >
-            {{ intensidade.label }}
-          </mat-option>
+          @for (intensidade of intensidades; track intensidade) {
+            <mat-option
+              [value]="intensidade.value"
+              >
+              {{ intensidade.label }}
+            </mat-option>
+          }
         </mat-select>
 
-        <mat-error *ngIf="form.get('intensidade')?.hasError('required')">
-          Intensidade é obrigatória
-        </mat-error>
+        @if (form.get('intensidade')?.hasError('required')) {
+          <mat-error>
+            Intensidade é obrigatória
+          </mat-error>
+        }
       </mat-form-field>
     </div>
 
@@ -82,29 +90,31 @@
       mat-stroked-button
       type="button"
       (click)="fechar()"
-    >
+      >
       Voltar
     </button>
 
-    <button
-      mat-raised-button
-      color="primary"
-      type="button"
-      *ngIf="isView"
-      (click)="habilitarEdicao()"
-    >
-      <mat-icon>edit</mat-icon>
-      Editar
-    </button>
+    @if (isView) {
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="habilitarEdicao()"
+        >
+        <mat-icon>edit</mat-icon>
+        Editar
+      </button>
+    }
 
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      *ngIf="!isView"
-    >
-      Salvar
-    </button>
+    @if (!isView) {
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        >
+        Salvar
+      </button>
+    }
   </div>
 
 </form>

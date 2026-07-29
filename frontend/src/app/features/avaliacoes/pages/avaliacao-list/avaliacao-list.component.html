@@ -12,101 +12,88 @@
       color="primary"
       type="button"
       (click)="abrirNovaAvaliacao()"
-    >
+      >
       <mat-icon>add</mat-icon>
       Nova avaliação
     </button>
 
   </div>
 
-  <div class="summary-grid" *ngIf="avaliacoes.length > 0">
+  @if (avaliacoes.length > 0) {
+    <div class="summary-grid">
+      <mat-card class="summary-card">
+        <span>Total de avaliações</span>
+        <strong>{{ avaliacoes.length }}</strong>
+      </mat-card>
+      <mat-card class="summary-card">
+        <span>Última avaliação</span>
+        <strong>
+          {{ avaliacoes[0].dataAvaliacao | date:'dd/MM/yyyy' }}
+        </strong>
+      </mat-card>
+      <mat-card class="summary-card">
+        <span>Avaliador</span>
+        <strong>Sistema</strong>
+      </mat-card>
+    </div>
+  }
 
-    <mat-card class="summary-card">
-      <span>Total de avaliações</span>
-      <strong>{{ avaliacoes.length }}</strong>
-    </mat-card>
-
-    <mat-card class="summary-card">
-      <span>Última avaliação</span>
-      <strong>
-        {{ avaliacoes[0].dataAvaliacao | date:'dd/MM/yyyy' }}
-      </strong>
-    </mat-card>
-
-    <mat-card class="summary-card">
-      <span>Avaliador</span>
-      <strong>Sistema</strong>
-    </mat-card>
-
-  </div>
-
-  <div
-    *ngIf="!carregando && avaliacoes.length === 0"
-    class="empty-state"
-  >
-    <mat-icon>monitoring</mat-icon>
-    <h2>Nenhuma avaliação realizada</h2>
-    <p>Registre a primeira avaliação física deste aluno.</p>
-
-    <button
-      mat-raised-button
-      color="primary"
-      type="button"
-      (click)="abrirNovaAvaliacao()"
-    >
-      Criar avaliação
-    </button>
-  </div>
-
-  <div class="avaliacoes-grid" *ngIf="avaliacoes.length > 0">
-
-    <mat-card
-      class="avaliacao-card"
-      *ngFor="let avaliacao of avaliacoes"
-    >
-
-      <div class="card-top">
-
-        <div class="icon-box">
-          <mat-icon>fitness_center</mat-icon>
-        </div>
-
-        <div>
-          <h2>Avaliação física</h2>
-          <p>{{ avaliacao.dataAvaliacao | date:'dd/MM/yyyy' }}</p>
-        </div>
-
-      </div>
-
-      <div class="card-info">
-
-        <div class="info-item">
-          <span>Avaliador</span>
-          <strong>Sistema</strong>
-        </div>
-
-        <div class="info-item">
-          <span>Registro</span>
-          <strong>Desempenho muscular</strong>
-        </div>
-
-      </div>
-
-      <div class="card-actions">
-
-        <button
-          mat-stroked-button
-          color="primary"
-          type="button"
-          (click)="abrirVisualizacao(avaliacao)"
+  @if (!carregando && avaliacoes.length === 0) {
+    <div
+      class="empty-state"
+      >
+      <mat-icon>monitoring</mat-icon>
+      <h2>Nenhuma avaliação realizada</h2>
+      <p>Registre a primeira avaliação física deste aluno.</p>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="abrirNovaAvaliacao()"
         >
-          Visualizar
-        </button>
+        Criar avaliação
+      </button>
+    </div>
+  }
 
-      </div>
-
-    </mat-card>
-
-  </div>
+  @if (avaliacoes.length > 0) {
+    <div class="avaliacoes-grid">
+      @for (avaliacao of avaliacoes; track avaliacao) {
+        <mat-card
+          class="avaliacao-card"
+          >
+          <div class="card-top">
+            <div class="icon-box">
+              <mat-icon>fitness_center</mat-icon>
+            </div>
+            <div>
+              <h2>Avaliação física</h2>
+              <p>{{ avaliacao.dataAvaliacao | date:'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="info-item">
+              <span>Avaliador</span>
+              <strong>Sistema</strong>
+            </div>
+            <div class="info-item">
+              <span>Registro</span>
+              <strong>Desempenho muscular</strong>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button
+              mat-stroked-button
+              color="primary"
+              type="button"
+              (click)="abrirVisualizacao(avaliacao)"
+              >
+              Visualizar
+            </button>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
 
 </div>
