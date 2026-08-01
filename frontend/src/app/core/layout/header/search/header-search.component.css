@@ -1,0 +1,45 @@
+.search-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+}
+
+.search-field {
+  width: 100%;
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.search-field ::ng-deep .mat-mdc-text-field-wrapper {
+  height: 44px;
+  border-radius: var(--imv-radius-sm);
+  background: var(--imv-bg-soft);
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-flex {
+  height: 44px;
+  align-items: center;
+}
+
+/* ESSA PARTE É NOVA — remove a borda "notched" do appearance outline */
+.search-field ::ng-deep .mdc-notched-outline > div {
+  border: none !important;
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-infix {
+  padding-top: 0;
+  padding-bottom: 0;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .search-container {
+    display: none;
+  }
+}

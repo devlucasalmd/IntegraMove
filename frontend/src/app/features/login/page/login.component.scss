@@ -1,0 +1,258 @@
+:host {
+  --im-navy: #142e67;
+  --im-navy-deep: #0c1f4a;
+  --im-lime: #d6f706;
+  --im-text: #f5f6f7;
+  --im-text-muted: #a9b4ce;
+  --im-border: rgba(245, 246, 247, 0.14);
+
+  display: block;
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.login-screen {
+  display: flex;
+  height: 100%;
+}
+
+.brand-panel {
+  flex: 0 0 42%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 4rem 3.5rem;
+  color: var(--im-text);
+  background: linear-gradient(160deg, var(--im-navy) 0%, var(--im-navy-deep) 100%);
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    max-width: 420px;
+  }
+
+  &__logo {
+    margin-bottom: 3rem;
+
+    img {
+      height: 34px;
+      width: auto;
+      display: block;
+    }
+  }
+
+  &__headline {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.15;
+    margin: 0 0 1rem;
+  }
+
+  &__subtext {
+    color: var(--im-text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 2.5rem;
+    max-width: 340px;
+  }
+
+  &__pulse {
+    margin-bottom: 2.5rem;
+  }
+
+  &__stats {
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--im-border);
+
+    .stat {
+      dt {
+        font-size: 0.75rem;
+        color: var(--im-text-muted);
+        margin-bottom: 0.35rem;
+      }
+
+      dd {
+        margin: 0;
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 500;
+        font-size: 1.25rem;
+        color: var(--im-lime);
+      }
+    }
+  }
+}
+
+.pulse-line {
+  width: 100%;
+  height: 64px;
+  display: block;
+
+  &__path {
+    fill: none;
+    stroke: var(--im-lime);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: pulse-draw 2.6s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse-draw {
+  0% {
+    stroke-dashoffset: 500;
+  }
+  60% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -500;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-line__path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+.form-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+
+  &__header {
+    margin-bottom: 2rem;
+
+    h2 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.75rem;
+      color: var(--im-navy);
+      margin: 0 0 0.35rem;
+    }
+
+    p {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  }
+
+  &__alert {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.875rem;
+    color: #b3261e;
+    background: #fdeceA;
+    border-left: 3px solid #b3261e;
+    border-radius: 6px;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.25rem 0 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  &__link {
+    color: var(--im-navy);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+    height: 48px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: var(--im-navy) !important;
+    color: #ffffff !important;
+
+    &:hover:not([disabled]) {
+      background: var(--im-navy-deep) !important;
+    }
+
+    mat-progress-spinner {
+      margin: 0 auto;
+      --mdc-circular-progress-active-indicator-color: #ffffff;
+    }
+  }
+
+  &__footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+
+    a {
+      color: var(--im-navy);
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+::ng-deep {
+  .mat-mdc-form-field.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--im-navy) !important;
+    }
+
+    .mat-mdc-floating-label {
+      color: var(--im-navy) !important;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .brand-panel {
+    display: none;
+  }
+
+  .form-panel {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+:host-context(body) a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--im-lime);
+  outline-offset: 2px;
+}

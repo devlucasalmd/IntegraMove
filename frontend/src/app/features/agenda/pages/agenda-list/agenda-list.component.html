@@ -1,17 +1,71 @@
-<div class="page-container">
+<div class="agenda-page">
+  <div class="agenda-header">
+    <div>
+      <h1>Agenda</h1>
+      <p class="subtitle">Turmas coletivas e agendamentos individuais</p>
+    </div>
 
-  <div class="page-header">
-    <h1>Agenda</h1>
+    <button mat-flat-button color="primary" (click)="abrirNovoEvento()">
+      <mat-icon>add</mat-icon>
+      Novo evento
+    </button>
   </div>
 
-  <mat-card class="empty-card">
+  <div class="agenda-toolbar">
+    <div class="navegacao-semana">
+      <button mat-icon-button (click)="semanaAnterior()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <span class="label-semana">{{ labelSemana() }}</span>
+      <button mat-icon-button (click)="proximaSemana()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <button mat-stroked-button (click)="semanaHoje()">Hoje</button>
+    </div>
 
-    <mat-icon class="empty-icon">construction</mat-icon>
+    <mat-button-toggle-group [value]="filtro()" (change)="onFiltroChange($event.value)">
+      <mat-button-toggle value="todos">Todos</mat-button-toggle>
+      <mat-button-toggle value="turma">Turmas</mat-button-toggle>
+      <mat-button-toggle value="individual">Individuais</mat-button-toggle>
+      <mat-button-toggle value="avaliacao">Avaliações</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
-    <h2>Em construção</h2>
+  <div class="agenda-legenda">
+    <span class="legenda-item turma">Turma</span>
+    <span class="legenda-item individual">Individual</span>
+    <span class="legenda-item avaliacao">Avaliação Física</span>
+    <span class="legenda-item pendente">Pendente</span>
+  </div>
 
-    <p>Esta funcionalidade será implementada em breve.</p>
+  <div class="agenda-grid-wrapper">
+    <div class="agenda-grid" [style.grid-template-rows]="'40px repeat(' + horas.length + ', 56px)'">
+      <div class="celula-cabecalho horario"></div>
+      <div class="celula-cabecalho" *ngFor="let dia of diasSemana">{{ dia }}</div>
 
-  </mat-card>
+      <div class="celula-horario" *ngFor="let hora of horas" [style.grid-column]="1">
+        {{ hora }}:00
+      </div>
 
+      <div
+        class="evento-card"
+        *ngFor="let evento of eventosFiltrados()"
+        [class]="evento.tipo"
+        [class.pendente]="evento.status === 'pendente'"
+        [style]="estiloEvento(evento)"
+        [matTooltip]="evento.local"
+        (click)="editarEvento(evento)"
+      >
+        <div class="evento-titulo">{{ evento.titulo }}</div>
+        <div class="evento-detalhe">{{ evento.instrutor }}</div>
+        <div class="evento-detalhe" *ngIf="evento.aluno">{{ evento.aluno }}</div>
+        <div class="evento-detalhe" *ngIf="evento.capacidade">
+          {{ evento.vagasOcupadas }}/{{ evento.capacidade }} vagas
+        </div>
+        <button class="evento-remover" mat-icon-button (click)="removerEvento(evento, $event)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,5 +1,6 @@
 package com.br.integramove.application.plano;
 
+import com.br.integramove.application.plano.outputs.ListarPlanosOutput;
 import com.br.integramove.domain.plano.Plano;
 import org.springframework.stereotype.Service;
 

@@ -1,0 +1,108 @@
+<div class="usuarios-page">
+  <div class="usuarios-header">
+    <div>
+      <h1>Usuários</h1>
+      <p class="subtitle">Administradores, instrutores e recepção do sistema</p>
+    </div>
+
+    <button mat-flat-button color="primary" (click)="abrirNovoUsuario()">
+      <mat-icon>add</mat-icon>
+      Novo usuário
+    </button>
+  </div>
+
+  <div class="usuarios-toolbar">
+    <mat-form-field appearance="outline" class="busca-field">
+      <mat-label>Buscar por nome ou e-mail</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [ngModel]="termoBusca()" (ngModelChange)="onBuscaChange($event)" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filtro-field">
+      <mat-label>Tipo</mat-label>
+      <mat-select [value]="filtroTipo()" (selectionChange)="onFiltroTipoChange($event.value)">
+        <mat-option value="todos">Todos</mat-option>
+        <mat-option *ngFor="let tipo of tiposUsuario" [value]="tipo.valor">{{ tipo.label }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filtro-field">
+      <mat-label>Status</mat-label>
+      <mat-select [value]="filtroStatus()" (selectionChange)="onFiltroStatusChange($event.value)">
+        <mat-option value="todos">Todos</mat-option>
+        <mat-option value="ativo">Ativo</mat-option>
+        <mat-option value="inativo">Inativo</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-progress-bar *ngIf="carregando()" mode="indeterminate"></mat-progress-bar>
+
+  <div class="usuarios-table-wrapper" *ngIf="!carregando()">
+    <table mat-table [dataSource]="usuariosFiltrados()" class="usuarios-table">
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let u">{{ u.nome }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>E-mail</th>
+        <td mat-cell *matCellDef="let u">{{ u.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="telefone">
+        <th mat-header-cell *matHeaderCellDef>Telefone</th>
+        <td mat-cell *matCellDef="let u">{{ u.telefone }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let u">
+          <mat-chip [class]="u.tipo">{{ labelTipo(u.tipo) }}</mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let u">
+          <span class="status-badge" [class]="u.status">{{ u.status }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataCadastro">
+        <th mat-header-cell *matHeaderCellDef>Cadastro</th>
+        <td mat-cell *matCellDef="let u">{{ u.dataCadastro | date: 'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let u">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editarUsuario(u)">
+              <mat-icon>edit</mat-icon>
+              Editar
+            </button>
+            <button mat-menu-item (click)="alternarStatus(u)">
+              <mat-icon>{{ u.status === 'ativo' ? 'block' : 'check_circle' }}</mat-icon>
+              {{ u.status === 'ativo' ? 'Inativar' : 'Ativar' }}
+            </button>
+            <button mat-menu-item (click)="removerUsuario(u)">
+              <mat-icon>delete</mat-icon>
+              Remover
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+    </table>
+
+    <div class="sem-resultados" *ngIf="usuariosFiltrados().length === 0">
+      Nenhum usuário encontrado para os filtros aplicados.
+    </div>
+  </div>
+</div>

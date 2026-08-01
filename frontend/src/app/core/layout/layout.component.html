@@ -124,6 +124,7 @@
           </a>
         </div>
       </div>
+
       <a
         mat-ripple
         class="nav-item"
@@ -158,81 +159,81 @@
       </a>
     </nav>
 
-      <!-- ADMINISTRADOR -->
-      <div class="nav-group">
-        <button
-          type="button"
-          class="nav-item nav-group-button"
-          (click)="toggleAdministrador()"
-          [class.open]="administradorAberto"
+    <!-- ADMINISTRADOR -->
+    <div class="nav-group">
+      <button
+        type="button"
+        class="nav-item nav-group-button"
+        (click)="toggleAdministrador()"
+        [class.open]="administradorAberto"
+      >
+        <mat-icon>account_balance_wallet</mat-icon>
+        <span>Administrador</span>
+        <mat-icon class="chevron">expand_more</mat-icon>
+      </button>
+
+      <div class="submenu" [class.open]="administradorAberto">
+        <a
+          mat-ripple
+          routerLink="/administrador/usuarios"
+          routerLinkActive="active"
+          (click)="fecharMenuMobile(drawer)"
         >
-          <mat-icon>account_balance_wallet</mat-icon>
-          <span>Administrador</span>
-          <mat-icon class="chevron">expand_more</mat-icon>
-        </button>
+          <mat-icon>groups</mat-icon>
+          <span>Usúarios</span>
+        </a>
 
-        <div class="submenu" [class.open]="administradorAberto">
-          <a
-            mat-ripple
-            routerLink="/administrador/usuarios"
-            routerLinkActive="active"
-            (click)="fecharMenuMobile(drawer)"
-          >
-            <mat-icon>groups</mat-icon>
-            <span>Usúarios</span>
-          </a>
+        <a
+          mat-ripple
+          routerLink="/administrador/planos"
+          routerLinkActive="active"
+          (click)="fecharMenuMobile(drawer)"
+        >
+          <mat-icon>workspace_premium</mat-icon>
+          <span>Planos</span>
+        </a>
 
-          <a
-            mat-ripple
-            routerLink="/administrador/planos"
-            routerLinkActive="active"
-            (click)="fecharMenuMobile(drawer)"
-          >
-            <mat-icon>workspace_premium</mat-icon>
-            <span>Planos</span>
-          </a>
+        <a
+          mat-ripple
+          routerLink="/administrador/avaliacao"
+          routerLinkActive="active"
+          (click)="fecharMenuMobile(drawer)"
+        >
+          <mat-icon>workspace_premium</mat-icon>
+          <span>Avaliação Física</span>
+        </a>
 
-                    <a
-            mat-ripple
-            routerLink="/administrador/avaliacao"
-            routerLinkActive="active"
-            (click)="fecharMenuMobile(drawer)"
-          >
-            <mat-icon>workspace_premium</mat-icon>
-            <span>Avaliação Física</span>
-          </a>
+        <a
+          mat-ripple
+          routerLink="/administrador/equipamentos"
+          routerLinkActive="active"
+          (click)="fecharMenuMobile(drawer)"
+        >
+          <mat-icon>workspace_premium</mat-icon>
+          <span>Equipamentos</span>
+        </a>
 
-                    <a
-            mat-ripple
-            routerLink="/administrador/equipamentos"
-            routerLinkActive="active"
-            (click)="fecharMenuMobile(drawer)"
-          >
-            <mat-icon>workspace_premium</mat-icon>
-            <span>Equipamentos</span>
-          </a>
+        <a
+          mat-ripple
+          routerLink="/administrador/noticias"
+          routerLinkActive="active"
+          (click)="fecharMenuMobile(drawer)"
+        >
+          <mat-icon>workspace_premium</mat-icon>
+          <span>Noticias</span>
+        </a>
 
-                    <a
-            mat-ripple
-            routerLink="/administrador/noticias"
-            routerLinkActive="active"
-            (click)="fecharMenuMobile(drawer)"
-          >
-            <mat-icon>workspace_premium</mat-icon>
-            <span>Noticias</span>
-          </a>
-
-                    <a
-            mat-ripple
-            routerLink="/administrador/loja"
-            routerLinkActive="active"
-            (click)="fecharMenuMobile(drawer)"
-          >
-            <mat-icon>workspace_premium</mat-icon>
-            <span>Loja</span>
-          </a>
-        </div>
+        <a
+          mat-ripple
+          routerLink="/administrador/loja"
+          routerLinkActive="active"
+          (click)="fecharMenuMobile(drawer)"
+        >
+          <mat-icon>workspace_premium</mat-icon>
+          <span>Loja</span>
+        </a>
       </div>
+    </div>
 
     <!-- FOOTER SIDEBAR -->
     <div class="sidebar-footer">
@@ -245,7 +246,6 @@
 
   <!-- CONTEÚDO -->
   <mat-sidenav-content>
-    <!-- TOOLBAR -->
     <mat-toolbar class="toolbar">
       <button mat-icon-button class="menu-button" (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
@@ -258,63 +258,9 @@
 
       <div class="toolbar-spacer"></div>
 
-      <div class="search-container">
-        <mat-form-field appearance="outline" class="search-field">
-          <mat-icon matPrefix>search</mat-icon>
-          <input matInput placeholder="Pesquisar..." />
-        </mat-form-field>
-      </div>
-
-      <button mat-icon-button class="toolbar-icon">
-        <mat-icon>notifications_none</mat-icon>
-      </button>
-
-      <!-- USER -->
-      <button class="user-area" [matMenuTriggerFor]="userMenu">
-        <div class="avatar">
-          <span>L</span>
-        </div>
-
-        <div class="user-info">
-          <span class="user-name">Lucas Amaral</span>
-          <span class="company-name">Integra Move</span>
-        </div>
-
-        <mat-icon class="expand-icon">expand_more</mat-icon>
-      </button>
-
-      <!-- USER MENU -->
-      <mat-menu #userMenu="matMenu" class="user-menu">
-        <div class="user-menu-header">
-          <div class="avatar large">
-            <span>L</span>
-          </div>
-
-          <div>
-            <div class="user-name">Lucas Amaral</div>
-            <div class="company-name">Integra Move</div>
-          </div>
-        </div>
-
-        <mat-divider></mat-divider>
-
-        <button mat-menu-item routerLink="/perfil">
-          <mat-icon>person</mat-icon>
-          <span>Meu Perfil</span>
-        </button>
-
-        <button mat-menu-item>
-          <mat-icon>settings</mat-icon>
-          <span>Configurações</span>
-        </button>
-
-        <mat-divider></mat-divider>
-
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>logout</mat-icon>
-          <span>Sair</span>
-        </button>
-      </mat-menu>
+      <app-header-search />
+      <app-header-notifications />
+      <app-header-user-menu />
     </mat-toolbar>
 
     <!-- CONTEÚDO PRINCIPAL -->

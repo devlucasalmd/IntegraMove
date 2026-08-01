@@ -1,0 +1,17 @@
+<button mat-icon-button class="toolbar-icon" [matMenuTriggerFor]="notifMenu">
+  <mat-icon [matBadge]="notificacoes.length" matBadgeSize="small" matBadgeColor="warn">
+    notifications_none
+  </mat-icon>
+</button>
+
+<mat-menu #notifMenu="matMenu" class="notif-menu">
+  <div class="notif-header">Notificações</div>
+  <mat-divider></mat-divider>
+  <button mat-menu-item *ngFor="let n of notificacoes">
+    <mat-icon>{{ n.icone }}</mat-icon>
+    <div class="notif-text">
+      <span class="notif-title">{{ n.titulo }}</span>
+      <span class="notif-desc">{{ n.descricao }}</span>
+    </div>
+  </button>
+</mat-menu>

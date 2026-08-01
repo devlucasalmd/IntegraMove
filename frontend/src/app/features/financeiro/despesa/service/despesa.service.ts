@@ -15,7 +15,7 @@ export class DespesaService {
 
   constructor(private http: HttpClient) {}
 
-  listar(): Observable<DespesaResponseDTO[]> {
+  listarDespesas(): Observable<DespesaResponseDTO[]> {
     return this.http.get<DespesaResponseDTO[]>(this.apiUrl);
   }
 

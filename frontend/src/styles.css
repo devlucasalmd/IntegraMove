@@ -1,4 +1,282 @@
 /* You can add global styles to this file, and also import other style files */
+/* Adicionar este bloco no topo do seu src/styles.css */
+@import './styles/list-page.css';
+:root {
+  /* Cores */
+  --imv-primary: #07276c;
+  --imv-primary-light: rgba(7, 39, 108, 0.08);
+  --imv-text-dark: #111827;
+  --imv-text-muted: #6b7280;
+  --imv-text-light: #9ca3af;
+  --imv-text-nav: #d1d5db;
+  --imv-bg-app: #f4f6f8;
+  --imv-bg-soft: #f9fafb;
+  --imv-border-soft: rgba(255, 255, 255, 0.08);
+
+  /* Raios (border-radius) */
+  --imv-radius-sm: 14px;
+  --imv-radius-md: 16px;
+  --imv-radius-lg: 18px;
+
+  /* Espaçamento comum */
+  --imv-gap-sm: 6px;
+  --imv-gap-md: 12px;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.content-card {
+  padding: 1.5rem !important;
+}
+
+.content-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #142e67;
+    margin: 0 0 0.2rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.search-field {
+  width: 280px;
+
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding-bottom: 0;
+  }
+}
+
+.filter-button,
+.primary-action {
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.primary-action {
+  background: #142e67 !important;
+  color: #ffffff !important;
+
+  &:hover {
+    background: #0c1f4a !important;
+  }
+}
+
+.filters-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  background: #f7f8fa;
+  border-radius: 10px;
+
+  mat-form-field {
+    width: 200px;
+  }
+}
+
+.clear-filters-button {
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.toolbar-info {
+  font-size: 0.85rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  color: #6b7280;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: #c7ccd6;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #142e67;
+    margin: 0 0 0.4rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    margin: 0 0 1.25rem;
+    max-width: 320px;
+  }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.alunos-table,
+table[mat-table] {
+  width: 100%;
+
+  th.mat-mdc-header-cell {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  td.mat-mdc-cell {
+    font-size: 0.9rem;
+    color: #1f2937;
+  }
+}
+
+.aluno-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 46, 103, 0.1);
+  color: #142e67;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.actions-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.15rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+
+  &.ativo,
+  &.feito,
+  &.pago,
+  &.concluido {
+    background: rgba(34, 197, 94, 0.12);
+    color: #16a34a;
+  }
+
+  &.pendente,
+  &.aguardando,
+  &.em_aberto,
+  &.a_vencer {
+    background: rgba(245, 158, 11, 0.12);
+    color: #d97706;
+  }
+
+  &.inativo,
+  &.vencido,
+  &.cancelado {
+    background: rgba(239, 68, 68, 0.12);
+    color: #dc2626;
+  }
+}
+
+.plano-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &.com-plano {
+    background: rgba(20, 46, 103, 0.1);
+    color: #142e67;
+  }
+
+  &.sem-plano {
+    background: #f1f2f4;
+    color: #6b7280;
+  }
+}
+
+@media (max-width: 720px) {
+  .content-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-field {
+    width: 100%;
+  }
+
+  .filters-panel mat-form-field {
+    width: 100%;
+  }
+
+  .clear-filters-button {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+}

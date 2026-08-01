@@ -1,19 +1,176 @@
-.page-container {
+.relatorios-page {
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.page-header {
-  margin-bottom: 20px;
+.relatorios-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .subtitle {
+    margin: 4px 0 0;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+  }
 }
 
-.empty-card {
-  text-align: center;
-  padding: 40px;
+.relatorios-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  .periodo-field {
+    width: 200px;
+  }
+
+  button mat-icon {
+    margin-right: 4px;
+  }
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+}
+
+.kpi-icon {
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(63, 81, 181, 0.1);
+  color: #3f51b5;
+
+  mat-icon {
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+  }
 }
 
-.empty-icon {
-  font-size: 48px;
-  margin-bottom: 10px;
-  color: #9ca3af;
+.kpi-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kpi-label {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.kpi-value {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.kpi-trend {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+
+  &.positive {
+    color: #2e7d32;
+  }
+
+  &.negative {
+    color: #c62828;
+  }
+}
+
+.relatorios-tabs {
+  background: transparent;
+}
+
+.tab-content {
+  padding: 20px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.resumo-financeiro {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+
+  .valor-positivo {
+    color: #2e7d32;
+  }
+
+  .valor-negativo {
+    color: #c62828;
+  }
+}
+
+.relatorio-table {
+  width: 100%;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  text-transform: capitalize;
+
+  &.pago,
+  &.ativo {
+    background: rgba(46, 125, 50, 0.12);
+    color: #2e7d32;
+  }
+
+  &.pendente,
+  &.risco {
+    background: rgba(237, 108, 2, 0.12);
+    color: #ed6c02;
+  }
+
+  &.atrasado,
+  &.inativo {
+    background: rgba(198, 40, 40, 0.12);
+    color: #c62828;
+  }
+}
+
+@media (max-width: 600px) {
+  .relatorios-header {
+    flex-direction: column;
+  }
+
+  .relatorios-actions {
+    width: 100%;
+
+    .periodo-field {
+      flex: 1;
+    }
+  }
 }

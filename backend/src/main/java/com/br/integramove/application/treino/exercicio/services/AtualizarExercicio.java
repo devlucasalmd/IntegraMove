@@ -1,6 +1,8 @@
 package com.br.integramove.application.treino.exercicio;
 
 import com.br.integramove.api.exception.treino.exercicio.ExercicioNaoEncontradoException;
+import com.br.integramove.application.treino.exercicio.inputs.AtualizarExercicioInput;
+import com.br.integramove.application.treino.exercicio.outputs.AtualizarExercicioOutput;
 import com.br.integramove.domain.treino.exercicio.Exercicio;
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
 import com.br.integramove.domain.enums.GrupoMuscular;

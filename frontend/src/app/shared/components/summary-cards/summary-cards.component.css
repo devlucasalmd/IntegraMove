@@ -1,0 +1,150 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto 22px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--im-cards-count, 4), 1fr);
+  background: #ffffff;
+  border: 1px solid #e5e9ef;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(7, 39, 108, 0.06);
+}
+
+.summary-card {
+  min-height: 82px;
+  padding: 14px 22px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #ffffff;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  transition: background 0.2s ease;
+
+  ::ng-deep .mdc-card__content,
+  ::ng-deep .mat-mdc-card-content {
+    padding: 0;
+  }
+}
+
+.summary-card:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  right: 0;
+  width: 1px;
+  height: calc(100% - 36px);
+  background: #e8ebf0;
+}
+
+.summary-card:hover {
+  background: rgba(7, 39, 108, 0.025);
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    font-size: 23px;
+    width: 23px;
+    height: 23px;
+  }
+
+  &.total {
+    background: rgba(7, 39, 108, 0.09);
+    color: #07276c;
+  }
+
+  &.success {
+    background: rgba(81, 176, 13, 0.12);
+    color: #51b00d;
+  }
+
+  &.warning {
+    background: rgba(245, 158, 11, 0.10);
+    color: #d97706;
+  }
+
+  &.danger {
+    background: rgba(239, 68, 68, 0.10);
+    color: #dc2626;
+  }
+}
+
+.summary-card span {
+  display: block;
+  margin-bottom: 4px;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.summary-card strong {
+  display: block;
+  color: #07276c;
+  font-size: 21px;
+  line-height: 1.2;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+@media (max-width: 850px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .summary-card {
+    padding: 14px 16px !important;
+    gap: 10px;
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .summary-card strong {
+    font-size: 17px;
+  }
+
+  .summary-card span {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 700px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+    border-radius: 16px;
+  }
+
+  .summary-card {
+    min-height: 70px;
+    padding: 14px 18px !important;
+  }
+
+  .summary-card:not(:last-child)::after {
+    top: auto;
+    right: 18px;
+    bottom: 0;
+    width: calc(100% - 36px);
+    height: 1px;
+  }
+
+  .summary-card strong {
+    font-size: 18px;
+  }
+}

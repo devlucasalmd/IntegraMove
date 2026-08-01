@@ -3,7 +3,6 @@ import {
   RouterOutlet,
   RouterLinkWithHref,
   RouterModule,
-  Router,
 } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,25 +15,26 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { HeaderSearchComponent } from './header/search/header-search.component';
+import { HeaderNotificationsComponent } from './header/notifications/header-notifications.component';
+import { HeaderUserMenuComponent } from './header/user-menu/header-user-menu.component';
 @Component({
   standalone: true,
   selector: 'app-layout',
   imports: [
-    RouterOutlet,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSidenavModule,
-    MatListModule,
-    MatMenuModule,
-    RouterLinkWithHref,
-    MatSidenavModule,
-    MatExpansionModule,
-    MatDividerModule,
-    RouterModule,
-  ],
+  RouterOutlet,
+  MatToolbarModule,
+  MatIconModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatListModule,
+  RouterLinkWithHref,
+  MatExpansionModule,
+  RouterModule,
+  HeaderSearchComponent,
+  HeaderNotificationsComponent,
+  HeaderUserMenuComponent,
+],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css'],
 })
@@ -45,7 +45,6 @@ export class LayoutComponent {
   administradorAberto = false;
 
   constructor(
-    private router: Router,
     private breakpointObserver: BreakpointObserver,
   ) {
     this.breakpointObserver
@@ -73,7 +72,4 @@ export class LayoutComponent {
     this.administradorAberto = !this.administradorAberto;
   }
 
-  logout() {
-    this.router.navigate(['/login']);
-  }
 }

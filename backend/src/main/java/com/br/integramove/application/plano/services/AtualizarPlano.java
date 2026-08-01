@@ -1,6 +1,8 @@
 package com.br.integramove.application.plano;
 
 import com.br.integramove.api.exception.plano.PlanoNaoEncontradoException;
+import com.br.integramove.application.plano.inputs.AtualizarPlanoInput;
+import com.br.integramove.application.plano.outputs.AtualizarPlanoOutput;
 import com.br.integramove.domain.plano.Plano;
 import com.br.integramove.domain.plano.PlanoId;
 import org.springframework.stereotype.Service;

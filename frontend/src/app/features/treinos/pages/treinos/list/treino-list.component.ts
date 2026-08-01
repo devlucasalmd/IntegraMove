@@ -15,6 +15,15 @@ import { TreinoResponseDTO } from '../../../models/treino-response.model';
 import { ExercicioDialogComponent } from '../treino-detail/exercicio-dialog/exercicio-dialog.component';
 import { TreinoItemService } from '../../../services/treino-item.service';
 import { TreinoDetailComponent } from '../treino-detail/treino-detail.component';
+import { SummaryCardData, SummaryCardsComponent } from '../../../../../shared/components/summary-cards/summary-cards.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-treino-list',
@@ -22,16 +31,42 @@ import { TreinoDetailComponent } from '../treino-detail/treino-detail.component'
   templateUrl: './treino-list.component.html',
   styleUrls: ['./treino-list.component.css'],
   imports: [
+    CommonModule,
+    FormsModule,
     RouterModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
-],
+    MatDialogModule,
+    MatMenuModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTooltipModule,
+    SummaryCardsComponent,
+  ],
 })
 export class TreinoListComponent implements OnInit {
   treinos: TreinoResponseDTO[] = [];
+  treinosFiltrados: TreinoResponseDTO[] = [];
+
+  filtro = '';
+  filtroGrupoMuscular = '';
+  filtroNivel = '';
+  filtroFuncionalidade = '';
+
+  filtrosAbertos = false;
   carregando = false;
+
+  colunas: string[] = [
+    'treino',
+    'grupoMuscular',
+    'nivel',
+    'funcionalidade',
+    'exercicios',
+    'acoes',
+  ];
 
   constructor(
     private dialog: MatDialog,
@@ -42,6 +77,7 @@ export class TreinoListComponent implements OnInit {
   ngOnInit(): void {
     this.carregarTreinos();
   }
+
   carregarTreinos(): void {
     this.carregando = true;
 
@@ -74,6 +110,7 @@ export class TreinoListComponent implements OnInit {
       .subscribe({
         next: (treinosComExercicios) => {
           this.treinos = treinosComExercicios;
+          this.treinosFiltrados = [...this.treinos];
           this.carregando = false;
         },
         error: (erro) => {
@@ -81,6 +118,79 @@ export class TreinoListComponent implements OnInit {
           this.carregando = false;
         },
       });
+  }
+
+  filtrarTreinos(): void {
+    const termo = this.filtro.trim().toLowerCase();
+
+    this.treinosFiltrados = this.treinos.filter((treino) => {
+      const passaBusca =
+        !termo ||
+        treino.nome?.toLowerCase().includes(termo) ||
+        treino.responsavel?.toLowerCase().includes(termo) ||
+        treino.grupoMuscular?.toLowerCase().includes(termo) ||
+        treino.nivel?.toLowerCase().includes(termo);
+
+      const passaGrupo = !this.filtroGrupoMuscular || treino.grupoMuscular === this.filtroGrupoMuscular;
+      const passaNivel = !this.filtroNivel || treino.nivel === this.filtroNivel;
+      const passaFuncionalidade =
+        !this.filtroFuncionalidade || treino.funcionalidade === this.filtroFuncionalidade;
+
+      return passaBusca && passaGrupo && passaNivel && passaFuncionalidade;
+    });
+  }
+
+  limparFiltro(): void {
+    this.filtro = '';
+    this.filtrarTreinos();
+  }
+
+  alternarFiltros(): void {
+    this.filtrosAbertos = !this.filtrosAbertos;
+  }
+
+  limparTodosFiltros(): void {
+    this.filtro = '';
+    this.filtroGrupoMuscular = '';
+    this.filtroNivel = '';
+    this.filtroFuncionalidade = '';
+    this.filtrarTreinos();
+  }
+
+  get gruposMusculares(): string[] {
+    return [
+      ...new Set(
+        this.treinos
+          .map((treino) => treino.grupoMuscular)
+          .filter((grupo): grupo is string => !!grupo),
+      ),
+    ];
+  }
+
+  get niveis(): string[] {
+    return [
+      ...new Set(
+        this.treinos
+          .map((treino) => treino.nivel)
+          .filter((nivel): nivel is string => !!nivel),
+      ),
+    ];
+  }
+
+  get funcionalidades(): string[] {
+    return [
+      ...new Set(
+        this.treinos
+          .map((treino) => treino.funcionalidade)
+          .filter((funcionalidade): funcionalidade is string => !!funcionalidade),
+      ),
+    ];
+  }
+
+  get resumoTreinos(): SummaryCardData[] {
+    return [
+      { icon: 'fitness_center', label: 'Total de treinos', value: `${this.treinos.length}`, variant: 'total' },
+    ];
   }
 
   abrirNovoTreino(): void {
@@ -116,7 +226,7 @@ export class TreinoListComponent implements OnInit {
       data: {
         treinoId: treino.id,
         treinoNome: treino.nome,
-        grupoMuscular: treino.grupoMuscular
+        grupoMuscular: treino.grupoMuscular,
       },
     });
 
@@ -135,8 +245,8 @@ export class TreinoListComponent implements OnInit {
       autoFocus: false,
       panelClass: 'dialog-profissional',
       data: {
-        treinoId: treino.id
-      }
+        treinoId: treino.id,
+      },
     });
   }
 

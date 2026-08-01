@@ -1,5 +1,6 @@
 package com.br.integramove.application.treino.exercicio;
 
+import com.br.integramove.application.treino.exercicio.outputs.ListarExercicioOutput;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

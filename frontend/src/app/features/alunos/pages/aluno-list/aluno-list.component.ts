@@ -1,3 +1,4 @@
+import { MatSpinner } from '@angular/material/progress-spinner';
 import { Component, OnInit } from '@angular/core';
 import { AlunoService } from '../../services/aluno.service';
 import { CommonModule } from '@angular/common';
@@ -12,6 +13,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { AlunoResumoResponseDTO } from '../../models/aluno-resumo-response.model';
+import { SummaryCardsComponent, SummaryCardData } from '../../../../shared/components/summary-cards/summary-cards.component'
+import { MatOption } from '@angular/material/select';
 @Component({
   selector: 'app-aluno-list',
   standalone: true,
@@ -28,9 +31,13 @@ import { AlunoResumoResponseDTO } from '../../models/aluno-resumo-response.model
     MatDividerModule,
     FormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatOption,
+    MatSpinner,
+    SummaryCardsComponent
   ],
 })
+
 export class AlunoListComponent implements OnInit {
   alunos: AlunoResumoResponseDTO[] = [];
   alunosFiltrados: AlunoResumoResponseDTO[] = [];
@@ -39,6 +46,13 @@ export class AlunoListComponent implements OnInit {
   carregando = false;
 
   colunas: string[] = ['aluno', 'plano', 'pagamento', 'status', 'acoes'];
+
+  filtrosAbertos = false;
+  filtroPlano = '';
+  filtroPagamento = '';
+  filtroStatus = '';
+
+  readonly planos: string[] = ['Mensal', 'Trimestral', 'Anual'];
 
   constructor(private alunoService: AlunoService) {}
 
@@ -51,8 +65,6 @@ export class AlunoListComponent implements OnInit {
 
     this.alunoService.listarAlunos().subscribe({
       next: (response) => {
-        console.log('Alunos recebidos:', response);
-
         this.alunos = response;
         this.alunosFiltrados = response;
 
@@ -61,38 +73,52 @@ export class AlunoListComponent implements OnInit {
       error: (erro) => {
         console.error('Erro ao listar alunos:', erro);
         this.carregando = false;
-      }
+      },
     });
   }
 
   filtrarAlunos(): void {
     const termo = this.filtro.trim().toLowerCase();
 
-    if (!termo) {
-      this.alunosFiltrados = this.alunos;
-      return;
-    }
+    this.alunosFiltrados = this.alunos.filter((aluno) => {
+      const bateTexto =
+        !termo ||
+        aluno.nome.toLowerCase().includes(termo) ||
+        aluno.nomePlano?.toLowerCase().includes(termo) ||
+        aluno.pagamento?.toLowerCase().includes(termo) ||
+        aluno.status?.toLowerCase().includes(termo);
 
-    this.alunosFiltrados = this.alunos.filter(aluno =>
-      aluno.nome.toLowerCase().includes(termo) ||
-      aluno.nomePlano?.toLowerCase().includes(termo) ||
-      aluno.pagamento?.toLowerCase().includes(termo) ||
-      aluno.status?.toLowerCase().includes(termo)
-    );
+      const batePlano = !this.filtroPlano || aluno.nomePlano === this.filtroPlano;
+      const batePagamento = !this.filtroPagamento || aluno.pagamento === this.filtroPagamento;
+      const bateStatus = !this.filtroStatus || aluno.status === this.filtroStatus;
+
+      return bateTexto && batePlano && batePagamento && bateStatus;
+    });
   }
 
   limparFiltro(): void {
     this.filtro = '';
-    this.alunosFiltrados = this.alunos;
+    this.filtrarAlunos();
   }
 
+  alternarFiltros(): void {
+    this.filtrosAbertos = !this.filtrosAbertos;
+  }
+
+  limparTodosFiltros(): void {
+    this.filtro = '';
+    this.filtroPlano = '';
+    this.filtroPagamento = '';
+    this.filtroStatus = '';
+    this.filtrarAlunos();
+  }
 
   formatarPagamento(pagamento: string): string {
     const labels: Record<string, string> = {
       FEITO: 'Feito',
       EM_ABERTO: 'Em aberto',
       A_VENCER: 'A vencer',
-      VENCIDO: 'Vencido'
+      VENCIDO: 'Vencido',
     };
 
     return labels[pagamento] || pagamento;
@@ -101,7 +127,7 @@ export class AlunoListComponent implements OnInit {
   formatarStatus(status: string): string {
     const labels: Record<string, string> = {
       ATIVO: 'Ativo',
-      INATIVO: 'Inativo'
+      INATIVO: 'Inativo',
     };
 
     return labels[status] || status;
@@ -112,11 +138,29 @@ export class AlunoListComponent implements OnInit {
   }
 
   totalAtivos(): number {
-    return this.alunos.filter(aluno => aluno.status === 'ATIVO').length;
+    return this.alunos.filter((aluno) => aluno.status === 'ATIVO').length;
   }
 
   totalInativos(): number {
-    return this.alunos.filter(aluno => aluno.status === 'INATIVO').length;
+    return this.alunos.filter((aluno) => aluno.status === 'INATIVO').length;
   }
 
+  totalPendentes(): number {
+    return this.alunos.filter(
+      (aluno) => aluno.pagamento === 'EM_ABERTO' || aluno.pagamento === 'A_VENCER'
+    ).length;
+  }
+
+  totalVencidos(): number {
+    return this.alunos.filter((aluno) => aluno.pagamento === 'VENCIDO').length;
+  }
+
+  get resumoAlunos(): SummaryCardData[] {
+    return [
+      { icon: 'groups', label: 'Total de alunos', value: `${this.alunos.length}`, variant: 'total' },
+      { icon: 'check_circle', label: 'Ativos', value: `${this.totalAtivos()}`, variant: 'success' },
+      { icon: 'schedule', label: 'Pagamento pendente', value: `${this.totalPendentes()}`, variant: 'warning' },
+      { icon: 'error_outline', label: 'Pagamento vencido', value: `${this.totalVencidos()}`, variant: 'danger' },
+    ];
+  }
 }

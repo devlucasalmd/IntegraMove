@@ -1,6 +1,6 @@
 package com.br.integramove.application.treino.treino;
 
-import com.br.integramove.application.treino.item.TreinoItemOutput;
+import com.br.integramove.application.treino.item.outputs.TreinoItemOutput;
 import com.br.integramove.domain.enums.GrupoMuscular;
 
 import java.util.List;

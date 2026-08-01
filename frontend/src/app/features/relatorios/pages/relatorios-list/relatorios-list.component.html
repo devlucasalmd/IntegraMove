@@ -1,17 +1,160 @@
-<div class="page-container">
+<div class="relatorios-page">
+  <div class="relatorios-header">
+    <div>
+      <h1>Relatórios</h1>
+      <p class="subtitle">Indicadores de financeiro, frequência e avaliações da academia</p>
+    </div>
 
-  <div class="page-header">
-    <h1>Relatorios</h1>
+    <div class="relatorios-actions">
+      <mat-form-field appearance="outline" class="periodo-field">
+        <mat-label>Período</mat-label>
+        <mat-select [value]="periodoSelecionado()" (selectionChange)="onPeriodoChange($event.value)">
+          <mat-option value="7d">Últimos 7 dias</mat-option>
+          <mat-option value="30d">Últimos 30 dias</mat-option>
+          <mat-option value="90d">Últimos 90 dias</mat-option>
+          <mat-option value="personalizado">Personalizado</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-stroked-button (click)="exportarRelatorio('csv')">
+        <mat-icon>description</mat-icon>
+        CSV
+      </button>
+      <button mat-flat-button color="primary" (click)="exportarRelatorio('pdf')">
+        <mat-icon>picture_as_pdf</mat-icon>
+        Exportar PDF
+      </button>
+    </div>
   </div>
 
-  <mat-card class="empty-card">
+  <mat-progress-bar *ngIf="carregando()" mode="indeterminate"></mat-progress-bar>
 
-    <mat-icon class="empty-icon">construction</mat-icon>
+  <div class="kpi-grid" *ngIf="!carregando()">
+    <mat-card class="kpi-card" *ngFor="let kpi of kpis()">
+      <div class="kpi-icon">
+        <mat-icon>{{ kpi.icon }}</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-label">{{ kpi.label }}</span>
+        <span class="kpi-value">{{ kpi.value }}</span>
+        <span class="kpi-trend" [class.positive]="kpi.trend >= 0" [class.negative]="kpi.trend < 0">
+          <mat-icon>{{ kpi.trend >= 0 ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+          {{ kpi.trend | number: '1.1-1' }}% {{ kpi.trendLabel }}
+        </span>
+      </div>
+    </mat-card>
+  </div>
 
-    <h2>Em construção</h2>
+  <mat-tab-group class="relatorios-tabs" *ngIf="!carregando()">
+    <mat-tab label="Financeiro">
+      <div class="tab-content">
+        <div class="resumo-financeiro">
+          <span>Recebido: <strong class="valor-positivo">{{ totalRecebido() | currency: 'BRL' }}</strong></span>
+          <span>Pendente/Atrasado: <strong class="valor-negativo">{{ totalPendente() | currency: 'BRL' }}</strong></span>
+        </div>
 
-    <p>Esta funcionalidade será implementada em breve.</p>
+        <table mat-table [dataSource]="transacoes()" class="relatorio-table">
+          <ng-container matColumnDef="data">
+            <th mat-header-cell *matHeaderCellDef>Data</th>
+            <td mat-cell *matCellDef="let t">{{ t.data | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
 
-  </mat-card>
+          <ng-container matColumnDef="aluno">
+            <th mat-header-cell *matHeaderCellDef>Aluno</th>
+            <td mat-cell *matCellDef="let t">{{ t.aluno }}</td>
+          </ng-container>
 
+          <ng-container matColumnDef="descricao">
+            <th mat-header-cell *matHeaderCellDef>Descrição</th>
+            <td mat-cell *matCellDef="let t">{{ t.descricao }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="valor">
+            <th mat-header-cell *matHeaderCellDef>Valor</th>
+            <td mat-cell *matCellDef="let t">{{ t.valor | currency: 'BRL' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let t">
+              <span class="status-badge" [class]="t.status">{{ t.status }}</span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="colunasFinanceiro"></tr>
+          <tr mat-row *matRowDef="let row; columns: colunasFinanceiro"></tr>
+        </table>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Frequência de Alunos">
+      <div class="tab-content">
+        <table mat-table [dataSource]="frequencias()" class="relatorio-table">
+          <ng-container matColumnDef="aluno">
+            <th mat-header-cell *matHeaderCellDef>Aluno</th>
+            <td mat-cell *matCellDef="let f">{{ f.aluno }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="plano">
+            <th mat-header-cell *matHeaderCellDef>Plano</th>
+            <td mat-cell *matCellDef="let f">{{ f.plano }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="checkinsMes">
+            <th mat-header-cell *matHeaderCellDef>Check-ins no mês</th>
+            <td mat-cell *matCellDef="let f">{{ f.checkinsMes }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="ultimoCheckin">
+            <th mat-header-cell *matHeaderCellDef>Último check-in</th>
+            <td mat-cell *matCellDef="let f">{{ f.ultimoCheckin | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="situacao">
+            <th mat-header-cell *matHeaderCellDef>Situação</th>
+            <td mat-cell *matCellDef="let f">
+              <span class="status-badge" [class]="f.situacao">{{ f.situacao }}</span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="colunasFrequencia"></tr>
+          <tr mat-row *matRowDef="let row; columns: colunasFrequencia"></tr>
+        </table>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Avaliações Físicas">
+      <div class="tab-content">
+        <table mat-table [dataSource]="avaliacoes()" class="relatorio-table">
+          <ng-container matColumnDef="aluno">
+            <th mat-header-cell *matHeaderCellDef>Aluno</th>
+            <td mat-cell *matCellDef="let a">{{ a.aluno }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="data">
+            <th mat-header-cell *matHeaderCellDef>Data</th>
+            <td mat-cell *matCellDef="let a">{{ a.data | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="peso">
+            <th mat-header-cell *matHeaderCellDef>Peso (kg)</th>
+            <td mat-cell *matCellDef="let a">{{ a.peso }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="percentualGordura">
+            <th mat-header-cell *matHeaderCellDef>% Gordura</th>
+            <td mat-cell *matCellDef="let a">{{ a.percentualGordura }}%</td>
+          </ng-container>
+
+          <ng-container matColumnDef="responsavel">
+            <th mat-header-cell *matHeaderCellDef>Responsável</th>
+            <td mat-cell *matCellDef="let a">{{ a.responsavel }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="colunasAvaliacoes"></tr>
+          <tr mat-row *matRowDef="let row; columns: colunasAvaliacoes"></tr>
+        </table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

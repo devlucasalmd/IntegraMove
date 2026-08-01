@@ -1,388 +1,159 @@
-<div class="receitas-page">
+<div class="list-page">
 
-  <!-- MÉTRICAS -->
-  <section class="metrics-grid">
+  <app-summary-cards [cards]="resumoReceitas"></app-summary-cards>
 
-    <!-- TOTAL -->
-    <mat-card class="metric-card">
-
-      <div class="metric-icon blue">
-        <mat-icon>account_balance</mat-icon>
-      </div>
-
-      <div>
-        <span>Total</span>
-
-        <strong>
-          {{ valorTotal() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-        </strong>
-      </div>
-
-    </mat-card>
-
-
-    <!-- RECEBIDO -->
-    <mat-card class="metric-card">
-
-      <div class="metric-icon green">
-        <mat-icon>check_circle</mat-icon>
-      </div>
-
-      <div>
-        <span>Recebido</span>
-
-        <strong>
-          {{ totalRecebidos() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-        </strong>
-      </div>
-
-    </mat-card>
-
-
-    <!-- PENDENTE -->
-    <mat-card class="metric-card">
-
-      <div class="metric-icon red">
-        <mat-icon>schedule</mat-icon>
-      </div>
-
-      <div>
-        <span>Pendente</span>
-
-        <strong>
-          {{ totalPendente() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-        </strong>
-      </div>
-
-    </mat-card>
-
-  </section>
-
-
-  <!-- CONTEÚDO -->
   <mat-card class="content-card">
 
-    <!-- HEADER -->
     <div class="content-header">
-
       <div>
         <h2>Lista de Contas a Receber</h2>
-
-        <p>
-          Gerencie os valores que sua academia tem a receber.
-        </p>
+        <p>Gerencie os valores que sua academia tem a receber.</p>
       </div>
-
 
       <div class="header-actions">
-
-        <!-- BUSCA -->
-        <mat-form-field
-          appearance="outline"
-          class="search-field"
-          >
-
-          <mat-label>
-            Buscar receita
-          </mat-label>
-
-          <input
-            matInput
-            [(ngModel)]="filtro"
-            (input)="filtrarReceitas()"
-            />
-
-          @if (filtro) {
-            <button
-              mat-icon-button
-              matSuffix
-              type="button"
-              (click)="limparFiltro()"
-              >
-              <mat-icon>
-                close
-              </mat-icon>
-            </button>
-          }
-
-        </mat-form-field>
-
-
-        <!-- FILTROS -->
-        <button
-          mat-stroked-button
-          type="button"
-          class="filter-button"
-          (click)="alternarFiltros()"
-          >
-
-          <mat-icon>
-            filter_list
-          </mat-icon>
-
-          Filtros
-
-        </button>
-
-        <!--
-        NOVA RECEITA
-        <button
-          mat-raised-button
-          type="button"
-          class="primary-action"
-          (click)="abrirNovo()"
-          >
-
-          <mat-icon>
-            add
-          </mat-icon>
-
+        <button mat-raised-button type="button" class="primary-action" (click)="abrirNovo()">
+          <mat-icon>add</mat-icon>
           Adicionar Receita
-
-        </button> -->
-
+        </button>
       </div>
-
     </div>
 
+    <div class="toolbar-row">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar receita</mat-label>
+        <input matInput [(ngModel)]="filtro" (input)="filtrarReceitas()" />
+        @if (filtro) {
+          <button mat-icon-button matSuffix type="button" (click)="limparFiltro()">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
 
-    <!-- LOADING -->
+      <button mat-stroked-button type="button" class="filter-button" (click)="alternarFiltros()">
+        <mat-icon>filter_list</mat-icon>
+        Filtros
+      </button>
+    </div>
+
+    @if (filtrosAbertos) {
+      <div class="filters-panel">
+        <mat-form-field appearance="outline">
+          <mat-label>Categoria</mat-label>
+          <mat-select [(ngModel)]="filtroCategoria" (selectionChange)="filtrarReceitas()">
+            <mat-option value="">Todas</mat-option>
+            @for (categoria of categorias; track categoria) {
+              <mat-option [value]="categoria">{{ categoria }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-stroked-button type="button" class="clear-filters-button" (click)="limparTodosFiltros()">
+          <mat-icon>close</mat-icon>
+          Limpar filtros
+        </button>
+      </div>
+    }
+
     @if (carregando) {
-      <div
-        class="loading-container"
-        >
+      <div class="loading-container">
         <mat-spinner diameter="40"></mat-spinner>
       </div>
     }
 
-
-    <!-- DESKTOP -->
-    @if (
-      !carregando &&
-      receitasFiltrados.length > 0
-      ) {
-      <div
-        class="table-wrapper"
-        >
-        <table
-          mat-table
-          [dataSource]="receitasFiltrados"
-          class="receitas-table"
-          >
-          <!-- CATEGORIA -->
-          <ng-container
-            matColumnDef="categoria"
-            >
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              >
-              Categoria
-            </th>
-            <td
-              mat-cell
-              *matCellDef="let receita"
-              >
-              <div class="categoria-cell">
-                <div class="categoria-thumb">
-                  <mat-icon>
-                    account_balance_wallet
-                  </mat-icon>
+    @if (!carregando && receitasFiltrados.length > 0) {
+      <div class="table-wrapper">
+        <table mat-table [dataSource]="receitasFiltrados" class="list-table">
+          <ng-container matColumnDef="categoria">
+            <th mat-header-cell *matHeaderCellDef>Categoria</th>
+            <td mat-cell *matCellDef="let receita">
+              <div class="row-cell">
+                <div class="row-thumb">
+                  <mat-icon>account_balance_wallet</mat-icon>
                 </div>
                 <div>
-                  <strong>
-                    {{ receita.categoria }}
-                  </strong>
+                  <strong>{{ receita.categoria | titlecase }}</strong>
                 </div>
               </div>
             </td>
           </ng-container>
-          <!-- TOTAL -->
-          <ng-container
-            matColumnDef="total"
-            >
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              >
-              Total
-            </th>
-            <td
-              mat-cell
-              *matCellDef="let receita"
-              >
+
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let receita">
               <span class="soft-chip">
-                {{
-                receita.total
-                | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-                }}
+                {{ receita.total | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
               </span>
             </td>
           </ng-container>
-          <!-- RECEBIDO -->
-          <ng-container
-            matColumnDef="recebido"
-            >
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              >
-              Recebido
-            </th>
-            <td
-              mat-cell
-              *matCellDef="let receita"
-              >
+
+          <ng-container matColumnDef="recebido">
+            <th mat-header-cell *matHeaderCellDef>Recebido</th>
+            <td mat-cell *matCellDef="let receita">
               <span class="soft-chip">
-                {{
-                receita.recebido
-                | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-                }}
+                {{ receita.recebido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
               </span>
             </td>
           </ng-container>
-          <!-- PENDENTE -->
-          <ng-container
-            matColumnDef="pendente"
-            >
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              >
-              Pendente
-            </th>
-            <td
-              mat-cell
-              *matCellDef="let receita"
-              >
+
+          <ng-container matColumnDef="pendente">
+            <th mat-header-cell *matHeaderCellDef>Pendente</th>
+            <td mat-cell *matCellDef="let receita">
               <span class="soft-chip">
-                {{
-                receita.pendente
-                | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-                }}
+                {{ receita.pendente | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
               </span>
             </td>
           </ng-container>
-          <!-- LINHAS -->
-          <tr
-            mat-header-row
-            *matHeaderRowDef="colunas"
-          ></tr>
-          <tr
-            mat-row
-          *matRowDef="
-            let row;
-            columns: colunas
-          "
-            class="table-row"
-            (click)="visualizarReceita(row)"
-          ></tr>
+
+          <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+          <tr mat-row *matRowDef="let row; columns: colunas" class="table-row" (click)="visualizarReceita(row)"></tr>
         </table>
       </div>
     }
 
-
-    <!-- MOBILE -->
-    @if (
-      !carregando &&
-      receitasFiltrados.length > 0
-      ) {
-      <div
-        class="mobile-grid"
-        >
-        @for (
-          receita of receitasFiltrados
-          ; track
-          receita) {
-          <mat-card
-            class="receitas-mobile-card"
-            (click)="visualizarReceita(receita)"
-            >
-            <!-- TOPO -->
+    @if (!carregando && receitasFiltrados.length > 0) {
+      <div class="mobile-grid">
+        @for (receita of receitasFiltrados; track receita) {
+          <mat-card class="list-mobile-card" (click)="visualizarReceita(receita)">
             <div class="mobile-card-top">
-              <div class="receitas-thumb">
-                <mat-icon>
-                  account_balance_wallet
-                </mat-icon>
+              <div class="mobile-thumb">
+                <mat-icon>account_balance_wallet</mat-icon>
               </div>
-              <button
-                mat-icon-button
-                [matMenuTriggerFor]="menuMobile"
-                (click)="$event.stopPropagation()"
-                >
-                <mat-icon>
-                  more_vert
-                </mat-icon>
+              <button mat-icon-button [matMenuTriggerFor]="menuMobile" (click)="$event.stopPropagation()">
+                <mat-icon>more_vert</mat-icon>
               </button>
-              <mat-menu
-                #menuMobile="matMenu"
-                >
-                <button
-                  mat-menu-item
-                  (click)="visualizarReceita(receita)"
-                  >
-                  <mat-icon>
-                    visibility
-                  </mat-icon>
-                  <span>
-                    Visualizar
-                  </span>
+              <mat-menu #menuMobile="matMenu">
+                <button mat-menu-item (click)="visualizarReceita(receita)">
+                  <mat-icon>visibility</mat-icon>
+                  <span>Visualizar</span>
                 </button>
               </mat-menu>
             </div>
-            <!-- CATEGORIA -->
-            <h3>
-              {{ receita.categoria }}
-            </h3>
-            <!-- INFORMAÇÕES -->
+
+            <h3>{{ receita.categoria | titlecase}}</h3>
+
             <div class="mobile-card-info">
-              <!-- TOTAL -->
               <div>
-                <span>
-                  Total
-                </span>
+                <span>Total</span>
                 <strong class="badge total">
-                  {{
-                  receita.total
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-                  }}
+                  {{ receita.total | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
                 </strong>
               </div>
-              <!-- RECEBIDO -->
               <div>
-                <span>
-                  Recebido
-                </span>
-                <strong class="badge recebido">
-                  {{
-                  receita.recebido
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-                  }}
+                <span>Recebido</span>
+                <strong class="badge pago">
+                  {{ receita.recebido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
                 </strong>
               </div>
-              <!-- PENDENTE -->
               <div>
-                <span>
-                  Pendente
-                </span>
+                <span>Pendente</span>
                 <strong class="badge pendente">
-                  {{
-                  receita.pendente
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-                  }}
+                  {{ receita.pendente | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
                 </strong>
               </div>
             </div>
-            <!-- DETALHES -->
-            <button
-              mat-stroked-button
-              class="details-button"
-              type="button"
-              (click)="visualizarReceita(receita); $event.stopPropagation()"
-              >
-              <mat-icon>
-                visibility
-              </mat-icon>
+
+            <button mat-stroked-button class="details-button" type="button" (click)="visualizarReceita(receita); $event.stopPropagation()">
+              <mat-icon>visibility</mat-icon>
               Ver receita
             </button>
           </mat-card>
@@ -390,24 +161,11 @@
       </div>
     }
 
-
-    <!-- ESTADO VAZIO -->
-    @if (
-      !carregando &&
-      receitasFiltrados.length === 0
-      ) {
-      <div
-        class="empty-state"
-        >
-        <mat-icon>
-          account_balance_wallet
-        </mat-icon>
-        <h3>
-          Nenhuma receita encontrada
-        </h3>
-        <p>
-          Não existem contas a receber para os filtros informados.
-        </p>
+    @if (!carregando && receitasFiltrados.length === 0) {
+      <div class="empty-state">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <h3>Nenhuma receita encontrada</h3>
+        <p>Não existem contas a receber para os filtros informados.</p>
       </div>
     }
 

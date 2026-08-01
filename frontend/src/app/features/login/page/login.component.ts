@@ -1,65 +1,79 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
   imports: [
+    CommonModule,
     ReactiveFormsModule,
-    MatCardModule,
+    RouterLink,
+    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
-]
+    MatIconModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+  ],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  // private readonly authService = inject(AuthService);
 
-  form!: FormGroup;
-  loading = false;
+  protected readonly hidePassword = signal(true);
+  protected readonly isLoading = signal(false);
+  protected readonly errorMessage = signal<string | null>(null);
 
-  constructor(
-    private router:Router,
-    private fb: FormBuilder
-  ) {}
+  protected readonly form = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
+    senha: ['', [Validators.required, Validators.minLength(6)]],
+    lembrar: [false],
+  });
 
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(6)]]
-    });
+  protected togglePasswordVisibility(): void {
+    this.hidePassword.update((v) => !v);
   }
 
-  entrar() {
-    if (this.form.invalid) return;
+  protected onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
-    console.log('CLIQUEI');
+    this.errorMessage.set(null);
+    this.isLoading.set(true);
 
-    const { email, senha } = this.form.value;
+    const { email, senha } = this.form.getRawValue();
 
-    this.loading = true;
-
+    // TODO: substituir a simulação abaixo pela chamada real, ex:
+    // this.authService.login(email, senha).subscribe({
+    //   next: () => this.router.navigate(['/home']),
+    //   error: (err) => {
+    //     this.errorMessage.set('E-mail ou senha inválidos. Tente novamente.');
+    //     this.isLoading.set(false);
+    //   },
+    // });
     setTimeout(() => {
+      this.isLoading.set(false);
 
-    // 🔥 LOGIN MOCK
-      if (email === 'admin@email.com' && senha === '123456') {
-
-        localStorage.setItem('auth', 'true');
-        this.router.navigate(['/']);
-
-      } else {
-          alert('Usuário ou senha inválidos');
+      if (senha.length < 8) {
+        this.errorMessage.set('E-mail ou senha inválidos. Tente novamente.');
+        return;
       }
 
-      this.loading = false;
-
-    }, 1000);
+      this.router.navigate(['/home']);
+    }, 1200);
   }
 }

@@ -20,6 +20,7 @@ import { ExercicioFormDialogComponent } from './exercicio-form-dialog/exercicio-
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SummaryCardData, SummaryCardsComponent } from '../../../../shared/components/summary-cards/summary-cards.component';
 @Component({
   selector: 'app-exercicio-list',
   standalone: true,
@@ -40,6 +41,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    SummaryCardsComponent,
   ],
 })
 export class ExercicioListComponent implements OnInit {
@@ -105,14 +107,6 @@ export class ExercicioListComponent implements OnInit {
       }
     });
   }
-
-  // filtrarExercicios() {
-  //   const termo = this.filtro.toLowerCase();
-
-  //   this.exerciciosFiltrados = this.exercicios.filter((e) =>
-  //     e.nome.toLowerCase().includes(termo),
-  //   );
-  // }
 
   abrirNovo(): void {
     const dialogRef = this.dialog.open(ExercicioFormDialogComponent, {
@@ -241,5 +235,13 @@ export class ExercicioListComponent implements OnInit {
 
   alternarFiltros(): void {
     this.filtrosAbertos = !this.filtrosAbertos;
+  }
+
+  get resumoExercicios(): SummaryCardData[] {
+    return [
+      { icon: 'inventory_2', label: 'Total', value: `${this.exercicios.length}`, variant: 'total' },
+      { icon: 'check_circle', label: 'Ativos', value: `${this.totalAtivos()}`, variant: 'success' },
+      { icon: 'block', label: 'Inativos', value: `${this.totalInativos()}`, variant: 'danger' },
+    ];
   }
 }

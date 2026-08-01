@@ -1,0 +1,109 @@
+.usuarios-page {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.usuarios-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .subtitle {
+    margin: 4px 0 0;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+  }
+
+  button mat-icon {
+    margin-right: 4px;
+  }
+}
+
+.usuarios-toolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  .busca-field {
+    flex: 1;
+    min-width: 240px;
+  }
+
+  .filtro-field {
+    width: 180px;
+  }
+}
+
+.usuarios-table-wrapper {
+  background: #fff;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.usuarios-table {
+  width: 100%;
+}
+
+mat-chip {
+  font-size: 12px;
+  min-height: 24px;
+
+  &.admin {
+    --mdc-chip-elevated-container-color: rgba(63, 81, 181, 0.12);
+    color: #3f51b5;
+  }
+
+  &.instrutor {
+    --mdc-chip-elevated-container-color: rgba(0, 137, 123, 0.12);
+    color: #00897b;
+  }
+
+  &.recepcao {
+    --mdc-chip-elevated-container-color: rgba(142, 36, 170, 0.12);
+    color: #8e24aa;
+  }
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  text-transform: capitalize;
+
+  &.ativo {
+    background: rgba(46, 125, 50, 0.12);
+    color: #2e7d32;
+  }
+
+  &.inativo {
+    background: rgba(198, 40, 40, 0.12);
+    color: #c62828;
+  }
+}
+
+.sem-resultados {
+  padding: 32px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .usuarios-toolbar {
+    flex-direction: column;
+
+    .filtro-field {
+      width: 100%;
+    }
+  }
+}

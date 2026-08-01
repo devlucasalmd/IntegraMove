@@ -1,7 +1,7 @@
 package com.br.integramove.application.treino.treino;
 
 import com.br.integramove.api.exception.treino.treino.TreinoNaoEncontradoException;
-import com.br.integramove.application.treino.item.TreinoItemOutput;
+import com.br.integramove.application.treino.item.outputs.TreinoItemOutput;
 import com.br.integramove.domain.treino.treino.Treino;
 import com.br.integramove.domain.treino.treino.TreinoId;
 import org.springframework.stereotype.Service;

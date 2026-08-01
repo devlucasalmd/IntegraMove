@@ -1,5 +1,7 @@
 package com.br.integramove.application.plano;
 
+import com.br.integramove.application.plano.inputs.CriarPlanoInput;
+import com.br.integramove.application.plano.outputs.CriarPlanoOutput;
 import com.br.integramove.domain.plano.Plano;
 import com.br.integramove.domain.plano.PlanoId;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,7 @@ public class CriarPlano {
 
     public CriarPlano(PlanoRepository planoRepository) { this.planoRepository = planoRepository; }
 
-    public CriarPlanoOutput criar( CriarPlanoInput input){
+    public CriarPlanoOutput criar(CriarPlanoInput input){
 
         PlanoId id = PlanoId.novo();
 

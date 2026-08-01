@@ -11,6 +11,13 @@ export const routes: Routes = [
       .then(m => m.LoginComponent)
   },
   {
+  path: 'aluno/login',
+  loadComponent: () =>
+    import('./features/login-aluno/login-aluno.component').then(
+      (m) => m.LoginAlunoComponent
+    ),
+  },
+  {
     path: '',
     component: LayoutComponent,
     children: [

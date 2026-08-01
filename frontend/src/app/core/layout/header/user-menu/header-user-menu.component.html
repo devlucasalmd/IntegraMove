@@ -1,0 +1,29 @@
+<button class="user-area" [matMenuTriggerFor]="userMenu">
+  <div class="avatar"><span>{{ nomeUsuario.charAt(0) }}</span></div>
+  <div class="user-info">
+    <span class="user-name">{{ nomeUsuario }}</span>
+    <span class="company-name">{{ nomeEmpresa }}</span>
+  </div>
+  <mat-icon class="expand-icon">expand_more</mat-icon>
+</button>
+
+<mat-menu #userMenu="matMenu" class="user-menu">
+  <div class="user-menu-header">
+    <div class="avatar large"><span>{{ nomeUsuario.charAt(0) }}</span></div>
+    <div>
+      <div class="user-name">{{ nomeUsuario }}</div>
+      <div class="company-name">{{ nomeEmpresa }}</div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <button mat-menu-item routerLink="/perfil">
+    <mat-icon>person</mat-icon><span>Meu Perfil</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>settings</mat-icon><span>Configurações</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon><span>Sair</span>
+  </button>
+</mat-menu>

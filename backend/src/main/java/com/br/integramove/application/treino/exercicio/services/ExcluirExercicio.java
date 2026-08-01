@@ -1,6 +1,7 @@
 package com.br.integramove.application.treino.exercicio;
 
 import com.br.integramove.api.exception.treino.exercicio.ExercicioNaoEncontradoException;
+import com.br.integramove.application.treino.exercicio.inputs.ExcluirExercicioInput;
 import com.br.integramove.domain.treino.exercicio.Exercicio;
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
 import org.springframework.stereotype.Service;

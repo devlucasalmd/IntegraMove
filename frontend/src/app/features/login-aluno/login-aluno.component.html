@@ -1,0 +1,90 @@
+<div class="login-aluno-screen">
+  <div class="login-card">
+    <!-- Espaço reservado pro logo da academia -->
+    <div class="login-card__logo">
+      <img src="assets/branding/logo-integramove-escuro.png" alt="IntegraMove" />
+    </div>
+
+    <header class="login-card__header">
+      <h1>Portal do Aluno</h1>
+      <p>Entre com seu CPF e senha para acessar seus treinos e planos.</p>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      @if (errorMessage()) {
+        <div class="login-card__alert" role="alert">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>CPF</mat-label>
+        <input
+          matInput
+          formControlName="cpf"
+          inputmode="numeric"
+          autocomplete="username"
+          maxlength="14"
+          placeholder="000.000.000-00"
+          (input)="onCpfInput($event)"
+          required
+        />
+        <mat-icon matSuffix>badge_outline</mat-icon>
+        @if (form.controls.cpf.hasError('required') && form.controls.cpf.touched) {
+          <mat-error>Informe o CPF.</mat-error>
+        }
+        @if (form.controls.cpf.hasError('cpfInvalido') && form.controls.cpf.touched) {
+          <mat-error>CPF inválido.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Senha</mat-label>
+        <input
+          matInput
+          [type]="hidePassword() ? 'password' : 'text'"
+          formControlName="senha"
+          autocomplete="current-password"
+          required
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="hidePassword() ? 'Mostrar senha' : 'Ocultar senha'"
+          [attr.aria-pressed]="!hidePassword()"
+        >
+          <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        @if (form.controls.senha.hasError('required') && form.controls.senha.touched) {
+          <mat-error>Informe a senha.</mat-error>
+        }
+        @if (form.controls.senha.hasError('minlength') && form.controls.senha.touched) {
+          <mat-error>A senha deve ter no mínimo 6 caracteres.</mat-error>
+        }
+      </mat-form-field>
+
+      <a routerLink="/aluno/esqueci-senha" class="login-card__link">Esqueci minha senha</a>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        class="login-card__submit"
+        [disabled]="isLoading()"
+      >
+        @if (isLoading()) {
+          <mat-progress-spinner diameter="20" mode="indeterminate" />
+        } @else {
+          <span>Entrar</span>
+        }
+      </button>
+    </form>
+
+    <p class="login-card__footer">
+      Problemas para acessar? Fale com a recepção da sua academia.
+    </p>
+  </div>
+</div>

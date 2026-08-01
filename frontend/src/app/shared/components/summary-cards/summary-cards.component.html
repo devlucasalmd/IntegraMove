@@ -1,0 +1,14 @@
+<div class="cards-grid" [style.--im-cards-count]="cards.length">
+  @for (card of cards; track card.label) {
+    <mat-card class="summary-card">
+      <div class="card-icon" [ngClass]="card.variant">
+        <mat-icon>{{ card.icon }}</mat-icon>
+      </div>
+
+      <div>
+        <span>{{ card.label }}</span>
+        <strong>{{ card.value }}</strong>
+      </div>
+    </mat-card>
+  }
+</div>
