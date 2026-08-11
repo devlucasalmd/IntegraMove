@@ -4,7 +4,7 @@ import com.br.integramove.application.pagamento.PagamentoRepository;
 import com.br.integramove.application.pagamento.inputs.CriarPagamentoInput;
 import com.br.integramove.application.pagamento.outputs.PagamentoOutput;
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.pagamento.Pagamento;
+import com.br.integramove.domain.pagamentoAluno.Pagamento;
 import com.br.integramove.domain.plano.PlanoId;
 import org.springframework.stereotype.Service;
 

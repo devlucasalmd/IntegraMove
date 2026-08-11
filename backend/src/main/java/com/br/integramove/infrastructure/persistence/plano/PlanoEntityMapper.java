@@ -2,7 +2,6 @@ package com.br.integramove.infrastructure.persistence.plano;
 
 import com.br.integramove.domain.plano.Plano;
 import com.br.integramove.domain.plano.PlanoId;
-import com.br.integramove.infrastructure.persistence.aluno.AlunoEntity;
 
 public class PlanoEntityMapper {
 
@@ -14,7 +13,11 @@ public class PlanoEntityMapper {
         entity.setNome(plano.getNome());
         entity.setValor(plano.getValor());
         entity.setDescricao(plano.getDescricao());
+        entity.setPeriodicidade(plano.getPeriodicidade());
+        entity.setDuracaoDias(plano.getDuracaoDias());
         entity.setAtivo(plano.getAtivo());
+        entity.setCreatedAt(plano.getCreatedAt());
+        entity.setUpdatedAt(plano.getUpdatedAt());
 
 
         return entity;
@@ -27,7 +30,11 @@ public class PlanoEntityMapper {
                 entity.getNome(),
                 entity.getValor(),
                 entity.getDescricao(),
-                entity.getAtivo()
+                entity.getPeriodicidade(),
+                entity.getDuracaoDias(),
+                entity.getAtivo(),
+                entity.getCreatedAt(),
+                entity.getUpdatedAt()
         );
     }
 }

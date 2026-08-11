@@ -1,8 +1,8 @@
 package com.br.integramove.application.pagamento;
 
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.pagamento.Pagamento;
-import com.br.integramove.domain.pagamento.PagamentoId;
+import com.br.integramove.domain.pagamentoAluno.Pagamento;
+import com.br.integramove.domain.pagamentoAluno.PagamentoId;
 import com.br.integramove.infrastructure.persistence.pagamento.PagamentoEntity;
 
 import java.util.List;

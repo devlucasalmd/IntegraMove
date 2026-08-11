@@ -8,7 +8,7 @@ import com.br.integramove.application.pagamento.PagamentoRepository;
 import com.br.integramove.application.plano.PlanoRepository;
 import com.br.integramove.domain.aluno.Aluno;
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.pagamento.Pagamento;
+import com.br.integramove.domain.pagamentoAluno.Pagamento;
 import com.br.integramove.domain.enums.StatusFinanceiro;
 import com.br.integramove.domain.enums.StatusPagamento;
 import com.br.integramove.domain.plano.Plano;

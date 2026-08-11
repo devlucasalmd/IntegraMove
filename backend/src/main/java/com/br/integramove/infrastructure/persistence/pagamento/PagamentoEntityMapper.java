@@ -1,8 +1,8 @@
 package com.br.integramove.infrastructure.persistence.pagamento;
 
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.pagamento.Pagamento;
-import com.br.integramove.domain.pagamento.PagamentoId;
+import com.br.integramove.domain.pagamentoAluno.Pagamento;
+import com.br.integramove.domain.pagamentoAluno.PagamentoId;
 import com.br.integramove.domain.plano.PlanoId;
 import com.br.integramove.infrastructure.persistence.aluno.AlunoEntity;
 import com.br.integramove.infrastructure.persistence.plano.PlanoEntity;

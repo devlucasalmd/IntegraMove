@@ -3,7 +3,10 @@ package com.br.integramove.api.exception;
 import com.br.integramove.api.exception.aluno.*;
 import com.br.integramove.api.exception.auth.CredenciaisInvalidasException;
 import com.br.integramove.api.exception.avaliacao.AvaliacaoNaoEncontradaException;
+import com.br.integramove.api.exception.contrato.ContratoAtivoJaExistenteException;
+import com.br.integramove.api.exception.contrato.ContratoNaoEncontradoException;
 import com.br.integramove.api.exception.plano.PlanoNaoEncontradoException;
+import com.br.integramove.api.exception.plano.ValorPlanoImutavelException;
 import com.br.integramove.api.exception.treino.aluno.TreinoAlunoNaoEncontradoException;
 import com.br.integramove.api.exception.treino.exercicio.ExercicioNaoEncontradoException;
 import com.br.integramove.api.exception.treino.exercicio.TreinoItemNaoEncontradoException;
@@ -108,6 +111,42 @@ public class GlobalExceptionHandler {
 
         return response(
                 HttpStatus.NOT_FOUND,
+                ex.getMessage()
+        );
+    }
+
+
+    @ExceptionHandler(ContratoNaoEncontradoException.class)
+    public ResponseEntity<Map<String, String>> handleContratoNaoEncontrado(
+            ContratoNaoEncontradoException ex
+    ) {
+
+        return response(
+                HttpStatus.NOT_FOUND,
+                ex.getMessage()
+        );
+    }
+
+
+    @ExceptionHandler(ContratoAtivoJaExistenteException.class)
+    public ResponseEntity<Map<String, String>> handleContratoAtivoJaExistente(
+            ContratoAtivoJaExistenteException ex
+    ) {
+
+        return response(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage()
+        );
+    }
+
+
+    @ExceptionHandler(ValorPlanoImutavelException.class)
+    public ResponseEntity<Map<String, String>> handleValorPlanoImutavel(
+            ValorPlanoImutavelException ex
+    ) {
+
+        return response(
+                HttpStatus.BAD_REQUEST,
                 ex.getMessage()
         );
     }

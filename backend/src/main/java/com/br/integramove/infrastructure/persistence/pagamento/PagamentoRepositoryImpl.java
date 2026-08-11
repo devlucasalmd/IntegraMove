@@ -2,8 +2,8 @@ package com.br.integramove.infrastructure.persistence.pagamento;
 
 import com.br.integramove.application.pagamento.PagamentoRepository;
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.pagamento.Pagamento;
-import com.br.integramove.domain.pagamento.PagamentoId;
+import com.br.integramove.domain.pagamentoAluno.Pagamento;
+import com.br.integramove.domain.pagamentoAluno.PagamentoId;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

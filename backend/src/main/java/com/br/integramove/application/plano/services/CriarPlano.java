@@ -7,6 +7,8 @@ import com.br.integramove.domain.plano.Plano;
 import com.br.integramove.domain.plano.PlanoId;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CriarPlano {
 
@@ -17,13 +19,18 @@ public class CriarPlano {
     public CriarPlanoOutput criar(CriarPlanoInput input){
 
         PlanoId id = PlanoId.novo();
+        LocalDateTime agora = LocalDateTime.now();
 
         Plano plano = new Plano(
                 id,
                 input.nome(),
                 input.valor(),
                 input.descricao(),
-                input.ativo()
+                input.periodicidade(),
+                input.duracaoDias(),
+                input.ativo(),
+                agora,
+                agora
         );
 
         Plano saved = planoRepository.salvar(plano);
@@ -33,7 +40,11 @@ public class CriarPlano {
                 saved.getNome(),
                 saved.getValor(),
                 saved.getDescricao(),
-                saved.getAtivo()
+                saved.getPeriodicidade(),
+                saved.getDuracaoDias(),
+                saved.getAtivo(),
+                saved.getCreatedAt(),
+                saved.getUpdatedAt()
                 );
     }
 

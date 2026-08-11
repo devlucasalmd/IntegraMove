@@ -1,0 +1,11 @@
+package com.br.integramove.application.contrato.inputs;
+
+import java.time.LocalDate;
+
+public record CriarContratoInput(
+        String alunoId,
+        String planoId,
+        LocalDate dataInicio,
+        Integer diaVencimento,
+        Boolean permiteRenovacaoAutomatica
+) {}

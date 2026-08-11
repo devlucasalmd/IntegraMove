@@ -1,4 +1,4 @@
-package com.br.integramove.domain.pagamento;
+package com.br.integramove.domain.pagamentoAluno;
 
 import java.util.Objects;
 import java.util.UUID;

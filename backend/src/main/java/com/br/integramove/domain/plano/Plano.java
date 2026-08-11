@@ -1,6 +1,10 @@
 package com.br.integramove.domain.plano;
 
+import com.br.integramove.api.exception.plano.ValorPlanoImutavelException;
+import com.br.integramove.domain.enums.Periodicidade;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class Plano {
 
@@ -8,7 +12,11 @@ public class Plano {
     private String nome;
     private BigDecimal valor;
     private String descricao;
+    private Periodicidade periodicidade;
+    private Integer duracaoDias;
     private Boolean ativo;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 
     public Plano(
@@ -16,7 +24,11 @@ public class Plano {
             String nome,
             BigDecimal valor,
             String descricao,
-            Boolean ativo
+            Periodicidade periodicidade,
+            Integer duracaoDias,
+            Boolean ativo,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
     ) {
         if (id == null) {
             throw new IllegalArgumentException("Id do plano é obrigatório");
@@ -34,7 +46,11 @@ public class Plano {
         this.nome = nome;
         this.valor = valor;
         this.descricao = descricao;
+        this.periodicidade = periodicidade;
+        this.duracaoDias = duracaoDias;
         this.ativo = ativo;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public PlanoId getId() {
@@ -49,8 +65,20 @@ public class Plano {
     public String getDescricao() {
         return descricao;
     }
+    public Periodicidade getPeriodicidade() {
+        return periodicidade;
+    }
+    public Integer getDuracaoDias() {
+        return duracaoDias;
+    }
     public Boolean getAtivo() {
         return ativo;
+    }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public void setId(PlanoId id) {
@@ -71,10 +99,12 @@ public class Plano {
 
     public void ativar() {
         this.ativo = true;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public void inativar() {
         this.ativo = false;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public boolean estaAtivo() {
@@ -85,11 +115,19 @@ public class Plano {
             String nome,
             BigDecimal valor,
             String descricao,
+            Periodicidade periodicidade,
+            Integer duracaoDias,
             Boolean ativo
     ){
+        if (valor != null && this.valor.compareTo(valor) != 0) {
+            throw new ValorPlanoImutavelException();
+        }
+
         this.nome = nome;
-        this.valor = valor;
         this.descricao = descricao;
+        this.periodicidade = periodicidade;
+        this.duracaoDias = duracaoDias;
         this.ativo = ativo;
+        this.updatedAt = LocalDateTime.now();
     }
 }

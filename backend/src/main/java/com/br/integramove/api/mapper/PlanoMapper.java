@@ -8,9 +8,11 @@ import com.br.integramove.application.plano.outputs.AtualizarPlanoOutput;
 import com.br.integramove.application.plano.outputs.BuscarPlanoOutput;
 import com.br.integramove.application.plano.outputs.CriarPlanoOutput;
 import com.br.integramove.application.plano.outputs.ListarPlanosOutput;
+import com.br.integramove.domain.enums.Periodicidade;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Component
 public class PlanoMapper {
@@ -20,10 +22,14 @@ public class PlanoMapper {
             String nome,
             BigDecimal valor,
             String descricao,
-            Boolean ativo
+            Periodicidade periodicidade,
+            Integer duracaoDias,
+            Boolean ativo,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
     ){
         return new PlanoResponseDTO(
-                id, nome, valor, descricao, ativo
+                id, nome, valor, descricao, periodicidade, duracaoDias, ativo, createdAt, updatedAt
         );
     }
 
@@ -34,6 +40,8 @@ public class PlanoMapper {
                 dto.nome(),
                 dto.valor(),
                 dto.descricao(),
+                dto.periodicidade(),
+                dto.duracaoDias(),
                 dto.ativo()
         );
     }
@@ -45,6 +53,8 @@ public class PlanoMapper {
                 dto.nome(),
                 dto.valor(),
                 dto.descricao(),
+                dto.periodicidade(),
+                dto.duracaoDias(),
                 dto.ativo()
         );
     }
@@ -56,7 +66,11 @@ public class PlanoMapper {
                 output.nome(),
                 output.valor(),
                 output.descricao(),
-                output.ativo()
+                output.periodicidade(),
+                output.duracaoDias(),
+                output.ativo(),
+                output.createdAt(),
+                output.updatedAt()
         );
     }
 
@@ -67,7 +81,11 @@ public class PlanoMapper {
                 output.nome(),
                 output.valor(),
                 output.descricao(),
-                output.ativo()
+                output.periodicidade(),
+                output.duracaoDias(),
+                output.ativo(),
+                output.createdAt(),
+                output.updatedAt()
         );
     }
 
@@ -78,7 +96,11 @@ public class PlanoMapper {
                 output.nome(),
                 output.valor(),
                 output.descricao(),
-                output.ativo()
+                output.periodicidade(),
+                output.duracaoDias(),
+                output.ativo(),
+                output.createdAt(),
+                output.updatedAt()
         );
     }
 
@@ -88,7 +110,11 @@ public class PlanoMapper {
                 output.nome(),
                 output.valor(),
                 output.descricao(),
-                output.ativo()
+                output.periodicidade(),
+                output.duracaoDias(),
+                output.ativo(),
+                output.createdAt(),
+                output.updatedAt()
         );
     }
 }

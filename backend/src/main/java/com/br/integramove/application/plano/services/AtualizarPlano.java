@@ -27,6 +27,8 @@ public class AtualizarPlano {
                 input.nome(),
                 input.valor(),
                 input.descricao(),
+                input.periodicidade(),
+                input.duracaoDias(),
                 input.ativo()
         );
 
@@ -37,7 +39,11 @@ public class AtualizarPlano {
                 atualizado.getNome(),
                 atualizado.getValor(),
                 atualizado.getDescricao(),
-                atualizado.getAtivo()
+                atualizado.getPeriodicidade(),
+                atualizado.getDuracaoDias(),
+                atualizado.getAtivo(),
+                atualizado.getCreatedAt(),
+                atualizado.getUpdatedAt()
                 );
     }
 

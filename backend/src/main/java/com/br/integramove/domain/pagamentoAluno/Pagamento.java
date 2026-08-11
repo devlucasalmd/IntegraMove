@@ -1,4 +1,4 @@
-package com.br.integramove.domain.pagamento;
+package com.br.integramove.domain.pagamentoAluno;
 
 import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.enums.FormaPagamento;

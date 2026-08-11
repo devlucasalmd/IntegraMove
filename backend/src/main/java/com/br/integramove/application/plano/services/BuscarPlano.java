@@ -25,7 +25,11 @@ public class BuscarPlano {
                 plano.getNome(),
                 plano.getValor(),
                 plano.getDescricao(),
-                plano.getAtivo()
+                plano.getPeriodicidade(),
+                plano.getDuracaoDias(),
+                plano.getAtivo(),
+                plano.getCreatedAt(),
+                plano.getUpdatedAt()
         );
     }
 }
