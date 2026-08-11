@@ -2,10 +2,10 @@ package com.br.integramove.api.mapper;
 
 import com.br.integramove.api.dto.request.TreinoRequestDTO;
 import com.br.integramove.api.dto.response.TreinoResponseDTO;
-import com.br.integramove.application.treino.treino.BuscarTreinoOutput;
-import com.br.integramove.application.treino.treino.CriarTreinoInput;
-import com.br.integramove.application.treino.treino.CriarTreinoOutput;
-import com.br.integramove.application.treino.treino.ListarTreinosOutput;
+import com.br.integramove.application.treino.treino.outputs.BuscarTreinoOutput;
+import com.br.integramove.application.treino.treino.inputs.CriarTreinoInput;
+import com.br.integramove.application.treino.treino.outputs.CriarTreinoOutput;
+import com.br.integramove.application.treino.treino.outputs.ListarTreinosOutput;
 import com.br.integramove.domain.enums.GrupoMuscular;
 import org.springframework.stereotype.Component;
 

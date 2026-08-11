@@ -2,24 +2,68 @@ package com.br.integramove.domain.valueobjects;
 
 import com.br.integramove.api.exception.aluno.EmailInvalidoException;
 
-public class Email {
+import java.util.Locale;
+import java.util.Objects;
 
-    private final String email;
+public final class Email {
 
-    public Email(String email){
-        if(!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")){
+    private final String value;
+
+
+    private Email(String email) {
+
+        if (email == null || email.isBlank()) {
             throw new EmailInvalidoException();
         }
-        this.email = email;
+
+        String emailNormalizado = email
+                .trim()
+                .toLowerCase(Locale.ROOT);
+
+
+        if (!emailNormalizado.matches(
+                "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+        )) {
+            throw new EmailInvalidoException();
+        }
+
+        this.value = emailNormalizado;
     }
 
-    public static Email of(String value) { return new Email(value); }
 
-    public String toString() {
-        return email;
+    public static Email of(String value) {
+        return new Email(value);
     }
+
 
     public String getValue() {
-        return email;
+        return value;
+    }
+
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Email email)) {
+            return false;
+        }
+
+        return value.equals(email.value);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }

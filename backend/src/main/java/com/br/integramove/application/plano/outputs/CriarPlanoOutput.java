@@ -1,6 +1,4 @@
-package com.br.integramove.application.plano;
-
-import com.br.integramove.domain.plano.PlanoId;
+package com.br.integramove.application.plano.outputs;
 
 import java.math.BigDecimal;
 

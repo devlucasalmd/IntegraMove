@@ -1,0 +1,225 @@
+<div class="list-page">
+
+  <!-- Cabeçalho: data atual + filtro de período -->
+  <div class="dashboard-header">
+    <div>
+      <h1>Painel geral</h1>
+      <p class="dashboard-date">{{ dataAtualFormatada }}</p>
+    </div>
+
+    <mat-button-toggle-group
+      class="periodo-toggle"
+      [value]="periodo()"
+      (change)="onPeriodoChange($event.value)"
+      aria-label="Filtro de período"
+    >
+      <mat-button-toggle value="hoje">Hoje</mat-button-toggle>
+      <mat-button-toggle value="semana">Semana</mat-button-toggle>
+      <mat-button-toggle value="mes">Mês</mat-button-toggle>
+      <mat-button-toggle value="ano">Ano</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- Gráfico de evolução -->
+  <mat-card class="content-card dashboard-card">
+    <div class="content-header">
+      <div>
+        <h2>Evolução de novas matrículas</h2>
+        <p>{{ descricaoEvolucao() }}</p>
+      </div>
+    </div>
+
+    <app-line-chart [pontos]="serieEvolucao()" [granularidade]="periodo()" corLinha="#142e67"></app-line-chart>
+  </mat-card>
+
+  @if (carregandoAlunos) {
+    <div class="loading-container">
+      <mat-icon class="spin">autorenew</mat-icon>
+    </div>
+  } @else {
+
+    <!-- KPIs de alunos -->
+    <app-summary-cards [cards]="resumoAlunosCards"></app-summary-cards>
+
+    <div class="dashboard-grid">
+
+      <!-- Resumo financeiro do mês -->
+      <mat-card class="content-card dashboard-card">
+        <div class="content-header">
+          <div>
+            <h2>Resumo financeiro do mês</h2>
+            <p>Receitas, despesas e pendências do mês corrente.</p>
+          </div>
+        </div>
+
+        @if (carregandoFinanceiro) {
+          <div class="loading-container">
+            <mat-icon class="spin">autorenew</mat-icon>
+          </div>
+        } @else {
+          <div class="financeiro-metrics">
+            <div class="metric">
+              <span class="metric-label">Receita do mês</span>
+              <strong class="metric-valor positivo">{{ formatarMoeda(resumoFinanceiroMock.receitaMes) }}</strong>
+              <span class="variacao" [class.negativo]="resumoFinanceiroMock.variacaoPercentual < 0">
+                {{ resumoFinanceiroMock.variacaoPercentual >= 0 ? '+' : '' }}{{ resumoFinanceiroMock.variacaoPercentual }}% vs. mês anterior
+              </span>
+            </div>
+
+            <div class="metric">
+              <span class="metric-label">Despesas do mês</span>
+              <strong class="metric-valor negativo">{{ formatarMoeda(resumoFinanceiroMock.despesaMes) }}</strong>
+              <span class="variacao">acumulado do mês corrente</span>
+            </div>
+
+            <div class="metric">
+              <span class="metric-label">Pendências</span>
+              <strong class="metric-valor">{{ formatarMoeda(totalPendencias) }}</strong>
+              <span class="variacao">receitas + despesas em aberto</span>
+            </div>
+          </div>
+        }
+
+        @if (usandoDadosExemploFinanceiro) {
+          <p class="mock-note">Exibindo dados de exemplo — não foi possível carregar as informações financeiras da API.</p>
+        }
+        <p class="mock-note">// TODO: mock — resumo financeiro do mês ainda não vem de um endpoint real.</p>
+      </mat-card>
+
+      <!-- Aulas e treinos de hoje -->
+      <mat-card class="content-card dashboard-card">
+        <div class="content-header">
+          <div>
+            <h2>Aulas e treinos de hoje</h2>
+            <p>Agenda do dia, por horário.</p>
+          </div>
+
+          <mat-button-toggle-group
+            class="periodo-toggle agenda-toggle"
+            multiple
+            [value]="agendaFiltroTipos()"
+            (change)="onAgendaFiltroChange($event.value)"
+            aria-label="Filtro da agenda do dia"
+          >
+            <mat-button-toggle value="avaliacao">Avaliações</mat-button-toggle>
+            <mat-button-toggle value="turma">Turmas</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
+        @if (aulasHojeFiltradas.length === 0) {
+          <div class="empty-state-inline">
+            <mat-icon>event_busy</mat-icon>
+            <p>Não há aulas ou treinos marcados para hoje.</p>
+          </div>
+        } @else {
+          <ul class="agenda-list">
+            @for (aula of aulasHojeFiltradas; track aula.id) {
+              <li class="agenda-item">
+                <div class="agenda-horario">{{ aula.horario }}</div>
+                <div class="agenda-icon">
+                  <mat-icon>{{ iconePorTipoAula(aula.tipo) }}</mat-icon>
+                </div>
+                <div class="agenda-info">
+                  <strong>{{ aula.titulo }}</strong>
+                  <span>{{ aula.instrutor }} · {{ aula.local }}</span>
+                  @if (aula.aluno) {
+                    <span class="agenda-aluno">Aluno: {{ aula.aluno }}</span>
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        }
+
+        <p class="mock-note">// TODO: mock — agenda do dia ainda não vem de um endpoint real.</p>
+      </mat-card>
+
+      <!-- Alunos com risco de inadimplência -->
+      <mat-card class="content-card dashboard-card">
+        <div class="content-header">
+          <div>
+            <h2>Alunos com risco de inadimplência</h2>
+            <p>Pagamentos vencidos ou a vencer, ordenados por urgência.</p>
+          </div>
+        </div>
+
+        @if (alunosRiscoDetalhado.length === 0) {
+          <div class="empty-state-inline">
+            <mat-icon>check_circle</mat-icon>
+            <p>Todos os alunos estão com o pagamento em dia.</p>
+          </div>
+        } @else {
+          <ul class="risco-list">
+            @for (aluno of alunosRiscoDetalhado; track aluno.id) {
+              <li class="risco-item">
+                <div class="aluno-cell">
+                  <div class="avatar">{{ inicialNome(aluno.nome) }}</div>
+                  <div>
+                    <strong>{{ aluno.nome }}</strong>
+                    <span class="plano-badge" [ngClass]="aluno.nomePlano ? 'com-plano' : 'sem-plano'">
+                      {{ aluno.nomePlano || 'Sem plano' }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="risco-detalhe">
+                  <strong>{{ aluno.valorDevido | currency:'BRL' }}</strong>
+                  @if (aluno.diasAtraso > 0) {
+                    <span class="vencimento-info negativo">Vencido há {{ aluno.diasAtraso }} dia(s)</span>
+                  } @else {
+                    <span class="vencimento-info">Vence em {{ -aluno.diasAtraso }} dia(s)</span>
+                  }
+                </div>
+
+                <span class="badge" [ngClass]="aluno.pagamento.toLowerCase()">{{ formatarPagamento(aluno.pagamento) }}</span>
+              </li>
+            }
+          </ul>
+        }
+
+        @if (usandoDadosExemploAlunos) {
+          <p class="mock-note">Exibindo dados de exemplo — não foi possível carregar a lista de alunos da API.</p>
+        }
+        <p class="mock-note">// TODO: mock — valor devido, vencimento e dias de atraso ainda não vêm de um endpoint real.</p>
+      </mat-card>
+
+      <!-- Planos mais utilizados -->
+      <mat-card class="content-card dashboard-card">
+        <div class="content-header">
+          <div>
+            <h2>Planos mais utilizados</h2>
+            <p>Quantidade de alunos por plano.</p>
+          </div>
+        </div>
+
+        @if (planosMaisUtilizados.length === 0) {
+          <div class="empty-state-inline">
+            <mat-icon>workspace_premium</mat-icon>
+            <p>Ainda não há alunos vinculados a planos.</p>
+          </div>
+        } @else {
+          <ul class="planos-list">
+            @for (plano of planosMaisUtilizados; track plano.nome) {
+              <li class="plano-item">
+                <div class="plano-info">
+                  <strong>{{ plano.nome }}</strong>
+                  <span>{{ plano.valor ? formatarMoeda(plano.valor) : '—' }} · {{ plano.totalAlunos }} aluno(s)</span>
+                </div>
+                <div class="plano-bar-track">
+                  <div class="plano-bar" [style.width.%]="(plano.totalAlunos / maiorContagemPlano) * 100"></div>
+                </div>
+              </li>
+            }
+          </ul>
+        }
+
+        @if (usandoDadosExemploAlunos) {
+          <p class="mock-note">Exibindo dados de exemplo — não foi possível carregar a lista de alunos da API.</p>
+        }
+      </mat-card>
+
+    </div>
+
+  }
+
+</div>

@@ -1,0 +1,358 @@
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--imv-gap-md, 12px);
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto 22px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  color: var(--imv-primary, #07276c);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.dashboard-date {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.periodo-toggle {
+  border-radius: var(--imv-radius-sm, 14px) !important;
+  overflow: hidden;
+}
+
+.periodo-toggle ::ng-deep .mat-button-toggle-appearance-standard {
+  background: #ffffff;
+  color: var(--imv-primary, #07276c);
+  font-weight: 700;
+}
+
+.periodo-toggle ::ng-deep .mat-button-toggle-checked {
+  background: var(--imv-primary, #07276c);
+  color: #ffffff;
+}
+
+.dashboard-card {
+  width: 100%;
+  margin: 0 auto 22px !important;
+}
+
+.dashboard-card:last-child {
+  margin-bottom: 0 !important;
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+.loading-container .spin,
+mat-icon.spin {
+  color: var(--imv-primary, #07276c);
+  animation: imv-spin 1s linear infinite;
+}
+
+@keyframes imv-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.vencimento-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #b45309;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.vencimento-info.negativo {
+  color: #dc2626;
+}
+
+.vencimento-info small {
+  color: #9ca3af;
+  font-weight: 500;
+  font-size: 0.72rem;
+}
+
+/* ---- Grid de widgets ---- */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: var(--imv-gap-md, 12px);
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.dashboard-grid .dashboard-card {
+  margin: 0 !important;
+  height: 100%;
+}
+
+.empty-state-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 2rem 0;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.empty-state-inline mat-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  color: #d1d5db;
+}
+
+.empty-state-inline p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.mock-note {
+  margin: 1rem 0 0;
+  color: #9ca3af;
+  font-size: 0.72rem;
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+}
+
+/* Resumo financeiro do mês */
+
+.financeiro-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--imv-gap-md, 12px);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 1rem;
+  border-radius: var(--imv-radius-sm, 14px);
+  background: #f7f8fa;
+}
+
+.metric-label {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.metric-valor {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  color: #142e67;
+}
+
+.metric-valor.positivo {
+  color: #16a34a;
+}
+
+.metric-valor.negativo {
+  color: #dc2626;
+}
+
+.variacao {
+  font-size: 0.75rem;
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.variacao.negativo {
+  color: #dc2626;
+}
+
+/* Aulas e treinos de hoje */
+
+.agenda-toggle {
+  flex: 0 0 auto;
+}
+
+.agenda-toggle ::ng-deep .mat-button-toggle-appearance-standard {
+  font-size: 0.78rem;
+}
+
+.agenda-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--imv-gap-sm, 6px);
+}
+
+.agenda-item {
+  display: flex;
+  align-items: center;
+  gap: var(--imv-gap-md, 12px);
+  padding: 0.75rem 1rem;
+  border-radius: var(--imv-radius-sm, 14px);
+  background: #f7f8fa;
+}
+
+.agenda-horario {
+  flex: 0 0 auto;
+  min-width: 44px;
+  font-weight: 700;
+  color: #142e67;
+  font-size: 0.85rem;
+}
+
+.agenda-icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(20, 46, 103, 0.1);
+  color: #142e67;
+}
+
+.agenda-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.85rem;
+  color: #1f2937;
+}
+
+.agenda-info span {
+  color: #6b7280;
+  font-size: 0.78rem;
+}
+
+.agenda-aluno {
+  color: #142e67 !important;
+  font-weight: 600;
+}
+
+/* Alunos com risco de inadimplência */
+
+.risco-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--imv-gap-sm, 6px);
+}
+
+.risco-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--imv-gap-md, 12px);
+  padding: 0.75rem 1rem;
+  border-radius: var(--imv-radius-sm, 14px);
+  background: #f7f8fa;
+  flex-wrap: wrap;
+}
+
+.risco-item .aluno-cell > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.risco-detalhe {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-align: right;
+}
+
+/* Planos mais utilizados */
+
+.planos-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--imv-gap-md, 12px);
+}
+
+.plano-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.plano-info {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--imv-gap-sm, 6px);
+  font-size: 0.85rem;
+  color: #1f2937;
+}
+
+.plano-info span {
+  color: #6b7280;
+  font-size: 0.78rem;
+}
+
+.plano-bar-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: #edf0f4;
+  overflow: hidden;
+}
+
+.plano-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--imv-primary, #07276c);
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 700px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .periodo-toggle {
+    width: 100%;
+  }
+
+  .periodo-toggle ::ng-deep .mat-button-toggle {
+    flex: 1;
+  }
+
+  .agenda-toggle {
+    width: 100%;
+  }
+
+  .agenda-toggle ::ng-deep .mat-button-toggle {
+    flex: 1;
+  }
+
+  .financeiro-metrics {
+    grid-template-columns: 1fr;
+  }
+}

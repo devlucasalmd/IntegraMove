@@ -12,7 +12,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { UsuariosFormComponent } from '../../pages/usuarios-form/usuarios-form.component';
-import { TIPOS_USUARIO, TipoUsuario, Usuario, UsuarioFormValue } from '../../model/usuarios.model';
 
 type FiltroTipo = 'todos' | TipoUsuario;
 type FiltroStatus = 'todos' | 'ativo' | 'inativo';

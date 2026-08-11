@@ -31,9 +31,9 @@ public class UsuarioEntityMapper {
         return new Usuario(
                 UsuarioId.from(entity.getId().toString()),
                 entity.getNome(),
-                new Cpf(entity.getCpf()),
+                Cpf.of(entity.getCpf()),
                 entity.getTelefone(),
-                new Email(entity.getEmail()),
+                Email.of(entity.getEmail()),
                 entity.getSenha(),
                 entity.getPerfil(),
                 entity.getAtivo()

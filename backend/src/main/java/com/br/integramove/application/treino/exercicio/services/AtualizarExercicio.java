@@ -1,12 +1,11 @@
-package com.br.integramove.application.treino.exercicio;
+package com.br.integramove.application.treino.exercicio.services;
 
 import com.br.integramove.api.exception.treino.exercicio.ExercicioNaoEncontradoException;
+import com.br.integramove.application.treino.exercicio.ExercicioRepository;
 import com.br.integramove.application.treino.exercicio.inputs.AtualizarExercicioInput;
 import com.br.integramove.application.treino.exercicio.outputs.AtualizarExercicioOutput;
 import com.br.integramove.domain.treino.exercicio.Exercicio;
 import com.br.integramove.domain.treino.exercicio.ExercicioId;
-import com.br.integramove.domain.enums.GrupoMuscular;
-import com.br.integramove.domain.enums.Intensidade;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,13 +23,11 @@ public class AtualizarExercicio {
         Exercicio exercicio = repository.buscarPorId(exercicioId)
                 .orElseThrow(() -> new ExercicioNaoEncontradoException(input.id()));
 
-        GrupoMuscular grupo = GrupoMuscular.from(input.grupoMuscular());
-
         exercicio.atualizar(
                 input.nome(),
-                grupo,
+                input.grupoMuscular(),
                 input.descricao(),
-                Intensidade.valueOf(input.intensidade()),
+                input.intensidade(),
                 input.ativo()
         );
 

@@ -18,4 +18,6 @@ public interface AlunoRepository {
 
     boolean existePorCpf(String cpf);
 
+    Optional<Aluno> buscarPorCpf(String cpf);
+
 }

@@ -1,5 +1,7 @@
 package com.br.integramove.application.aluno.services;
 
+import com.br.integramove.api.exception.aluno.AlunoNaoEncontradoException;
+import com.br.integramove.api.exception.plano.PlanoNaoEncontradoException;
 import com.br.integramove.application.aluno.AlunoRepository;
 import com.br.integramove.application.aluno.outputs.BuscarFinanceiroAlunoOutput;
 import com.br.integramove.application.pagamento.PagamentoRepository;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BuscarFinanceiroAluno {
@@ -34,10 +37,15 @@ public class BuscarFinanceiroAluno {
     }
 
     public BuscarFinanceiroAlunoOutput buscar(String alunoId) {
-        Aluno aluno = alunoRepository.buscarPorId(AlunoId.from(alunoId))
-                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+
+        AlunoId id = AlunoId.from(alunoId);
+
+        Aluno aluno = alunoRepository.buscarPorId(id)
+                .orElseThrow(() -> new AlunoNaoEncontradoException(id));
+
 
         if (aluno.getPlanoId() == null) {
+
             return new BuscarFinanceiroAlunoOutput(
                     aluno.getId().getValue().toString(),
                     aluno.getNome(),
@@ -53,12 +61,19 @@ public class BuscarFinanceiroAluno {
             );
         }
 
-        Plano plano = planoRepository.buscarPorId(aluno.getPlanoId())
-                .orElseThrow(() -> new RuntimeException("Plano não encontrado"));
 
-        List<Pagamento> pagamentos = pagamentoRepository.listarPorAlunoId(aluno.getId());
+        Plano plano = planoRepository.buscarPorId(aluno.getPlanoId())
+                .orElseThrow(
+                        () -> new PlanoNaoEncontradoException(aluno.getPlanoId())
+                );
+
+
+        List<Pagamento> pagamentos =
+                pagamentoRepository.listarPorAlunoId(aluno.getId());
+
 
         if (pagamentos.isEmpty()) {
+
             return new BuscarFinanceiroAlunoOutput(
                     aluno.getId().getValue().toString(),
                     aluno.getNome(),
@@ -74,36 +89,48 @@ public class BuscarFinanceiroAluno {
             );
         }
 
+
         BigDecimal totalPago = pagamentos.stream()
                 .filter(p -> p.getStatus() == StatusPagamento.PAGO)
                 .map(Pagamento::getValor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+
         BigDecimal totalEmAberto = pagamentos.stream()
-                .filter(p -> p.getStatus() == StatusPagamento.EM_ABERTO || p.getStatus() == StatusPagamento.A_VENCER)
+                .filter(p ->
+                        p.getStatus() == StatusPagamento.EM_ABERTO
+                                ||
+                                p.getStatus() == StatusPagamento.A_VENCER
+                )
                 .map(Pagamento::getValor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
 
         BigDecimal totalVencido = pagamentos.stream()
                 .filter(p -> p.getStatus() == StatusPagamento.VENCIDO)
                 .map(Pagamento::getValor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+
         LocalDate ultimoPagamento = pagamentos.stream()
                 .filter(p -> p.getStatus() == StatusPagamento.PAGO)
                 .map(Pagamento::getDataPagamento)
-                .filter(data -> data != null)
+                .filter(Objects::nonNull)
                 .max(LocalDate::compareTo)
                 .orElse(null);
 
+
         LocalDate proximoVencimento = pagamentos.stream()
-                .filter(p -> p.getStatus() == StatusPagamento.EM_ABERTO || p.getStatus() == StatusPagamento.A_VENCER)
+                .filter(p ->
+                        p.getStatus() == StatusPagamento.EM_ABERTO
+                                ||
+                                p.getStatus() == StatusPagamento.A_VENCER
+                )
                 .map(Pagamento::getDataVencimento)
-                .filter(data -> data != null)
+                .filter(Objects::nonNull)
                 .min(LocalDate::compareTo)
                 .orElse(null);
 
-        StatusFinanceiro statusFinanceiro = definirStatusFinanceiro(pagamentos);
 
         return new BuscarFinanceiroAlunoOutput(
                 aluno.getId().getValue().toString(),
@@ -111,7 +138,7 @@ public class BuscarFinanceiroAluno {
                 plano.getId().getValue().toString(),
                 plano.getNome(),
                 plano.getValor(),
-                statusFinanceiro,
+                definirStatusFinanceiro(pagamentos),
                 totalPago,
                 totalEmAberto,
                 totalVencido,

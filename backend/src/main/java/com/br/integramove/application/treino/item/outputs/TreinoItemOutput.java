@@ -1,4 +1,4 @@
-package com.br.integramove.application.treino.item;
+package com.br.integramove.application.treino.item.outputs;
 
 import java.math.BigDecimal;
 

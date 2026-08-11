@@ -68,12 +68,12 @@ export class LoginComponent {
     setTimeout(() => {
       this.isLoading.set(false);
 
-      if (senha.length < 8) {
+      if (senha.length < 6) {
         this.errorMessage.set('E-mail ou senha inválidos. Tente novamente.');
         return;
       }
 
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     }, 1200);
   }
 }

@@ -1,5 +1,7 @@
-package com.br.integramove.application.treino.treino;
+package com.br.integramove.application.treino.treino.services;
 
+import com.br.integramove.application.treino.treino.outputs.ListarTreinosOutput;
+import com.br.integramove.application.treino.treino.TreinoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

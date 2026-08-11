@@ -1,0 +1,54 @@
+<div class="page-title">
+  <h1>Avaliações físicas</h1>
+  <p>Histórico dos seus testes de força e desempenho.</p>
+</div>
+
+@if (carregando) {
+  <div class="loading-state">
+    <mat-spinner diameter="36"></mat-spinner>
+    <p>Carregando avaliações...</p>
+  </div>
+} @else if (erro) {
+  <div class="error-state">
+    <mat-icon>error_outline</mat-icon>
+    <p>Não foi possível carregar suas avaliações agora.</p>
+  </div>
+} @else if (avaliacoes.length === 0) {
+  <div class="empty-state">
+    <mat-icon>monitoring</mat-icon>
+    <h2>Nenhuma avaliação registrada</h2>
+    <p>Sua primeira avaliação física aparecerá aqui assim que for realizada.</p>
+  </div>
+} @else {
+  @for (avaliacao of avaliacoes; track avaliacao.id) {
+    <section class="avaliacao-card" [class.destaque]="$first">
+      <div class="avaliacao-card__header">
+        <div class="avaliacao-card__icon">
+          <mat-icon>monitoring</mat-icon>
+        </div>
+        <div>
+          <strong>{{ avaliacao.dataAvaliacao | date:'dd/MM/yyyy' }}</strong>
+          <span>{{ $first ? 'Avaliação mais recente' : 'Avaliação anterior' }}</span>
+        </div>
+      </div>
+
+      <div class="medidas-grid">
+        @for (grupo of gruposMedida(avaliacao); track grupo.label) {
+          <div class="medida-item">
+            <span>{{ grupo.label }}</span>
+            <div class="medida-item__valores">
+              <div>
+                <em>D</em>
+                <strong>{{ grupo.direito }}</strong>
+              </div>
+              <div>
+                <em>E</em>
+                <strong>{{ grupo.esquerdo }}</strong>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+}

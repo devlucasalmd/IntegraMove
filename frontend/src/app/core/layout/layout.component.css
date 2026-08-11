@@ -1,3 +1,9 @@
+:host {
+  --side-navy: #142e67;
+  --side-navy-deep: #0c1f4a;
+  --side-lime: #d6f706;
+}
+
 .sidenav-container {
   height: 100vh;
   background: var(--imv-bg-app);
@@ -6,7 +12,7 @@
 /* SIDEBAR */
 .sidenav {
   width: 280px;
-  background: var(--imv-primary);
+  background: var(--side-navy);
   color: #ffffff;
   border-right: none;
   padding: 20px 14px;
@@ -25,8 +31,8 @@
   width: 46px;
   height: 46px;
   border-radius: var(--imv-radius-md);
-  background: var(--imv-primary);
-  color: var(--imv-text-dark);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--side-lime);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,11 +71,15 @@
 .nav-item,
 .nav-group-button,
 .submenu a {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   width: 100%;
   min-height: 46px;
   border: none;
   outline: none;
-  border-radius: var(--imv-radius-sm);
+  box-shadow: none;
+  border-radius: 10px;
   background: transparent;
   color: var(--imv-text-nav);
   display: flex;
@@ -78,7 +88,7 @@
   padding: 0 14px;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
   transition:
     background 0.2s ease,
@@ -106,18 +116,18 @@
 .nav-item:hover mat-icon,
 .nav-group-button:hover mat-icon,
 .submenu a:hover mat-icon {
-  color: var(--imv-primary);
+  color: #ffffff;
 }
 
 .nav-item.active,
 .submenu a.active {
-  background: var(--imv-primary);
-  color: var(--imv-text-dark);
+  background: rgba(214, 247, 6, 0.12);
+  color: var(--side-lime);
 }
 
 .nav-item.active mat-icon,
 .submenu a.active mat-icon {
-  color: var(--imv-text-dark);
+  color: var(--side-lime);
 }
 .nav-group {
   display: flex;
@@ -161,14 +171,14 @@
 .submenu a {
   min-height: 42px;
   padding-left: 42px;
-  border-radius: var(--imv-radius-sm);
+  border-radius: 10px;
   color: var(--imv-text-nav);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: var(--imv-gap-md);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .submenu a mat-icon {
@@ -184,16 +194,16 @@
 }
 
 .submenu a:hover mat-icon {
-  color: var(--imv-primary);
+  color: #ffffff;
 }
 
 .submenu a.active {
-  background: var(--imv-primary);
-  color: var(--imv-text-dark);
+  background: rgba(214, 247, 6, 0.12);
+  color: var(--side-lime);
 }
 
 .submenu a.active mat-icon {
-  color: var(--imv-text-dark);
+  color: var(--side-lime);
 }
 
 .sidebar-footer {
@@ -224,10 +234,12 @@
 /* TOOLBAR */
 .toolbar.mat-toolbar {
   position: relative !important;
+  background: var(--side-navy) !important;
+  color: #ffffff;
 }
 
 .menu-button {
-  color: var(--imv-text-dark);
+  color: #ffffff;
 }
 
 .toolbar-title {
@@ -237,13 +249,13 @@
 }
 
 .toolbar-title span {
-  color: var(--imv-text-muted);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 12px;
   font-weight: 600;
 }
 
 .toolbar-title strong {
-  color: var(--imv-text-dark);
+  color: #ffffff;
   font-size: 16px;
   font-weight: 900;
 }

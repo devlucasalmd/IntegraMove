@@ -7,7 +7,7 @@ public record UsuarioRequestDTO(
         String nome,
         String cpf,
         String telefone,
-        Email email,
+        String email,
         String senha,
         PerfilUsuario perfil,
         Boolean ativo

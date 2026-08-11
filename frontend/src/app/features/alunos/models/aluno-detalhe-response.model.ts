@@ -12,6 +12,8 @@ export interface AlunoDetalheResponseDTO {
   planoId?: string | null;
   nomePlano?: string | null;
   enderecoDTO?: EnderecoResponseDTO;
+  // TODO: campo ainda não existe no backend — ver AlunoService.atualizarObservacao
+  observacao?: string | null;
 }
 
 export interface EnderecoResponseDTO {

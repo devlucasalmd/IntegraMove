@@ -4,7 +4,7 @@
     <section class="profile-header">
       <div class="profile-main">
         <div class="avatar">
-          <span>{{ aluno.nome?.charAt(0) || 'A' }}</span>
+          <span>{{ aluno.nome?.charAt(0) || "A" }}</span>
         </div>
         <div class="info">
           <div class="title-row">
@@ -13,13 +13,13 @@
               <span
                 class="status-badge"
                 [ngClass]="alunoAtivo() ? 'ativo' : 'inativo'"
-                >
+              >
                 {{ alunoAtivo() ? "Ativo" : "Inativo" }}
               </span>
               <span
                 class="plano-badge"
                 [ngClass]="alunoPossuiPlano() ? 'com-plano' : 'sem-plano'"
-                >
+              >
                 {{ obterNomePlano() }}
               </span>
             </span>
@@ -51,7 +51,7 @@
           type="button"
           class="btn-primary"
           (click)="abrirCadastro()"
-          >
+        >
           <mat-icon>edit</mat-icon>
           Cadastro
         </button>
@@ -70,6 +70,10 @@
       <a class="tab" routerLink="contratos" routerLinkActive="active">
         <mat-icon>description</mat-icon>
         Contratos
+      </a>
+      <a class="tab" routerLink="vendas" routerLinkActive="active">
+        <mat-icon>payments</mat-icon>
+        Vendas
       </a>
       <a class="tab" routerLink="financeiro" routerLinkActive="active">
         <mat-icon>payments</mat-icon>

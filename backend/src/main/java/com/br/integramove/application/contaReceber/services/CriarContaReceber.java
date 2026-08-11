@@ -4,7 +4,7 @@ import com.br.integramove.application.contaReceber.ContaReceberRepository;
 import com.br.integramove.application.contaReceber.inputs.CriarContaReceberInput;
 import com.br.integramove.application.contaReceber.outputs.ContaReceberOutput;
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.contasReceber.ContaReceber;
+import com.br.integramove.domain.financas.contasReceber.ContaReceber;
 import com.br.integramove.domain.plano.PlanoId;
 import org.springframework.stereotype.Service;
 

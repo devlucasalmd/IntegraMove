@@ -6,6 +6,7 @@ import com.br.integramove.application.usuario.inputs.AtualizarUsuarioInput;
 import com.br.integramove.application.usuario.outputs.AtualizarUsuarioOutput;
 import com.br.integramove.domain.usuario.Usuario;
 import com.br.integramove.domain.usuario.UsuarioId;
+import com.br.integramove.domain.valueobjects.Email;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,7 +28,7 @@ public class AtualizarUsuario {
         usuario.atualizarDados(
                 input.nome(),
                 input.telefone(),
-                input.email(),
+                Email.of(input.email()),
                 input.perfil(),
                 input.ativo()
         );

@@ -1,6 +1,7 @@
 package com.br.integramove.api.controller;
 
 import com.br.integramove.api.dto.request.AlunoRequestDTO;
+import com.br.integramove.api.dto.response.AlunoCriadoResponseDTO;
 import com.br.integramove.api.dto.response.AlunoResponseDTO;
 import com.br.integramove.api.dto.response.AlunoResumoResponseDTO;
 import com.br.integramove.api.dto.response.FinanceiroAlunoResponseDTO;
@@ -54,11 +55,11 @@ public class AlunoController {
     }
 
     @PostMapping
-    public ResponseEntity<AlunoResponseDTO> criar(@RequestBody AlunoRequestDTO request){
+    public ResponseEntity<AlunoCriadoResponseDTO> criar(@RequestBody AlunoRequestDTO request){
         CriarAlunoInput input = AlunoMapper.toInput(request);
         CriarAlunoOutput output = criarAluno.criar(input);
         return ResponseEntity .status(HttpStatus.CREATED)
-                .body(AlunoMapper.toResponse(output));
+                .body(AlunoMapper.toResponseCriado(output));
     }
 
     @GetMapping

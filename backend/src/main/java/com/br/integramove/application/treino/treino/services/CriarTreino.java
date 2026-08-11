@@ -1,6 +1,9 @@
-package com.br.integramove.application.treino.treino;
+package com.br.integramove.application.treino.treino.services;
 
 import com.br.integramove.application.treino.exercicio.ExercicioRepository;
+import com.br.integramove.application.treino.treino.inputs.CriarTreinoInput;
+import com.br.integramove.application.treino.treino.outputs.CriarTreinoOutput;
+import com.br.integramove.application.treino.treino.TreinoRepository;
 import com.br.integramove.domain.treino.treino.Treino;
 import com.br.integramove.domain.treino.treino.TreinoId;
 import org.springframework.stereotype.Service;

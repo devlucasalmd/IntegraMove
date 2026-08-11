@@ -44,4 +44,10 @@ public class AlunoRepositoryImpl implements AlunoRepository {
     public boolean existePorCpf(String cpf) {
         return jpa.existsByCpf(cpf);
     }
+
+    @Override
+    public Optional<Aluno> buscarPorCpf(String cpf) {
+        return jpa.findByCpf(cpf)
+                .map(AlunoEntityMapper::toDomain);
+    }
 }

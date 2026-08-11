@@ -1,0 +1,183 @@
+:host {
+  display: block;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.page-title {
+  margin-bottom: 16px;
+}
+
+.page-title h1 {
+  margin: 0 0 4px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  color: #142e67;
+}
+
+.page-title p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+.loading-state,
+.error-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 56px 16px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.empty-state {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px dashed #d6d6d6;
+}
+
+.empty-state mat-icon,
+.error-state mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #9ca3af;
+}
+
+.empty-state h2 {
+  margin: 0;
+  font-size: 1rem;
+  color: #142e67;
+}
+
+/* TOTAIS */
+.totais-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.totais-card {
+  padding: 12px 10px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  text-align: center;
+}
+
+.totais-card span {
+  display: block;
+  font-size: 0.68rem;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.totais-card strong {
+  font-size: 0.92rem;
+}
+
+.totais-card.ok strong {
+  color: #2e7d32;
+}
+
+.totais-card.atencao strong {
+  color: #b8860b;
+}
+
+.totais-card.alerta strong {
+  color: #c62828;
+}
+
+/* EXTRATO */
+.section-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.section-card__header h2 {
+  margin: 0 0 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  color: #142e67;
+}
+
+.pagamento-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+.pagamento-item:first-of-type {
+  border-top: none;
+}
+
+.pagamento-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pagamento-item__info strong {
+  font-size: 0.85rem;
+  color: #111827;
+}
+
+.pagamento-item__info span {
+  font-size: 0.72rem;
+  color: #6b7280;
+}
+
+.pagamento-item__valor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pagamento-item__valor strong {
+  font-size: 0.85rem;
+  color: #111827;
+}
+
+.status-chip {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.status-a-vencer {
+  background: #fff8e1;
+  color: #b8860b;
+}
+
+.status-em-aberto {
+  background: #e3edff;
+  color: #1d4ed8;
+}
+
+.status-vencido {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.status-pago {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-cancelado {
+  background: #f3f4f6;
+  color: #6b7280;
+}

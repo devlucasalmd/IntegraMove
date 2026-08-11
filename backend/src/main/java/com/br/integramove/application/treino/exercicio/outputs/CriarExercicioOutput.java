@@ -1,4 +1,4 @@
-package com.br.integramove.application.treino.exercicio;
+package com.br.integramove.application.treino.exercicio.outputs;
 
 import com.br.integramove.domain.enums.GrupoMuscular;
 import com.br.integramove.domain.enums.Intensidade;

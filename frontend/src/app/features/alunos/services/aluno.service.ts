@@ -29,4 +29,15 @@ export class AlunoService {
   atualizarAluno(id: string, aluno: AlunoRequestDTO): Observable<AlunoDetalheResponseDTO> {
     return this.http.put<AlunoDetalheResponseDTO>( `${this.apiUrl}/${id}`, aluno);
   }
+
+  /**
+   * TODO: mock — endpoint ainda não existe no backend.
+   * Sugestão: PATCH /alunos/{id}/observacao com body { "observacao": string }
+   * retornando o próprio recurso atualizado (ou apenas 204 No Content).
+   * A chamada é mantida no formato HTTP real para já ficar pronta quando
+   * o endpoint for implementado.
+   */
+  atualizarObservacao(id: string, observacao: string): Observable<{ observacao: string }> {
+    return this.http.patch<{ observacao: string }>(`${this.apiUrl}/${id}/observacao`, { observacao });
+  }
 }

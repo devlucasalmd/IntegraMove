@@ -1,5 +1,6 @@
-package com.br.integramove.application.plano;
+package com.br.integramove.application.plano.services;
 
+import com.br.integramove.application.plano.PlanoRepository;
 import com.br.integramove.application.plano.outputs.BuscarPlanoOutput;
 import com.br.integramove.domain.plano.Plano;
 import com.br.integramove.domain.plano.PlanoId;

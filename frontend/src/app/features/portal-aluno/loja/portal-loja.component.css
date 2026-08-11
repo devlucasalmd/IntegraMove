@@ -1,0 +1,151 @@
+:host {
+  display: block;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.page-title {
+  margin-bottom: 14px;
+}
+
+.page-title h1 {
+  margin: 0 0 4px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  color: #142e67;
+}
+
+.page-title p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+.loading-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 56px 16px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.empty-state mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #9ca3af;
+}
+
+/* FILTROS */
+.categorias-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+}
+
+.categorias-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.categoria-chip {
+  flex-shrink: 0;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #142e67;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.categoria-chip.active {
+  background: #142e67;
+  border-color: #142e67;
+  color: #fff;
+}
+
+/* GRID DE PRODUTOS */
+.produtos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.produto-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.produto-card.indisponivel {
+  opacity: 0.6;
+}
+
+.produto-card__imagem {
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f6f8;
+  color: #142e67;
+}
+
+.produto-card__imagem mat-icon {
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+}
+
+.produto-card__info {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.produto-card__info strong {
+  font-size: 0.8rem;
+  color: #111827;
+  line-height: 1.25;
+}
+
+.produto-card__info p {
+  margin: 0;
+  font-size: 0.7rem;
+  color: #6b7280;
+  line-height: 1.35;
+  flex: 1;
+}
+
+.produto-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.produto-card__preco {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #142e67;
+}
+
+.tag-indisponivel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #c62828;
+  background: #ffebee;
+  padding: 2px 6px;
+  border-radius: 6px;
+}

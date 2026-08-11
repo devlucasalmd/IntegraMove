@@ -1,7 +1,9 @@
-package com.br.integramove.application.treino.treino;
+package com.br.integramove.application.treino.treino.services;
 
 import com.br.integramove.api.exception.treino.treino.TreinoNaoEncontradoException;
 import com.br.integramove.application.treino.item.outputs.TreinoItemOutput;
+import com.br.integramove.application.treino.treino.outputs.BuscarTreinoOutput;
+import com.br.integramove.application.treino.treino.TreinoRepository;
 import com.br.integramove.domain.treino.treino.Treino;
 import com.br.integramove.domain.treino.treino.TreinoId;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class BuscarTreino {
     public BuscarTreinoOutput buscar(String id) {
 
         Treino treino = repository.buscarPorId(TreinoId.from(id))
-                .orElseThrow(() -> new TreinoNaoEncontradoException("Treino não encontrado"));
+                .orElseThrow(() -> new TreinoNaoEncontradoException(id));
 
         List<TreinoItemOutput> itens = treino.getExercicios()
                 .stream()

@@ -10,33 +10,47 @@ import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.valueobjects.Endereco;
 import com.br.integramove.domain.plano.Plano;
 import org.springframework.stereotype.Service;
-
 @Service
 public class BuscarAluno {
 
     private final AlunoRepository alunoRepository;
     private final PlanoRepository planoRepository;
 
-    public BuscarAluno(AlunoRepository alunoRepository, PlanoRepository planoRepository) {
+
+    public BuscarAluno(
+            AlunoRepository alunoRepository,
+            PlanoRepository planoRepository
+    ) {
         this.alunoRepository = alunoRepository;
         this.planoRepository = planoRepository;
     }
 
-    public BuscarAlunoOutput buscar(String alunoId){
+
+    public BuscarAlunoOutput buscar(String alunoId) {
 
         AlunoId id = AlunoId.from(alunoId);
-        Aluno aluno = alunoRepository.buscarPorId(id).orElseThrow(() -> new AlunoNaoEncontradoException(id));
+
+        Aluno aluno = alunoRepository.buscarPorId(id)
+                .orElseThrow(() -> new AlunoNaoEncontradoException(id));
+
 
         String planoId = null;
         String nomePlano = null;
 
-        if (aluno.getPlanoId() != null) {
-            planoId = aluno.getPlanoId().getValue().toString();
 
-            nomePlano = planoRepository.buscarPorId(aluno.getPlanoId())
+        if (aluno.getPlanoId() != null) {
+
+            planoId = aluno.getPlanoId()
+                    .getValue()
+                    .toString();
+
+
+            nomePlano = planoRepository
+                    .buscarPorId(aluno.getPlanoId())
                     .map(Plano::getNome)
                     .orElse(null);
         }
+
 
         return new BuscarAlunoOutput(
                 aluno.getId().getValue().toString(),
@@ -48,15 +62,20 @@ public class BuscarAluno {
                 aluno.getEmail().getValue(),
                 aluno.getStatus(),
                 toEnderecoOutput(aluno.getEndereco()),
-                aluno.getPlanoId().getValue().toString(),
+                planoId,
                 nomePlano
         );
     }
 
-    private EnderecoOutput toEnderecoOutput(Endereco endereco) {
+
+    private EnderecoOutput toEnderecoOutput(
+            Endereco endereco
+    ) {
+
         if (endereco == null) {
             return null;
         }
+
 
         return new EnderecoOutput(
                 endereco.getCep(),

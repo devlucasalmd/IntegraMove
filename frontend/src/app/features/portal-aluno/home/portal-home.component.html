@@ -1,0 +1,85 @@
+@if (carregando) {
+  <div class="loading-state">
+    <mat-spinner diameter="36"></mat-spinner>
+    <p>Carregando suas informações...</p>
+  </div>
+} @else if (erro) {
+  <div class="error-state">
+    <mat-icon>error_outline</mat-icon>
+    <p>Não foi possível carregar seus dados agora. Tente novamente mais tarde.</p>
+  </div>
+} @else {
+
+  <!-- STATUS DO PLANO -->
+  <section class="plan-card" [class]="statusPagamentoClasse">
+    <div class="plan-card__info">
+      <span>Plano atual</span>
+      <strong>{{ aluno?.nomePlano || 'Sem plano ativo' }}</strong>
+    </div>
+    <div class="plan-card__status">
+      <mat-icon>{{ statusPagamentoClasse === 'ok' ? 'check_circle' : 'warning' }}</mat-icon>
+      <span>{{ statusPagamentoLabel }}</span>
+    </div>
+    @if (proximoPagamento) {
+      <p class="plan-card__vencimento">
+        Vencimento: {{ proximoPagamento.dataVencimento | date:'dd/MM/yyyy' }} ·
+        {{ proximoPagamento.valor | currency:'BRL' }}
+      </p>
+    }
+  </section>
+
+  <!-- FICHA DE TREINO ATIVA -->
+  <section class="section-card">
+    <div class="section-card__header">
+      <h2>Sua ficha de treino</h2>
+      <a [routerLink]="['../treino']">Ver tudo</a>
+    </div>
+
+    @if (fichaAtiva) {
+      <a [routerLink]="['../treino']" class="training-card">
+        <div class="training-card__icon">
+          <mat-icon>assignment</mat-icon>
+        </div>
+        <div class="training-card__info">
+          <strong>{{ fichaAtiva.nome }}</strong>
+          <span>{{ fichaAtiva.funcionalidade || 'Treino personalizado' }}</span>
+        </div>
+        <mat-icon class="training-card__chevron">chevron_right</mat-icon>
+      </a>
+    } @else {
+      <div class="empty-inline">
+        <mat-icon>fitness_center</mat-icon>
+        <p>Você ainda não tem uma ficha de treino ativa. Fale com seu instrutor.</p>
+      </div>
+    }
+  </section>
+
+  <!-- ATALHOS -->
+  <section class="section-card">
+    <div class="section-card__header">
+      <h2>Acesso rápido</h2>
+    </div>
+
+    <div class="shortcuts-grid">
+      <a [routerLink]="['../avaliacoes']" class="shortcut">
+        <mat-icon>monitoring</mat-icon>
+        <span>Avaliações</span>
+      </a>
+
+      <a [routerLink]="['../financeiro']" class="shortcut">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <span>Financeiro</span>
+      </a>
+
+      <a [routerLink]="['../loja']" class="shortcut">
+        <mat-icon>storefront</mat-icon>
+        <span>Loja</span>
+      </a>
+
+      <a [routerLink]="['../noticias']" class="shortcut">
+        <mat-icon>campaign</mat-icon>
+        <span>Notícias</span>
+      </a>
+    </div>
+  </section>
+}

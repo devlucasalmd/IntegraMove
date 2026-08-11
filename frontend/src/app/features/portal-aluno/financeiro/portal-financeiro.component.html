@@ -1,0 +1,65 @@
+<div class="page-title">
+  <h1>Financeiro</h1>
+  <p>Acompanhe suas mensalidades e pagamentos.</p>
+</div>
+
+@if (carregando) {
+  <div class="loading-state">
+    <mat-spinner diameter="36"></mat-spinner>
+    <p>Carregando extrato...</p>
+  </div>
+} @else if (erro) {
+  <div class="error-state">
+    <mat-icon>error_outline</mat-icon>
+    <p>Não foi possível carregar seu financeiro agora.</p>
+  </div>
+} @else {
+
+  <!-- RESUMO -->
+  <div class="totais-grid">
+    <div class="totais-card ok">
+      <span>Pago</span>
+      <strong>{{ totalPago | currency:'BRL' }}</strong>
+    </div>
+    <div class="totais-card atencao">
+      <span>Em aberto</span>
+      <strong>{{ totalEmAberto | currency:'BRL' }}</strong>
+    </div>
+    <div class="totais-card alerta">
+      <span>Vencido</span>
+      <strong>{{ totalVencido | currency:'BRL' }}</strong>
+    </div>
+  </div>
+
+  @if (pagamentos.length === 0) {
+    <div class="empty-state">
+      <mat-icon>account_balance_wallet</mat-icon>
+      <h2>Nenhum lançamento encontrado</h2>
+      <p>Ainda não há mensalidades registradas para sua conta.</p>
+    </div>
+  } @else {
+    <section class="section-card">
+      <div class="section-card__header">
+        <h2>Extrato</h2>
+      </div>
+
+      @for (pagamento of pagamentos; track pagamento.id) {
+        <div class="pagamento-item">
+          <div class="pagamento-item__info">
+            <strong>{{ pagamento.observacoes || 'Mensalidade' }}</strong>
+            <span>Vencimento: {{ pagamento.dataVencimento | date:'dd/MM/yyyy' }}</span>
+            @if (pagamento.dataPagamento) {
+              <span>Pago em: {{ pagamento.dataPagamento | date:'dd/MM/yyyy' }}</span>
+            }
+          </div>
+          <div class="pagamento-item__valor">
+            <strong>{{ pagamento.valor | currency:'BRL' }}</strong>
+            <span class="status-chip" [ngClass]="statusClasse(pagamento.status)">
+              {{ statusLabel(pagamento.status) }}
+            </span>
+          </div>
+        </div>
+      }
+    </section>
+  }
+}

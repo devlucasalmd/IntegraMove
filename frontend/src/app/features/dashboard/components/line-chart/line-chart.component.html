@@ -1,0 +1,41 @@
+<div class="line-chart" [style.--imv-line-color]="corLinha">
+  @if (pontosSvg.length === 0) {
+    <div class="line-chart-empty">Sem dados para exibir.</div>
+  } @else {
+    <svg
+      class="line-chart-svg"
+      [attr.viewBox]="'0 0 ' + larguraViewBox + ' ' + alturaViewBox"
+      preserveAspectRatio="none"
+      role="img"
+      [attr.aria-label]="descricaoAriaLabel()"
+      [attr.title]="granularidade || null"
+    >
+      <defs>
+        <linearGradient id="lineChartAreaFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" [attr.stop-color]="corLinha" stop-opacity="0.22"></stop>
+          <stop offset="100%" [attr.stop-color]="corLinha" stop-opacity="0"></stop>
+        </linearGradient>
+      </defs>
+
+      @for (tick of ticksY; track tick.y) {
+        <line class="grid-line" [attr.x1]="46" [attr.x2]="larguraViewBox - 16" [attr.y1]="tick.y" [attr.y2]="tick.y"></line>
+        <text class="axis-label axis-label-y" [attr.x]="40" [attr.y]="tick.y + 3">{{ formatarValorEixo(tick.valor) }}</text>
+      }
+
+      <path class="area-path" [attr.d]="areaPath" fill="url(#lineChartAreaFill)"></path>
+      <path class="linha-path" [attr.d]="linhaPath" fill="none"></path>
+
+      @for (ponto of pontosSvg; track ponto.label + $index; let i = $index) {
+        <circle class="ponto" [attr.cx]="ponto.x" [attr.cy]="ponto.y" r="3.5">
+          <title>{{ ponto.label }}: {{ ponto.value }}</title>
+        </circle>
+
+        @if (mostrarLabel(i)) {
+          <text class="axis-label axis-label-x" [attr.x]="ponto.x" [attr.y]="alturaViewBox - 8" text-anchor="middle">
+            {{ ponto.label }}
+          </text>
+        }
+      }
+    </svg>
+  }
+</div>

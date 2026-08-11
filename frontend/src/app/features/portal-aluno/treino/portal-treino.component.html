@@ -1,0 +1,110 @@
+<div class="page-title">
+  <h1>Ficha de treino</h1>
+  <p>Acompanhe os exercícios da sua ficha atual.</p>
+</div>
+
+@if (carregando) {
+  <div class="loading-state">
+    <mat-spinner diameter="36"></mat-spinner>
+    <p>Carregando sua ficha...</p>
+  </div>
+} @else if (erro) {
+  <div class="error-state">
+    <mat-icon>error_outline</mat-icon>
+    <p>Não foi possível carregar sua ficha de treino agora.</p>
+  </div>
+} @else if (!fichaAtiva) {
+  <div class="empty-state">
+    <mat-icon>fitness_center</mat-icon>
+    <h2>Nenhuma ficha ativa</h2>
+    <p>Você ainda não possui uma ficha de treino ativa. Fale com seu instrutor.</p>
+  </div>
+} @else {
+
+  <!-- RESUMO DA FICHA -->
+  <section class="summary-card">
+    <div class="summary-card__header">
+      <mat-icon>assignment_turned_in</mat-icon>
+      <div>
+        <strong>{{ fichaAtiva.nome }}</strong>
+        <span>Desde {{ fichaAtiva.dataInicio | date:'dd/MM/yyyy' }}</span>
+      </div>
+    </div>
+    <div class="summary-card__stats">
+      <div>
+        <strong>{{ treinosDetalhados.length }}</strong>
+        <span>Treinos</span>
+      </div>
+      <div>
+        <strong>{{ totalExercicios() }}</strong>
+        <span>Exercícios</span>
+      </div>
+      <div>
+        <strong>{{ fichaAtiva.nivel || '-' }}</strong>
+        <span>Nível</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TREINOS E EXERCÍCIOS -->
+  @for (item of treinosDetalhados; track item.treino.id) {
+    <mat-accordion class="treino-accordion">
+      <mat-expansion-panel [expanded]="$first">
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ item.treino.nome }}</mat-panel-title>
+          <mat-panel-description>{{ item.exercicios.length }} exercícios</mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="exercicios-list">
+          @for (exercicio of item.exercicios; track exercicio.treinoItemId) {
+            <div class="exercicio-item">
+              <div class="exercicio-item__header">
+                <strong>{{ exercicio.nomeExercicio }}</strong>
+                <span class="badge">{{ exercicio.ordem }}º</span>
+              </div>
+              <div class="exercicio-item__grid">
+                <div>
+                  <span>Séries</span>
+                  <strong>{{ exercicio.series }}</strong>
+                </div>
+                <div>
+                  <span>Repetições</span>
+                  <strong>{{ exercicio.repeticoes }}</strong>
+                </div>
+                <div>
+                  <span>Carga</span>
+                  <strong>{{ exercicio.carga }}kg</strong>
+                </div>
+                <div>
+                  <span>Descanso</span>
+                  <strong>{{ exercicio.descanso }}s</strong>
+                </div>
+              </div>
+              @if (exercicio.observacao) {
+                <p class="exercicio-item__obs">{{ exercicio.observacao }}</p>
+              }
+            </div>
+          }
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  }
+
+  <!-- HISTÓRICO -->
+  @if (fichasAnteriores.length > 0) {
+    <section class="section-card">
+      <div class="section-card__header">
+        <h2>Fichas anteriores</h2>
+      </div>
+      @for (ficha of fichasAnteriores; track ficha.id) {
+        <div class="historico-item">
+          <mat-icon>history</mat-icon>
+          <div>
+            <strong>{{ ficha.nome }}</strong>
+            <span>{{ ficha.dataInicio | date:'dd/MM/yyyy' }} — {{ ficha.dataFim ? (ficha.dataFim | date:'dd/MM/yyyy') : 'encerrada' }}</span>
+          </div>
+        </div>
+      }
+    </section>
+  }
+}

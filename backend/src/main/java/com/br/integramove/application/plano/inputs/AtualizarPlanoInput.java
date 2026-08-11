@@ -1,4 +1,4 @@
-package com.br.integramove.application.plano;
+package com.br.integramove.application.plano.inputs;
 
 import java.math.BigDecimal;
 

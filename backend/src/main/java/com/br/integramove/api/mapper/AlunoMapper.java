@@ -2,6 +2,7 @@ package com.br.integramove.api.mapper;
 
 import com.br.integramove.api.dto.request.AlunoRequestDTO;
 import com.br.integramove.api.dto.request.EnderecoRequestDTO;
+import com.br.integramove.api.dto.response.AlunoCriadoResponseDTO;
 import com.br.integramove.api.dto.response.AlunoResponseDTO;
 import com.br.integramove.api.dto.response.AlunoResumoResponseDTO;
 import com.br.integramove.api.dto.response.EnderecoResponseDTO;
@@ -9,27 +10,28 @@ import com.br.integramove.application.aluno.inputs.AtualizarAlunoInput;
 import com.br.integramove.application.aluno.inputs.CriarAlunoInput;
 import com.br.integramove.application.aluno.inputs.EnderecoInput;
 import com.br.integramove.application.aluno.outputs.*;
+import com.br.integramove.domain.valueobjects.Cpf;
+import com.br.integramove.domain.valueobjects.Email;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AlunoMapper {
 
-    public static CriarAlunoInput toInput(AlunoRequestDTO dto){
-
-        EnderecoRequestDTO enderecoDTO = dto.enderecoDTO();
+    public static CriarAlunoInput toInput(AlunoRequestDTO dto) {
 
         return new CriarAlunoInput(
                 dto.nome(),
                 dto.dataNascimento(),
-                dto.cpf(),
+                Cpf.of(dto.cpf()),
                 dto.genero(),
                 dto.telefone(),
-                dto.email(),
+                Email.of(dto.email()),
                 dto.status(),
                 dto.planoId(),
                 toEnderecoInput(dto.enderecoDTO())
         );
     }
+
 
     public static AtualizarAlunoInput toAtualizar(String id, AlunoRequestDTO dto) {
 
@@ -37,10 +39,10 @@ public class AlunoMapper {
                 id,
                 dto.nome(),
                 dto.dataNascimento(),
-                dto.cpf(),
+                Cpf.of(dto.cpf()),
                 dto.genero(),
                 dto.telefone(),
-                dto.email(),
+                Email.of(dto.email()),
                 dto.status(),
                 toEnderecoInput(dto.enderecoDTO())
         );
@@ -72,8 +74,8 @@ public class AlunoMapper {
         );
     }
 
-    public static AlunoResponseDTO toResponse(CriarAlunoOutput output) {
-        return new AlunoResponseDTO(
+    public static AlunoCriadoResponseDTO toResponseCriado(CriarAlunoOutput output) {
+        return new AlunoCriadoResponseDTO(
                 output.id(),
                 output.nome(),
                 output.dataNascimento(),
@@ -83,8 +85,9 @@ public class AlunoMapper {
                 output.email(),
                 output.status(),
                 toEnderecoResponse(output.endereco()),
+                output.planoId(),
                 null,
-                null
+                output.senhaTemporaria()
         );
     }
 

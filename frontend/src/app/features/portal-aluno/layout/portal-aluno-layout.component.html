@@ -1,0 +1,122 @@
+<div class="portal-shell">
+
+  <!-- OVERLAY (mobile, quando o menu está aberto) -->
+  <div
+    class="portal-overlay"
+    [class.visible]="menuAberto()"
+    (click)="fecharMenu()"
+  ></div>
+
+  <!-- SIDEBAR -->
+  <aside class="portal-sidebar" [class.open]="menuAberto()">
+    <div class="portal-sidebar__brand">
+      <div class="portal-sidebar__logo">
+        <mat-icon>fitness_center</mat-icon>
+      </div>
+      <div>
+        <h2>IntegraMove</h2>
+        <span>Portal do Aluno</span>
+      </div>
+
+      <button
+        type="button"
+        class="portal-sidebar__close"
+        (click)="fecharMenu()"
+        aria-label="Fechar menu"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <nav class="portal-sidebar__nav">
+      <a
+        [routerLink]="['/aluno', alunoId()]"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="fecharMenu()"
+      >
+        <mat-icon>home</mat-icon>
+        <span>Início</span>
+      </a>
+
+      <a [routerLink]="['/aluno', alunoId(), 'treino']" routerLinkActive="active" (click)="fecharMenu()">
+        <mat-icon>fitness_center</mat-icon>
+        <span>Ficha de treino</span>
+      </a>
+
+      <a [routerLink]="['/aluno', alunoId(), 'avaliacoes']" routerLinkActive="active" (click)="fecharMenu()">
+        <mat-icon>monitoring</mat-icon>
+        <span>Avaliações</span>
+      </a>
+
+      <a [routerLink]="['/aluno', alunoId(), 'financeiro']" routerLinkActive="active" (click)="fecharMenu()">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <span>Financeiro</span>
+      </a>
+
+      <a [routerLink]="['/aluno', alunoId(), 'loja']" routerLinkActive="active" (click)="fecharMenu()">
+        <mat-icon>storefront</mat-icon>
+        <span>Loja</span>
+      </a>
+
+      <a [routerLink]="['/aluno', alunoId(), 'noticias']" routerLinkActive="active" (click)="fecharMenu()">
+        <mat-icon>campaign</mat-icon>
+        <span>Notícias</span>
+      </a>
+    </nav>
+
+    <div class="portal-sidebar__footer">
+      <div class="portal-sidebar__aluno">
+        <div class="portal-sidebar__avatar">
+          <mat-icon>person</mat-icon>
+        </div>
+        <strong>{{ nome() }}</strong>
+      </div>
+
+      <button type="button" class="portal-sidebar__logout" (click)="sair()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ÁREA PRINCIPAL -->
+  <div class="portal-main">
+
+    <!-- TOPO -->
+    <header class="portal-topbar">
+      <button
+        type="button"
+        class="portal-topbar__menu"
+        (click)="toggleMenu()"
+        aria-label="Abrir menu"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div class="portal-topbar__brand">
+        <div class="portal-topbar__logo">
+          <mat-icon>fitness_center</mat-icon>
+        </div>
+        <div class="portal-topbar__greeting">
+          <span>Olá,</span>
+          <strong>{{ primeiroNome }}</strong>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="portal-topbar__logout"
+        (click)="sair()"
+        aria-label="Sair da conta"
+      >
+        <mat-icon>logout</mat-icon>
+      </button>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <main class="portal-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

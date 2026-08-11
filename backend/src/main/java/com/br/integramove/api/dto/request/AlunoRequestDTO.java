@@ -7,15 +7,14 @@ import com.br.integramove.domain.enums.StatusAluno;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
-
 public record AlunoRequestDTO(
         String nome,
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate dataNascimento,
-        Cpf cpf,
+        String cpf,
         Genero genero,
         String telefone,
-        Email email,
+        String email,
         StatusAluno status,
         String planoId,
         EnderecoRequestDTO enderecoDTO

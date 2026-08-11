@@ -35,6 +35,8 @@ public class AlunoEntity {
     private String rua;
     private String numero;
     private String bairro;
+    private String senhaHash;
+    private boolean senhaTemporaria;
     @OneToMany(mappedBy = "aluno")
     private List<AvaliacaoEntity> avaliacoes;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,6 +1,6 @@
 package com.br.integramove.application.treino.item.service;
 
-import com.br.integramove.api.exception.treino.exercicio.TreinoItemNaoEncontradoExcpetion;
+import com.br.integramove.api.exception.treino.exercicio.TreinoItemNaoEncontradoException;
 import com.br.integramove.application.treino.item.TreinoItemRepository;
 import com.br.integramove.application.treino.item.inputs.AtualizarTreinoItemInput;
 import com.br.integramove.application.treino.item.outputs.AtualizarTreinoItemOutput;
@@ -21,7 +21,7 @@ public class AtualizarTreinoItem {
         TreinoItemId id = TreinoItemId.from(input.id());
 
         TreinoItem treinoItem = repository.buscarPorId(id)
-                .orElseThrow(() -> new TreinoItemNaoEncontradoExcpetion(id.toString()));
+                .orElseThrow(() -> new TreinoItemNaoEncontradoException(id.toString()));
 
         treinoItem.atualizar(
                 input.series(),

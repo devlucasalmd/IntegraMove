@@ -1,8 +1,8 @@
 package com.br.integramove.application.contaReceber;
 
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.contasReceber.ContaReceber;
-import com.br.integramove.domain.contasReceber.ContaReceberId;
+import com.br.integramove.domain.financas.contasReceber.ContaReceber;
+import com.br.integramove.domain.financas.contasReceber.ContaReceberId;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,5 +16,4 @@ public interface ContaReceberRepository {
     List<ContaReceber> listar();
 
     List<ContaReceber> listarPorAlunoId(AlunoId alunoId);
-
 }

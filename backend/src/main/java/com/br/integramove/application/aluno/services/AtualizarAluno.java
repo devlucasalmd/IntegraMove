@@ -10,19 +10,23 @@ import com.br.integramove.domain.aluno.*;
 import com.br.integramove.domain.valueobjects.Email;
 import com.br.integramove.domain.valueobjects.Endereco;
 import org.springframework.stereotype.Service;
-
 @Service
 public class AtualizarAluno {
 
     private final AlunoRepository alunoRepository;
 
+
     public AtualizarAluno(AlunoRepository alunoRepository) {
         this.alunoRepository = alunoRepository;
     }
 
-    public AtualizarAlunoOutput atualizar(AtualizarAlunoInput input) {
+
+    public AtualizarAlunoOutput atualizar(
+            AtualizarAlunoInput input
+    ) {
 
         AlunoId id = AlunoId.from(input.id());
+
 
         Aluno aluno = alunoRepository.buscarPorId(id)
                 .orElseThrow(() -> new AlunoNaoEncontradoException(id));
@@ -33,12 +37,14 @@ public class AtualizarAluno {
                 input.dataNascimento(),
                 input.genero(),
                 input.telefone(),
-                Email.of(input.email().toString()),
+                input.email(),
                 toEndereco(input.endereco()),
                 input.status()
         );
 
+
         Aluno alunoAtualizado = alunoRepository.salvar(aluno);
+
 
         return new AtualizarAlunoOutput(
                 alunoAtualizado.getId().getValue().toString(),
@@ -53,12 +59,14 @@ public class AtualizarAluno {
         );
     }
 
+
     private Endereco toEndereco(EnderecoInput input) {
+
         if (input == null) {
             return null;
         }
 
-        return new Endereco(
+        return Endereco.of(
                 input.cep(),
                 input.estado(),
                 input.cidade(),
@@ -68,7 +76,11 @@ public class AtualizarAluno {
         );
     }
 
-    private EnderecoOutput toEnderecoOutput(Endereco endereco) {
+
+    private EnderecoOutput toEnderecoOutput(
+            Endereco endereco
+    ) {
+
         if (endereco == null) {
             return null;
         }
@@ -82,5 +94,4 @@ public class AtualizarAluno {
                 endereco.getBairro()
         );
     }
-
 }

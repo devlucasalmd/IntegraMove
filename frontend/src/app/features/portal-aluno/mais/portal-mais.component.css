@@ -1,0 +1,105 @@
+:host {
+  display: block;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.page-title {
+  margin-bottom: 16px;
+}
+
+.page-title h1 {
+  margin: 0 0 4px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  color: #142e67;
+}
+
+.page-title p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+.perfil-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #142e67;
+  color: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.perfil-card__avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #d6f706;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.perfil-card strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+}
+
+.menu-list {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  margin-bottom: 16px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: #111827;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item mat-icon:first-child {
+  color: #142e67;
+}
+
+.menu-item span {
+  flex: 1;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.chevron {
+  color: #9ca3af;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #fecaca;
+  background: #fff;
+  color: #c62828;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: #fef2f2;
+}

@@ -1,0 +1,205 @@
+<div class="resumo-container">
+
+  <div class="resumo-header">
+    <div>
+      <span class="subtitle">Resumo do aluno</span>
+      <h2>Visão geral</h2>
+      <p>Informações financeiras, pendências, presenças e documentos do aluno.</p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+
+    <mat-card class="summary-card">
+      <div class="card-icon info">
+        <mat-icon>event</mat-icon>
+      </div>
+
+      <div>
+        <span>Dia de pagamento</span>
+        @if (carregandoDiaPagamento) {
+          <strong>Carregando...</strong>
+        } @else {
+          <strong>{{ diaPagamento ? 'Todo dia ' + diaPagamento : 'Não definido' }}</strong>
+        }
+      </div>
+    </mat-card>
+
+    <mat-card
+      class="summary-card clickable-card"
+      matTooltip="Ver histórico de presenças"
+      (click)="abrirHistoricoPresencas()">
+      <div class="card-icon success">
+        <mat-icon>event_available</mat-icon>
+      </div>
+
+      <div>
+        <span>Presenças no mês</span>
+        @if (carregandoPresencas) {
+          <strong>Carregando...</strong>
+        } @else {
+          <strong>{{ totalPresencasMes }}</strong>
+        }
+      </div>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <div class="card-icon" [ngClass]="totalPendenciasAbertas > 0 ? 'warning' : 'success'">
+        <mat-icon>flag</mat-icon>
+      </div>
+
+      <div>
+        <span>Pendências em aberto</span>
+        @if (carregandoPendencias) {
+          <strong>Carregando...</strong>
+        } @else {
+          <strong>{{ totalPendenciasAbertas }}</strong>
+        }
+      </div>
+    </mat-card>
+
+  </div>
+
+  <mat-card class="section-card">
+    <div class="table-header">
+      <div>
+        <h3>Pendências</h3>
+        <p>Itens que precisam de atenção antes que o aluno fique regular.</p>
+      </div>
+    </div>
+
+    @if (carregandoPendencias) {
+      <div class="loading">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Carregando pendências...</span>
+      </div>
+    }
+
+    @if (!carregandoPendencias && pendencias.length === 0) {
+      <div class="empty-state">
+        <mat-icon>check_circle</mat-icon>
+        <h3>Nenhuma pendência</h3>
+        <p>Este aluno não possui pendências no momento.</p>
+      </div>
+    }
+
+    @if (!carregandoPendencias && pendencias.length > 0) {
+      <ul class="pendencias-list">
+        @for (pendencia of pendencias; track pendencia.id) {
+          <li class="pendencia-item" [ngClass]="getPendenciaClass(pendencia)">
+            <mat-icon>{{ getPendenciaIcon(pendencia) }}</mat-icon>
+            <div>
+              <strong>{{ pendencia.descricao }}</strong>
+              <span>{{ pendencia.status === 'PENDENTE' ? 'Pendente' : 'Resolvida' }}</span>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="table-header">
+      <div>
+        <h3>Observação</h3>
+        <p>Anotações internas sobre o aluno, visíveis apenas para a equipe.</p>
+      </div>
+
+      @if (!editandoObservacao) {
+        <button mat-stroked-button type="button" (click)="habilitarEdicaoObservacao()">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+      }
+    </div>
+
+    <div class="observacao-body">
+      <mat-form-field appearance="outline" class="observacao-field">
+        <textarea
+          matInput
+          rows="4"
+          [(ngModel)]="observacao"
+          [disabled]="!editandoObservacao"
+          placeholder="Nenhuma observação registrada.">
+        </textarea>
+      </mat-form-field>
+
+      @if (editandoObservacao) {
+        <div class="observacao-actions">
+          <button mat-button type="button" [disabled]="salvandoObservacao" (click)="cancelarEdicaoObservacao()">
+            Cancelar
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            [disabled]="salvandoObservacao"
+            (click)="salvarObservacao()">
+            @if (salvandoObservacao) {
+              <mat-spinner diameter="18"></mat-spinner>
+            } @else {
+              Salvar observação
+            }
+          </button>
+        </div>
+      }
+    </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="table-header">
+      <div>
+        <h3>Documentos</h3>
+        <p>Laudos, exames e outros arquivos anexados ao cadastro do aluno.</p>
+      </div>
+
+      <button mat-stroked-button type="button" [disabled]="enviandoDocumento" (click)="fileInput.click()">
+        <mat-icon>upload_file</mat-icon>
+        {{ enviandoDocumento ? 'Enviando...' : 'Anexar documento' }}
+      </button>
+      <input
+        #fileInput
+        type="file"
+        hidden
+        accept=".pdf,.jpg,.jpeg,.png"
+        (change)="onArquivoSelecionado($event)">
+    </div>
+
+    @if (carregandoDocumentos) {
+      <div class="loading">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Carregando documentos...</span>
+      </div>
+    }
+
+    @if (!carregandoDocumentos && documentos.length === 0) {
+      <div class="empty-state">
+        <mat-icon>folder_off</mat-icon>
+        <h3>Nenhum documento anexado</h3>
+        <p>Anexe laudos, exames ou outros arquivos relevantes deste aluno.</p>
+      </div>
+    }
+
+    @if (!carregandoDocumentos && documentos.length > 0) {
+      <ul class="documentos-list">
+        @for (documento of documentos; track documento.id) {
+          <li class="documento-item">
+            <mat-icon>description</mat-icon>
+            <div class="documento-info">
+              <strong>{{ documento.nome }}</strong>
+              <span>{{ documento.tipo }} · {{ documento.dataUpload | date:'dd/MM/yyyy' }}</span>
+            </div>
+            <button
+              mat-icon-button
+              type="button"
+              matTooltip="Visualizar / baixar"
+              (click)="baixarDocumento(documento)">
+              <mat-icon>download</mat-icon>
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  </mat-card>
+
+</div>

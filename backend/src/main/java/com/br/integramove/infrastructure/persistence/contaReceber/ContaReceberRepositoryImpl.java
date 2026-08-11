@@ -2,8 +2,8 @@ package com.br.integramove.infrastructure.persistence.contaReceber;
 
 import com.br.integramove.application.contaReceber.ContaReceberRepository;
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.contasReceber.ContaReceber;
-import com.br.integramove.domain.contasReceber.ContaReceberId;
+import com.br.integramove.domain.financas.contasReceber.ContaReceber;
+import com.br.integramove.domain.financas.contasReceber.ContaReceberId;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

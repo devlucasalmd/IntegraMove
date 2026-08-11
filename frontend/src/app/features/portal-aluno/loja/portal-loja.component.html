@@ -1,0 +1,53 @@
+<div class="page-title">
+  <h1>Loja</h1>
+  <p>Produtos e suplementos disponíveis na sua academia.</p>
+</div>
+
+@if (carregando) {
+  <div class="loading-state">
+    <mat-spinner diameter="36"></mat-spinner>
+    <p>Carregando produtos...</p>
+  </div>
+} @else {
+
+  <!-- FILTROS DE CATEGORIA -->
+  <div class="categorias-scroll">
+    @for (categoria of categorias; track categoria) {
+      <button
+        type="button"
+        class="categoria-chip"
+        [class.active]="categoria === categoriaSelecionada"
+        (click)="selecionarCategoria(categoria)"
+      >
+        {{ categoria }}
+      </button>
+    }
+  </div>
+
+  @if (produtosFiltrados.length === 0) {
+    <div class="empty-state">
+      <mat-icon>storefront</mat-icon>
+      <h2>Nenhum produto encontrado</h2>
+    </div>
+  } @else {
+    <div class="produtos-grid">
+      @for (produto of produtosFiltrados; track produto.id) {
+        <div class="produto-card" [class.indisponivel]="!produto.emEstoque">
+          <div class="produto-card__imagem">
+            <mat-icon>{{ produto.categoria === 'Suplementos' ? 'nutrition' : 'shopping_bag' }}</mat-icon>
+          </div>
+          <div class="produto-card__info">
+            <strong>{{ produto.nome }}</strong>
+            <p>{{ produto.descricao }}</p>
+            <div class="produto-card__footer">
+              <span class="produto-card__preco">{{ produto.preco | currency:'BRL' }}</span>
+              @if (!produto.emEstoque) {
+                <span class="tag-indisponivel">Indisponível</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+}

@@ -15,5 +15,6 @@ public record CriarAlunoOutput(
         String email,
         StatusAluno status,
         String planoId,
-        EnderecoOutput endereco
+        EnderecoOutput endereco,
+        String senhaTemporaria
 ) {}

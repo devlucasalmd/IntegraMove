@@ -1,0 +1,229 @@
+:host {
+  display: block;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.loading-state,
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 64px 16px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.error-state mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #c62828;
+}
+
+/* CARD DE PLANO */
+.plan-card {
+  border-radius: 18px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #142e67 0%, #0c1f4a 100%);
+  color: #fff;
+}
+
+.plan-card__info {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.plan-card__info span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.plan-card__info strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+}
+
+.plan-card__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.plan-card__status mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.plan-card.ok .plan-card__status {
+  color: #b7f7c0;
+}
+
+.plan-card.atencao .plan-card__status {
+  color: var(--pa-lime, #d6f706);
+}
+
+.plan-card.alerta .plan-card__status {
+  color: #ffb4a8;
+}
+
+.plan-card__vencimento {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* CARDS DE SEÇÃO */
+.section-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.section-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.section-card__header h2 {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #142e67;
+}
+
+.section-card__header a {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #142e67;
+  text-decoration: none;
+}
+
+.section-card__header a:hover {
+  text-decoration: underline;
+}
+
+/* FICHA ATIVA */
+.training-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f4f6f8;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s ease;
+}
+
+.training-card:hover {
+  background: #eceff2;
+}
+
+.training-card__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: #142e67;
+  color: #d6f706;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.training-card__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.training-card__info strong {
+  font-size: 0.9rem;
+  color: #142e67;
+}
+
+.training-card__info span {
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.training-card__chevron {
+  color: #9ca3af;
+}
+
+.empty-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px dashed #d6d6d6;
+}
+
+.empty-inline mat-icon {
+  color: #9ca3af;
+}
+
+.empty-inline p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+/* ATALHOS */
+.shortcuts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.shortcut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 6px;
+  border-radius: 12px;
+  background: #f4f6f8;
+  color: #142e67;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.15s ease;
+}
+
+.shortcut:hover {
+  background: #eceff2;
+}
+
+.shortcut mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.shortcut span {
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+@media (max-width: 340px) {
+  .shortcuts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

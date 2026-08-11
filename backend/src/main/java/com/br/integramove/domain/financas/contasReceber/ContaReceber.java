@@ -1,11 +1,11 @@
-package com.br.integramove.domain.contasReceber;
+package com.br.integramove.domain.financas.contasReceber;
 
 import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.enums.CategoriaContaReceber;
 import com.br.integramove.domain.enums.StatusContaReceber;
 import com.br.integramove.domain.enums.FormaPagamento;
 import com.br.integramove.domain.plano.PlanoId;
-
+import com.br.integramove.domain.financas.contasReceber.ContaReceberId;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

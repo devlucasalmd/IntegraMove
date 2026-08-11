@@ -1,4 +1,7 @@
 package com.br.integramove.api.exception;
 
-public record ErrorResponse() {
+public record ErrorResponse(
+        int status,
+        String mensagem
+) {
 }

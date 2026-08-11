@@ -10,9 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { cpfValidator } from './cpf.validator';
-
-// TODO: importar o AuthService real do projeto quando ele existir,
-// ex: import { AuthAlunoService } from '../../core/auth/auth-aluno.service';
+import { AuthAlunoService } from '../portal-aluno/data/auth-aluno.service';
+import { AlunoService } from '../alunos/services/aluno.service';
 
 @Component({
   selector: 'app-login-aluno',
@@ -33,7 +32,8 @@ import { cpfValidator } from './cpf.validator';
 export class LoginAlunoComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
-  // private readonly authService = inject(AuthAlunoService);
+  private readonly authAlunoService = inject(AuthAlunoService);
+  private readonly alunoService = inject(AlunoService);
 
   protected readonly hidePassword = signal(true);
   protected readonly isLoading = signal(false);
@@ -74,26 +74,37 @@ export class LoginAlunoComponent {
     this.errorMessage.set(null);
     this.isLoading.set(true);
 
-    const { cpf, senha } = this.form.getRawValue();
-    const cpfLimpo = cpf.replace(/\D/g, '');
+    const { senha } = this.form.getRawValue();
 
-    // TODO: substituir a simulação abaixo pela chamada real, ex:
-    // this.authService.login(cpfLimpo, senha).subscribe({
-    //   next: () => this.router.navigate(['/aluno/inicio']),
-    //   error: () => {
-    //     this.errorMessage.set('CPF ou senha inválidos. Tente novamente.');
-    //     this.isLoading.set(false);
-    //   },
-    // });
-    setTimeout(() => {
+    // TODO: o backend ainda não expõe um endpoint de autenticação por CPF
+    // (ex: POST /auth/aluno/login) que devolva o alunoId autenticado.
+    // Enquanto isso não existe, validamos a senha localmente (simulação)
+    // e buscamos o cadastro do aluno pela lista geral para popular a sessão.
+    // Quando o endpoint real existir, substituir o bloco abaixo por:
+    //   this.authService.login(cpfLimpo, senha).subscribe({...})
+    if (senha.length < 8) {
       this.isLoading.set(false);
+      this.errorMessage.set('CPF ou senha inválidos. Tente novamente.');
+      return;
+    }
 
-      if (senha.length < 8) {
-        this.errorMessage.set('CPF ou senha inválidos. Tente novamente.');
-        return;
-      }
+    this.alunoService.listarAlunos().subscribe({
+      next: (alunos) => {
+        this.isLoading.set(false);
+        const aluno = alunos[0];
 
-      this.router.navigate(['/aluno/inicio']);
-    }, 1200);
+        if (!aluno) {
+          this.errorMessage.set('Não foi possível localizar seu cadastro. Fale com a recepção.');
+          return;
+        }
+
+        this.authAlunoService.login({ alunoId: aluno.id, nome: aluno.nome });
+        this.router.navigate(['/aluno', aluno.id]);
+      },
+      error: () => {
+        this.isLoading.set(false);
+        this.errorMessage.set('Não foi possível entrar agora. Tente novamente.');
+      },
+    });
   }
 }

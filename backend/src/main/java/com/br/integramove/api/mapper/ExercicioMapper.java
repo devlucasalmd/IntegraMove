@@ -2,7 +2,12 @@ package com.br.integramove.api.mapper;
 
 import com.br.integramove.api.dto.request.ExercicioRequestDTO;
 import com.br.integramove.api.dto.response.ExercicioResponseDTO;
-import com.br.integramove.application.treino.exercicio.*;
+import com.br.integramove.application.treino.exercicio.inputs.AtualizarExercicioInput;
+import com.br.integramove.application.treino.exercicio.inputs.CriarExercicioInput;
+import com.br.integramove.application.treino.exercicio.outputs.AtualizarExercicioOutput;
+import com.br.integramove.application.treino.exercicio.outputs.BuscarExercicioOutput;
+import com.br.integramove.application.treino.exercicio.outputs.CriarExercicioOutput;
+import com.br.integramove.application.treino.exercicio.outputs.ListarExercicioOutput;
 import com.br.integramove.domain.enums.GrupoMuscular;
 import com.br.integramove.domain.enums.Intensidade;
 import org.springframework.stereotype.Component;
@@ -39,9 +44,9 @@ public class ExercicioMapper {
         return new AtualizarExercicioInput(
                 id,
                 dto.nome(),
-                dto.grupoMuscular().toString(),
+                dto.grupoMuscular(),
                 dto.descricao(),
-                dto.intensidade().toString(),
+                dto.intensidade(),
                 dto.ativo()
         );
     }

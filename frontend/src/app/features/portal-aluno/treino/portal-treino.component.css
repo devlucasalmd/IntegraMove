@@ -1,0 +1,236 @@
+:host {
+  display: block;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.page-title {
+  margin-bottom: 16px;
+}
+
+.page-title h1 {
+  margin: 0 0 4px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  color: #142e67;
+}
+
+.page-title p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+.loading-state,
+.error-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 56px 16px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.empty-state {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px dashed #d6d6d6;
+}
+
+.empty-state mat-icon,
+.error-state mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #9ca3af;
+}
+
+.empty-state h2 {
+  margin: 0;
+  font-size: 1rem;
+  color: #142e67;
+}
+
+/* RESUMO */
+.summary-card {
+  background: #142e67;
+  color: #fff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.summary-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.summary-card__header mat-icon {
+  color: #d6f706;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.summary-card__header div {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-card__header strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+}
+
+.summary-card__header span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.summary-card__stats {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.summary-card__stats div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.summary-card__stats strong {
+  font-size: 1.05rem;
+}
+
+.summary-card__stats span {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ACCORDION DE TREINOS */
+.treino-accordion {
+  margin-bottom: 12px;
+  border-radius: 14px !important;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+.exercicios-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 6px;
+}
+
+.exercicio-item {
+  padding: 12px;
+  border-radius: 12px;
+  background: #f4f6f8;
+}
+
+.exercicio-item__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.exercicio-item__header strong {
+  font-size: 0.88rem;
+  color: #142e67;
+}
+
+.badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #142e67;
+  background: #e5e9f2;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.exercicio-item__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.exercicio-item__grid div {
+  display: flex;
+  flex-direction: column;
+}
+
+.exercicio-item__grid span {
+  font-size: 0.65rem;
+  color: #6b7280;
+}
+
+.exercicio-item__grid strong {
+  font-size: 0.82rem;
+  color: #111827;
+}
+
+.exercicio-item__obs {
+  margin: 8px 0 0;
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* HISTÓRICO */
+.section-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.section-card__header h2 {
+  margin: 0 0 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  color: #142e67;
+}
+
+.historico-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+.historico-item:first-of-type {
+  border-top: none;
+}
+
+.historico-item mat-icon {
+  color: #9ca3af;
+}
+
+.historico-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.historico-item strong {
+  font-size: 0.82rem;
+  color: #111827;
+}
+
+.historico-item span {
+  font-size: 0.72rem;
+  color: #6b7280;
+}
+
+@media (max-width: 360px) {
+  .exercicio-item__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

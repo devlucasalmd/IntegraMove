@@ -3,8 +3,8 @@ package com.br.integramove.application.contaReceber.services;
 import com.br.integramove.application.contaReceber.ContaReceberRepository;
 import com.br.integramove.application.contaReceber.inputs.ReceberContaReceberInput;
 import com.br.integramove.application.contaReceber.outputs.ContaReceberOutput;
-import com.br.integramove.domain.contasReceber.ContaReceber;
-import com.br.integramove.domain.contasReceber.ContaReceberId;
+import com.br.integramove.domain.financas.contasReceber.ContaReceberId;
+import com.br.integramove.domain.financas.contasReceber.ContaReceber;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +19,7 @@ public class ReceberContaReceber {
     public ContaReceberOutput executar(String contaReceberId, ReceberContaReceberInput input) {
         ContaReceber contaReceber = contaReceberRepository.buscarPorId(
                 ContaReceberId.from(contaReceberId)
-        ).orElseThrow(() -> new RuntimeException("Conta a receber não encontrada"));
+        ).orElseThrow();
 
         contaReceber.receber(
                 input.dataRecebimento(),

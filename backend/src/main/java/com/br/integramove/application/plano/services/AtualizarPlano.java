@@ -1,6 +1,7 @@
-package com.br.integramove.application.plano;
+package com.br.integramove.application.plano.services;
 
 import com.br.integramove.api.exception.plano.PlanoNaoEncontradoException;
+import com.br.integramove.application.plano.PlanoRepository;
 import com.br.integramove.application.plano.inputs.AtualizarPlanoInput;
 import com.br.integramove.application.plano.outputs.AtualizarPlanoOutput;
 import com.br.integramove.domain.plano.Plano;

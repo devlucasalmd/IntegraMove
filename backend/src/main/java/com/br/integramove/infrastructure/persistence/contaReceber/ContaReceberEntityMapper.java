@@ -1,8 +1,8 @@
 package com.br.integramove.infrastructure.persistence.contaReceber;
 
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.contasReceber.ContaReceber;
-import com.br.integramove.domain.contasReceber.ContaReceberId;
+import com.br.integramove.domain.financas.contasReceber.ContaReceber;
+import com.br.integramove.domain.financas.contasReceber.ContaReceberId;
 import com.br.integramove.domain.plano.PlanoId;
 import com.br.integramove.infrastructure.persistence.aluno.AlunoEntity;
 import com.br.integramove.infrastructure.persistence.plano.PlanoEntity;

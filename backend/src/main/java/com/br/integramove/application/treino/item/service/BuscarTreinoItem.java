@@ -1,6 +1,6 @@
 package com.br.integramove.application.treino.item.service;
 
-import com.br.integramove.api.exception.treino.exercicio.TreinoItemNaoEncontradoExcpetion;
+import com.br.integramove.api.exception.treino.exercicio.TreinoItemNaoEncontradoException;
 import com.br.integramove.application.treino.item.TreinoItemRepository;
 import com.br.integramove.application.treino.item.outputs.BuscarTreinoItemOutput;
 import com.br.integramove.domain.treino.item.TreinoItem;
@@ -19,7 +19,7 @@ public class BuscarTreinoItem {
     public BuscarTreinoItemOutput buscar(String id) {
 
         TreinoItem treinoItem = repository.buscarPorId(TreinoItemId.from(id))
-                .orElseThrow(() -> new TreinoItemNaoEncontradoExcpetion("Treino item não encontrado"));
+                .orElseThrow(() -> new TreinoItemNaoEncontradoException(id));
 
         return new BuscarTreinoItemOutput(
                 treinoItem.getId().getValue().toString(),

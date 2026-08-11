@@ -21,6 +21,8 @@ public class AlunoEntityMapper {
         entity.setTelefone(aluno.getTelefone());
         entity.setEmail(aluno.getEmail().toString());
         entity.setStatus(aluno.getStatus());
+        entity.setSenhaHash(aluno.getSenhaHash());
+        entity.setSenhaTemporaria(aluno.isSenhaTemporaria());
 
         Endereco e = aluno.getEndereco();
         entity.setCep(e.getCep());
@@ -42,7 +44,7 @@ public class AlunoEntityMapper {
     }
 
     public static Aluno toDomain(AlunoEntity entity) {
-        Endereco endereco = new Endereco(
+        Endereco endereco = Endereco.of(
                 entity.getCep(),
                 entity.getEstado(),
                 entity.getCidade(),
@@ -62,13 +64,15 @@ public class AlunoEntityMapper {
                 AlunoId.from(entity.getId().toString()),
                 entity.getNome(),
                 entity.getDataNascimento(),
-                new Cpf(entity.getCpf()),
+                Cpf.of(entity.getCpf()),
                 Genero.valueOf(entity.getGenero()),
                 entity.getTelefone(),
-                new Email(entity.getEmail()),
+                Email.of(entity.getEmail()),
                 entity.getStatus(),
                 planoId,
-                endereco
+                endereco,
+                entity.getSenhaHash(),
+                entity.isSenhaTemporaria()
                 );
     }
 }

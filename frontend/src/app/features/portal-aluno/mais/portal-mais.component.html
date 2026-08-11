@@ -1,0 +1,30 @@
+<div class="page-title">
+  <h1>Mais</h1>
+  <p>Outras áreas e configurações da sua conta.</p>
+</div>
+
+<div class="perfil-card">
+  <div class="perfil-card__avatar">
+    <mat-icon>person</mat-icon>
+  </div>
+  <strong>{{ nome() }}</strong>
+</div>
+
+<nav class="menu-list">
+  <a [routerLink]="['../avaliacoes']" class="menu-item">
+    <mat-icon>monitoring</mat-icon>
+    <span>Avaliações físicas</span>
+    <mat-icon class="chevron">chevron_right</mat-icon>
+  </a>
+
+  <a [routerLink]="['../loja']" class="menu-item">
+    <mat-icon>storefront</mat-icon>
+    <span>Loja</span>
+    <mat-icon class="chevron">chevron_right</mat-icon>
+  </a>
+</nav>
+
+<button type="button" class="logout-button" (click)="sair()">
+  <mat-icon>logout</mat-icon>
+  <span>Sair da conta</span>
+</button>

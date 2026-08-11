@@ -5,10 +5,11 @@ import { AlunoDetalheComponent } from './pages/aluno-detalhe/aluno-detalhe.compo
 import { AvaliacaoListComponent } from '../avaliacoes/pages/avaliacao-list/avaliacao-list.component';
 import { AvaliacaoFormComponent } from '../avaliacoes/pages/avaliacao-form/avaliacao-form.component';
 import { TreinoListComponent } from '../treinos/pages/treinos/list/treino-list.component';
-import { TreinoAlunoListComponent } from '../treino-aluno/page/treino-aluno-list/treino-aluno-list.component';
-import { TreinoAlunoFormComponent } from '../treino-aluno/page/treino-aluno-form/treino-aluno-form.component';
-import { TreinoAlunoDetalheComponent } from '../treino-aluno/page/treino-aluno-detalhe/treino-aluno-detalhe.component';
-import { FinanceiroAlunoComponent } from '../financeiro-aluno/page/financeiro-aluno.component';
+import { AlunoTreinoListComponent } from '../aluno-treino/page/aluno-treino-list/aluno-treino-list.component';
+import { AlunoTreinoFormComponent } from '../aluno-treino/page/aluno-treino-form/aluno-treino-form.component';
+import { AlunoTreinoDetalheComponent } from '../aluno-treino/page/aluno-treino-detalhe/aluno-treino-detalhe.component';
+import { AlunoFinanceiroComponent } from '../aluno-financeiro/page/aluno-financeiro.component';
+import { AlunoResumoComponent } from '../aluno-resumo/page/aluno-resumo.component';
 
 export const alunosRoutes: Routes = [
   {
@@ -22,9 +23,9 @@ export const alunosRoutes: Routes = [
         component: AlunoDetalheComponent,
         children: [
           { path: '', redirectTo: 'resumo', pathMatch: 'full' },
-          // { path: 'resumo', component:  },
+          { path: 'resumo', component: AlunoResumoComponent },
           // { path: 'contrato', component:  },
-          { path: 'financeiro', component: FinanceiroAlunoComponent},
+          { path: 'financeiro', component: AlunoFinanceiroComponent},
           { path: 'avaliacoes',
             children: [
               { path: '', component: AvaliacaoListComponent},
@@ -34,9 +35,9 @@ export const alunosRoutes: Routes = [
           },
           { path: 'treinos',
             children: [
-            { path: '', component: TreinoAlunoListComponent},
-            { path: 'nova', component: TreinoAlunoFormComponent},
-            { path: ':fichaId', component: TreinoAlunoDetalheComponent}
+            { path: '', component: AlunoTreinoListComponent},
+            { path: 'nova', component: AlunoTreinoFormComponent},
+            { path: ':fichaId', component: AlunoTreinoDetalheComponent}
           ]}
         ]
       }

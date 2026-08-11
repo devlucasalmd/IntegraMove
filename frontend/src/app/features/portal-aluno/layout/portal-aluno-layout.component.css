@@ -1,0 +1,326 @@
+:host {
+  --pa-navy: #142e67;
+  --pa-navy-deep: #0c1f4a;
+  --pa-lime: #d6f706;
+  --pa-bg: #f4f6f8;
+  --pa-text-muted: #6b7280;
+
+  display: block;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.portal-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--pa-bg);
+}
+
+/* ===================== OVERLAY (mobile) ===================== */
+.portal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(12, 31, 74, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.portal-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===================== SIDEBAR ===================== */
+.portal-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  max-width: 82vw;
+  flex-shrink: 0;
+  background: var(--pa-navy);
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 30;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+}
+
+.portal-sidebar.open {
+  transform: translateX(0);
+}
+
+.portal-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.portal-sidebar__logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--pa-lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.portal-sidebar__brand h2 {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.portal-sidebar__brand span {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.portal-sidebar__brand > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.portal-sidebar__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.portal-sidebar__nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 12px;
+}
+
+.portal-sidebar__nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.portal-sidebar__nav a mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.portal-sidebar__nav a:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.portal-sidebar__nav a.active {
+  background: rgba(214, 247, 6, 0.12);
+  color: var(--pa-lime);
+}
+
+.portal-sidebar__footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.portal-sidebar__aluno {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.portal-sidebar__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--pa-lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.portal-sidebar__aluno strong {
+  font-size: 0.82rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.portal-sidebar__logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.portal-sidebar__logout:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ===================== ÁREA PRINCIPAL ===================== */
+.portal-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* TOPO */
+.portal-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--pa-navy);
+  color: #fff;
+}
+
+.portal-topbar__menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.portal-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.portal-topbar__logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pa-lime);
+  flex-shrink: 0;
+}
+
+.portal-topbar__greeting {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  min-width: 0;
+}
+
+.portal-topbar__greeting span {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.portal-topbar__greeting strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+}
+
+.portal-topbar__logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.portal-topbar__logout:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* CONTEÚDO */
+.portal-content {
+  flex: 1;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* ===================== RESPONSIVO ===================== */
+/* Acima de 900px: sidebar sempre fixa e visível, sem overlay/hambúrguer */
+@media (min-width: 900px) {
+  .portal-sidebar {
+    transform: none;
+    max-width: 260px;
+  }
+
+  .portal-sidebar__close {
+    display: none;
+  }
+
+  .portal-overlay {
+    display: none;
+  }
+
+  .portal-main {
+    margin-left: 260px;
+  }
+
+  .portal-topbar__menu {
+    display: none;
+  }
+
+  .portal-content {
+    max-width: 880px;
+    padding: 32px 40px 40px;
+  }
+}

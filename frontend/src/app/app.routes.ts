@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './core/layout/layout.component';
-import { HomePageComponent } from './features/home/pages/home-page.component';
+import { DashboardPageComponent } from './features/dashboard/pages/dashboard-page/dashboard-page.component';
 
 
 export const routes: Routes = [
@@ -11,17 +11,24 @@ export const routes: Routes = [
       .then(m => m.LoginComponent)
   },
   {
-  path: 'aluno/login',
-  loadComponent: () =>
-    import('./features/login-aluno/login-aluno.component').then(
-      (m) => m.LoginAlunoComponent
-    ),
+    path: 'aluno/login',
+    loadComponent: () =>
+      import('./features/login-aluno/login-aluno.component').then(
+        (m) => m.LoginAlunoComponent
+      ),
+  },
+  {
+    path: 'aluno/:alunoId',
+    loadChildren: () =>
+      import('./features/portal-aluno/portal-aluno.routes').then(
+        (m) => m.portalAlunoRoutes
+      ),
   },
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', component: HomePageComponent },
+      { path: '', component: DashboardPageComponent },
       {
         path: 'alunos',
         loadChildren: () => import('./features/alunos/aluno.routes')

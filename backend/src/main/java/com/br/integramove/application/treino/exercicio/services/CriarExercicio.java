@@ -1,5 +1,6 @@
-package com.br.integramove.application.treino.exercicio;
+package com.br.integramove.application.treino.exercicio.services;
 
+import com.br.integramove.application.treino.exercicio.ExercicioRepository;
 import com.br.integramove.application.treino.exercicio.inputs.CriarExercicioInput;
 import com.br.integramove.application.treino.exercicio.outputs.CriarExercicioOutput;
 import com.br.integramove.domain.treino.exercicio.Exercicio;

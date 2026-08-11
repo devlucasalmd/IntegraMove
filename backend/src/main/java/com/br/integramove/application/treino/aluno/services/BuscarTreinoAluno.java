@@ -1,6 +1,6 @@
 package com.br.integramove.application.treino.aluno.services;
 
-import com.br.integramove.api.exception.treino.aluno.TreinoAlunoNaoEncontradoExcpetion;
+import com.br.integramove.api.exception.treino.aluno.TreinoAlunoNaoEncontradoException;
 import com.br.integramove.application.treino.aluno.TreinoAlunoRepository;
 import com.br.integramove.application.treino.aluno.outputs.BuscarTreinoAlunoOutput;
 import com.br.integramove.domain.treino.aluno.TreinoAluno;
@@ -21,10 +21,10 @@ public class BuscarTreinoAluno {
     public BuscarTreinoAlunoOutput buscar(String alunoId, String id) {
 
         TreinoAluno treinoAluno = repository.buscarPorId(TreinoAlunoId.from(id))
-                .orElseThrow(() -> new TreinoAlunoNaoEncontradoExcpetion("Treino Aluno não encontrado"));
+                .orElseThrow(() -> new TreinoAlunoNaoEncontradoException());
 
         if (!treinoAluno.getAlunoId().getValue().toString().equals(alunoId)) {
-            throw new TreinoAlunoNaoEncontradoExcpetion("Treino Aluno não encontrado para este aluno");
+            throw new TreinoAlunoNaoEncontradoException();
         }
 
         List<String> treinosIds = treinoAluno.getTreinosIds()

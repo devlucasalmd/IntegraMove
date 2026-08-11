@@ -1,4 +1,4 @@
-package com.br.integramove.domain.contasReceber;
+package com.br.integramove.domain.financas.contasReceber;
 
 import java.util.Objects;
 import java.util.UUID;
