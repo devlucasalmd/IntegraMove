@@ -1,5 +1,6 @@
 package com.br.integramove.application.aluno.services;
 
+import com.br.integramove.api.exception.plano.PlanoInativoException;
 import com.br.integramove.application.aluno.AlunoRepository;
 import com.br.integramove.application.plano.PlanoRepository;
 import com.br.integramove.domain.aluno.Aluno;
@@ -30,7 +31,7 @@ public class VincularPlanoAoAluno {
                 .orElseThrow(()-> new RuntimeException("Plano não encontrado"));
 
         if (!plano.estaAtivo()) {
-            throw new RuntimeException("Plano está inativo");
+            throw new PlanoInativoException();
         }
 
         aluno.vincularPlano(plano.getId());

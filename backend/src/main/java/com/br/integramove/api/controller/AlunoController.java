@@ -5,16 +5,13 @@ import com.br.integramove.api.dto.response.AlunoCriadoResponseDTO;
 import com.br.integramove.api.dto.response.AlunoResponseDTO;
 import com.br.integramove.api.dto.response.AlunoResumoResponseDTO;
 import com.br.integramove.api.dto.response.FinanceiroAlunoResponseDTO;
-import com.br.integramove.api.dto.response.PagamentoResponseDTO;
 import com.br.integramove.api.mapper.AlunoMapper;
 import com.br.integramove.api.mapper.FinanceiroAlunoMapper;
-import com.br.integramove.api.mapper.PagamentoMapper;
 import com.br.integramove.application.aluno.inputs.AtualizarAlunoInput;
 import com.br.integramove.application.aluno.inputs.CriarAlunoInput;
 import com.br.integramove.application.aluno.inputs.DesativarAlunoInput;
 import com.br.integramove.application.aluno.outputs.*;
 import com.br.integramove.application.aluno.services.*;
-import com.br.integramove.application.pagamento.services.ListarPagamentosPorAluno;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +28,6 @@ public class AlunoController {
     private final AtualizarAluno atualizarAluno;
     private final DesativarAluno desativarAluno;
     private final VincularPlanoAoAluno vincularPlano;
-    private final ListarPagamentosPorAluno listarPagamentosPorAluno;
     private final BuscarFinanceiroAluno buscarFinanceiroAluno;
 
     public AlunoController(
@@ -41,7 +37,6 @@ public class AlunoController {
             AtualizarAluno atualizarAluno,
             DesativarAluno desativarAluno,
             VincularPlanoAoAluno vincularPlano,
-            ListarPagamentosPorAluno listarPagamentosPorAluno,
             BuscarFinanceiroAluno buscarFinanceiroAluno
             ) {
         this.criarAluno = criarAluno;
@@ -50,7 +45,6 @@ public class AlunoController {
         this.atualizarAluno = atualizarAluno;
         this.desativarAluno = desativarAluno;
         this.vincularPlano = vincularPlano;
-        this.listarPagamentosPorAluno = listarPagamentosPorAluno;
         this.buscarFinanceiroAluno = buscarFinanceiroAluno;
     }
 

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public record ContratoOutput(
         String id,
         String alunoId,
+        String vendaId,
         String planoId,
         LocalDate dataInicio,
         LocalDate dataFim,

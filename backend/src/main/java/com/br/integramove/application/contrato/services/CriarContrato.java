@@ -16,12 +16,14 @@ import com.br.integramove.domain.contrato.Contrato;
 import com.br.integramove.domain.enums.StatusContrato;
 import com.br.integramove.domain.plano.Plano;
 import com.br.integramove.domain.plano.PlanoId;
+import com.br.integramove.domain.venda.VendaId;
 import org.springframework.stereotype.Service;
 
 /**
  * Representa a criação do Contrato a partir do fechamento de uma Venda de Plano
- * recorrente. A entidade Venda ainda não existe no projeto — este caso de uso é
- * o ponto de entrada que o fechamento de uma Venda deverá invocar futuramente.
+ * recorrente — CriarVenda invoca este caso de uso repassando o id da Venda que
+ * está sendo criada. vendaId é opcional aqui para não quebrar a criação direta
+ * de Contrato via API (POST /contratos), que não passa por uma Venda.
  */
 @Service
 public class CriarContrato {
@@ -47,6 +49,7 @@ public class CriarContrato {
 
         AlunoId alunoId = AlunoId.from(input.alunoId());
         PlanoId planoId = PlanoId.from(input.planoId());
+        VendaId vendaId = input.vendaId() != null ? VendaId.from(input.vendaId()) : null;
 
         Aluno aluno = alunoRepository.buscarPorId(alunoId)
                 .orElseThrow(() -> new AlunoNaoEncontradoException(alunoId));
@@ -59,6 +62,7 @@ public class CriarContrato {
 
         Contrato contrato = Contrato.criar(
                 alunoId,
+                vendaId,
                 planoId,
                 input.dataInicio(),
                 plano.getDuracaoDias(),
@@ -82,6 +86,7 @@ public class CriarContrato {
         return new ContratoOutput(
                 salvo.getId().getValue().toString(),
                 salvo.getAlunoId().getValue().toString(),
+                salvo.getVendaId() != null ? salvo.getVendaId().getValue().toString() : null,
                 salvo.getPlanoId().getValue().toString(),
                 salvo.getDataInicio(),
                 salvo.getDataFim(),

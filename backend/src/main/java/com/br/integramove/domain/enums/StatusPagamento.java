@@ -1,9 +1,8 @@
 package com.br.integramove.domain.enums;
 
 public enum StatusPagamento {
+    PENDENTE,
     PAGO,
-    EM_ABERTO,
-    A_VENCER,
-    VENCIDO,
+    ATRASADO,
     CANCELADO
 }

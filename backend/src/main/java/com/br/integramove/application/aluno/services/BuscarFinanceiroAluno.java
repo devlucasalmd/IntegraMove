@@ -4,13 +4,13 @@ import com.br.integramove.api.exception.aluno.AlunoNaoEncontradoException;
 import com.br.integramove.api.exception.plano.PlanoNaoEncontradoException;
 import com.br.integramove.application.aluno.AlunoRepository;
 import com.br.integramove.application.aluno.outputs.BuscarFinanceiroAlunoOutput;
-import com.br.integramove.application.pagamento.PagamentoRepository;
+import com.br.integramove.application.financeiro.FinanceiroRepository;
 import com.br.integramove.application.plano.PlanoRepository;
 import com.br.integramove.domain.aluno.Aluno;
 import com.br.integramove.domain.aluno.AlunoId;
-import com.br.integramove.domain.pagamentoAluno.Pagamento;
 import com.br.integramove.domain.enums.StatusFinanceiro;
 import com.br.integramove.domain.enums.StatusPagamento;
+import com.br.integramove.domain.financeiro.Financeiro;
 import com.br.integramove.domain.plano.Plano;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +24,16 @@ public class BuscarFinanceiroAluno {
 
     private final AlunoRepository alunoRepository;
     private final PlanoRepository planoRepository;
-    private final PagamentoRepository pagamentoRepository;
+    private final FinanceiroRepository financeiroRepository;
 
     public BuscarFinanceiroAluno(
             AlunoRepository alunoRepository,
             PlanoRepository planoRepository,
-            PagamentoRepository pagamentoRepository
+            FinanceiroRepository financeiroRepository
     ) {
         this.alunoRepository = alunoRepository;
         this.planoRepository = planoRepository;
-        this.pagamentoRepository = pagamentoRepository;
+        this.financeiroRepository = financeiroRepository;
     }
 
     public BuscarFinanceiroAlunoOutput buscar(String alunoId) {
@@ -68,11 +68,11 @@ public class BuscarFinanceiroAluno {
                 );
 
 
-        List<Pagamento> pagamentos =
-                pagamentoRepository.listarPorAlunoId(aluno.getId());
+        List<Financeiro> cobrancas =
+                financeiroRepository.listarPorAlunoId(aluno.getId());
 
 
-        if (pagamentos.isEmpty()) {
+        if (cobrancas.isEmpty()) {
 
             return new BuscarFinanceiroAlunoOutput(
                     aluno.getId().getValue().toString(),
@@ -90,43 +90,35 @@ public class BuscarFinanceiroAluno {
         }
 
 
-        BigDecimal totalPago = pagamentos.stream()
-                .filter(p -> p.getStatus() == StatusPagamento.PAGO)
-                .map(Pagamento::getValor)
+        BigDecimal totalPago = cobrancas.stream()
+                .filter(c -> c.getStatus() == StatusPagamento.PAGO)
+                .map(Financeiro::getValor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
 
-        BigDecimal totalEmAberto = pagamentos.stream()
-                .filter(p ->
-                        p.getStatus() == StatusPagamento.EM_ABERTO
-                                ||
-                                p.getStatus() == StatusPagamento.A_VENCER
-                )
-                .map(Pagamento::getValor)
+        BigDecimal totalEmAberto = cobrancas.stream()
+                .filter(c -> c.statusCalculado() == StatusPagamento.PENDENTE)
+                .map(Financeiro::getValor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
 
-        BigDecimal totalVencido = pagamentos.stream()
-                .filter(p -> p.getStatus() == StatusPagamento.VENCIDO)
-                .map(Pagamento::getValor)
+        BigDecimal totalVencido = cobrancas.stream()
+                .filter(c -> c.statusCalculado() == StatusPagamento.ATRASADO)
+                .map(Financeiro::getValor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
 
-        LocalDate ultimoPagamento = pagamentos.stream()
-                .filter(p -> p.getStatus() == StatusPagamento.PAGO)
-                .map(Pagamento::getDataPagamento)
+        LocalDate ultimoPagamento = cobrancas.stream()
+                .filter(c -> c.getStatus() == StatusPagamento.PAGO)
+                .map(Financeiro::getDataPagamento)
                 .filter(Objects::nonNull)
                 .max(LocalDate::compareTo)
                 .orElse(null);
 
 
-        LocalDate proximoVencimento = pagamentos.stream()
-                .filter(p ->
-                        p.getStatus() == StatusPagamento.EM_ABERTO
-                                ||
-                                p.getStatus() == StatusPagamento.A_VENCER
-                )
-                .map(Pagamento::getDataVencimento)
+        LocalDate proximoVencimento = cobrancas.stream()
+                .filter(c -> c.statusCalculado() == StatusPagamento.PENDENTE)
+                .map(Financeiro::getDataVencimento)
                 .filter(Objects::nonNull)
                 .min(LocalDate::compareTo)
                 .orElse(null);
@@ -138,7 +130,7 @@ public class BuscarFinanceiroAluno {
                 plano.getId().getValue().toString(),
                 plano.getNome(),
                 plano.getValor(),
-                definirStatusFinanceiro(pagamentos),
+                definirStatusFinanceiro(cobrancas),
                 totalPago,
                 totalEmAberto,
                 totalVencido,
@@ -147,16 +139,16 @@ public class BuscarFinanceiroAluno {
         );
     }
 
-    private StatusFinanceiro definirStatusFinanceiro(List<Pagamento> pagamentos) {
-        boolean possuiVencido = pagamentos.stream()
-                .anyMatch(p -> p.getStatus() == StatusPagamento.VENCIDO);
+    private StatusFinanceiro definirStatusFinanceiro(List<Financeiro> cobrancas) {
+        boolean possuiAtrasado = cobrancas.stream()
+                .anyMatch(c -> c.statusCalculado() == StatusPagamento.ATRASADO);
 
-        if (possuiVencido) {
+        if (possuiAtrasado) {
             return StatusFinanceiro.VENCIDO;
         }
 
-        boolean possuiEmAberto = pagamentos.stream()
-                .anyMatch(p -> p.getStatus() == StatusPagamento.EM_ABERTO);
+        boolean possuiEmAberto = cobrancas.stream()
+                .anyMatch(c -> c.statusCalculado() == StatusPagamento.PENDENTE);
 
         if (possuiEmAberto) {
             return StatusFinanceiro.EM_ABERTO;

@@ -3,6 +3,7 @@ package com.br.integramove.domain.contrato;
 import com.br.integramove.domain.aluno.AlunoId;
 import com.br.integramove.domain.enums.StatusContrato;
 import com.br.integramove.domain.plano.PlanoId;
+import com.br.integramove.domain.venda.VendaId;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ public class Contrato {
 
     private ContratoId id;
     private AlunoId alunoId;
+    private VendaId vendaId;
     private PlanoId planoId;
     private LocalDate dataInicio;
     private LocalDate dataFim;
@@ -24,6 +26,7 @@ public class Contrato {
     public Contrato(
             ContratoId id,
             AlunoId alunoId,
+            VendaId vendaId,
             PlanoId planoId,
             LocalDate dataInicio,
             LocalDate dataFim,
@@ -58,6 +61,7 @@ public class Contrato {
 
         this.id = id;
         this.alunoId = alunoId;
+        this.vendaId = vendaId;
         this.planoId = planoId;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
@@ -71,6 +75,7 @@ public class Contrato {
 
     public static Contrato criar(
             AlunoId alunoId,
+            VendaId vendaId,
             PlanoId planoId,
             LocalDate dataInicio,
             Integer duracaoDiasPlano,
@@ -86,6 +91,7 @@ public class Contrato {
         return new Contrato(
                 ContratoId.novo(),
                 alunoId,
+                vendaId,
                 planoId,
                 dataInicio,
                 dataInicio.plusDays(duracaoDiasPlano),
@@ -103,6 +109,9 @@ public class Contrato {
     }
     public AlunoId getAlunoId() {
         return alunoId;
+    }
+    public VendaId getVendaId() {
+        return vendaId;
     }
     public PlanoId getPlanoId() {
         return planoId;

@@ -127,7 +127,7 @@ public class Plano {
         this.descricao = descricao;
         this.periodicidade = periodicidade;
         this.duracaoDias = duracaoDias;
-        this.ativo = ativo;
+        this.ativo = ativo != null ? ativo : this.ativo;
         this.updatedAt = LocalDateTime.now();
     }
 }

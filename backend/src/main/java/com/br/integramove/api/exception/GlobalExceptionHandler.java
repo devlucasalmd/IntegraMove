@@ -5,14 +5,21 @@ import com.br.integramove.api.exception.auth.CredenciaisInvalidasException;
 import com.br.integramove.api.exception.avaliacao.AvaliacaoNaoEncontradaException;
 import com.br.integramove.api.exception.contrato.ContratoAtivoJaExistenteException;
 import com.br.integramove.api.exception.contrato.ContratoNaoEncontradoException;
+import com.br.integramove.api.exception.financeiro.FinanceiroNaoEncontradoException;
+import com.br.integramove.api.exception.plano.PlanoInativoException;
 import com.br.integramove.api.exception.plano.PlanoNaoEncontradoException;
 import com.br.integramove.api.exception.plano.ValorPlanoImutavelException;
+import com.br.integramove.api.exception.venda.AlunoJaPossuiContratoAtivoException;
+import com.br.integramove.api.exception.venda.DiaVencimentoObrigatorioException;
+import com.br.integramove.api.exception.venda.VendaNaoEncontradaException;
 import com.br.integramove.api.exception.treino.aluno.TreinoAlunoNaoEncontradoException;
 import com.br.integramove.api.exception.treino.exercicio.ExercicioNaoEncontradoException;
 import com.br.integramove.api.exception.treino.exercicio.TreinoItemNaoEncontradoException;
 import com.br.integramove.api.exception.treino.treino.TreinoNaoEncontradoException;
 import com.br.integramove.api.exception.usuario.UsuarioNaoEncontradoException;
 import jakarta.validation.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,6 +31,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -152,6 +161,57 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(PlanoInativoException.class)
+    public ResponseEntity<Map<String, String>> handlePlanoInativo(
+            PlanoInativoException ex
+    ) {
+
+        return response(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage()
+        );
+    }
+
+
+    @ExceptionHandler(VendaNaoEncontradaException.class)
+    public ResponseEntity<Map<String, String>> handleVendaNaoEncontrada(
+            VendaNaoEncontradaException ex
+    ) {
+
+        return response(
+                HttpStatus.NOT_FOUND,
+                ex.getMessage()
+        );
+    }
+
+
+    @ExceptionHandler({
+            AlunoJaPossuiContratoAtivoException.class,
+            DiaVencimentoObrigatorioException.class
+    })
+    public ResponseEntity<Map<String, String>> handleVendaDadosInvalidos(
+            RuntimeException ex
+    ) {
+
+        return response(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage()
+        );
+    }
+
+
+    @ExceptionHandler(FinanceiroNaoEncontradoException.class)
+    public ResponseEntity<Map<String, String>> handleFinanceiroNaoEncontrado(
+            FinanceiroNaoEncontradoException ex
+    ) {
+
+        return response(
+                HttpStatus.NOT_FOUND,
+                ex.getMessage()
+        );
+    }
+
+
     @ExceptionHandler({
             TreinoNaoEncontradoException.class,
             TreinoAlunoNaoEncontradoException.class,
@@ -207,6 +267,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleGenericException(
             Exception ex
     ) {
+
+        log.error("Erro interno não tratado", ex);
 
         return response(
                 HttpStatus.INTERNAL_SERVER_ERROR,

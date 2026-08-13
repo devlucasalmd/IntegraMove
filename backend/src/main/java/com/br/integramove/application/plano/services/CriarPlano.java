@@ -20,6 +20,7 @@ public class CriarPlano {
 
         PlanoId id = PlanoId.novo();
         LocalDateTime agora = LocalDateTime.now();
+        Boolean ativo = input.ativo() != null ? input.ativo() : true;
 
         Plano plano = new Plano(
                 id,
@@ -28,7 +29,7 @@ public class CriarPlano {
                 input.descricao(),
                 input.periodicidade(),
                 input.duracaoDias(),
-                input.ativo(),
+                ativo,
                 agora,
                 agora
         );

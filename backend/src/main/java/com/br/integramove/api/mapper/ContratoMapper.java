@@ -12,6 +12,7 @@ public class ContratoMapper {
     public static CriarContratoInput toInput(ContratoRequestDTO dto) {
         return new CriarContratoInput(
                 dto.alunoId(),
+                null,
                 dto.planoId(),
                 dto.dataInicio(),
                 dto.diaVencimento(),
@@ -23,6 +24,7 @@ public class ContratoMapper {
         return new ContratoResponseDTO(
                 output.id(),
                 output.alunoId(),
+                output.vendaId(),
                 output.planoId(),
                 output.dataInicio(),
                 output.dataFim(),

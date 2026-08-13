@@ -25,6 +25,7 @@ public class ListarContratosPorAluno {
                 .map(contrato -> new ContratoOutput(
                         contrato.getId().getValue().toString(),
                         contrato.getAlunoId().getValue().toString(),
+                        contrato.getVendaId() != null ? contrato.getVendaId().getValue().toString() : null,
                         contrato.getPlanoId().getValue().toString(),
                         contrato.getDataInicio(),
                         contrato.getDataFim(),

@@ -3,6 +3,7 @@ package com.br.integramove.infrastructure.persistence.contrato;
 import com.br.integramove.domain.enums.StatusContrato;
 import com.br.integramove.infrastructure.persistence.aluno.AlunoEntity;
 import com.br.integramove.infrastructure.persistence.plano.PlanoEntity;
+import com.br.integramove.infrastructure.persistence.venda.VendaEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,10 @@ public class ContratoEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "aluno_id", nullable = false)
     private AlunoEntity aluno;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "venda_id")
+    private VendaEntity venda;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plano_id", nullable = false)
