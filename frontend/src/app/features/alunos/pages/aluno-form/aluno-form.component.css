@@ -11,6 +11,24 @@
   padding: 16px;
 }
 
+/* ===================== ERRO ===================== */
+.erro-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  background: #fef3f2;
+  border: 1px solid #fee4e2;
+  color: #b42318;
+  font-size: 14px;
+}
+
+.erro-banner i-tabler {
+  color: #d92d20;
+}
+
 /* ===================== SEÇÕES ===================== */
 .section-card {
   background: #ffffff;
@@ -117,38 +135,6 @@ mat-radio-group {
 
 mat-radio-button {
   font-size: 13px;
-}
-
-/* ===================== PLANO INFO ===================== */
-.plano-info {
-  display: flex;
-  align-items: stretch;
-}
-
-.info-box {
-  width: 100%;
-  min-height: 56px;
-  border-radius: 10px;
-  padding: 10px 12px;
-
-  background: #f8fafc;
-  border: 1px solid #e5e7eb;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-}
-
-.info-box strong {
-  font-size: 13px;
-  color: #111827;
-}
-
-.info-box span {
-  font-size: 12px;
-  line-height: 1.4;
-  color: #6b7280;
 }
 
 /* ===================== FOCO ===================== */

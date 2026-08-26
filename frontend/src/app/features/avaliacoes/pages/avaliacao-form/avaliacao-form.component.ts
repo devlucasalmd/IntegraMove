@@ -1,150 +1,214 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  Validators,
-  FormGroup,
-} from '@angular/forms';
-
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { AvaliacaoService } from '../../services/avaliacao.service';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatCardModule } from '@angular/material/card';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 
+import { AvaliacaoService } from '../../services/avaliacao.service';
+import { TemplateAvaliacaoService } from '../../../templates-avaliacao/service/template-avaliacao.service';
+import { TemplateAvaliacaoResponseDTO } from '../../../templates-avaliacao/model/template-avaliacao.model';
+import { AvaliacaoRealizadaRequestDTO } from '../../models/avaliacao-request.model';
+import { AvaliacaoRealizadaResponseDTO } from '../../models/avaliacao-response.model';
 
-import { AvaliacaoRequestDTO } from '../../models/avaliacao-request.model';
-import { MatIcon } from '@angular/material/icon';
+export interface AvaliacaoFormDialogData {
+  alunoId: string;
+}
 
+/**
+ * Dialog de registro de uma nova avaliação física aplicada a um aluno
+ * (aba "Avaliações" do perfil do aluno).
+ *
+ * Ao selecionar um template (`GET /templates-avaliacao`, apenas ativos), o
+ * formulário monta dinamicamente um `FormArray` com um input numérico para
+ * cada campo definido no template. Trocar de template reconstrói o
+ * `FormArray` do zero.
+ */
 @Component({
   selector: 'app-avaliacao-form',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    MatCheckboxModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-    MatCardModule,
-    MatIcon
-],
+    MatIconModule
+  ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './avaliacao-form.component.html',
-  styleUrls: ['./avaliacao-form.component.css'],
+  styleUrl: './avaliacao-form.component.css'
 })
 export class AvaliacaoFormComponent implements OnInit {
 
-  avaliacaoForm!: FormGroup;
+  form!: FormGroup;
 
-  alunoId!: string;
+  templatesAtivos: TemplateAvaliacaoResponseDTO[] = [];
+  templateSelecionado: TemplateAvaliacaoResponseDTO | null = null;
 
-  avaliacaoId?: string;
-
-  modoVisualizacao = false;
+  carregandoTemplates = false;
   salvando = false;
-  carregando = false;
+  erroEnvio: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private avaliacaoService: AvaliacaoService,
+    private templateService: TemplateAvaliacaoService,
     private dialogRef: MatDialogRef<AvaliacaoFormComponent>,
 
     @Inject(MAT_DIALOG_DATA)
-    public data: {
-      alunoId: string;
-      avaliacaoId?: string;
-      modoVisualizacao?: boolean;
-    }
-  ){}
+    public data: AvaliacaoFormDialogData
+  ) {}
 
-  ngOnInit(): void {
-    this.modoVisualizacao = !!this.data.modoVisualizacao;
-
-    this.avaliacaoForm = this.fb.group({
-      dataAvaliacao: ['', Validators.required],
-
-      remadaBracoD: [null],
-      remadaBracoE: [null],
-      elevacaoLatD: [null],
-      elevacaoLatE: [null],
-
-      extensaoJoelhoD: [null],
-      extensaoJoelhoE: [null],
-      flexaoJoelhoD: [null],
-      flexaoJoelhoE: [null],
-
-      extensaoQuadrilD: [null],
-      extensaoQuadrilE: [null]
-    });
-
-    if (this.data.avaliacaoId) {
-      this.carregarAvaliacao();
-    } else {
-      this.avaliacaoForm.patchValue({
-        dataAvaliacao: this.dataAtual()
-      });
-    }
-
-    if (this.modoVisualizacao) {
-      this.avaliacaoForm.disable();
-    }
+  get valoresFormArray(): FormArray {
+    return this.form.get('valores') as FormArray;
   }
 
-  carregarAvaliacao(): void {
-    this.carregando = true;
+  ngOnInit(): void {
+    this.criarFormulario();
+    this.carregarTemplatesAtivos();
+    this.observarMudancaDeTemplate();
+  }
 
-    this.avaliacaoService.buscarPorId(this.data.alunoId, this.data.avaliacaoId!).subscribe({
-      next: (response) => {
-        this.avaliacaoForm.patchValue(response);
+  private criarFormulario(): void {
+    this.form = this.fb.group({
+      templateId: [null, Validators.required],
+      dataAvaliacao: [new Date(), Validators.required],
+      valores: this.fb.array([])
+    });
+  }
 
-        if (this.modoVisualizacao) {
-          this.avaliacaoForm.disable();
-        }
+  private carregarTemplatesAtivos(): void {
+    this.carregandoTemplates = true;
 
-        this.carregando = false;
+    this.templateService.listarAtivos().subscribe({
+      next: (templates) => {
+        this.templatesAtivos = templates;
+        this.carregandoTemplates = false;
       },
       error: (erro) => {
-        console.error('Erro ao carregar avaliação:', erro);
-        this.carregando = false;
+        console.error('Erro ao carregar templates de avaliação:', erro);
+        this.templatesAtivos = [];
+        this.erroEnvio = 'Não foi possível carregar os templates de avaliação disponíveis.';
+        this.carregandoTemplates = false;
       }
     });
+  }
+
+  private observarMudancaDeTemplate(): void {
+    this.form.get('templateId')?.valueChanges.subscribe((templateId: string) => {
+      this.templateSelecionado = this.templatesAtivos.find((template) => template.id === templateId) ?? null;
+      this.reconstruirValoresFormArray();
+    });
+  }
+
+  private reconstruirValoresFormArray(): void {
+    const grupos = this.templateSelecionado
+      ? [...this.templateSelecionado.campos]
+          .sort((a, b) => a.ordem - b.ordem)
+          .map((campo) => this.fb.group({
+            nomeCampo: [campo.nome],
+            unidade: [campo.unidade],
+            valor: [null, Validators.required]
+          }))
+      : [];
+
+    this.form.setControl('valores', this.fb.array(grupos));
   }
 
   salvar(): void {
-    if (this.modoVisualizacao) {
+    this.erroEnvio = null;
+
+    if (this.form.invalid || this.valoresFormArray.length === 0) {
+      this.form.markAllAsTouched();
       return;
     }
 
-    if (this.avaliacaoForm.invalid) {
-      this.avaliacaoForm.markAllAsTouched();
-      return;
-    }
-
-    const request: AvaliacaoRequestDTO = this.avaliacaoForm.getRawValue();
+    const request = this.montarRequest();
 
     this.salvando = true;
 
-    this.avaliacaoService.criar(this.data.alunoId, request).subscribe({
-      next: () => {
+    this.avaliacaoService.criar(request).subscribe({
+      next: (avaliacao: AvaliacaoRealizadaResponseDTO) => {
         this.salvando = false;
-        this.dialogRef.close(true);
+        this.dialogRef.close(avaliacao);
       },
-      error: (erro) => {
-        console.error('Erro ao salvar avaliação:', erro);
+      error: (erro: HttpErrorResponse) => {
         this.salvando = false;
+        this.erroEnvio = this.extrairMensagemErro(erro);
       }
     });
+  }
+
+  private montarRequest(): AvaliacaoRealizadaRequestDTO {
+    const valores = this.form.value;
+
+    return {
+      alunoId: this.data.alunoId,
+      templateId: valores.templateId,
+      dataAvaliacao: this.formatarData(valores.dataAvaliacao),
+      valores: (valores.valores as { nomeCampo: string; valor: number }[]).map((v) => ({
+        nomeCampo: v.nomeCampo,
+        valor: Number(v.valor)
+      }))
+    };
+  }
+
+  private formatarData(data: Date | string): string {
+    if (!data) {
+      return '';
+    }
+
+    if (typeof data === 'string') {
+      return data;
+    }
+
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia}`;
+  }
+
+  /**
+   * Traduz o corpo de erro retornado pelo backend em uma mensagem amigável.
+   *
+   * - `TemplateAvaliacaoNaoEncontradoException` (404).
+   * - `TemplateAvaliacaoInativoException` (400) — fallback de segurança,
+   *   já que o select só lista templates ativos.
+   * - `ValoresAvaliacaoInvalidosException` (400) — fallback, já que os
+   *   valores são montados dinamicamente a partir do template selecionado.
+   */
+  private extrairMensagemErro(erro: HttpErrorResponse): string {
+    const corpo = erro?.error;
+
+    if (corpo && typeof corpo === 'object' && typeof corpo.erro === 'string') {
+      return corpo.erro;
+    }
+
+    if (corpo && typeof corpo === 'object') {
+      const mensagens = Object.values(corpo).filter((valor) => typeof valor === 'string') as string[];
+
+      if (mensagens.length > 0) {
+        return mensagens.join(' ');
+      }
+    }
+
+    if (typeof corpo === 'string' && corpo.trim() !== '') {
+      return corpo;
+    }
+
+    return 'Não foi possível registrar a avaliação. Verifique os dados e tente novamente.';
   }
 
   fechar(): void {
@@ -152,37 +216,17 @@ export class AvaliacaoFormComponent implements OnInit {
       return;
     }
 
-    this.dialogRef.close(false);
-  }
-
-  buscarAvaliacao(avaliacaoId: string): void {
-    this.avaliacaoService.buscarPorId(this.alunoId, avaliacaoId).subscribe({
-      next: (response) => {
-        console.log('✅ Avaliação encontrada:', response);
-
-        this.avaliacaoForm.patchValue({
-          ...response,
-
-          dataAvaliacao: response.dataAvaliacao,
-        });
-
-        // 🔥 desabilita formulário
-        this.avaliacaoForm.disable();
-      },
-
-      error: (err) => {
-        console.error('❌ Erro ao buscar avaliação', err);
-      },
-    });
+    this.dialogRef.close();
   }
 
   campoInvalido(campo: string): boolean {
-    const control = this.avaliacaoForm.get(campo);
+    const control = this.form.get(campo);
     return !!control && control.invalid && control.touched;
   }
 
-  private dataAtual(): string {
-    return new Date().toISOString().split('T')[0];
+  valorCampoInvalido(index: number): boolean {
+    const grupo = this.valoresFormArray.at(index);
+    const control = grupo?.get('valor');
+    return !!control && control.invalid && control.touched;
   }
-
 }

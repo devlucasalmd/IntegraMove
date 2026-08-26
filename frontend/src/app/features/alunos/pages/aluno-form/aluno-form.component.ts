@@ -18,11 +18,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { TablerIconComponent, provideTablerIcons } from 'angular-tabler-icons';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AlunoService } from '../../services/aluno.service';
 import { AlunoRequestDTO } from '../../models/aluno-request.model';
 import { Router } from '@angular/router';
-import { PlanoService } from '../../../planos/plano.service';
-import { PlanoResponseDTO } from '../../../planos/models/plano-response';
 
 @Component({
   selector: 'app-aluno-form',
@@ -54,8 +53,6 @@ export class AlunoFormComponent implements OnInit {
 
   alunoForm!: FormGroup;
 
-  planos: PlanoResponseDTO[] = [];
-
   generos: string[] = [
     'MASCULINO',
     'FEMININO',
@@ -63,18 +60,16 @@ export class AlunoFormComponent implements OnInit {
   ];
 
   salvando = false;
-  carregandoPlanos = false;
+  erroEnvio: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private alunoService: AlunoService,
-    private planoService: PlanoService,
     private router: Router
     ) {}
 
   ngOnInit(): void {
     this.criarFormulario();
-    this.carregarPlanos();
   }
 
   private criarFormulario(): void {
@@ -86,7 +81,6 @@ export class AlunoFormComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       telefone: ['', Validators.required],
       status: [true],
-      planoId: [null],
 
       enderecoDTO: this.fb.group({
         rua: [''],
@@ -99,22 +93,9 @@ export class AlunoFormComponent implements OnInit {
     });
   }
 
-  carregarPlanos(): void {
-    this.carregandoPlanos = true;
-
-    this.planoService.listarPlanos().subscribe({
-      next: (planos) => {
-        this.planos = planos.filter(plano => plano.ativo);
-        this.carregandoPlanos = false;
-      },
-      error: (erro) => {
-        console.error('Erro ao carregar planos:', erro);
-        this.carregandoPlanos = false;
-      }
-    });
-  }
-
   salvar(): void {
+    this.erroEnvio = null;
+
     if (this.alunoForm.invalid) {
       this.alunoForm.markAllAsTouched();
       return;
@@ -132,7 +113,6 @@ export class AlunoFormComponent implements OnInit {
       telefone: formValue.telefone,
       email: formValue.email,
       status: formValue.status ? 'ATIVO' : 'INATIVO',
-      planoId: formValue.planoId,
       enderecoDTO: {
         rua: formValue.enderecoDTO.rua,
         numero: formValue.enderecoDTO.numero,
@@ -148,11 +128,34 @@ export class AlunoFormComponent implements OnInit {
         this.salvando = false;
         this.fechar();
       },
-      error: (erro) => {
+      error: (erro: HttpErrorResponse) => {
         console.error('Erro ao salvar aluno:', erro);
         this.salvando = false;
+        this.erroEnvio = this.extrairMensagemErro(erro);
       }
     });
+  }
+
+  private extrairMensagemErro(erro: HttpErrorResponse): string {
+    const corpo = erro?.error;
+
+    if (corpo && typeof corpo === 'object' && typeof corpo.erro === 'string') {
+      return corpo.erro;
+    }
+
+    if (corpo && typeof corpo === 'object') {
+      const mensagens = Object.values(corpo).filter((valor) => typeof valor === 'string') as string[];
+
+      if (mensagens.length > 0) {
+        return mensagens.join(' ');
+      }
+    }
+
+    if (typeof corpo === 'string' && corpo.trim() !== '') {
+      return corpo;
+    }
+
+    return 'Não foi possível salvar o aluno. Verifique os dados e tente novamente.';
   }
 
   fechar(): void {

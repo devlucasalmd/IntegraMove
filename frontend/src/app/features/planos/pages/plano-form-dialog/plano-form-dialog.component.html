@@ -1,0 +1,86 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div>
+      <span class="subtitle">{{ editando ? 'Editar plano' : 'Novo plano' }}</span>
+      <h2>{{ editando ? 'Editar plano' : 'Cadastrar plano' }}</h2>
+      <p>Defina os dados do plano de assinatura oferecido pela academia.</p>
+    </div>
+    <button mat-icon-button type="button" (click)="fechar()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  @if (erroEnvio) {
+    <div class="erro-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ erroEnvio }}</span>
+    </div>
+  }
+
+  <form [formGroup]="form">
+    <div class="form-grid">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Nome do plano</mat-label>
+        <input matInput formControlName="nome">
+        @if (campoInvalido('nome')) {
+          <mat-error>Informe o nome do plano</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Valor</mat-label>
+        <input matInput type="number" min="0.01" step="0.01" formControlName="valor">
+        <span matTextPrefix>R$&nbsp;</span>
+        @if (campoInvalido('valor')) {
+          <mat-error>Informe um valor maior que zero</mat-error>
+        }
+        @if (editando) {
+          <mat-hint>O valor não pode ser alterado após a criação do plano.</mat-hint>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Periodicidade</mat-label>
+        <mat-select formControlName="periodicidade">
+          @for (periodicidade of periodicidades; track periodicidade.value) {
+            <mat-option [value]="periodicidade.value">{{ periodicidade.label }}</mat-option>
+          }
+        </mat-select>
+        @if (campoInvalido('periodicidade')) {
+          <mat-error>Selecione a periodicidade</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Duração (dias)</mat-label>
+        <input matInput type="number" min="1" step="1" formControlName="duracaoDias">
+        @if (campoInvalido('duracaoDias')) {
+          <mat-error>Informe a duração em dias</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput rows="3" formControlName="descricao"></textarea>
+        @if (campoInvalido('descricao')) {
+          <mat-error>Informe a descrição do plano</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="checkbox-field full">
+        <mat-checkbox formControlName="ativo">
+          Plano ativo
+        </mat-checkbox>
+      </div>
+    </div>
+  </form>
+
+  <div class="dialog-actions">
+    <button mat-stroked-button type="button" (click)="fechar()" [disabled]="salvando">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" type="button" (click)="salvar()" [disabled]="salvando">
+      {{ salvando ? 'Salvando...' : (editando ? 'Salvar alterações' : 'Cadastrar plano') }}
+    </button>
+  </div>
+</div>

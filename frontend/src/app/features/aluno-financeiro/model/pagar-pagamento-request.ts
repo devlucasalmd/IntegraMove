@@ -1,4 +1,6 @@
+import { FormaPagamento } from './pagamento-response.model';
+
 export interface PagarPagamentoRequestDTO {
-  dataPagamento: string;
-  formaPagamento: string;
+  formaPagamento: FormaPagamento;
+  dataPagamento?: string | null;
 }

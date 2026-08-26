@@ -1,0 +1,129 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div>
+      <span class="subtitle">{{ editando ? 'Editar template' : 'Novo template' }}</span>
+      <h2>{{ editando ? 'Editar template de avaliação' : 'Cadastrar template de avaliação' }}</h2>
+      <p>Defina os campos (medidas) que compõem este modelo de avaliação física.</p>
+    </div>
+    <button mat-icon-button type="button" (click)="fechar()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  @if (erroEnvio) {
+    <div class="erro-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ erroEnvio }}</span>
+    </div>
+  }
+
+  <form [formGroup]="form">
+    <div class="form-grid">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Nome do template</mat-label>
+        <input matInput formControlName="nome">
+        @if (campoInvalido('nome')) {
+          <mat-error>Informe o nome do template</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput rows="2" formControlName="descricao"></textarea>
+        @if (campoInvalido('descricao')) {
+          <mat-error>Informe a descrição do template</mat-error>
+        }
+      </mat-form-field>
+
+      @if (editando) {
+        <div class="checkbox-field full">
+          <mat-checkbox formControlName="ativo">
+            Template ativo
+          </mat-checkbox>
+        </div>
+      }
+    </div>
+
+    <div class="campos-section">
+      <div class="campos-header">
+        <h3>Campos do template</h3>
+
+        @if (!somenteLeituraCampos) {
+          <button mat-stroked-button type="button" (click)="adicionarCampo()">
+            <mat-icon>add</mat-icon>
+            Adicionar campo
+          </button>
+        }
+      </div>
+
+      @if (somenteLeituraCampos) {
+        <div class="campos-readonly-note">
+          <mat-icon>lock</mat-icon>
+          <span>
+            Este template já possui avaliações aplicadas — os campos não podem mais ser alterados.
+            Crie um novo template caso precise de campos diferentes.
+          </span>
+        </div>
+
+        <div class="campos-chips">
+          @for (campo of camposSomenteLeitura; track campo.nome) {
+            <mat-chip-set>
+              <mat-chip>
+                {{ campo.ordem }}. {{ campo.nome }}
+                @if (campo.unidade) {
+                  <span class="chip-unidade">({{ campo.unidade }})</span>
+                }
+              </mat-chip>
+            </mat-chip-set>
+          }
+        </div>
+      } @else {
+        <div class="campos-lista" formArrayName="campos">
+          @for (campoGrupo of camposFormArray.controls; track $index) {
+            <div class="campo-linha" [formGroupName]="$index">
+              <mat-form-field appearance="outline" class="campo-nome">
+                <mat-label>Nome do campo</mat-label>
+                <input matInput formControlName="nome" placeholder="Ex.: Carga supino">
+                @if (campoDoArrayInvalido($index, 'nome')) {
+                  <mat-error>Obrigatório</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="campo-unidade">
+                <mat-label>Unidade</mat-label>
+                <input matInput formControlName="unidade" placeholder="Ex.: kg">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="campo-ordem">
+                <mat-label>Ordem</mat-label>
+                <input matInput type="number" min="1" step="1" formControlName="ordem">
+                @if (campoDoArrayInvalido($index, 'ordem')) {
+                  <mat-error>Obrigatório</mat-error>
+                }
+              </mat-form-field>
+
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Remover campo"
+                [disabled]="camposFormArray.length === 1"
+                (click)="removerCampo($index)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </form>
+
+  <div class="dialog-actions">
+    <button mat-stroked-button type="button" (click)="fechar()" [disabled]="salvando">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" type="button" (click)="salvar()" [disabled]="salvando">
+      {{ salvando ? 'Salvando...' : (editando ? 'Salvar alterações' : 'Cadastrar template') }}
+    </button>
+  </div>
+</div>

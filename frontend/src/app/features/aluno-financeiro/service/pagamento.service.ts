@@ -2,7 +2,6 @@ import { PagamentoResponseDTO } from './../model/pagamento-response.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PagamentoRequestDTO } from '../model/pagamento-request.model';
 import { PagarPagamentoRequestDTO } from '../model/pagar-pagamento-request';
 
 
@@ -11,50 +10,29 @@ import { PagarPagamentoRequestDTO } from '../model/pagar-pagamento-request';
 })
 export class PagamentoService {
 
-  private apiUrl = 'http://localhost:8080/alunos';
+  private apiUrl = 'http://localhost:8080/financeiro';
 
   constructor(private http: HttpClient) {}
 
   listarPorAluno(alunoId: string): Observable<PagamentoResponseDTO[]> {
     return this.http.get<PagamentoResponseDTO[]>(
-      `${this.apiUrl}/${alunoId}/pagamentos`
+      `${this.apiUrl}/aluno/${alunoId}`
     );
   }
 
-  buscarPorId(alunoId: string, pagamentoId: string): Observable<PagamentoResponseDTO> {
+  buscarPorId(pagamentoId: string): Observable<PagamentoResponseDTO> {
     return this.http.get<PagamentoResponseDTO>(
-      `${this.apiUrl}/${alunoId}/pagamentos/${pagamentoId}`
-    );
-  }
-
-  criarPagamento(
-    alunoId: string,
-    pagamento: PagamentoRequestDTO
-  ): Observable<PagamentoResponseDTO> {
-    return this.http.post<PagamentoResponseDTO>(
-      `${this.apiUrl}/${alunoId}/pagamentos`,
-      pagamento
+      `${this.apiUrl}/${pagamentoId}`
     );
   }
 
   pagarPagamento(
-    alunoId: string,
     pagamentoId: string,
     request: PagarPagamentoRequestDTO
   ): Observable<PagamentoResponseDTO> {
-    return this.http.patch<PagamentoResponseDTO>(
-      `${this.apiUrl}/${alunoId}/pagamentos/${pagamentoId}/pagar`,
+    return this.http.post<PagamentoResponseDTO>(
+      `${this.apiUrl}/${pagamentoId}/pagar`,
       request
-    );
-  }
-
-  cancelarPagamento(
-    alunoId: string,
-    pagamentoId: string
-  ): Observable<PagamentoResponseDTO> {
-    return this.http.patch<PagamentoResponseDTO>(
-      `${this.apiUrl}/${alunoId}/pagamentos/${pagamentoId}/cancelar`,
-      {}
     );
   }
 }

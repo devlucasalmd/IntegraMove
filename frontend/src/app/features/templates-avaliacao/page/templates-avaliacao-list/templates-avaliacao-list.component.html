@@ -1,0 +1,118 @@
+<div class="templates-container">
+
+  <div class="templates-header">
+    <div>
+      <span class="subtitle">Gestão de avaliação física</span>
+      <h2>Templates de avaliação</h2>
+      <p>Cadastre e gerencie os modelos de avaliação física aplicados aos alunos.</p>
+    </div>
+
+    <button mat-raised-button color="primary" type="button" (click)="abrirNovoTemplate()">
+      <mat-icon>add</mat-icon>
+      Novo template
+    </button>
+  </div>
+
+  @if (erro) {
+    <mat-card class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <div>
+        <strong>Não foi possível carregar os templates</strong>
+        <span>{{ erro }}</span>
+      </div>
+      <button mat-stroked-button type="button" (click)="carregarTemplates()">
+        <mat-icon>refresh</mat-icon>
+        Tentar novamente
+      </button>
+    </mat-card>
+  }
+
+  <mat-card class="table-card">
+
+    <div class="table-header">
+      <div>
+        <h3>Templates cadastrados</h3>
+        <p>Cada template define os campos (medidas) aplicados em uma avaliação física.</p>
+      </div>
+    </div>
+
+    @if (carregando) {
+      <div class="loading">
+        <mat-spinner diameter="36"></mat-spinner>
+        <span>Carregando templates...</span>
+      </div>
+    }
+
+    @if (!carregando && templates.length === 0 && !erro) {
+      <div class="empty-state">
+        <mat-icon>assignment</mat-icon>
+        <h3>Nenhum template cadastrado</h3>
+        <p>Ainda não há templates de avaliação. Clique em "Novo template" para cadastrar o primeiro.</p>
+      </div>
+    }
+
+    @if (!carregando && templates.length > 0) {
+      <div class="table-wrapper">
+        <table mat-table [dataSource]="templates" class="templates-table">
+
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let template">
+              <strong>{{ template.nome }}</strong>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="descricao">
+            <th mat-header-cell *matHeaderCellDef>Descrição</th>
+            <td mat-cell *matCellDef="let template">{{ template.descricao }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="campos">
+            <th mat-header-cell *matHeaderCellDef>Campos</th>
+            <td mat-cell *matCellDef="let template">{{ template.campos.length }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let template">
+              <span class="status-badge" [ngClass]="classeStatus(template)">
+                {{ template.ativo ? 'Ativo' : 'Inativo' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef>Ações</th>
+            <td mat-cell *matCellDef="let template">
+              <div class="acoes-cell">
+                <button
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Editar template"
+                  (click)="editarTemplate(template)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <button
+                  mat-icon-button
+                  type="button"
+                  [matTooltip]="template.ativo ? 'Inativar template' : 'Ativar template'"
+                  [disabled]="atualizandoStatusId === template.id"
+                  (click)="alternarStatus(template)"
+                >
+                  <mat-icon>{{ template.ativo ? 'toggle_on' : 'toggle_off' }}</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    }
+
+  </mat-card>
+
+</div>

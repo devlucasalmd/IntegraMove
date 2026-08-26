@@ -193,6 +193,18 @@
   color: #667085;
 }
 
+.acao-registrar {
+  white-space: nowrap;
+}
+
+.acao-registrar mat-icon {
+  margin-right: 4px;
+}
+
+.acao-indisponivel {
+  color: #98a2b3;
+}
+
 .loading {
   padding: 48px 24px;
   display: flex;

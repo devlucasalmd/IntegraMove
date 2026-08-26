@@ -1,222 +1,85 @@
 <div class="dialog-container">
 
   <div class="dialog-header">
-
     <div>
-      <span class="subtitle">
-        {{ modoVisualizacao ? 'Visualização' : 'Nova avaliação' }}
-      </span>
-
-      <h2>Avaliação física</h2>
-
-      <p>
-        {{
-        modoVisualizacao
-        ? 'Consulte os dados registrados nesta avaliação.'
-        : 'Registre os dados de desempenho muscular do aluno.'
-        }}
-      </p>
+      <span class="subtitle">Nova avaliação</span>
+      <h2>Registrar avaliação física</h2>
+      <p>Selecione um template e informe os valores medidos nesta avaliação.</p>
     </div>
-
-    <button
-      mat-icon-button
-      type="button"
-      (click)="fechar()"
-      >
+    <button mat-icon-button type="button" (click)="fechar()">
       <mat-icon>close</mat-icon>
     </button>
-
   </div>
 
-  <form [formGroup]="avaliacaoForm" (ngSubmit)="salvar()">
+  @if (erroEnvio) {
+    <div class="erro-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ erroEnvio }}</span>
+    </div>
+  }
 
-    <section class="section">
+  <form [formGroup]="form" (ngSubmit)="salvar()">
 
-      <div class="section-header">
-        <div>
-          <h3>Dados da avaliação</h3>
-          <p>Informe a data em que a avaliação foi realizada.</p>
-        </div>
-      </div>
-
-      <div class="form-grid small-grid">
-
-        <mat-form-field appearance="outline">
-          <mat-label>Data da avaliação</mat-label>
-          <input
-            matInput
-            type="date"
-            formControlName="dataAvaliacao"
-            >
-
-          @if (campoInvalido('dataAvaliacao')) {
-            <mat-error>
-              Data da avaliação é obrigatória
-            </mat-error>
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Template de avaliação</mat-label>
+        <mat-select formControlName="templateId">
+          @for (template of templatesAtivos; track template.id) {
+            <mat-option [value]="template.id">{{ template.nome }}</mat-option>
           }
-        </mat-form-field>
+        </mat-select>
+        @if (campoInvalido('templateId')) {
+          <mat-error>Selecione um template de avaliação</mat-error>
+        }
+        @if (!carregandoTemplates && templatesAtivos.length === 0) {
+          <mat-hint>Nenhum template ativo cadastrado. Cadastre um em Administrador &gt; Avaliação Física.</mat-hint>
+        }
+      </mat-form-field>
 
-      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Data da avaliação</mat-label>
+        <input matInput [matDatepicker]="pickerDataAvaliacao" formControlName="dataAvaliacao">
+        <mat-datepicker-toggle matIconSuffix [for]="pickerDataAvaliacao"></mat-datepicker-toggle>
+        <mat-datepicker #pickerDataAvaliacao></mat-datepicker>
+        @if (campoInvalido('dataAvaliacao')) {
+          <mat-error>Informe a data da avaliação</mat-error>
+        }
+      </mat-form-field>
+    </div>
 
-    </section>
-
-    <section class="section">
-
-      <div class="section-header">
-        <div>
-          <h3>Membros superiores</h3>
-          <p>Força registrada para remada e elevação lateral.</p>
+    @if (templateSelecionado) {
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <h3>Valores medidos</h3>
+            <p>Preencha o valor de cada campo definido pelo template selecionado.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="form-grid">
-
-        <mat-form-field appearance="outline">
-          <mat-label>Remada braço direito</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="remadaBracoD"
-            >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Remada braço esquerdo</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="remadaBracoE"
-            >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Elevação lateral direita</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="elevacaoLatD"
-            >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Elevação lateral esquerda</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="elevacaoLatE"
-            >
-        </mat-form-field>
-
-      </div>
-
-    </section>
-
-    <section class="section">
-
-      <div class="section-header">
-        <div>
-          <h3>Membros inferiores</h3>
-          <p>Força registrada para extensão e flexão de joelho.</p>
+        <div class="form-grid" formArrayName="valores">
+          @for (valorGrupo of valoresFormArray.controls; track $index) {
+            <mat-form-field appearance="outline" [formGroupName]="$index">
+              <mat-label>{{ valorGrupo.get('nomeCampo')?.value }}</mat-label>
+              <input matInput type="number" step="any" formControlName="valor">
+              @if (valorGrupo.get('unidade')?.value) {
+                <span matTextSuffix>&nbsp;{{ valorGrupo.get('unidade')?.value }}</span>
+              }
+              @if (valorCampoInvalido($index)) {
+                <mat-error>Informe o valor deste campo</mat-error>
+              }
+            </mat-form-field>
+          }
         </div>
-      </div>
-
-      <div class="form-grid">
-
-        <mat-form-field appearance="outline">
-          <mat-label>Extensão joelho direito</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="extensaoJoelhoD"
-            >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Extensão joelho esquerdo</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="extensaoJoelhoE"
-            >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Flexão joelho direito</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="flexaoJoelhoD"
-            >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Flexão joelho esquerdo</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="flexaoJoelhoE"
-            >
-        </mat-form-field>
-
-      </div>
-
-    </section>
-
-    <section class="section">
-
-      <div class="section-header">
-        <div>
-          <h3>Quadril</h3>
-          <p>Força registrada para extensão de quadril.</p>
-        </div>
-      </div>
-
-      <div class="form-grid">
-
-        <mat-form-field appearance="outline">
-          <mat-label>Extensão quadril direito</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="extensaoQuadrilD"
-            >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Extensão quadril esquerdo</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="extensaoQuadrilE"
-            >
-        </mat-form-field>
-
-      </div>
-
-    </section>
+      </section>
+    }
 
     <div class="dialog-actions">
-
-      <button
-        mat-stroked-button
-        type="button"
-        (click)="fechar()"
-        [disabled]="salvando"
-        >
-        {{ modoVisualizacao ? 'Fechar' : 'Cancelar' }}
+      <button mat-stroked-button type="button" (click)="fechar()" [disabled]="salvando">
+        Cancelar
       </button>
-
-      @if (!modoVisualizacao) {
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="salvando"
-          >
-          {{ salvando ? 'Salvando...' : 'Salvar avaliação' }}
-        </button>
-      }
-
+      <button mat-raised-button color="primary" type="submit" [disabled]="salvando">
+        {{ salvando ? 'Salvando...' : 'Salvar avaliação' }}
+      </button>
     </div>
 
   </form>

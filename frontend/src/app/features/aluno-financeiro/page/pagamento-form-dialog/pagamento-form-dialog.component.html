@@ -1,0 +1,52 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div>
+      <span class="subtitle">Registrar pagamento</span>
+      <h2>Confirmar recebimento</h2>
+      <p>{{ data.descricao }}</p>
+    </div>
+    <button mat-icon-button type="button" (click)="fechar()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  @if (erroEnvio) {
+    <div class="erro-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ erroEnvio }}</span>
+    </div>
+  }
+
+  <form [formGroup]="form">
+    <div class="form-grid">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Forma de pagamento</mat-label>
+        <mat-select formControlName="formaPagamento">
+          @for (forma of formasPagamento; track forma.value) {
+            <mat-option [value]="forma.value">{{ forma.label }}</mat-option>
+          }
+        </mat-select>
+        @if (campoInvalido('formaPagamento')) {
+          <mat-error>Selecione a forma de pagamento</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Data do pagamento</mat-label>
+        <input matInput [matDatepicker]="pickerDataPagamento" formControlName="dataPagamento">
+        <mat-datepicker-toggle matIconSuffix [for]="pickerDataPagamento"></mat-datepicker-toggle>
+        <mat-datepicker #pickerDataPagamento></mat-datepicker>
+        <mat-hint>Se deixado em branco, será usada a data de hoje.</mat-hint>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <div class="dialog-actions">
+    <button mat-stroked-button type="button" (click)="fechar()" [disabled]="salvando">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" type="button" (click)="salvar()" [disabled]="salvando">
+      {{ salvando ? 'Registrando...' : 'Registrar pagamento' }}
+    </button>
+  </div>
+</div>

@@ -59,6 +59,11 @@ export const routes: Routes = [
         loadChildren: () => import('./features/agenda/agenda.route')
           .then(m => m.agendaRoutes)
       },
+      {
+        path: 'administrador/avaliacao',
+        loadChildren: () => import('./features/templates-avaliacao/templates-avaliacao.routes')
+          .then(m => m.templatesAvaliacaoRoutes)
+      },
       // {
       //   path: 'estoque',
       //   loadChildren: () => import('./features/')

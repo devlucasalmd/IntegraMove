@@ -1,32 +1,30 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AvaliacaoRequestDTO } from '../models/avaliacao-request.model';
-import { AvaliacaoResponseDTO } from '../models/avaliacao-response.model';
+
+import { AvaliacaoRealizadaRequestDTO } from '../models/avaliacao-request.model';
+import { AvaliacaoRealizadaResponseDTO } from '../models/avaliacao-response.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AvaliacaoService {
 
-  private apiUrl = 'http://localhost:8080/alunos';
+  private apiUrl = 'http://localhost:8080/avaliacoes';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  cadastrarAvaliacao(alunoId: string, avaliacao: AvaliacaoRequestDTO): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${alunoId}/avaliacoes`, avaliacao);
+  /**
+   * GET /avaliacoes/aluno/{alunoId}
+   */
+  listarPorAluno(alunoId: string): Observable<AvaliacaoRealizadaResponseDTO[]> {
+    return this.http.get<AvaliacaoRealizadaResponseDTO[]>(`${this.apiUrl}/aluno/${alunoId}`);
   }
 
-  listarAvaliacoes(alunoId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/${alunoId}/avaliacoes`);
+  /**
+   * POST /avaliacoes
+   */
+  criar(request: AvaliacaoRealizadaRequestDTO): Observable<AvaliacaoRealizadaResponseDTO> {
+    return this.http.post<AvaliacaoRealizadaResponseDTO>(this.apiUrl, request);
   }
-
-  buscarPorId(alunoId: string, avaliacaoId: string): Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/${alunoId}/avaliacoes/${avaliacaoId}`);
-  }
-
-  criar(alunoId: string, request: AvaliacaoRequestDTO) {
-    return this.http.post<AvaliacaoResponseDTO>(`${this.apiUrl}/${alunoId}/avaliacoes`,request);
-  }
-
 }

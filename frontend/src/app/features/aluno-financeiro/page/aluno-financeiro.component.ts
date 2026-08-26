@@ -10,10 +10,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PagamentoResponseDTO } from '../model/pagamento-response.model';
 import { PagamentoService } from '../service/pagamento.service';
+import { ContratoService } from '../../aluno-contrato/service/contrato.service';
+import { VendaService } from '../../aluno-vendas/service/venda.service';
+import { PlanoService } from '../../planos/plano.service';
+import { forkJoin } from 'rxjs';
+import { PagamentoFormDialogComponent } from './pagamento-form-dialog/pagamento-form-dialog.component';
 
 
 @Component({
@@ -31,7 +35,6 @@ import { PagamentoService } from '../service/pagamento.service';
     MatChipsModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatMenuModule,
     MatProgressSpinnerModule
   ],
   templateUrl: './aluno-financeiro.component.html',
@@ -55,10 +58,18 @@ export class AlunoFinanceiroComponent implements OnInit {
     'acoes'
   ];
 
+  private planoNomePorId = new Map<string, string>();
+  private planoIdPorContratoId = new Map<string, string>();
+  private vendaPorId = new Map<string, { tipo: string; descricao: string | null; planoId: string | null }>();
+
   constructor(
     private route: ActivatedRoute,
     private pagamentoService: PagamentoService,
-    private snackBar: MatSnackBar
+    private contratoService: ContratoService,
+    private vendaService: VendaService,
+    private planoService: PlanoService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -74,9 +85,21 @@ export class AlunoFinanceiroComponent implements OnInit {
   carregarPagamentos(): void {
     this.carregando = true;
 
-    this.pagamentoService.listarPorAluno(this.alunoId).subscribe({
-      next: (response) => {
-        this.pagamentos = response;
+    forkJoin({
+      pagamentos: this.pagamentoService.listarPorAluno(this.alunoId),
+      contratos: this.contratoService.listarPorAluno(this.alunoId),
+      vendas: this.vendaService.listarPorAluno(this.alunoId),
+      planos: this.planoService.listarPlanos()
+    }).subscribe({
+      next: ({ pagamentos, contratos, vendas, planos }) => {
+        this.planoNomePorId = new Map(planos.map(plano => [plano.id, plano.nome]));
+        this.planoIdPorContratoId = new Map(contratos.map(contrato => [contrato.id, contrato.planoId]));
+        this.vendaPorId = new Map(vendas.map(venda => [
+          venda.id,
+          { tipo: venda.tipo, descricao: venda.descricao, planoId: venda.planoId }
+        ]));
+
+        this.pagamentos = pagamentos;
         this.carregando = false;
       },
       error: (erro) => {
@@ -89,41 +112,43 @@ export class AlunoFinanceiroComponent implements OnInit {
     });
   }
 
-  registrarPagamento(pagamento: PagamentoResponseDTO): void {
-    const hoje = new Date().toISOString().substring(0, 10);
+  nomeParcela(pagamento: PagamentoResponseDTO): string {
+    const planoIdDoContrato = pagamento.contratoId
+      ? this.planoIdPorContratoId.get(pagamento.contratoId)
+      : undefined;
 
-    this.pagamentoService.pagarPagamento(this.alunoId, pagamento.id, {
-      dataPagamento: hoje,
-      formaPagamento: 'PIX'
-    }).subscribe({
-      next: () => {
+    if (planoIdDoContrato) {
+      return this.planoNomePorId.get(planoIdDoContrato) ?? 'Plano';
+    }
+
+    const venda = pagamento.vendaId ? this.vendaPorId.get(pagamento.vendaId) : undefined;
+
+    if (venda) {
+      if (venda.tipo === 'PLANO' && venda.planoId) {
+        return this.planoNomePorId.get(venda.planoId) ?? 'Plano';
+      }
+
+      return venda.descricao ?? 'Pagamento';
+    }
+
+    return 'Pagamento';
+  }
+
+  podeRegistrarPagamento(pagamento: PagamentoResponseDTO): boolean {
+    return pagamento.status === 'PENDENTE' || pagamento.status === 'ATRASADO';
+  }
+
+  abrirRegistrarPagamento(pagamento: PagamentoResponseDTO): void {
+    const dialogRef = this.dialog.open(PagamentoFormDialogComponent, {
+      data: { pagamento, descricao: this.nomeParcela(pagamento) }
+    });
+
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
         this.snackBar.open('Pagamento registrado com sucesso.', 'Fechar', {
           duration: 3000
         });
         this.carregarPagamentos();
-      },
-      error: (erro) => {
-        console.error('Erro ao registrar pagamento:', erro);
-        this.snackBar.open('Erro ao registrar pagamento.', 'Fechar', {
-          duration: 3000
-        });
-      }
-    });
-  }
-
-  cancelarPagamento(pagamento: PagamentoResponseDTO): void {
-    this.pagamentoService.cancelarPagamento(this.alunoId, pagamento.id).subscribe({
-      next: () => {
-        this.snackBar.open('Pagamento cancelado com sucesso.', 'Fechar', {
-          duration: 3000
-        });
-        this.carregarPagamentos();
-      },
-      error: (erro) => {
-        console.error('Erro ao cancelar pagamento:', erro);
-        this.snackBar.open('Erro ao cancelar pagamento.', 'Fechar', {
-          duration: 3000
-        });
       }
     });
   }
@@ -136,25 +161,19 @@ export class AlunoFinanceiroComponent implements OnInit {
 
   get totalEmAberto(): number {
     return this.pagamentos
-      .filter(pagamento =>
-        pagamento.status === 'A_VENCER' ||
-        pagamento.status === 'EM_ABERTO'
-      )
+      .filter(pagamento => pagamento.status === 'PENDENTE')
       .reduce((total, pagamento) => total + pagamento.valor, 0);
   }
 
   get totalVencido(): number {
     return this.pagamentos
-      .filter(pagamento => pagamento.status === 'VENCIDO')
+      .filter(pagamento => pagamento.status === 'ATRASADO')
       .reduce((total, pagamento) => total + pagamento.valor, 0);
   }
 
   get proximoVencimento(): string | null {
     const pagamentosFuturos = this.pagamentos
-      .filter(pagamento =>
-        pagamento.status === 'A_VENCER' ||
-        pagamento.status === 'EM_ABERTO'
-      )
+      .filter(pagamento => pagamento.status === 'PENDENTE')
       .sort((a, b) =>
         new Date(a.dataVencimento).getTime() - new Date(b.dataVencimento).getTime()
       );
@@ -166,9 +185,8 @@ export class AlunoFinanceiroComponent implements OnInit {
 
   getStatusLabel(status: string): string {
     const labels: Record<string, string> = {
-      A_VENCER: 'A vencer',
-      EM_ABERTO: 'Em aberto',
-      VENCIDO: 'Vencido',
+      PENDENTE: 'Em aberto',
+      ATRASADO: 'Vencido',
       PAGO: 'Pago',
       CANCELADO: 'Cancelado'
     };
@@ -178,9 +196,8 @@ export class AlunoFinanceiroComponent implements OnInit {
 
   getStatusClass(status: string): string {
     const classes: Record<string, string> = {
-      A_VENCER: 'status-a-vencer',
-      EM_ABERTO: 'status-em-aberto',
-      VENCIDO: 'status-vencido',
+      PENDENTE: 'status-em-aberto',
+      ATRASADO: 'status-vencido',
       PAGO: 'status-pago',
       CANCELADO: 'status-cancelado'
     };

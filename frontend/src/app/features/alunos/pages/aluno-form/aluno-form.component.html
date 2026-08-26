@@ -1,4 +1,11 @@
 <form [formGroup]="alunoForm" class="page-container compact">
+  @if (erroEnvio) {
+    <div class="erro-banner">
+      <i-tabler name="alert-circle"></i-tabler>
+      <span>{{ erroEnvio }}</span>
+    </div>
+  }
+
   <!-- INFORMAÇÕES DO ALUNO -->
   <div class="section-card">
     <div class="section-header mini">
@@ -79,42 +86,6 @@
             <mat-radio-button [value]="true">Ativo</mat-radio-button>
             <mat-radio-button [value]="false">Inativo</mat-radio-button>
           </mat-radio-group>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PLANO -->
-  <div class="section-card">
-    <div class="section-header mini">
-      <i-tabler name="credit-card"></i-tabler>
-      <span>Plano</span>
-    </div>
-
-    <div class="form-grid compact-grid">
-      <div class="col-6">
-        <mat-form-field appearance="outline">
-          <mat-label>Plano do aluno</mat-label>
-
-          <mat-select formControlName="planoId">
-            <mat-option [value]="null">Sem plano</mat-option>
-
-            @for (plano of planos; track plano) {
-              <mat-option [value]="plano.id">
-                {{ plano.nome }} - {{ plano.valor | currency : "BRL" }}
-              </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="col-6 plano-info">
-        <div class="info-box">
-          <strong>Plano vinculado ao cadastro</strong>
-          <span>
-            O aluno pode ser cadastrado com plano ou permanecer sem plano para
-            vínculo posterior.
-          </span>
         </div>
       </div>
     </div>

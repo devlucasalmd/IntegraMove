@@ -5,14 +5,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AvaliacaoService } from '../../avaliacoes/services/avaliacao.service';
-import { AvaliacaoResponseDTO } from '../../avaliacoes/models/avaliacao-response.model';
+import { AvaliacaoRealizadaResponseDTO } from '../../avaliacoes/models/avaliacao-response.model';
 
-interface GrupoMedida {
-  label: string;
-  direito: number;
-  esquerdo: number;
-}
-
+/**
+ * Aba "Avaliações" do portal do aluno.
+ *
+ * Reaproveita o mesmo `AvaliacaoService`/contrato da aba de avaliações do
+ * perfil do aluno (visão administrativa). Como os campos de cada template
+ * são dinâmicos (snapshot em `valores`), a listagem exibe genericamente
+ * cada `nomeCampo`/`valor`/`unidade`, sem agrupamento fixo de membros.
+ */
 @Component({
   selector: 'app-portal-avaliacoes',
   standalone: true,
@@ -25,7 +27,7 @@ export class PortalAvaliacoesComponent implements OnInit {
   private readonly avaliacaoService = inject(AvaliacaoService);
 
   protected alunoId = '';
-  protected avaliacoes: AvaliacaoResponseDTO[] = [];
+  protected avaliacoes: AvaliacaoRealizadaResponseDTO[] = [];
 
   protected carregando = true;
   protected erro = false;
@@ -39,11 +41,9 @@ export class PortalAvaliacoesComponent implements OnInit {
       return;
     }
 
-    this.avaliacaoService.listarAvaliacoes(this.alunoId).subscribe({
-      next: (avaliacoes: AvaliacaoResponseDTO[]) => {
-        this.avaliacoes = [...avaliacoes].sort(
-          (a, b) => new Date(b.dataAvaliacao).getTime() - new Date(a.dataAvaliacao).getTime()
-        );
+    this.avaliacaoService.listarPorAluno(this.alunoId).subscribe({
+      next: (avaliacoes: AvaliacaoRealizadaResponseDTO[]) => {
+        this.avaliacoes = [...avaliacoes].sort((a, b) => b.dataAvaliacao.localeCompare(a.dataAvaliacao));
         this.carregando = false;
       },
       error: (erro) => {
@@ -52,15 +52,5 @@ export class PortalAvaliacoesComponent implements OnInit {
         this.carregando = false;
       },
     });
-  }
-
-  protected gruposMedida(avaliacao: AvaliacaoResponseDTO): GrupoMedida[] {
-    return [
-      { label: 'Remada braço', direito: avaliacao.remadaBracoD, esquerdo: avaliacao.remadaBracoE },
-      { label: 'Elevação lateral', direito: avaliacao.elevacaoLatD, esquerdo: avaliacao.elevacaoLatE },
-      { label: 'Extensão joelho', direito: avaliacao.extensaoJoelhoD, esquerdo: avaliacao.extensaoJoelhoE },
-      { label: 'Flexão joelho', direito: avaliacao.flexaoJoelhoD, esquerdo: avaliacao.flexaoJoelhoE },
-      { label: 'Extensão quadril', direito: avaliacao.extensaoQuadrilD, esquerdo: avaliacao.extensaoQuadrilE },
-    ];
   }
 }

@@ -27,23 +27,21 @@
           <mat-icon>monitoring</mat-icon>
         </div>
         <div>
-          <strong>{{ avaliacao.dataAvaliacao | date:'dd/MM/yyyy' }}</strong>
-          <span>{{ $first ? 'Avaliação mais recente' : 'Avaliação anterior' }}</span>
+          <strong>{{ avaliacao.nomeTemplate }}</strong>
+          <span>{{ avaliacao.dataAvaliacao | date:'dd/MM/yyyy' }}</span>
         </div>
       </div>
 
       <div class="medidas-grid">
-        @for (grupo of gruposMedida(avaliacao); track grupo.label) {
+        @for (valor of avaliacao.valores; track valor.nomeCampo) {
           <div class="medida-item">
-            <span>{{ grupo.label }}</span>
+            <span>{{ valor.nomeCampo }}</span>
             <div class="medida-item__valores">
               <div>
-                <em>D</em>
-                <strong>{{ grupo.direito }}</strong>
-              </div>
-              <div>
-                <em>E</em>
-                <strong>{{ grupo.esquerdo }}</strong>
+                <strong>{{ valor.valor }}</strong>
+                @if (valor.unidade) {
+                  <em>{{ valor.unidade }}</em>
+                }
               </div>
             </div>
           </div>

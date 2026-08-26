@@ -40,10 +40,10 @@ export const ALUNOS_MOCK_FALLBACK: AlunoResumoResponseDTO[] = [
 
 // TODO: mock (fallback) — planos 100% inventados (nomes batendo com `ALUNOS_MOCK_FALLBACK.nomePlano`).
 export const PLANOS_MOCK_FALLBACK: PlanoResponseDTO[] = [
-  { id: 'f-p1', nome: 'Mensal', valor: 99.9, descricao: 'Acesso livre à academia, renovação mensal.', ativo: true },
-  { id: 'f-p2', nome: 'Trimestral', valor: 269.9, descricao: 'Plano trimestral com desconto progressivo.', ativo: true },
-  { id: 'f-p3', nome: 'Semestral', valor: 479.9, descricao: 'Plano semestral com aulas coletivas inclusas.', ativo: true },
-  { id: 'f-p4', nome: 'Anual', valor: 899.9, descricao: 'Plano anual, melhor custo-benefício.', ativo: true },
+  { id: 'f-p1', nome: 'Mensal', valor: 99.9, descricao: 'Acesso livre à academia, renovação mensal.', periodicidade: 'MENSAL', duracaoDias: 30, ativo: true },
+  { id: 'f-p2', nome: 'Trimestral', valor: 269.9, descricao: 'Plano trimestral com desconto progressivo.', periodicidade: 'TRIMESTRAL', duracaoDias: 90, ativo: true },
+  { id: 'f-p3', nome: 'Semestral', valor: 479.9, descricao: 'Plano semestral com aulas coletivas inclusas.', periodicidade: 'SEMESTRAL', duracaoDias: 180, ativo: true },
+  { id: 'f-p4', nome: 'Anual', valor: 899.9, descricao: 'Plano anual, melhor custo-benefício.', periodicidade: 'ANUAL', duracaoDias: 365, ativo: true },
 ];
 
 // TODO: mock (fallback) — receitas por categoria 100% inventadas, usadas só quando `ReceitaService.listarReceitas()` falha.

@@ -46,7 +46,11 @@
       @for (pagamento of pagamentos; track pagamento.id) {
         <div class="pagamento-item">
           <div class="pagamento-item__info">
-            <strong>{{ pagamento.observacoes || 'Mensalidade' }}</strong>
+            <strong>
+              {{ pagamento.numeroParcela && pagamento.totalParcelas
+                ? 'Parcela ' + pagamento.numeroParcela + '/' + pagamento.totalParcelas
+                : 'Mensalidade' }}
+            </strong>
             <span>Vencimento: {{ pagamento.dataVencimento | date:'dd/MM/yyyy' }}</span>
             @if (pagamento.dataPagamento) {
               <span>Pago em: {{ pagamento.dataPagamento | date:'dd/MM/yyyy' }}</span>

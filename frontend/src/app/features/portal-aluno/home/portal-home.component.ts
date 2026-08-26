@@ -63,7 +63,7 @@ export class PortalHomeComponent implements OnInit {
 
   protected get proximoPagamento(): PagamentoResponseDTO | null {
     const pendentes = this.pagamentos
-      .filter((p) => p.status === 'A_VENCER' || p.status === 'EM_ABERTO' || p.status === 'VENCIDO')
+      .filter((p) => p.status === 'PENDENTE' || p.status === 'ATRASADO')
       .sort((a, b) => new Date(a.dataVencimento).getTime() - new Date(b.dataVencimento).getTime());
 
     return pendentes[0] ?? null;
@@ -72,14 +72,14 @@ export class PortalHomeComponent implements OnInit {
   protected get statusPagamentoLabel(): string {
     const pagamento = this.proximoPagamento;
     if (!pagamento) return 'Em dia';
-    if (pagamento.status === 'VENCIDO') return 'Pagamento vencido';
+    if (pagamento.status === 'ATRASADO') return 'Pagamento vencido';
     return 'Pagamento pendente';
   }
 
   protected get statusPagamentoClasse(): string {
     const pagamento = this.proximoPagamento;
     if (!pagamento) return 'ok';
-    if (pagamento.status === 'VENCIDO') return 'alerta';
+    if (pagamento.status === 'ATRASADO') return 'alerta';
     return 'atencao';
   }
 }

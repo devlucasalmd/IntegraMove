@@ -4,99 +4,207 @@
     <div>
       <span class="subtitle">Resumo do aluno</span>
       <h2>Visão geral</h2>
-      <p>Informações financeiras, pendências, presenças e documentos do aluno.</p>
+      <p>Dados cadastrais, contrato, situação financeira e vendas do aluno.</p>
     </div>
   </div>
 
-  <div class="cards-grid">
-
-    <mat-card class="summary-card">
-      <div class="card-icon info">
-        <mat-icon>event</mat-icon>
-      </div>
-
+  @if (erroResumo) {
+    <mat-card class="error-banner">
+      <mat-icon>error_outline</mat-icon>
       <div>
-        <span>Dia de pagamento</span>
-        @if (carregandoDiaPagamento) {
-          <strong>Carregando...</strong>
-        } @else {
-          <strong>{{ diaPagamento ? 'Todo dia ' + diaPagamento : 'Não definido' }}</strong>
-        }
+        <strong>Não foi possível carregar o resumo</strong>
+        <span>{{ erroResumo }}</span>
       </div>
+      <button mat-stroked-button type="button" (click)="recarregarResumo()">
+        <mat-icon>refresh</mat-icon>
+        Tentar novamente
+      </button>
     </mat-card>
+  }
 
-    <mat-card
-      class="summary-card clickable-card"
-      matTooltip="Ver histórico de presenças"
-      (click)="abrirHistoricoPresencas()">
-      <div class="card-icon success">
-        <mat-icon>event_available</mat-icon>
-      </div>
-
-      <div>
-        <span>Presenças no mês</span>
-        @if (carregandoPresencas) {
-          <strong>Carregando...</strong>
-        } @else {
-          <strong>{{ totalPresencasMes }}</strong>
-        }
-      </div>
-    </mat-card>
-
-    <mat-card class="summary-card">
-      <div class="card-icon" [ngClass]="totalPendenciasAbertas > 0 ? 'warning' : 'success'">
-        <mat-icon>flag</mat-icon>
-      </div>
-
-      <div>
-        <span>Pendências em aberto</span>
-        @if (carregandoPendencias) {
-          <strong>Carregando...</strong>
-        } @else {
-          <strong>{{ totalPendenciasAbertas }}</strong>
-        }
-      </div>
-    </mat-card>
-
-  </div>
-
-  <mat-card class="section-card">
-    <div class="table-header">
-      <div>
-        <h3>Pendências</h3>
-        <p>Itens que precisam de atenção antes que o aluno fique regular.</p>
-      </div>
-    </div>
-
-    @if (carregandoPendencias) {
+  @if (carregandoResumo) {
+    <mat-card class="section-card">
       <div class="loading">
         <mat-spinner diameter="32"></mat-spinner>
-        <span>Carregando pendências...</span>
+        <span>Carregando resumo...</span>
       </div>
-    }
+    </mat-card>
+  }
 
-    @if (!carregandoPendencias && pendencias.length === 0) {
-      <div class="empty-state">
-        <mat-icon>check_circle</mat-icon>
-        <h3>Nenhuma pendência</h3>
-        <p>Este aluno não possui pendências no momento.</p>
+  @if (!carregandoResumo && resumo) {
+
+    <div class="cards-grid">
+
+      <mat-card class="summary-card">
+        <div class="card-icon" [ngClass]="resumo.statusAluno === 'ATIVO' ? 'success' : 'danger'">
+          <mat-icon>person</mat-icon>
+        </div>
+        <div>
+          <span>Status do aluno</span>
+          <strong>{{ resumo.statusAluno === 'ATIVO' ? 'Ativo' : 'Inativo' }}</strong>
+        </div>
+      </mat-card>
+
+      <mat-card class="summary-card">
+        <div class="card-icon info">
+          <mat-icon>event</mat-icon>
+        </div>
+        <div>
+          <span>Próxima parcela</span>
+          @if (resumo.proximaParcelaPendente) {
+            <strong>{{ resumo.proximaParcelaPendente.valor | currency:'BRL' }} · {{ resumo.proximaParcelaPendente.dataVencimento | date:'dd/MM/yyyy' }}</strong>
+          } @else {
+            <strong>Nenhuma pendente</strong>
+          }
+        </div>
+      </mat-card>
+
+      <mat-card class="summary-card">
+        <div class="card-icon" [ngClass]="quantidadeParcelasEmAtraso > 0 ? 'danger' : 'success'">
+          <mat-icon>flag</mat-icon>
+        </div>
+        <div>
+          <span>Parcelas em atraso</span>
+          <strong>{{ quantidadeParcelasEmAtraso }}</strong>
+        </div>
+      </mat-card>
+
+    </div>
+
+    <mat-card class="section-card">
+      <div class="table-header">
+        <div>
+          <h3>Dados do aluno</h3>
+          <p>Informações cadastrais e plano atual.</p>
+        </div>
       </div>
-    }
 
-    @if (!carregandoPendencias && pendencias.length > 0) {
-      <ul class="pendencias-list">
-        @for (pendencia of pendencias; track pendencia.id) {
-          <li class="pendencia-item" [ngClass]="getPendenciaClass(pendencia)">
-            <mat-icon>{{ getPendenciaIcon(pendencia) }}</mat-icon>
-            <div>
-              <strong>{{ pendencia.descricao }}</strong>
-              <span>{{ pendencia.status === 'PENDENTE' ? 'Pendente' : 'Resolvida' }}</span>
-            </div>
-          </li>
-        }
-      </ul>
-    }
-  </mat-card>
+      <dl class="dados-list">
+        <div class="dado-item">
+          <dt>Nome</dt>
+          <dd>{{ resumo.nome }}</dd>
+        </div>
+        <div class="dado-item">
+          <dt>CPF</dt>
+          <dd>{{ resumo.cpf }}</dd>
+        </div>
+        <div class="dado-item">
+          <dt>Telefone</dt>
+          <dd>{{ resumo.telefone }}</dd>
+        </div>
+        <div class="dado-item">
+          <dt>E-mail</dt>
+          <dd>{{ resumo.email }}</dd>
+        </div>
+        <div class="dado-item">
+          <dt>Plano atual</dt>
+          <dd>{{ resumo.nomePlanoAtual ?? 'Sem plano vinculado' }}</dd>
+        </div>
+      </dl>
+    </mat-card>
+
+    <mat-card class="section-card">
+      <div class="table-header">
+        <div>
+          <h3>Contrato ativo</h3>
+          <p>Plano contratado, vigência e renovação.</p>
+        </div>
+      </div>
+
+      @if (!resumo.contratoAtivo) {
+        <div class="empty-state">
+          <mat-icon>description</mat-icon>
+          <h3>Sem contrato ativo</h3>
+          <p>Este aluno não possui nenhum contrato de plano em vigência.</p>
+        </div>
+      } @else {
+        <dl class="dados-list">
+          <div class="dado-item">
+            <dt>Plano</dt>
+            <dd>{{ resumo.contratoAtivo.nomePlano ?? 'Plano removido' }}</dd>
+          </div>
+          <div class="dado-item">
+            <dt>Vigência</dt>
+            <dd>{{ resumo.contratoAtivo.dataInicio | date:'dd/MM/yyyy' }} a {{ resumo.contratoAtivo.dataFim | date:'dd/MM/yyyy' }}</dd>
+          </div>
+          <div class="dado-item">
+            <dt>Vencimento</dt>
+            @if (resumo.contratoAtivo.periodicidadePlano === 'DIARIA') {
+              <dd>{{ resumo.contratoAtivo.dataInicio | date:'dd/MM/yyyy' }}</dd>
+            } @else {
+              <dd>Todo dia {{ resumo.contratoAtivo.diaVencimento }}</dd>
+            }
+          </div>
+          <div class="dado-item">
+            <dt>Renovação automática</dt>
+            <dd>{{ resumo.contratoAtivo.permiteRenovacaoAutomatica ? 'Sim' : 'Não' }}</dd>
+          </div>
+        </dl>
+      }
+    </mat-card>
+
+    <mat-card class="section-card">
+      <div class="table-header">
+        <div>
+          <h3>Últimos pagamentos</h3>
+          <p>Parcelas mais recentes já quitadas por este aluno.</p>
+        </div>
+      </div>
+
+      @if (resumo.ultimosPagamentos.length === 0) {
+        <div class="empty-state">
+          <mat-icon>payments</mat-icon>
+          <h3>Nenhum pagamento registrado</h3>
+          <p>Este aluno ainda não possui pagamentos quitados.</p>
+        </div>
+      } @else {
+        <ul class="pagamentos-list">
+          @for (pagamento of resumo.ultimosPagamentos; track pagamento.financeiroId) {
+            <li class="pagamento-item">
+              <mat-icon>check_circle</mat-icon>
+              <div>
+                <strong>{{ pagamento.valor | currency:'BRL' }}</strong>
+                <span>{{ labelFormaPagamento(pagamento.formaPagamento) }} · {{ pagamento.dataPagamento | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </mat-card>
+
+    <mat-card class="section-card">
+      <div class="table-header">
+        <div>
+          <h3>Vendas recentes</h3>
+          <p>Últimas vendas registradas para este aluno.</p>
+        </div>
+      </div>
+
+      @if (resumo.vendasRecentes.length === 0) {
+        <div class="empty-state">
+          <mat-icon>shopping_cart</mat-icon>
+          <h3>Nenhuma venda registrada</h3>
+          <p>Este aluno ainda não possui vendas.</p>
+        </div>
+      } @else {
+        <ul class="vendas-list">
+          @for (venda of resumo.vendasRecentes; track venda.vendaId) {
+            <li class="venda-item">
+              <div>
+                <strong>{{ venda.descricao }}</strong>
+                <span>{{ labelTipoVenda(venda.tipo) }} · {{ venda.dataVenda | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <div class="venda-item-right">
+                <span class="venda-valor">{{ venda.valor | currency:'BRL' }}</span>
+                <span class="status-badge" [ngClass]="classeStatusVenda(venda.status)">{{ labelStatusVenda(venda.status) }}</span>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </mat-card>
+
+  }
 
   <mat-card class="section-card">
     <div class="table-header">
@@ -144,62 +252,6 @@
         </div>
       }
     </div>
-  </mat-card>
-
-  <mat-card class="section-card">
-    <div class="table-header">
-      <div>
-        <h3>Documentos</h3>
-        <p>Laudos, exames e outros arquivos anexados ao cadastro do aluno.</p>
-      </div>
-
-      <button mat-stroked-button type="button" [disabled]="enviandoDocumento" (click)="fileInput.click()">
-        <mat-icon>upload_file</mat-icon>
-        {{ enviandoDocumento ? 'Enviando...' : 'Anexar documento' }}
-      </button>
-      <input
-        #fileInput
-        type="file"
-        hidden
-        accept=".pdf,.jpg,.jpeg,.png"
-        (change)="onArquivoSelecionado($event)">
-    </div>
-
-    @if (carregandoDocumentos) {
-      <div class="loading">
-        <mat-spinner diameter="32"></mat-spinner>
-        <span>Carregando documentos...</span>
-      </div>
-    }
-
-    @if (!carregandoDocumentos && documentos.length === 0) {
-      <div class="empty-state">
-        <mat-icon>folder_off</mat-icon>
-        <h3>Nenhum documento anexado</h3>
-        <p>Anexe laudos, exames ou outros arquivos relevantes deste aluno.</p>
-      </div>
-    }
-
-    @if (!carregandoDocumentos && documentos.length > 0) {
-      <ul class="documentos-list">
-        @for (documento of documentos; track documento.id) {
-          <li class="documento-item">
-            <mat-icon>description</mat-icon>
-            <div class="documento-info">
-              <strong>{{ documento.nome }}</strong>
-              <span>{{ documento.tipo }} · {{ documento.dataUpload | date:'dd/MM/yyyy' }}</span>
-            </div>
-            <button
-              mat-icon-button
-              type="button"
-              matTooltip="Visualizar / baixar"
-              (click)="baixarDocumento(documento)">
-              <mat-icon>download</mat-icon>
-            </button>
-          </li>
-        }
-      </ul>
-    }
   </mat-card>
 
 </div>

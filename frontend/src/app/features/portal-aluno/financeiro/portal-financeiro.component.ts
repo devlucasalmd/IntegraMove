@@ -56,21 +56,20 @@ export class PortalFinanceiroComponent implements OnInit {
 
   protected get totalEmAberto(): number {
     return this.pagamentos
-      .filter((p) => p.status === 'A_VENCER' || p.status === 'EM_ABERTO')
+      .filter((p) => p.status === 'PENDENTE')
       .reduce((total, p) => total + p.valor, 0);
   }
 
   protected get totalVencido(): number {
     return this.pagamentos
-      .filter((p) => p.status === 'VENCIDO')
+      .filter((p) => p.status === 'ATRASADO')
       .reduce((total, p) => total + p.valor, 0);
   }
 
   protected statusLabel(status: string): string {
     const labels: Record<string, string> = {
-      A_VENCER: 'A vencer',
-      EM_ABERTO: 'Em aberto',
-      VENCIDO: 'Vencido',
+      PENDENTE: 'Em aberto',
+      ATRASADO: 'Vencido',
       PAGO: 'Pago',
       CANCELADO: 'Cancelado',
     };
@@ -79,9 +78,8 @@ export class PortalFinanceiroComponent implements OnInit {
 
   protected statusClasse(status: string): string {
     const classes: Record<string, string> = {
-      A_VENCER: 'status-a-vencer',
-      EM_ABERTO: 'status-em-aberto',
-      VENCIDO: 'status-vencido',
+      PENDENTE: 'status-em-aberto',
+      ATRASADO: 'status-vencido',
       PAGO: 'status-pago',
       CANCELADO: 'status-cancelado',
     };

@@ -8,7 +8,6 @@ export interface AlunoRequestDTO {
   telefone?: string;
   email: string;
   status: StatusAluno;
-  planoId?: string | null;
   enderecoDTO?: EnderecoDTO | null;
 }
 

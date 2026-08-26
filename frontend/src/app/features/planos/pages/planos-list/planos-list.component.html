@@ -1,105 +1,123 @@
 <div class="planos-container">
 
-  <section class="planos-hero">
-    <span class="eyebrow">Planos Integra Move</span>
+  <div class="planos-header">
+    <div>
+      <span class="subtitle">Gestão de planos</span>
+      <h2>Planos da academia</h2>
+      <p>Cadastre e gerencie os planos de assinatura oferecidos aos alunos.</p>
+    </div>
 
-    <h1 class="titulo">Escolha o plano ideal para sua jornada</h1>
-
-    <p class="subtitulo">
-      Treine com estrutura, acompanhamento e benefícios pensados para sua evolução.
-    </p>
-  </section>
-
-  <div class="planos-grid">
-
-    <!-- START -->
-    <mat-card class="plano-card start">
-
-      <div class="card-header">
-        <span class="plano-tag">Essencial</span>
-        <h2>START</h2>
-        <p>Para quem quer começar com consistência.</p>
-      </div>
-
-      <ul>
-        <li>Acesso à musculação e cardio</li>
-        <li>Orientação do professor</li>
-        <li>App para treinos</li>
-      </ul>
-
-      <div class="preco">
-        <div>
-          <span>R$</span>
-          <strong>119,90</strong>
-        </div>
-        <p>Mensal</p>
-      </div>
-
-      <button mat-flat-button class="btn-plano">Escolher plano</button>
-
-    </mat-card>
-
-    <!-- INTEGRA -->
-    <mat-card class="plano-card integra">
-
-      <div class="card-header">
-        <span class="plano-tag">Mais escolhido</span>
-        <h2>INTEGRA</h2>
-        <p>Equilíbrio entre acompanhamento e benefícios.</p>
-      </div>
-
-      <ul>
-        <li>Acesso à musculação e cardio</li>
-        <li>Orientação do professor</li>
-        <li>App para treinos</li>
-        <li>Avaliação trimestral</li>
-        <li>Leve até 4 amigos</li>
-      </ul>
-
-      <div class="preco">
-        <div>
-          <span>R$</span>
-          <strong>139,90</strong>
-        </div>
-        <p>Recorrente</p>
-      </div>
-
-      <button mat-flat-button class="btn-plano">Escolher plano</button>
-
-    </mat-card>
-
-    <!-- PREMIUM -->
-    <mat-card class="plano-card premium destaque">
-
-      <div class="badge">MAIS COMPLETO</div>
-
-      <div class="card-header">
-        <span class="plano-tag">Performance</span>
-        <h2>INTEGRA MOVE</h2>
-        <p>Experiência completa para máxima evolução.</p>
-      </div>
-
-      <ul>
-        <li>Acesso total</li>
-        <li>Treino personalizado</li>
-        <li>App exclusivo</li>
-        <li>Até 8 amigos</li>
-        <li>Descontos parceiros</li>
-        <li>2 aulas com personal</li>
-      </ul>
-
-      <div class="preco">
-        <div>
-          <span>R$</span>
-          <strong>299,90</strong>
-        </div>
-        <p>Recorrente</p>
-      </div>
-
-      <button mat-flat-button class="btn-plano btn-destaque">Escolher plano</button>
-
-    </mat-card>
-
+    <button mat-raised-button color="primary" type="button" (click)="abrirNovoPlano()">
+      <mat-icon>add</mat-icon>
+      Novo plano
+    </button>
   </div>
+
+  @if (erro) {
+    <mat-card class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <div>
+        <strong>Não foi possível carregar os planos</strong>
+        <span>{{ erro }}</span>
+      </div>
+      <button mat-stroked-button type="button" (click)="carregarPlanos()">
+        <mat-icon>refresh</mat-icon>
+        Tentar novamente
+      </button>
+    </mat-card>
+  }
+
+  <mat-card class="table-card">
+
+    <div class="table-header">
+      <div>
+        <h3>Planos cadastrados</h3>
+        <p>Lista completa de planos disponíveis para venda.</p>
+      </div>
+    </div>
+
+    @if (carregando) {
+      <div class="loading">
+        <mat-spinner diameter="36"></mat-spinner>
+        <span>Carregando planos...</span>
+      </div>
+    }
+
+    @if (!carregando && planos.length === 0 && !erro) {
+      <div class="empty-state">
+        <mat-icon>workspace_premium</mat-icon>
+        <h3>Nenhum plano cadastrado</h3>
+        <p>Ainda não há planos cadastrados. Clique em "Novo plano" para cadastrar o primeiro.</p>
+      </div>
+    }
+
+    @if (!carregando && planos.length > 0) {
+      <div class="table-wrapper">
+        <table mat-table [dataSource]="planos" class="planos-table">
+
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let plano">{{ plano.nome }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="valor">
+            <th mat-header-cell *matHeaderCellDef>Valor</th>
+            <td mat-cell *matCellDef="let plano">
+              <strong>{{ plano.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="periodicidade">
+            <th mat-header-cell *matHeaderCellDef>Periodicidade</th>
+            <td mat-cell *matCellDef="let plano">{{ labelPeriodicidade(plano.periodicidade) }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="duracaoDias">
+            <th mat-header-cell *matHeaderCellDef>Duração</th>
+            <td mat-cell *matCellDef="let plano">{{ plano.duracaoDias }} dias</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let plano">
+              <span class="status-badge" [ngClass]="classeStatus(plano)">
+                {{ plano.ativo ? 'Ativo' : 'Inativo' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef>Ações</th>
+            <td mat-cell *matCellDef="let plano">
+              <div class="acoes-cell">
+                <button
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Editar plano"
+                  (click)="editarPlano(plano)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <button
+                  mat-icon-button
+                  type="button"
+                  [matTooltip]="plano.ativo ? 'Inativar plano' : 'Ativar plano'"
+                  [disabled]="atualizandoStatusId === plano.id"
+                  (click)="alternarStatus(plano)"
+                >
+                  <mat-icon>{{ plano.ativo ? 'toggle_on' : 'toggle_off' }}</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    }
+
+  </mat-card>
 
 </div>
